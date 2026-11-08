@@ -284,6 +284,11 @@ footer b{color:#fff}
 
 .gtools{display:inline-flex;gap:8px}.gsnd.glang{width:auto;padding:0 14px;font-size:14px;font-weight:800;color:var(--blue)}
 
+.gtbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
+.gi2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.gien{margin-top:14px;background:var(--ivory);border:1px solid var(--line);border-radius:12px;padding:8px 14px}.gien summary{cursor:pointer;font-weight:700;color:var(--navy);padding:6px 0}
+.gilist{margin-top:10px;max-height:60vh;overflow:auto}.giitem{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}.giitem:first-child{border-top:0}.gitx{flex:1;min-width:0}.gitx b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gitx small{color:var(--muted)}
+@media(max-width:640px){.gi2{grid-template-columns:1fr}}
+
 
 /* ===== هوية FRENCH ONLINE by Monsieur Ahmed (v7a) ===== */
 :root{--ink:#0B1F3A;--navy:#0B1F3A;--navy2:#13305A;--blue2:#2F6DB5;--bg:#F4F0E6;--card:#FFFDF8;--line:#E6E1D6;--text:#1A2433;--muted:#5B6472;
@@ -337,6 +342,55 @@ footer .fl{font-size:15px;margin-bottom:4px;direction:ltr}footer .fl b{letter-sp
   .toast{bottom:86px}
   footer{padding-bottom:88px}
 }
+
+/* ===== المرحلة ج: الإدارة والنماذج والجداول (v7c) ===== */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sk{border-radius:var(--r);background:linear-gradient(90deg,#ece7da 25%,#f6f2e8 40%,#ece7da 65%);background-size:200% 100%;animation:shim 1.3s ease-in-out infinite}
+.sk-hero{height:230px;border-radius:28px;margin-bottom:18px}.sk-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.sk-tile{height:84px}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}.sk-card{height:190px}
+@keyframes shim{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@media(max-width:640px){.sk-row{grid-template-columns:1fr 1fr}.sk-hero{height:200px}}
+/* نماذج */
+label.f{color:var(--navy);margin:16px 0 6px}
+.in{padding:12px 14px;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--text);transition:border-color .15s,box-shadow .15s}
+.in:hover{border-color:#cfc8b6}.in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,164,.16)}.in::placeholder{color:#98a0ad}
+.sbox input{border:1.5px solid var(--line);min-height:46px}.sbox input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,164,.16)}
+.modal h3{color:var(--navy);font-size:21px;margin-bottom:4px}
+.actions{margin-top:20px;gap:10px}
+.btn{min-height:40px;transition:background .15s,transform .15s}.btn:active{transform:scale(.97)}
+.btn.sec{background:var(--blue-soft,#E6EEF8)}
+.add{background:var(--navy)}.add:hover{background:var(--navy2)}
+.chip{min-height:38px}.chip.on{background:var(--navy);border-color:var(--navy)}
+.infobox{background:#F4EAD0;border-color:var(--gold-soft);color:#4a3a14}
+.errbox{border:1px solid #efc4ca}
+.lv{background:var(--blue-soft,#E6EEF8)}
+/* بطاقات */
+.card{transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(11,31,58,.1)}
+.empty{background:var(--card);border:2px dashed var(--gold-soft);color:var(--muted)}
+/* جداول */
+table{border-collapse:separate;border-spacing:0}
+th{background:#F4F0E6;color:var(--navy);font-size:12.5px;font-weight:800;letter-spacing:.02em}
+th:first-child{border-top-right-radius:10px}th:last-child{border-top-left-radius:10px}
+tr:hover td{background:#FBF9F3}
+.stu-row td .acts{gap:8px;flex-wrap:nowrap}.stu-row td .acts .btn.del{margin-inline-start:6px}
+@media(max-width:640px){
+  .stu-table tr:first-child{display:none}
+  .stu-table,.stu-table tbody{display:block;width:100%}
+  .stu-row{display:block;padding:10px 0;border-bottom:1px solid var(--line)}.stu-row:last-child{border-bottom:0}
+  .stu-row td{display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;padding:5px 6px;background:none!important}
+  .stu-row td::before{content:attr(data-label);color:var(--muted);font-size:12px;font-weight:700;flex-shrink:0}
+  .stu-row td:last-child::before{display:none}.stu-row td:last-child{justify-content:flex-end}
+  .stu-row select.in{min-width:0;flex:1;max-width:210px}
+}
+/* تنبيهات */
+.toast{background:var(--navy);border:1px solid var(--gold);box-shadow:0 12px 30px rgba(11,31,58,.3);display:none;align-items:center;gap:8px}
+.toast.ok{background:var(--ok);border-color:transparent}.toast.err{background:var(--bad);border-color:transparent}
+.toast.ok::before{content:"\2713";font-weight:800}.toast.err::before{content:"!";font-weight:800;background:rgba(255,255,255,.25);width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font-size:13px}
+/* الألعاب بالهوية الجديدة */
+.gbar i{background:linear-gradient(90deg,var(--blue),var(--gold))}.gstars{color:var(--gold)}.gnb{color:var(--gold-text)}
+.gnext{background:var(--navy)}.gnext:hover{background:var(--navy2)}
+.gopt:not(:disabled):hover{background:var(--blue-soft,#E6EEF8)}
+.glvb b{color:var(--navy)}.gq{border-color:var(--line)}
 </style>
 </head>
 <body>
@@ -510,6 +564,7 @@ async function loadAll(){
   classes = e.data||[]; students = f.data||[];
   await refreshCounts();
   await resolveSigned();
+  await loadGameItems();
   state.loading = false; render();
 }
 
@@ -550,6 +605,7 @@ function filterBar(addBtn, withCat){
 const match = it => (state.cls==='all' || (state.cls==='none' ? !it.class_id : it.class_id===state.cls)) && (state.level==='all' || it.level===state.level || it.level==='all') &&
   (!state.q || ((it.title||'')+' '+(it.description||'')).toLowerCase().includes(state.q.toLowerCase()));
 
+const skel = () => `<div class="skel" role="status" aria-live="polite" aria-busy="true"><span class="sr">جارٍ التحميل...</span><div class="sk sk-hero"></div><div class="sk-row"><div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div></div><div class="sk-grid"><div class="sk sk-card"></div><div class="sk sk-card"></div><div class="sk sk-card"></div></div></div>`;
 function emptyBox(ic, color, title, text, btn){
   return `<div class="empty"><div class="eic ${color}">${I(ic)}</div><h4>${title}</h4><div>${text}</div>${btn||''}</div>`;
 }
@@ -676,7 +732,7 @@ function render(){
   if(!configured || !sb) return renderSetup();
   renderShell();
   const v = $('#view');
-  if(state.loading){ v.innerHTML = `<div class="loading"><div class="spin"></div>جارٍ التحميل...</div>`; return; }
+  if(state.loading){ v.innerHTML = skel(); return; }
   const err = state.err ? `<div class="errbox">${esc(state.err)}</div>` : '';
   const files = items.filter(i=>i.kind==='file'), vids = items.filter(i=>i.kind==='video');
   if((state.tab==='people' && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
@@ -1726,10 +1782,10 @@ function renderPeople(v, err){
       <button class="add" style="background:var(--blue2)" data-a="bulkStudents">${I('users','s')} إضافة عدة طلاب</button>
     </div>
     ${classes.length ? clsChips('بدون صف') : ''}
-    ${list.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table>
+    ${list.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table class="stu-table">
       <tr><th>الاسم</th><th>اسم الدخول</th><th>الصف</th><th></th></tr>
-      ${list.map(s=>`<tr class="stu-row"><td dir="auto"><b>${esc(s.full_name)}</b></td><td dir="ltr" style="text-align:right">${esc(s.login_id)}</td>
-        <td><select class="in" data-a="moveStudent" data-id="${s.id}">${rowOpts(s.class_id)}</select></td>
+      ${list.map(s=>`<tr class="stu-row"><td data-label="الاسم" dir="auto"><b>${esc(s.full_name)}</b></td><td data-label="اسم الدخول" dir="ltr" style="text-align:right">${esc(s.login_id)}</td>
+        <td data-label="الصف"><select class="in" data-a="moveStudent" data-id="${s.id}">${rowOpts(s.class_id)}</select></td>
         <td><div class="acts"><button class="btn sec" data-a="resetPw" data-id="${s.id}" title="كلمة مرور جديدة">${I('key','s')}</button><button class="btn del" data-a="delStudent" data-id="${s.id}" title="حذف">${I('trash','s')}</button></div></td></tr>`).join('')}
     </table></div>`
     : emptyBox('users','c-blue','لا يوجد طلاب', students.length ? 'لا نتائج مطابقة.' : 'أضف طلابك ليسجلوا الدخول ويحلّوا الاختبارات ويسلّموا الواجبات بحساباتهم.', students.length ? '' : `<br><button class="btn" data-a="bulkStudents">${I('users','s')} إضافة عدة طلاب</button>`)}
@@ -1739,7 +1795,7 @@ function renderPeople(v, err){
 /* ---- صفحة نتائجي (للطالب) ---- */
 async function renderMine(v, err){
   const s = state.me.student;
-  v.innerHTML = err + `<div class="loading"><div class="spin"></div>جارٍ التحميل...</div>`;
+  v.innerHTML = err + skel();
   const [r, a] = await Promise.all([
     sb.from('results').select('*').order('created_at',{ascending:false}),
     sb.from('submissions').select('*').order('created_at',{ascending:false})
@@ -1924,6 +1980,189 @@ function trDom(root){
   root.querySelectorAll('[aria-label],[placeholder]').forEach(el => ['aria-label','placeholder'].forEach(a => { const x = el.getAttribute(a); if(x) el.setAttribute(a, trText(x)); }));
 }
 
+/* ============ أسئلة الألعاب التي يضيفها المدرس (جدول game_items) ============ */
+let gameItems = [];
+const GI_TYPES = [['mcq','اختر الإجابة الصحيحة'],['tf','صح أم خطأ'],['scramble','رتّب الحروف (وتُستعمل في المشنقة أيضاً)'],['match','طابِق الكلمات (وتُستعمل في الذاكرة أيضاً)'],['fill','أكمل الفراغ'],['odd','الكلمة الدخيلة'],['order','رتّب الجملة'],['listen','استمع واختر']];
+const GI_EN_KEYS = { mcq:['q','o','e'], odd:['o','e'], tf:['q','e'], scramble:['h'], order:['h'], match:['m'], fill:['e'], listen:[] };
+const giLines = s => String(s||'').split('\n').map(x=>x.trim()).filter(Boolean);
+const giStr = (x, max, what, req) => { x = String(x==null?'':x).trim(); if(req && !x) throw new Error('الحقل مطلوب: ' + what); if(x.length > max) throw new Error('النص طويل جداً: ' + what); return x; };
+
+function giValidate(game, d){
+  if(!d || typeof d !== 'object') throw new Error('بيانات غير صالحة');
+  const o = {};
+  const four = () => { const a = Array.isArray(d.o) ? d.o.map(x=>giStr(x,120,'الخيار',true)) : []; if(a.length!==4) throw new Error('يجب أن تكتب أربعة خيارات بالضبط'); if(new Set(a).size!==4) throw new Error('الخيارات يجب ألا تتكرر'); return a; };
+  const idx = () => { const n = Number(d.a); if(!Number.isInteger(n) || n<0 || n>3) throw new Error('اختر رقم الإجابة الصحيحة من 1 إلى 4'); return n; };
+  switch(game){
+    case 'mcq': o.q = giStr(d.q,300,'السؤال',true); o.o = four(); o.a = idx(); break;
+    case 'odd': o.o = four(); o.a = idx(); if(d.q) o.q = giStr(d.q,200,'السؤال'); break;
+    case 'listen': o.w = giStr(d.w,40,'الكلمة المنطوقة',true); o.o = four(); if(o.o[0]!==o.w) throw new Error('الخيار الأول يجب أن يكون الكلمة المنطوقة نفسها'); break;
+    case 'tf': o.q = giStr(d.q,300,'العبارة',true); if(typeof d.a!=='boolean') throw new Error('حدّد هل العبارة صحيحة أم خاطئة'); o.a = d.a; break;
+    case 'scramble': o.w = giStr(d.w,14,'الكلمة',true); if(!/^[A-Za-zÀ-ÿŒœÆæ]{3,14}$/.test(o.w)) throw new Error('الكلمة: حروف فرنسية فقط بدون مسافات (من 3 إلى 14 حرفاً)'); o.h = giStr(d.h,120,'التلميح',true); break;
+    case 'order': o.w = giStr(d.w,120,'الجملة',true); { const n = o.w.split(' ').filter(Boolean).length; if(n<3 || n>9) throw new Error('الجملة يجب أن تكون من 3 إلى 9 كلمات'); o.w = o.w.split(' ').filter(Boolean).join(' '); } o.h = giStr(d.h,160,'الترجمة/التلميح',true); break;
+    case 'match': o.f = giStr(d.f,40,'الكلمة الفرنسية',true); o.m = giStr(d.m,60,'المعنى',true); break;
+    case 'fill': o.q = giStr(d.q,200,'الجملة',true); if(!o.q.includes('___')) throw new Error('ضع ___ (ثلاث شرطات سفلية) مكان الكلمة الناقصة'); o.a = (Array.isArray(d.a)?d.a:[]).map(x=>giStr(x,60,'الإجابة',true)); if(!o.a.length) throw new Error('اكتب إجابة واحدة صحيحة على الأقل'); break;
+    default: throw new Error('نوع لعبة غير معروف');
+  }
+  if(game!=='listen'){ const e = giStr(d.e,300,'الشرح'); if(e) o.e = e; }
+  if(d.en && typeof d.en==='object'){
+    const en = {};
+    GI_EN_KEYS[game].forEach(k => {
+      const x = d.en[k]; if(x==null || x==='' || (Array.isArray(x) && !x.length)) return;
+      if(k==='o'){ if(!Array.isArray(x) || x.length!==4) throw new Error('الترجمة الإنجليزية للخيارات يجب أن تكون أربعة أسطر'); en.o = x.map(y=>giStr(y,120,'English option',true)); }
+      else en[k] = giStr(x,300,'English text');
+    });
+    if(Object.keys(en).length) o.en = en;
+  }
+  return o;
+}
+function giToEngine(it){
+  const d = it.data || {};
+  switch(it.game){
+    case 'mcq': return { q:d.q, o:d.o, a:d.a, e:d.e||'' };
+    case 'odd': return { q:d.q, o:d.o, a:d.a, e:d.e||'' };
+    case 'listen': return { w:d.w, o:d.o };
+    case 'tf': return { q:d.q, a:d.a, e:d.e||'' };
+    case 'scramble': case 'order': return { w:d.w, h:d.h };
+    case 'match': return { f:d.f, m:d.m };
+    case 'fill': return { q:d.q, a:d.a, e:d.e||'' };
+  }
+  return null;
+}
+function giReg(){
+  const reg = (ar, en) => { if(ar && en) GAME_EN[ar] = en; };
+  gameItems.forEach(it => {
+    const d = it.data || {}, en = d.en; if(!en) return;
+    if(it.game==='mcq' || it.game==='odd'){ reg(d.q, en.q); (d.o||[]).forEach((x,i)=>reg(x, en.o && en.o[i])); reg(d.e, en.e); }
+    else if(it.game==='tf' || it.game==='fill'){ reg(d.q, en.q); reg(d.e, en.e); }
+    else if(it.game==='scramble' || it.game==='order') reg(d.h, en.h);
+    else if(it.game==='match') reg(d.m, en.m);
+  });
+}
+function gPool(game, level){
+  const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
+  return base.concat(gameItems.filter(x=>x.game===src && x.level===level).map(giToEngine).filter(Boolean));
+}
+async function loadGameItems(){
+  try{ const r = await sb.from('game_items').select('*').order('created_at',{ascending:false}); gameItems = r.error ? [] : (r.data||[]); }
+  catch(e){ gameItems = []; }
+  giReg();
+}
+/* ---- النموذج ---- */
+const giTa = (id, label, rows, ltr, ph) => `<label class="f" for="${id}">${label}</label><textarea class="in" id="${id}" rows="${rows||2}" ${ltr?'dir="ltr"':''} placeholder="${esc(ph||'')}"></textarea>`;
+const giIn = (id, label, ltr, ph) => `<label class="f" for="${id}">${label}</label><input class="in" id="${id}" ${ltr?'dir="ltr"':''} placeholder="${esc(ph||'')}" autocomplete="off">`;
+const giSel = (id, label, opts) => `<label class="f" for="${id}">${label}</label><select class="in" id="${id}">${opts.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select>`;
+const giEn = inner => `<details class="gien"><summary>الترجمة الإنجليزية (اختياري)</summary>${inner}</details>`;
+const giNum = [['1','الأول'],['2','الثاني'],['3','الثالث'],['4','الرابع']];
+function giFields(game){
+  switch(game){
+    case 'mcq': return giTa('gi_q','السؤال *',2,false,'مثال: ما معنى «Bonjour»؟') + giTa('gi_o','الخيارات الأربعة (سطر لكل خيار) *',4) + giSel('gi_a','الإجابة الصحيحة هي الخيار',giNum) + giTa('gi_e','الشرح (اختياري)',2)
+      + giEn(giTa('gi_eq','Question',2,true) + giTa('gi_eo','Options (one per line, same order)',4,true) + giTa('gi_ee','Explanation',2,true));
+    case 'odd': return giTa('gi_o','الكلمات الأربع (سطر لكل كلمة) *',4,true,'pomme\nbanane\norange\nchaise') + giSel('gi_a','الكلمة الدخيلة هي',giNum) + giTa('gi_e','الشرح (اختياري)',2)
+      + giEn(giTa('gi_ee','Explanation',2,true));
+    case 'listen': return giIn('gi_w','الكلمة المنطوقة (فرنسي) *',true,'bonjour') + giTa('gi_o','ثلاث كلمات مشابهة في النطق (سطر لكل كلمة) *',3,true,'bonsoir\nbon marché\nbonbon');
+    case 'tf': return giTa('gi_q','العبارة *',2) + giSel('gi_a','العبارة',[['t','صحيحة'],['f','خاطئة']]) + giTa('gi_e','الشرح (اختياري)',2)
+      + giEn(giTa('gi_eq','Statement',2,true) + giTa('gi_ee','Explanation',2,true));
+    case 'scramble': return giIn('gi_w','الكلمة الفرنسية (حروف فقط، بدون مسافات) *',true,'bibliothèque') + giIn('gi_h','التلميح بالعربية *',false,'مكتبة') + giEn(giIn('gi_eh','Hint in English',true,'Library'));
+    case 'order': return giIn('gi_w','الجملة الفرنسية (من 3 إلى 9 كلمات) *',true,'Je suis étudiant') + giIn('gi_h','الترجمة بالعربية *',false,'أنا طالب') + giEn(giIn('gi_eh','Translation in English',true,'I am a student'));
+    case 'match': return giIn('gi_f','الكلمة الفرنسية *',true,'pharmacie') + giIn('gi_m','المعنى بالعربية *',false,'صيدلية') + giEn(giIn('gi_em','Meaning in English',true,'Pharmacy'));
+    case 'fill': return giIn('gi_q','الجملة (ضع ___ مكان الكلمة الناقصة) *',true,'Je ___ étudiant.') + giTa('gi_a','الإجابات المقبولة (سطر لكل إجابة) *',2,true,'suis') + giTa('gi_e','الشرح (اختياري)',2)
+      + giEn(giTa('gi_ee','Explanation',2,true));
+  }
+  return '';
+}
+function giRead(game){
+  const v = id => (document.getElementById(id)||{}).value || '';
+  const en = {}; const put = (k,x) => { if(String(x).trim()) en[k] = x; };
+  let d;
+  switch(game){
+    case 'mcq': d = { q:v('gi_q'), o:giLines(v('gi_o')), a:+v('gi_a')-1, e:v('gi_e') }; put('q',v('gi_eq')); if(giLines(v('gi_eo')).length) en.o = giLines(v('gi_eo')); put('e',v('gi_ee')); break;
+    case 'odd': d = { o:giLines(v('gi_o')), a:+v('gi_a')-1, e:v('gi_e') }; put('e',v('gi_ee')); break;
+    case 'listen': d = { w:v('gi_w'), o:[v('gi_w').trim()].concat(giLines(v('gi_o'))) }; break;
+    case 'tf': d = { q:v('gi_q'), a:v('gi_a')==='t', e:v('gi_e') }; put('q',v('gi_eq')); put('e',v('gi_ee')); break;
+    case 'scramble': d = { w:v('gi_w'), h:v('gi_h') }; put('h',v('gi_eh')); break;
+    case 'order': d = { w:v('gi_w'), h:v('gi_h') }; put('h',v('gi_eh')); break;
+    case 'match': d = { f:v('gi_f'), m:v('gi_m') }; put('m',v('gi_em')); break;
+    case 'fill': d = { q:v('gi_q'), a:giLines(v('gi_a')), e:v('gi_e') }; put('e',v('gi_ee')); break;
+  }
+  d.en = en; return d;
+}
+function giForm(){
+  openModal(`<h3>إضافة سؤال للألعاب</h3>
+    <div class="infobox">الأسئلة تُضاف إلى الأسئلة الجاهزة وتظهر للطلاب في اللعبة نفسها. الإجابات الصحيحة تُخزَّن مع السؤال، فاستعملها للتدريب وليس للتقييم الرسمي.</div>
+    <label class="f" for="gi_game">نوع اللعبة</label><select class="in" id="gi_game">${GI_TYPES.map(([k,t])=>`<option value="${k}">${t}</option>`).join('')}</select>
+    <div class="gi2"><div><label class="f" for="gi_level">المستوى</label><select class="in" id="gi_level">${GAME_LEVELS.map(([c,n])=>`<option value="${c}">${c} — ${n}</option>`).join('')}</select></div>
+    <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div></div>
+    <div id="gi_fields">${giFields('mcq')}</div>
+    <div class="actions"><button class="btn" data-a="giSave">${I('check','s')} حفظ السؤال</button><button class="btn sec" data-a="close">إلغاء</button></div>`, true);
+}
+document.addEventListener('change', e => { if(e.target && e.target.id==='gi_game'){ const f = document.getElementById('gi_fields'); if(f) f.innerHTML = giFields(e.target.value); } });
+async function giInsert(rows){
+  const r = await sb.from('game_items').insert(rows);
+  if(r.error){ const m = errMsg(r.error); toast('تعذر الحفظ: ' + m + (/relation|does not exist|schema cache/i.test(m) ? ' — شغّل سكربت v6a في Supabase' : ''), 'err'); return false; }
+  await loadGameItems(); return true;
+}
+async function giSave(){
+  const game = document.getElementById('gi_game').value;
+  let data; try{ data = giValidate(game, giRead(game)); }catch(e){ toast(e.message, 'err'); return; }
+  const ok = await giInsert([{ game, level:document.getElementById('gi_level').value, class_id:document.getElementById('gi_cls').value || null, data }]);
+  if(ok){ closeModal(); toast('تمت إضافة السؤال', 'ok'); render(); }
+}
+/* ---- استيراد JSON ---- */
+const GI_SAMPLE = { items:[
+  { game:'mcq', level:'A1', data:{ q:'ما معنى «Bonne nuit»؟', o:['تصبح على خير','صباح الخير','مع السلامة','شكراً'], a:0, e:'Bonne nuit تُقال قبل النوم.', en:{ q:'What does "Bonne nuit" mean?', o:['Good night','Good morning','Goodbye','Thank you'], e:'Bonne nuit is said before sleeping.' } } },
+  { game:'tf', level:'A1', data:{ q:'« Lundi » est un mois.', a:false, e:'lundi يوم وليس شهراً.', en:{ q:'« Lundi » is a month.', e:'lundi is a day, not a month.' } } },
+  { game:'scramble', level:'A2', data:{ w:'pharmacie', h:'صيدلية', en:{ h:'Pharmacy' } } },
+  { game:'match', level:'A1', data:{ f:'fenêtre', m:'نافذة', en:{ m:'Window' } } },
+  { game:'fill', level:'A1', data:{ q:'Elle ___ une fille.', a:['est'], e:'être مع elle: est.', en:{ e:'être with elle: est.' } } },
+  { game:'odd', level:'A1', data:{ o:['rouge','bleu','vert','table'], a:3, e:'table طاولة والبقية ألوان.', en:{ e:'table is a table; the others are colors.' } } },
+  { game:'order', level:'A1', data:{ w:'Il aime le chocolat', h:'هو يحب الشوكولاتة', en:{ h:'He loves chocolate' } } },
+  { game:'listen', level:'A1', data:{ w:'merci', o:['merci','mercredi','marché','mercure'] } }
+] };
+function giImportForm(){
+  openModal(`<h3>إضافة عدة أسئلة من ملف JSON</h3>
+    <div class="infobox">حمّل الملف النموذجي، وعدّل أسئلته أو اطلب مني (في المحادثة) أن أحوّل لك أسئلتك إلى هذا الشكل. سيُراجَع كل سؤال قبل الحفظ، ولن يُحفظ شيء إذا كان فيه خطأ.</div>
+    <button class="btn sec" data-a="giSampleDl">${I('download','s')} تحميل ملف نموذجي</button>
+    <label class="f" for="gi_cls2">يظهر لـ</label><select class="in" id="gi_cls2"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+    <label class="f" for="gi_json">ملف JSON</label><input class="in" type="file" id="gi_json" accept=".json,application/json">
+    <div id="gi_msg" class="cap" style="margin-top:10px"></div>`, true);
+}
+document.addEventListener('change', async e => {
+  if(!e.target || e.target.id!=='gi_json') return;
+  const f = e.target.files[0], msg = document.getElementById('gi_msg'); if(!f) return;
+  try{
+    const j = JSON.parse(await f.text()), arr = Array.isArray(j) ? j : j.items;
+    if(!Array.isArray(arr) || !arr.length) throw new Error('الملف لا يحتوي قائمة أسئلة (items)');
+    if(arr.length > 200) throw new Error('الحد الأقصى 200 سؤال في الملف الواحد');
+    const cls = document.getElementById('gi_cls2').value || null;
+    const rows = arr.map((x,i) => {
+      try{
+        if(!x || !GI_TYPES.some(t=>t[0]===x.game)) throw new Error('نوع لعبة غير معروف');
+        if(!GAME_LEVELS.some(l=>l[0]===x.level)) throw new Error('المستوى يجب أن يكون A1 أو A2 أو B1');
+        return { game:x.game, level:x.level, class_id:cls, data:giValidate(x.game, x.data) };
+      }catch(err){ throw new Error('السؤال رقم ' + (i+1) + ': ' + err.message); }
+    });
+    msg.textContent = 'جارٍ الحفظ...';
+    if(await giInsert(rows)){ closeModal(); toast('تمت إضافة ' + rows.length + ' سؤال', 'ok'); render(); } else msg.textContent = '';
+  }catch(err){ msg.textContent = err.message; msg.style.color = 'var(--bad)'; toast(err.message, 'err'); e.target.value = ''; }
+});
+function giSampleDl(){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(GI_SAMPLE, null, 2)], { type:'application/json' }));
+  a.download = 'game-questions-sample.json'; document.body.appendChild(a); a.click(); a.remove();
+}
+/* ---- القائمة والحذف ---- */
+function giSummary(it){ const d = it.data||{}; return it.game==='match' ? d.f+' = '+d.m : it.game==='odd' ? (d.o||[]).join(' / ') : (d.q || d.w || ''); }
+function giManage(){
+  const name = k => (GI_TYPES.find(t=>t[0]===k)||[k,k])[1].replace(/\s*\(.*$/,'');
+  openModal(`<h3>أسئلتي (${gameItems.length})</h3>` + (gameItems.length ? `<div class="gilist">${gameItems.map(it=>`<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(it))}</b><small>${esc(name(it.game))} · ${esc(it.level)} · ${it.class_id ? esc((classes.find(c=>c.id===it.class_id)||{}).name||'صف') : 'كل الطلاب'}</small></div><button class="btn del" data-a="giDel" data-id="${it.id}" aria-label="حذف">${I('trash','s')}</button></div>`).join('')}</div>` : '<p class="cap">لم تضف أي أسئلة بعد.</p>'), true);
+}
+async function giDel(id){
+  if(!confirm('حذف هذا السؤال نهائياً؟')) return;
+  const r = await sb.from('game_items').delete().eq('id', id);
+  if(r.error){ toast('تعذر الحذف: ' + errMsg(r.error), 'err'); return; }
+  await loadGameItems(); giManage(); render();
+}
+const GIH = { giAdd:giForm, giImport:giImportForm, giSave, giSampleDl, giManage, giDel };
+
 /* ============ محرك الألعاب (منطق عام، البيانات في GAME_DATA) ============ */
 const G = { view:'menu', game:null, level:null, qs:[], i:0, ok:0, pts:0, streak:0, maxStreak:0, pick:null, t0:0, t:0, snd:true, tot:0 };
 try{ G.snd = localStorage.getItem('fo_snd') !== '0'; }catch(e){}
@@ -1944,7 +2183,7 @@ const getBest = () => { try{ return +localStorage.getItem(bestKey()) || 0; }catc
 const setBest = n => { try{ localStorage.setItem(bestKey(), String(n)); }catch(e){} };
 
 function gameStart(level){
-  const d = GAME_DATA[G.game], pool = (d.from ? GAME_DATA[d.from] : d)[level] || [];
+  const d = GAME_DATA[G.game], pool = gPool(G.game, level);
   if(!pool.length) return;
   const isM = G.game==='match' || G.game==='memory';
   const qs = shuf(pool).slice(0, isM ? 6 : GAME_ROUND).map(q => {
@@ -2058,6 +2297,7 @@ function renderGames0(v){
   const snd = `<span class="gtools"><button class="gsnd glang" data-a="gLang" data-notr aria-label="Language">${G.lang==='en'?'عربي':'EN'}</button><button class="gsnd" data-a="gSound" aria-label="الصوت">${G.snd?'🔊':'🔇'}</button></span>`;
   if(G.view==='menu'){
     v.innerHTML = `<h2 class="st"><span>${I('sparkle')} ألعاب تفاعلية <small>Jeux interactifs</small></span>${snd}</h2>
+      ${state.teacher ? `<div class="gtbar"><button class="add" data-a="giAdd">${I('plus','s')} إضافة سؤال</button><button class="add" style="background:var(--blue)" data-a="giImport">${I('upload','s')} رفع ملف JSON</button><button class="btn sec" data-a="giManage">${I('list','s')} أسئلتي (${gameItems.length})</button></div>` : ''}
       <div class="grid">${Object.keys(GAME_DATA).map(k=>{ const d = GAME_DATA[k]; return `<button class="card gcard" data-a="gPick" data-id="${k}"><div class="ib ${d.col}">${I(d.ic)}</div><h3>${esc(d.title)}</h3><div class="meta" style="direction:ltr;text-align:right">${esc(d.fr)}</div><p>${esc(d.desc)}</p><span class="tag">${I('play','s')} ابدأ اللعب</span></button>`; }).join('')}</div>`;
     return;
   }
@@ -2125,6 +2365,7 @@ function renderGames0(v){
   }
 }
 const GH = {
+  ...GIH,
   gPick:id=>{ if(!GAME_DATA[id]) return; if(id==='listen' && !window.speechSynthesis){ toast(trText('جهازك أو متصفحك لا يدعم النطق الصوتي'),'err'); return; } G.game = id; G.view = 'level'; render(); },
   gLvl:id=>gameStart(id), gAns:id=>gameAnswer(id), gNext:gameNext,
   gAgain:()=>gameStart(G.level), gLang:()=>{ G.lang = G.lang==='en'?'ar':'en'; try{ localStorage.setItem('fo_lang', G.lang); }catch(e){} render(); }, gTile:id=>scrTile(id), gKey:id=>hgKey(id), gSpeak:()=>speak(G.qs[G.i].w,.9), gSlow:()=>speak(G.qs[G.i].w,.55), gMem:id=>memPick(id), gBack:scrBack, gClear:scrClear, gFill:fillCheck, gML:id=>matchPick('l',id), gMR:id=>matchPick('r',id),
