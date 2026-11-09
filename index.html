@@ -147,6 +147,14 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
+.trk-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 4px}
+.trk-bar select{max-width:260px}
+.pbar{display:inline-block;vertical-align:middle;width:84px;height:8px;border-radius:6px;background:#e8e2d4;overflow:hidden;margin-inline-start:8px}
+.pbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0B1F3A,#B8893B)}
+.pbar.low i{background:#c0392b}
+tr.rowopen{cursor:pointer}
+tr.rowopen:hover td{background:#faf6ea}
+.tile.static{cursor:default}
 .ov.full{padding:0;display:block;background:var(--bg,#fff)}
 .modal.full{max-width:860px;width:100%;max-height:none;min-height:100%;border-radius:0;margin:0 auto;overflow:visible;padding:24px 22px 28px}
 .modal.full .actions{position:sticky;bottom:0;background:var(--card,#fff);padding:12px 0 14px;margin-top:18px;border-top:1px solid #e8e2d4;z-index:4}
@@ -423,6 +431,7 @@ tr:hover td{background:#FBF9F3}
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4L10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
@@ -580,7 +589,7 @@ const TABS = [['home','home','الرئيسية'],['files','book','الدروس']
 
 function renderShell(){
   const tabs = TABS.slice();
-  if(state.teacher) tabs.push(['people','users','الصفوف والطلاب']);
+  if(state.teacher){ tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
   const main5 = [['home','home','الرئيسية'],['files','book','الدروس'],['games','sparkle','الألعاب'],['quizzes','quiz','الاختبارات']];
@@ -740,8 +749,9 @@ function render(){
   if(state.loading){ v.innerHTML = skel(); return; }
   const err = state.err ? `<div class="errbox">${esc(state.err)}</div>` : '';
   const files = items.filter(i=>i.kind==='file'), vids = items.filter(i=>i.kind==='video');
-  if((state.tab==='people' && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
+  if(((state.tab==='people' || state.tab==='track') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
   if(state.tab==='games') return renderGames(v);
+  if(state.tab==='track') return renderTrack(v, err);
   if(state.tab==='people') return renderPeople(v, err);
   if(state.tab==='mine') return renderMine(v, err);
 
@@ -1849,6 +1859,97 @@ function renderPeople(v, err){
     <div class="infobox" style="margin-top:18px">يسجّل الطالب دخوله من زر <b>تسجيل الدخول</b> باسم الدخول وكلمة المرور التي تسلّمها له. وأي محتوى حدّدت له صفاً لن يراه إلا طلاب ذلك الصف.</div>`;
 }
 
+
+/* ---------- لوحة المتابعة (للمدرس) ---------- */
+let trk = { cls:'all', data:null };
+async function loadTrack(){
+  const [r, s] = await Promise.all([
+    sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}),
+    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false})
+  ]);
+  const bad = r.error || s.error;
+  trk.data = bad ? null : { results:r.data||[], subs:s.data||[] };
+  return bad ? errMsg(bad) : '';
+}
+async function renderTrack(v, err){
+  v.innerHTML = err + skel();
+  const e = await loadTrack();
+  if(state.tab !== 'track') return;
+  if(e){ v.innerHTML = err + `<div class="errbox">تعذر تحميل بيانات المتابعة: ${esc(e)}</div>`; return; }
+  drawTrack(v, err);
+}
+function trkStats(){
+  const { results, subs } = trk.data;
+  const list = students.filter(s => trk.cls==='all' || (trk.cls==='none' ? !s.class_id : s.class_id===trk.cls));
+  const ids = new Set(list.map(s=>s.id));
+  const rs = results.filter(r => ids.has(r.student_id)), ss = subs.filter(x => ids.has(x.student_id));
+  const pct = r => r.total ? r.score/r.total*100 : 0;
+  const rows = list.map(s => {
+    const a = rs.filter(r=>r.student_id===s.id), b = ss.filter(x=>x.student_id===s.id);
+    const avg = a.length ? a.reduce((n,r)=>n+pct(r),0)/a.length : null;
+    const last = [...a.map(r=>r.created_at), ...b.map(x=>x.created_at)].sort().pop() || null;
+    return { s, a, b, avg, last, ungraded:b.filter(x=>!x.grade).length };
+  });
+  const dayAgo = d => (Date.now() - new Date(d).getTime()) / 86400000;
+  return { list, rs, ss, rows, pct, inactive: rows.filter(r => !r.last || dayAgo(r.last) > 14).length };
+}
+function drawTrack(v, err){
+  if(state.tab !== 'track') return;
+  const st = trkStats(), cname = id => (classes.find(c=>c.id===id)||{}).name || '—';
+  const avgAll = st.rs.length ? Math.round(st.rs.reduce((n,r)=>n+st.pct(r),0)/st.rs.length) : null;
+  const ungr = st.ss.filter(x=>!x.grade).length;
+  const tiles = [
+    ['users','c-blue',st.list.length,'طالب'], ['quiz','c-green',st.rs.length,'محاولة اختبار'],
+    ['chart','c-purple',avgAll==null?'—':avgAll+'%','متوسط الدرجات'], ['assign','c-orange',ungr,'واجب بانتظار التصحيح'],
+    ['clock','c-teal',st.inactive,'لم يتفاعل منذ 14 يوماً']
+  ];
+  const bar = p => `<span class="pbar ${p<50?'low':''}"><i style="width:${Math.round(p)}%"></i></span>`;
+  const rowsSorted = st.rows.slice().sort((x,y)=> (x.avg==null) - (y.avg==null) || (x.avg||0) - (y.avg||0));
+  const quizRows = quizzes.map(z => {
+    const a = st.rs.filter(r=>r.quiz_id===z.id);
+    return { z, n:a.length, avg:a.length ? a.reduce((n,r)=>n+st.pct(r),0)/a.length : null };
+  }).filter(x=>x.n).sort((x,y)=>x.avg-y.avg);
+  const asgRows = assignments.map(a => {
+    const b = st.ss.filter(x=>x.assignment_id===a.id);
+    return { a, n:b.length, un:b.filter(x=>!x.grade).length };
+  }).filter(x=>x.n);
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c=>`<option value="${c.id}" ${trk.cls===c.id?'selected':''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${trk.cls==='none'?'selected':''}>بدون صف</option>`;
+  v.innerHTML = err + `
+    <h2 class="st"><span>${I('chart')} متابعة الطلاب</span><small>${st.list.length}</small></h2>
+    <div class="trk-bar"><select class="in" data-a="trkCls" aria-label="الصف">${opts}</select><button class="btn sec" data-a="trkRefresh">تحديث</button></div>
+    <div class="tiles">${tiles.map(([ic,col,n,l])=>`<div class="tile static"><div class="ib ${col}">${I(ic)}</div><div><b>${n}</b><span>${l}</span></div></div>`).join('')}</div>
+
+    <h2 class="st"><span>${I('users')} الطلاب</span><small>الأضعف أولاً — اضغط على طالب للتفاصيل</small></h2>
+    ${st.list.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>المحاولات</th><th>متوسط الدرجات</th><th>الواجبات</th><th>آخر نشاط</th></tr>
+      ${rowsSorted.map(x=>`<tr class="rowopen" data-a="trkOpen" data-id="${x.s.id}"><td data-label="الطالب" dir="auto"><b>${esc(x.s.full_name)}</b></td><td data-label="الصف">${esc(cname(x.s.class_id))}</td><td data-label="المحاولات">${x.a.length}</td>
+        <td data-label="المتوسط">${x.avg==null?'<span class="tag warn">لم يبدأ</span>':Math.round(x.avg)+'%'+bar(x.avg)}</td>
+        <td data-label="الواجبات">${x.b.length}${x.ungraded?` <span class="tag warn">${x.ungraded} بلا تصحيح</span>`:''}</td><td data-label="آخر نشاط">${x.last?fmtDT(x.last):'—'}</td></tr>`).join('')}</table></div>`
+      : emptyBox('users','c-blue','لا يوجد طلاب في هذا الاختيار','')}
+
+    <h2 class="st"><span>${I('quiz')} الاختبارات</span><small>الأصعب أولاً</small></h2>
+    ${quizRows.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الاختبار</th><th>المحاولات</th><th>المتوسط</th></tr>
+      ${quizRows.map(x=>`<tr><td data-label="الاختبار" dir="auto">${esc(x.z.title)}</td><td data-label="المحاولات">${x.n}</td><td data-label="المتوسط">${Math.round(x.avg)}%${bar(x.avg)}</td></tr>`).join('')}</table></div>`
+      : emptyBox('quiz','c-green','لا توجد محاولات بعد','ستظهر هنا نتائج الطلاب عند حلّهم الاختبارات.')}
+
+    <h2 class="st"><span>${I('assign')} الواجبات</span></h2>
+    ${asgRows.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الواجب</th><th>التسليمات</th><th>بانتظار التصحيح</th></tr>
+      ${asgRows.map(x=>`<tr><td data-label="الواجب" dir="auto">${esc(x.a.title)}</td><td data-label="التسليمات">${x.n}</td><td data-label="بانتظار التصحيح">${x.un?`<span class="tag warn">${x.un}</span>`:'<span class="tag ok">لا شيء</span>'}</td></tr>`).join('')}</table></div>`
+      : emptyBox('assign','c-orange','لا توجد تسليمات بعد','')}
+    <div class="infobox" style="margin-top:18px">تعتمد اللوحة على نتائج الاختبارات وتسليمات الواجبات. نتائج الألعاب تُحفظ حالياً في جهاز كل طالب فقط ولا تظهر هنا.</div>`;
+}
+function trkOpen(id){
+  const x = trkStats().rows.find(r=>r.s.id===id); if(!x) return;
+  const qT = i => (quizzes.find(z=>z.id===i)||{title:'اختبار محذوف'}).title, aT = i => (assignments.find(z=>z.id===i)||{title:'واجب محذوف'}).title;
+  openModal(`<h3 dir="auto">${esc(x.s.full_name)}</h3>
+    <div class="tags"><span class="tag cls">${I('class','s')} ${esc((classes.find(c=>c.id===x.s.class_id)||{}).name||'بدون صف')}</span><span class="tag">${esc(x.s.login_id)}</span></div>
+    <h2 class="st"><span>نتائج الاختبارات</span><small>${x.a.length}</small></h2>
+    ${x.a.length ? `<div style="overflow-x:auto"><table><tr><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>${x.a.map(r=>`<tr><td dir="auto">${esc(qT(r.quiz_id))}</td><td>${r.score}/${r.total}</td><td><span class="tag ${r.total && r.score/r.total>=0.5?'ok':'bad'}">${r.total?Math.round(r.score/r.total*100):0}%</span></td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يحلّ أي اختبار بعد.</p>'}
+    <h2 class="st"><span>الواجبات</span><small>${x.b.length}</small></h2>
+    ${x.b.length ? `<div style="overflow-x:auto"><table><tr><th>الواجب</th><th>التاريخ</th><th>الحالة</th></tr>${x.b.map(r=>`<tr><td dir="auto">${esc(aT(r.assignment_id))}</td><td>${fmtDT(r.created_at)}</td><td>${r.grade?`<span class="tag ok">${esc(r.grade)}</span>`:'<span class="tag warn">بانتظار التصحيح</span>'}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يسلّم أي واجب بعد.</p>'}
+    <div class="actions"><button class="btn lg" data-a="close">إغلاق</button></div>`, true);
+}
+document.addEventListener('change', e => { const el = e.target; if(el && el.dataset && el.dataset.a === 'trkCls'){ trk.cls = el.value; drawTrack($('#view'), ''); } });
+
 /* ---- صفحة نتائجي (للطالب) ---- */
 async function renderMine(v, err){
   const s = state.me.student;
@@ -2445,7 +2546,7 @@ const H = {
   ...GH,
   moreMenu:()=>{
     const m = [['videos','video','الفيديوهات'],['assignments','assign','الواجبات'],['links','link','الروابط']];
-    if(state.teacher) m.push(['people','users','الصفوف والطلاب']);
+    if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
     else if(state.me && state.me.student) m.push(['mine','list','نتائجي']);
     openModal(`<h3>المزيد</h3><div class="moregrid">${m.map(([k,ic,l])=>`<button data-a="moreGo" data-id="${k}">${I(ic)}<span>${l}</span></button>`).join('')}</div>`);
   },
@@ -2456,7 +2557,7 @@ const H = {
   cat:id=>{ state.cat=id; render(); },
   login, doLogin, logout, seed,
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
-  draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
+  trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
   takeQuiz, startQuiz, submitQuiz, results:showResults,
