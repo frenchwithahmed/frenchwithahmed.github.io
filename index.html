@@ -318,7 +318,7 @@ nav button.on{background:rgba(255,255,255,.1) linear-gradient(var(--gold),var(--
 @media(max-width:1330px){nav{gap:2px}nav button{padding:9px 9px;gap:6px;font-size:13.5px}.bar{gap:12px;padding-inline:16px}}
 @media(max-width:1120px){nav button{padding:9px 7px;font-size:12.5px}nav button .i{display:none}}
 @media(max-width:960px){nav button{padding:8px 5px;font-size:12px}}
-@media(min-width:781px) and (max-width:1120px){header .bar nav#nav{order:3;flex:1 1 100%;margin-top:-2px;padding-bottom:4px}}
+header.navwrap .bar nav#nav{order:3;flex:1 1 100%;margin-top:-2px;padding-bottom:4px}
 .tbtn{background:var(--blue)}
 .tbar{background:#F4EAD0;border-bottom:1px solid var(--gold-soft);color:#4a3a14}
 .tbar button{border-color:var(--gold-soft);color:var(--gold-text)}
@@ -469,6 +469,15 @@ const SUPABASE_KEY = 'sb_publishable_pRQ4hUHSylrdM2uwMO6Cnw_X3II_SHG';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function fitNav(){
+  try{
+    const h = document.querySelector('header'), n = document.getElementById('nav'); if(!h || !n) return;
+    h.classList.remove('navwrap');
+    if(n.clientWidth > 0 && (n.children.length >= 9 && innerWidth <= 1500 || n.scrollWidth > n.clientWidth + 1 || [...n.children].some(b => b.scrollWidth > b.clientWidth + 1))) h.classList.add('navwrap');
+  }catch(e){}
+}
+window.addEventListener('resize', fitNav);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
 const I = (n, c='') => `<svg class="i ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const LOC = 'ar-u-ca-gregory-nu-latn';
 const fmtDate = t => { try{ return new Date(t).toLocaleDateString(LOC,{year:'numeric',month:'short',day:'numeric'}); }catch{ return new Date(t).toLocaleDateString(); } };
@@ -597,6 +606,7 @@ function renderShell(){
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
+  fitNav();
   try{ const on = _nv.querySelector('.on'); if(on && _nv.scrollWidth > _nv.clientWidth) on.scrollIntoView({ inline:'center', block:'nearest' }); }catch(e){}
   const main5 = [['home','home','الرئيسية'],['files','book','الدروس'],['games','sparkle','الألعاب'],['quizzes','quiz','الاختبارات']];
   const inMain = main5.some(x=>x[0]===state.tab);
