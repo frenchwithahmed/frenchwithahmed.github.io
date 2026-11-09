@@ -1868,12 +1868,13 @@ function renderPeople(v, err){
 /* ---------- لوحة المتابعة (للمدرس) ---------- */
 let trk = { cls:'all', data:null };
 async function loadTrack(){
-  const [r, s] = await Promise.all([
+  const [r, s, g] = await Promise.all([
     sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}),
-    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false})
+    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false}),
+    sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').order('created_at',{ascending:false}).limit(5000)
   ]);
   const bad = r.error || s.error;
-  trk.data = bad ? null : { results:r.data||[], subs:s.data||[] };
+  trk.data = bad ? null : { results:r.data||[], subs:s.data||[], games:g.error ? [] : (g.data||[]), gOk:!g.error };
   return bad ? errMsg(bad) : '';
 }
 async function renderTrack(v, err){
@@ -1884,19 +1885,21 @@ async function renderTrack(v, err){
   drawTrack(v, err);
 }
 function trkStats(){
-  const { results, subs } = trk.data;
+  const { results, subs, games } = trk.data;
   const list = students.filter(s => trk.cls==='all' || (trk.cls==='none' ? !s.class_id : s.class_id===trk.cls));
   const ids = new Set(list.map(s=>s.id));
-  const rs = results.filter(r => ids.has(r.student_id)), ss = subs.filter(x => ids.has(x.student_id));
+  const rs = results.filter(r => ids.has(r.student_id)), ss = subs.filter(x => ids.has(x.student_id)), gs = games.filter(x => ids.has(x.student_id));
   const pct = r => r.total ? r.score/r.total*100 : 0;
   const rows = list.map(s => {
     const a = rs.filter(r=>r.student_id===s.id), b = ss.filter(x=>x.student_id===s.id);
     const avg = a.length ? a.reduce((n,r)=>n+pct(r),0)/a.length : null;
-    const last = [...a.map(r=>r.created_at), ...b.map(x=>x.created_at)].sort().pop() || null;
-    return { s, a, b, avg, last, ungraded:b.filter(x=>!x.grade).length };
+    const g = gs.filter(x=>x.student_id===s.id);
+    const gavg = g.length ? g.reduce((n,x)=>n+x.correct/x.total*100,0)/g.length : null;
+    const last = [...a.map(r=>r.created_at), ...b.map(x=>x.created_at), ...g.map(x=>x.created_at)].sort().pop() || null;
+    return { s, a, b, g, gavg, avg, last, ungraded:b.filter(x=>!x.grade).length };
   });
   const dayAgo = d => (Date.now() - new Date(d).getTime()) / 86400000;
-  return { list, rs, ss, rows, pct, inactive: rows.filter(r => !r.last || dayAgo(r.last) > 14).length };
+  return { list, rs, ss, gs, rows, pct, inactive: rows.filter(r => !r.last || dayAgo(r.last) > 14).length };
 }
 function drawTrack(v, err){
   if(state.tab !== 'track') return;
@@ -1906,7 +1909,7 @@ function drawTrack(v, err){
   const tiles = [
     ['users','c-blue',st.list.length,'طالب'], ['quiz','c-green',st.rs.length,'محاولة اختبار'],
     ['chart','c-purple',avgAll==null?'—':avgAll+'%','متوسط الدرجات'], ['assign','c-orange',ungr,'واجب بانتظار التصحيح'],
-    ['clock','c-teal',st.inactive,'لم يتفاعل منذ 14 يوماً']
+    ['sparkle','c-purple',st.gs.length,'جولة لعب'], ['clock','c-teal',st.inactive,'لم يتفاعل منذ 14 يوماً']
   ];
   const bar = p => `<span class="pbar ${p<50?'low':''}"><i style="width:${Math.round(p)}%"></i></span>`;
   const rowsSorted = st.rows.slice().sort((x,y)=> (x.avg==null) - (y.avg==null) || (x.avg||0) - (y.avg||0));
@@ -1925,10 +1928,10 @@ function drawTrack(v, err){
     <div class="tiles">${tiles.map(([ic,col,n,l])=>`<div class="tile static"><div class="ib ${col}">${I(ic)}</div><div><b>${n}</b><span>${l}</span></div></div>`).join('')}</div>
 
     <h2 class="st"><span>${I('users')} الطلاب</span><small>الأضعف أولاً — اضغط على طالب للتفاصيل</small></h2>
-    ${st.list.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>المحاولات</th><th>متوسط الدرجات</th><th>الواجبات</th><th>آخر نشاط</th></tr>
+    ${st.list.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>المحاولات</th><th>متوسط الدرجات</th><th>الواجبات</th><th>الألعاب</th><th>آخر نشاط</th></tr>
       ${rowsSorted.map(x=>`<tr class="rowopen" data-a="trkOpen" data-id="${x.s.id}"><td data-label="الطالب" dir="auto"><b>${esc(x.s.full_name)}</b></td><td data-label="الصف">${esc(cname(x.s.class_id))}</td><td data-label="المحاولات">${x.a.length}</td>
         <td data-label="المتوسط">${x.avg==null?'<span class="tag warn">لم يبدأ</span>':Math.round(x.avg)+'%'+bar(x.avg)}</td>
-        <td data-label="الواجبات">${x.b.length}${x.ungraded?` <span class="tag warn">${x.ungraded} بلا تصحيح</span>`:''}</td><td data-label="آخر نشاط">${x.last?fmtDT(x.last):'—'}</td></tr>`).join('')}</table></div>`
+        <td data-label="الواجبات">${x.b.length}${x.ungraded?` <span class="tag warn">${x.ungraded} بلا تصحيح</span>`:''}</td><td data-label="الألعاب">${x.g.length ? x.g.length + ' · ' + Math.round(x.gavg) + '%' : '—'}</td><td data-label="آخر نشاط">${x.last?fmtDT(x.last):'—'}</td></tr>`).join('')}</table></div>`
       : emptyBox('users','c-blue','لا يوجد طلاب في هذا الاختيار','')}
 
     <h2 class="st"><span>${I('quiz')} الاختبارات</span><small>الأصعب أولاً</small></h2>
@@ -1940,7 +1943,7 @@ function drawTrack(v, err){
     ${asgRows.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الواجب</th><th>التسليمات</th><th>بانتظار التصحيح</th></tr>
       ${asgRows.map(x=>`<tr><td data-label="الواجب" dir="auto">${esc(x.a.title)}</td><td data-label="التسليمات">${x.n}</td><td data-label="بانتظار التصحيح">${x.un?`<span class="tag warn">${x.un}</span>`:'<span class="tag ok">لا شيء</span>'}</td></tr>`).join('')}</table></div>`
       : emptyBox('assign','c-orange','لا توجد تسليمات بعد','')}
-    <div class="infobox" style="margin-top:18px">تعتمد اللوحة على نتائج الاختبارات وتسليمات الواجبات. نتائج الألعاب تُحفظ حالياً في جهاز كل طالب فقط ولا تظهر هنا.</div>`;
+    <div class="infobox" style="margin-top:18px">تعتمد اللوحة على نتائج الاختبارات وتسليمات الواجبات. ${trk.data.gOk ? 'تشمل اللوحة نتائج الألعاب التي يلعبها الطلاب بعد تفعيل هذه الميزة.' : 'نتائج الألعاب غير مفعّلة بعد: شغّل سكربت v8a في Supabase.'}</div>`;
 }
 function trkOpen(id){
   const x = trkStats().rows.find(r=>r.s.id===id); if(!x) return;
@@ -1951,6 +1954,8 @@ function trkOpen(id){
     ${x.a.length ? `<div style="overflow-x:auto"><table><tr><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>${x.a.map(r=>`<tr><td dir="auto">${esc(qT(r.quiz_id))}</td><td>${r.score}/${r.total}</td><td><span class="tag ${r.total && r.score/r.total>=0.5?'ok':'bad'}">${r.total?Math.round(r.score/r.total*100):0}%</span></td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يحلّ أي اختبار بعد.</p>'}
     <h2 class="st"><span>الواجبات</span><small>${x.b.length}</small></h2>
     ${x.b.length ? `<div style="overflow-x:auto"><table><tr><th>الواجب</th><th>التاريخ</th><th>الحالة</th></tr>${x.b.map(r=>`<tr><td dir="auto">${esc(aT(r.assignment_id))}</td><td>${fmtDT(r.created_at)}</td><td>${r.grade?`<span class="tag ok">${esc(r.grade)}</span>`:'<span class="tag warn">بانتظار التصحيح</span>'}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يسلّم أي واجب بعد.</p>'}
+    <h2 class="st"><span>الألعاب</span><small>${x.g.length}</small></h2>
+    ${x.g.length ? `<div style="overflow-x:auto"><table><tr><th>اللعبة</th><th>المستوى</th><th>النتيجة</th><th>التاريخ</th></tr>${x.g.slice(0,30).map(r=>`<tr><td>${esc((GAME_DATA[r.game]||{}).title||r.game)}</td><td>${esc(r.level)}</td><td>${r.correct}/${r.total}</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يلعب بعد.</p>'}
     <div class="actions"><button class="btn lg" data-a="close">إغلاق</button></div>`, true);
 }
 document.addEventListener('change', e => { const el = e.target; if(el && el.dataset && el.dataset.a === 'trkCls'){ trk.cls = el.value; drawTrack($('#view'), ''); } });
@@ -2363,7 +2368,7 @@ function gameStart(level){
   G.mem = G.game==='memory' ? (() => { const cs = []; qs.forEach((p,k)=>{ cs.push({k,t:p.f,fr:true}); cs.push({k,t:p.m,fr:false}); }); return { cards:shuf(cs).map((c,id)=>({...c,id})), open:[], done:[], moves:0, lock:false }; })() : null;
   G.m = G.game==='match' ? { r:shuf(qs.map((p,k)=>({k,t:p.m}))), l:shuf(qs.map((p,k)=>({k,t:p.f}))), selL:null, done:[], err:0, bad:null, first:{} } : null;
   G.sel = []; G.val = ''; G.close = ''; G.stat3 = null; G.hg = { g:[], wrong:0 };
-  Object.assign(G, { view:'play', level, qs, i:0, ok:0, pts:0, streak:0, maxStreak:0, pick:null, t0:Date.now(), t:0, tot:Date.now() });
+  Object.assign(G, { saved:false, view:'play', level, qs, i:0, ok:0, pts:0, streak:0, maxStreak:0, pick:null, t0:Date.now(), t:0, tot:Date.now() });
   render(); window.scrollTo(0,0);
 }
 function gameAnswer(k){
@@ -2434,21 +2439,29 @@ function memEnd(){
   const n = G.qs.length, m = G.mem, extra = Math.max(0, m.moves - n);
   G.ok = Math.max(1, n - Math.floor(extra/2)); G.pts = Math.max(0, n*10 - extra*3); G.stat3 = [m.moves,'محاولات'];
   G.tot = Math.round((Date.now()-G.tot)/1000);
-  const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts); G.prevBest = b; if(extra===0) beep('win');
+  const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts); G.prevBest = b; if(extra===0) beep('win'); gSaveScore();
   setTimeout(()=>{ if(G.mem===m){ G.view = 'end'; render(); } }, 700);
 }
 function matchEnd(){
   const n = G.qs.length; G.ok = Object.values(G.m.first).filter(Boolean).length;
   G.pts = Math.max(0, n*10 - G.m.err*4); G.stat3 = [G.m.err,'أخطاء'];
   G.view = 'end'; G.tot = Math.round((Date.now()-G.tot)/1000);
-  const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts); G.prevBest = b; if(G.m.err===0) beep('win'); render();
+  const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts); G.prevBest = b; if(G.m.err===0) beep('win'); gSaveScore(); render();
+}
+async function gSaveScore(){
+  try{
+    if(G.saved || typeof sb === 'undefined' || !sb || state.teacher || !(state.me && state.me.student)) return;
+    const total = G.qs.length, correct = Math.max(0, Math.min(G.ok, total)); if(!total) return;
+    G.saved = true;
+    await sb.from('game_scores').insert({ game:G.game, level:G.level, correct, total });
+  }catch(e){}
 }
 function gameNext(){
   if(G.view!=='play' || G.pick===null) return;
   if(G.i+1 >= G.qs.length){
     G.view = 'end'; G.tot = Math.round((Date.now()-G.tot)/1000);
     const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts);
-    G.prevBest = b; if(G.ok === G.qs.length) beep('win');
+    G.prevBest = b; if(G.ok === G.qs.length) beep('win'); gSaveScore();
   } else { G.i++; G.pick = null; G.t0 = Date.now(); G.sel = []; G.val = ''; G.close = ''; G.hg = { g:[], wrong:0 }; }
   render(); window.scrollTo(0,0);
 }
