@@ -147,6 +147,14 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
+.tbtn.bell{position:relative;padding:8px 11px}
+.bn{position:absolute;top:-6px;inset-inline-start:-6px;min-width:20px;height:20px;border-radius:10px;background:#d64545;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #0B1F3A}
+.bn[hidden]{display:none}
+.bitem{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #eee7d6}
+.bitem .bi{flex:0 0 38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.bitem .bt{flex:1;min-width:0}.bitem .bt b{display:block}.bitem .bt small{color:#6b7280}
+.bitem.warn{background:#fff4f2;border-radius:12px;padding:12px;margin:6px 0;border:1px solid #f1c9c3}
+.bitem .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.bitem .row .btn{padding:6px 12px;font-size:13px}
 .trk-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 4px}
 .trk-bar select{max-width:260px}
 .pbar{display:inline-block;vertical-align:middle;width:84px;height:8px;border-radius:6px;background:#e8e2d4;overflow:hidden;margin-inline-start:8px}
@@ -436,6 +444,7 @@ tr:hover td{background:#FBF9F3}
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4L10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
@@ -613,7 +622,7 @@ function renderShell(){
   $('#bnav').innerHTML = main5.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}" ${state.tab===k?'aria-current="page"':''}>${I(ic)}<span>${l}</span></button>`).join('')
     + `<button class="${!inMain?'on':''}" data-a="moreMenu">${I('list')}<span>المزيد</span></button>`;
   $('#auth').innerHTML = state.teacher
-    ? `<button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
+    ? `<button class="tbtn bell" data-a="bellOpen" aria-label="التنبيهات">${I('bell','s')}<b class="bn" id="bellN" hidden></b></button><button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
     : (state.me && state.me.student)
       ? `<span class="who">${I('user','s')} ${esc(state.me.student.full_name)}</span><button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
       : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
@@ -761,6 +770,7 @@ function renderSetup(){
 function render(){
   if(!configured || !sb) return renderSetup();
   renderShell();
+  if(state.teacher){ bellStart(); bellBadge(); }
   const v = $('#view');
   if(state.loading){ v.innerHTML = skel(); return; }
   const err = state.err ? `<div class="errbox">${esc(state.err)}</div>` : '';
@@ -1876,6 +1886,74 @@ function renderPeople(v, err){
 }
 
 
+
+/* ---------- جرس تنبيهات المعلم ---------- */
+let bell = { items:[], started:false, last:0, noRpc:false };
+const BELL_SEEN = 'fo_bell_seen', BELL_DIS = 'fo_bell_dis';
+const lsGet = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const lsSet = (k,v) => { try{ localStorage.setItem(k,v); }catch(e){} };
+function bellDismissed(){ try{ return JSON.parse(lsGet(BELL_DIS)||'[]'); }catch(e){ return []; } }
+function bellBadge(){
+  const n = bell.items.length, el = document.getElementById('bellN');
+  if(el){ el.textContent = n > 99 ? '99+' : n; el.hidden = !n; }
+  document.title = (n ? '(' + n + ') ' : '') + document.title.replace(/^\(\d+\)\s*/, '');
+}
+async function bellLoad(){
+  if(!state.teacher || !sb) return;
+  let seen = lsGet(BELL_SEEN);
+  if(!seen){ seen = new Date().toISOString(); lsSet(BELL_SEEN, seen); }
+  const [r, s, g, u] = await Promise.all([
+    sb.from('results').select('id,student,student_id,quiz_id,score,total,created_at').gt('created_at', seen).order('created_at',{ascending:false}).limit(50),
+    sb.from('submissions').select('id,student,student_id,assignment_id,created_at').gt('created_at', seen).order('created_at',{ascending:false}).limit(50),
+    sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').gt('created_at', seen).order('created_at',{ascending:false}).limit(50),
+    bell.noRpc ? Promise.resolve({ data:[], error:null }) : sb.rpc('unknown_accounts')
+  ]);
+  if(u.error) bell.noRpc = true;
+  const nm = id => ((students.find(x=>x.id===id)||{}).full_name) || '';
+  const items = [];
+  const dis = new Set(bellDismissed());
+  (Array.isArray(u.data) ? u.data : []).forEach(a => {
+    if(dis.has(a.id)) return;
+    if(Date.now() - new Date(a.created_at).getTime() < 3*60000) return; // إنشاء طالب جارٍ الآن
+    items.push({ t:'unknown', id:a.id, time:a.created_at, a });
+  });
+  (s.data||[]).forEach(x => items.push({ t:'sub', id:x.id, time:x.created_at, text:`${x.student || nm(x.student_id) || 'طالب'} سلّم واجباً: ${(assignments.find(a=>a.id===x.assignment_id)||{title:'واجب'}).title}` }));
+  (r.data||[]).forEach(x => items.push({ t:'quiz', id:x.id, time:x.created_at, text:`${x.student || nm(x.student_id) || 'طالب'} أنهى اختباراً: ${(quizzes.find(z=>z.id===x.quiz_id)||{title:'اختبار'}).title} (${x.score}/${x.total})` }));
+  (g.data||[]).forEach(x => items.push({ t:'game', id:x.id, time:x.created_at, text:`${nm(x.student_id) || 'طالب'} لعب ${(GAME_DATA[x.game]||{}).title || x.game} ${x.level} (${x.correct}/${x.total})` }));
+  items.sort((a,b)=> (a.t==='unknown'?0:1) - (b.t==='unknown'?0:1) || b.time.localeCompare(a.time));
+  const prev = bell.items.length, hadUnknown = bell.items.filter(i=>i.t==='unknown').map(i=>i.id);
+  bell.items = items; bell.last = Date.now(); bellBadge();
+  const newUnknown = items.filter(i=>i.t==='unknown' && !hadUnknown.includes(i.id));
+  if(bell.started === 2 && newUnknown.length) toast('⚠ حساب غير معروف سُجّل في الموقع', 'err');
+  else if(bell.started === 2 && items.length > prev) toast('🔔 تنبيه جديد', 'ok');
+  bell.started = 2;
+}
+function bellStart(){
+  if(bell.started || !state.teacher) return;
+  bell.started = 1; bellLoad(); setInterval(() => { if(!document.hidden) bellLoad(); }, 90000);
+  document.addEventListener('visibilitychange', () => { if(!document.hidden && Date.now() - bell.last > 20000) bellLoad(); });
+}
+function bellOpen(){
+  const ic = { unknown:['bell','c-red'], sub:['assign','c-orange'], quiz:['quiz','c-green'], game:['sparkle','c-purple'] };
+  const rows = bell.items.map(i => i.t === 'unknown'
+    ? `<div class="bitem warn"><div class="bi c-red">${I('bell')}</div><div class="bt"><b>⚠ حساب غير معروف</b><span dir="ltr" style="display:block;text-align:right">${esc(i.a.email||'')}</span><small>أُنشئ ${fmtDT(i.time)} — بلا ملف طالب، ولا يرى سوى المحتوى العام</small>
+        <div class="row"><button class="btn sec" data-a="bellDis" data-id="${i.id}">أعرفه، تجاهل</button><button class="btn del" data-a="bellDel" data-id="${i.id}">حذف الحساب</button></div></div></div>`
+    : `<div class="bitem"><div class="bi ${ic[i.t][1]}">${I(ic[i.t][0])}</div><div class="bt"><b dir="auto">${esc(i.text)}</b><small>${fmtDT(i.time)}</small></div></div>`).join('');
+  openModal(`<h3>${I('bell')} التنبيهات</h3>
+    ${bell.noRpc ? `<div class="infobox">كشف الحسابات الغريبة غير مفعّل بعد: شغّل سكربت v9a في Supabase.</div>` : ''}
+    ${rows || '<div class="empty" style="border:0"><div class="eic c-green">' + I('check') + '</div><h4>لا توجد تنبيهات جديدة</h4><p>ستظهر هنا التسليمات والنتائج والحسابات الجديدة.</p></div>'}
+    <div class="actions"><button class="btn lg" data-a="bellRead">تعليم الكل كمقروء</button><button class="btn sec lg" data-a="close">إغلاق</button></div>`, true);
+}
+function bellRead(){ lsSet(BELL_SEEN, new Date().toISOString()); bell.items = bell.items.filter(i=>i.t==='unknown'); bellBadge(); bellOpen(); }
+function bellDis(id){ const d = bellDismissed(); if(!d.includes(id)) d.push(id); lsSet(BELL_DIS, JSON.stringify(d)); bell.items = bell.items.filter(i=>i.id!==id); bellBadge(); bellOpen(); }
+async function bellDel(id){
+  const a = (bell.items.find(i=>i.id===id)||{}).a;
+  if(!confirm('حذف هذا الحساب نهائياً؟\n' + (a ? a.email : ''))) return;
+  const r = await sb.rpc('admin_delete_student', { p_user:id });
+  if(r.error){ toast(errMsg(r.error), 'err'); return; }
+  bell.items = bell.items.filter(i=>i.id!==id); bellBadge(); toast('حُذف الحساب', 'ok'); bellOpen();
+}
+
 /* ---------- لوحة المتابعة (للمدرس) ---------- */
 let trk = { cls:'all', data:null };
 async function loadTrack(){
@@ -2586,7 +2664,7 @@ const H = {
   cat:id=>{ state.cat=id; render(); },
   login, doLogin, logout, seed,
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
-  trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
+  bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
   takeQuiz, startQuiz, submitQuiz, results:showResults,
