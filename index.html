@@ -147,6 +147,11 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
+.ov.full{padding:0;display:block;background:var(--bg,#fff)}
+.modal.full{max-width:860px;width:100%;max-height:none;min-height:100%;border-radius:0;margin:0 auto;overflow:visible;padding:24px 22px 28px}
+.modal.full .actions{position:sticky;bottom:0;background:var(--card,#fff);padding:12px 0 14px;margin-top:18px;border-top:1px solid #e8e2d4;z-index:4}
+.draftbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#e8f5ec;border:1px solid #b9dfc6;color:#17623a;border-radius:12px;padding:10px 14px;margin:0 0 14px;font-size:14px}
+.draftbar .btn{padding:6px 12px;font-size:13px}
 .modal h3{font-size:21px;margin-bottom:16px;padding-left:40px}
 .x{position:absolute;top:16px;left:18px;width:34px;height:34px;border-radius:50%;background:var(--bg);display:grid;place-items:center;z-index:3}
 label.f{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
@@ -814,15 +819,65 @@ function render(){
 }
 
 /* ============ النوافذ ============ */
-function openModal(html, wide){
-  $('#modal').innerHTML = `<div class="ov" data-a="ovclose"><div class="modal ${wide?'wide':''}"><button class="x" data-a="close" aria-label="إغلاق">${I('x','s')}</button>${html}</div></div>`;
+function openModal(html, wide, full){
+  dr = null;
+  $('#modal').innerHTML = `<div class="ov ${full?'full':''}" data-a="ovclose"><div class="modal ${wide?'wide':''} ${full?'full':''}"><button class="x" data-a="close" aria-label="إغلاق">${I('x','s')}</button>${html}</div></div>`;
 }
-function closeModal(){ $('#modal').innerHTML = ''; }
+function closeModal(){ drDrop(); $('#modal').innerHTML = ''; }
+/* ---- مسودات النماذج: حفظ تلقائي واسترجاع ---- */
+let dr = null, drT = null;
+const DR_TXT = 'input:not([type=file]):not([type=password]):not([type=radio]):not([type=checkbox]):not([type=hidden]),textarea';
+const DR_ALL = DR_TXT + ',select';
+const drKey = k => 'fo_draft_' + k;
+function modalHasText(){ const M = $('#modal'); return !!M && [...M.querySelectorAll(DR_TXT)].some(e => e.value.trim() !== ''); }
+function drSave(){
+  if(!dr || !$('#modal .modal')) return;
+  const M = $('#modal');
+  try{
+    if(!modalHasText()){ localStorage.removeItem(drKey(dr.key)); return; }
+    const s = { f:[...M.querySelectorAll(DR_ALL)].map(e=>e.value), c:[...M.querySelectorAll('input[type=radio],input[type=checkbox]')].map(e=>e.checked), qb:M.querySelectorAll('.qb').length };
+    const j = JSON.stringify(s);
+    if(j.length < 700000) localStorage.setItem(drKey(dr.key), j);
+  }catch(e){}
+}
+function drDrop(){ if(dr){ try{ localStorage.removeItem(drKey(dr.key)); }catch(e){} dr = null; } }
+function drStart(key, reopen, fresh){
+  dr = { key, reopen };
+  if(fresh === true) return;
+  let s = null; try{ s = JSON.parse(localStorage.getItem(drKey(key)) || 'null'); }catch(e){}
+  if(!s || !Array.isArray(s.f)) return;
+  const M = $('#modal');
+  if(s.qb > 0 && $('#qlist')){
+    while(M.querySelectorAll('.qb').length > s.qb) { const l = M.querySelectorAll('.qb'); l[l.length-1].remove(); }
+    while(M.querySelectorAll('.qb').length < s.qb) addQBlock();
+    numberQs();
+  }
+  for(let i = 0; i < s.f.length; i++){
+    const el = M.querySelectorAll(DR_ALL)[i]; if(!el) break;
+    if(el.tagName === 'SELECT'){
+      if(el.value !== s.f[i] && [...el.options].some(o=>o.value === s.f[i])){ el.value = s.f[i]; el.dispatchEvent(new Event('change', {bubbles:true})); }
+    } else el.value = s.f[i];
+  }
+  const cs = [...M.querySelectorAll('input[type=radio],input[type=checkbox]')];
+  (s.c || []).forEach((v,i)=>{ if(cs[i]) cs[i].checked = v; });
+  const bar = document.createElement('div'); bar.className = 'draftbar';
+  bar.innerHTML = `<span>✔ استُرجعت مسودتك المحفوظة تلقائياً</span><button type="button" class="btn sec" data-a="draftClear">مسح المسودة وبدء من جديد</button>`;
+  const h = M.querySelector('h3'); if(h) h.after(bar);
+}
+['input','change'].forEach(ev => document.addEventListener(ev, e => {
+  if(!dr || !e.target || !e.target.closest || !e.target.closest('#modal')) return;
+  clearTimeout(drT); drT = setTimeout(drSave, 500);
+}));
+window.addEventListener('pagehide', () => { if(dr) drSave(); });
 let qs = null; // حالة الاختبار الجاري
 function stopTimer(){ if(qs && qs.iv){ clearInterval(qs.iv); qs.iv = null; } }
 function requestClose(){
   if(qs && qs.active && !qs.sub){
     if(!confirm('سيُلغى الاختبار ولن تُحفظ إجاباتك. هل تريد الخروج؟')) return;
+  }
+  if(dr){
+    if(modalHasText() && !confirm('هل تريد الخروج؟\nستُحفظ مسودتك تلقائياً وتجدها عند فتح النموذج مرة أخرى.')) return;
+    drSave(); dr = null;
   }
   stopTimer(); if(qs) qs.active = false;
   closeModal();
@@ -905,7 +960,7 @@ function addQBlock(d){
   }
 }
 function numberQs(){ document.querySelectorAll('#qlist .qb').forEach((b,i)=>b.querySelector('.qn').textContent=i+1); }
-function quizForm(){
+function quizForm(fresh){
   openModal(`
     <h3>إنشاء اختبار جديد</h3>
     <label class="f">عنوان الاختبار *</label>
@@ -940,8 +995,9 @@ function quizForm(){
     <div class="actions">
       <button class="btn sec" type="button" data-a="addq">${I('plus','s')} إضافة سؤال</button>
       <button class="btn lg" id="savebtn" type="button" data-a="saveQuiz">حفظ الاختبار</button>
-    </div>`, true);
+    </div>`, true, true);
   addQBlock(); addQBlock();
+  drStart('quiz', quizForm, fresh);
 }
 async function saveQuiz(){
   const title = $('#z_title').value.trim();
@@ -1056,7 +1112,7 @@ async function startQuiz(id){
     ${resBlock(z)}
     ${z.questions.map((q,i)=>`<div class="q"><div class="qt" dir="auto">${i+1}. ${esc(q.q)}</div>${q.img?`<img class="qpic" src="${esc(imgSrc(q.img))}" alt="">`:''}
       ${q.options.map((o,j)=>`<label class="ch"><input type="radio" name="q${i}" value="${j}"><span dir="auto">${esc(o)}</span></label>`).join('')}</div>`).join('')}
-    <div class="actions"><button class="btn ok lg" id="subbtn" data-a="submitQuiz" data-id="${id}">${I('send','s')} تسليم الإجابات</button></div>`, true);
+    <div class="actions"><button class="btn ok lg" id="subbtn" data-a="submitQuiz" data-id="${id}">${I('send','s')} تسليم الإجابات</button></div>`, true, true);
   if(z.time_limit_min){
     qs.end = Date.now() + (rem != null ? rem*1000 : z.time_limit_min*60000);
     const tick = () => {
@@ -1121,7 +1177,7 @@ async function showResults(id){
 }
 
 /* ---------- الواجبات ---------- */
-function assignForm(){
+function assignForm(fresh){
   openModal(`
     <h3>إضافة واجب جديد</h3>
     <form id="asf">
@@ -1140,7 +1196,8 @@ function assignForm(){
       <div class="drop">ملف مرفق مع الواجب (PDF أو صورة أو غيره) — اختياري<br><input type="file" id="a_file"></div>
       <div class="progress" id="prog"><i></i></div>
       <div class="actions"><button class="btn lg" id="asbtn" type="submit">حفظ الواجب</button><button class="btn sec lg" type="button" data-a="close">إلغاء</button></div>
-    </form>`);
+    </form>`, false, true);
+  drStart('assign', assignForm, fresh);
   $('#asf').onsubmit = async e => {
     e.preventDefault();
     const extRaw = $('#a_ext').value.trim(); const ext = extRaw ? normUrl(extRaw) : null;
@@ -2086,14 +2143,15 @@ function giRead(game){
   }
   d.en = en; return d;
 }
-function giForm(){
+function giForm(fresh){
   openModal(`<h3>إضافة سؤال للألعاب</h3>
     <div class="infobox">الأسئلة تُضاف إلى الأسئلة الجاهزة وتظهر للطلاب في اللعبة نفسها. الإجابات الصحيحة تُخزَّن مع السؤال، فاستعملها للتدريب وليس للتقييم الرسمي.</div>
     <label class="f" for="gi_game">نوع اللعبة</label><select class="in" id="gi_game">${GI_TYPES.map(([k,t])=>`<option value="${k}">${t}</option>`).join('')}</select>
     <div class="gi2"><div><label class="f" for="gi_level">المستوى</label><select class="in" id="gi_level">${GAME_LEVELS.map(([c,n])=>`<option value="${c}">${c} — ${n}</option>`).join('')}</select></div>
     <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div></div>
     <div id="gi_fields">${giFields('mcq')}</div>
-    <div class="actions"><button class="btn" data-a="giSave">${I('check','s')} حفظ السؤال</button><button class="btn sec" data-a="close">إلغاء</button></div>`, true);
+    <div class="actions"><button class="btn" data-a="giSave">${I('check','s')} حفظ السؤال</button><button class="btn sec" data-a="close">إلغاء</button></div>`, true, true);
+  drStart('gi', giForm, fresh);
 }
 document.addEventListener('change', e => { if(e.target && e.target.id==='gi_game'){ const f = document.getElementById('gi_fields'); if(f) f.innerHTML = giFields(e.target.value); } });
 async function giInsert(rows){
@@ -2398,7 +2456,7 @@ const H = {
   cat:id=>{ state.cat=id; render(); },
   login, doLogin, logout, seed,
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
-  addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
+  draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
   takeQuiz, startQuiz, submitQuiz, results:showResults,
@@ -2411,7 +2469,7 @@ const H = {
 document.addEventListener('click', e=>{
   const el = e.target.closest('[data-a]'); if(!el) return;
   if(el.tagName==='A') e.preventDefault();
-  if(el.dataset.a==='ovclose'){ if(e.target===el) requestClose(); return; }
+  if(el.dataset.a==='ovclose'){ if(e.target===el && !el.classList.contains('full') && !modalHasText()) requestClose(); return; }
   if(el.dataset.a==='search') return;
   H[el.dataset.a]?.(el.dataset.id, el);
 });
