@@ -2685,112 +2685,323 @@ document.addEventListener('keydown', e => {
 
 /* المفردات: [الفرنسية, العربية, English] */
 const VOC = {
-A1: [
- { id:'a1-greet', ar:'التحيات والتعارف', fr:'Salutations', w:[
-  ['Bonjour','مرحباً / صباح الخير','Hello / Good morning'],['Bonsoir','مساء الخير','Good evening'],['Salut','أهلاً (للأصدقاء)','Hi'],
-  ['Au revoir','مع السلامة','Goodbye'],['À bientôt','إلى اللقاء قريباً','See you soon'],['Merci','شكراً','Thank you'],
-  ["S'il vous plaît",'من فضلك','Please'],['De rien','عفواً (رداً على الشكر)',"You're welcome"],['Excusez-moi','المعذرة','Excuse me'],
-  ['Pardon','آسف / عفواً','Sorry'],['Comment allez-vous ?','كيف حالك؟','How are you?'],["Je m'appelle…",'اسمي…','My name is…'],
-  ['Enchanté(e)','تشرفت بمعرفتك','Nice to meet you'],['Oui','نعم','Yes'],['Non','لا','No'] ]},
- { id:'a1-num', ar:'الأرقام', fr:'Les nombres', w:[
-  ['un','واحد (1)','one'],['deux','اثنان (2)','two'],['trois','ثلاثة (3)','three'],['quatre','أربعة (4)','four'],['cinq','خمسة (5)','five'],
-  ['six','ستة (6)','six'],['sept','سبعة (7)','seven'],['huit','ثمانية (8)','eight'],['neuf','تسعة (9)','nine'],['dix','عشرة (10)','ten'],
-  ['onze','أحد عشر (11)','eleven'],['douze','اثنا عشر (12)','twelve'],['vingt','عشرون (20)','twenty'],['trente','ثلاثون (30)','thirty'],['cent','مئة (100)','one hundred'] ]},
- { id:'a1-col', ar:'الألوان', fr:'Les couleurs', w:[
-  ['rouge','أحمر','red'],['bleu','أزرق','blue'],['vert','أخضر','green'],['jaune','أصفر','yellow'],['noir','أسود','black'],['blanc','أبيض','white'],
-  ['gris','رمادي','gray'],['orange','برتقالي','orange'],['rose','وردي','pink'],['marron','بني','brown'],['violet','بنفسجي','purple'] ]},
- { id:'a1-fam', ar:'العائلة', fr:'La famille', w:[
-  ['la famille','العائلة','the family'],['la mère','الأم','the mother'],['le père','الأب','the father'],['le frère','الأخ','the brother'],['la sœur','الأخت','the sister'],
-  ['le fils','الابن','the son'],['la fille','البنت','the daughter'],['le grand-père','الجد','the grandfather'],['la grand-mère','الجدة','the grandmother'],
-  ["l'oncle",'العم / الخال','the uncle'],['la tante','العمة / الخالة','the aunt'],['le cousin','ابن العم / ابن الخال','the cousin'],
-  ["l'ami",'الصديق','the friend'],['le mari','الزوج','the husband'],['la femme','الزوجة / المرأة','the wife / the woman'] ]},
- { id:'a1-food', ar:'الطعام والشراب', fr:'La nourriture', w:[
-  ['le pain','الخبز','bread'],["l'eau",'الماء','water'],['le lait','الحليب','milk'],['le café','القهوة','coffee'],['le thé','الشاي','tea'],['le jus','العصير','juice'],
-  ['le fromage','الجبن','cheese'],["l'œuf",'البيضة','the egg'],['la viande','اللحم','meat'],['le poisson','السمك','fish'],['le poulet','الدجاج','chicken'],
-  ['le riz','الأرز','rice'],['la pomme','التفاحة','the apple'],['la banane','الموزة','the banana'],["l'orange",'البرتقالة','the orange'],['le fruit','الفاكهة','fruit'],
-  ['le légume','الخضار','vegetable'],['la salade','السلطة','salad'],['le gâteau','الكعكة','cake'],['le sucre','السكر','sugar'],['le sel','الملح','salt'] ]},
- { id:'a1-days', ar:'الأيام والوقت', fr:'Les jours et le temps', w:[
-  ['lundi','الاثنين','Monday'],['mardi','الثلاثاء','Tuesday'],['mercredi','الأربعاء','Wednesday'],['jeudi','الخميس','Thursday'],['vendredi','الجمعة','Friday'],
-  ['samedi','السبت','Saturday'],['dimanche','الأحد','Sunday'],["aujourd'hui",'اليوم','today'],['demain','غداً','tomorrow'],['hier','أمس','yesterday'],
-  ['la semaine','الأسبوع','the week'],['le mois','الشهر','the month'],["l'année",'السنة','the year'],['le matin','الصباح','the morning'],['le soir','المساء','the evening'] ]},
- { id:'a1-school', ar:'في المدرسة', fr:"À l'école", w:[
-  ["l'école",'المدرسة','the school'],['le professeur','المعلّم','the teacher'],["l'élève",'التلميذ','the pupil'],['la classe','الفصل','the class'],['le livre','الكتاب','the book'],
-  ['le cahier','الدفتر','the notebook'],['le stylo','القلم','the pen'],['le crayon','قلم الرصاص','the pencil'],['le tableau','السبورة','the board'],['le sac','الحقيبة','the bag'],
-  ['la table','الطاولة','the table'],['la chaise','الكرسي','the chair'],['la porte','الباب','the door'],['la fenêtre','النافذة','the window'] ]},
- { id:'a1-animals', ar:'الحيوانات', fr:'Les animaux', w:[
-  ['le chat','القط','the cat'],['le chien','الكلب','the dog'],['le cheval','الحصان','the horse'],['la vache','البقرة','the cow'],['le mouton','الخروف','the sheep'],
-  ["l'oiseau",'الطائر','the bird'],['le lion','الأسد','the lion'],["l'éléphant",'الفيل','the elephant'],['le lapin','الأرنب','the rabbit'],['le singe','القرد','the monkey'],
-  ['la souris','الفأر','the mouse'],['le canard','البطة','the duck'] ]},
- { id:'a1-home', ar:'البيت', fr:'La maison', w:[
-  ['la maison','البيت','the house'],['la chambre','غرفة النوم','the bedroom'],['la cuisine','المطبخ','the kitchen'],['la salle de bain','الحمام','the bathroom'],
-  ['le salon','غرفة الجلوس','the living room'],['le jardin','الحديقة','the garden'],['le lit','السرير','the bed'],['la lampe','المصباح','the lamp'],
-  ['le canapé','الأريكة','the sofa'],['le miroir','المرآة','the mirror'],['la clé','المفتاح','the key'],['la télévision','التلفاز','the television'],
-  ['le toit','السقف','the roof'],["l'escalier",'السلّم','the stairs'] ]},
- { id:'a1-verbs', ar:'أفعال أساسية', fr:'Verbes de base', w:[
-  ['être','يكون','to be'],['avoir','يملك','to have'],['aller','يذهب','to go'],['faire','يفعل / يصنع','to do / to make'],['manger','يأكل','to eat'],['boire','يشرب','to drink'],
-  ['parler','يتكلم','to speak'],['aimer','يحب','to like / to love'],['vouloir','يريد','to want'],['pouvoir','يستطيع','to be able to'],['voir','يرى','to see'],['venir','يأتي','to come'] ]}
-],
-A2: [
- { id:'a2-clothes', ar:'الملابس', fr:'Les vêtements', w:[
-  ['la chemise','القميص','the shirt'],['le pantalon','البنطال','the trousers'],['la robe','الفستان','the dress'],['la jupe','التنورة','the skirt'],['le manteau','المعطف','the coat'],
-  ['la veste','السترة','the jacket'],['le pull','الكنزة','the sweater'],['les chaussures','الأحذية','the shoes'],['les chaussettes','الجوارب','the socks'],['le chapeau','القبعة','the hat'],
-  ["l'écharpe",'الوشاح','the scarf'],['les lunettes','النظارات','the glasses'],['la ceinture','الحزام','the belt'] ]},
- { id:'a2-city', ar:'المدينة والاتجاهات', fr:'La ville', w:[
-  ['la ville','المدينة','the city'],['la rue','الشارع','the street'],['la place','الساحة','the square'],['le magasin','المتجر','the shop'],['le marché','السوق','the market'],
-  ['la banque','البنك','the bank'],["l'hôpital",'المستشفى','the hospital'],['la pharmacie','الصيدلية','the pharmacy'],['la gare','محطة القطار','the train station'],
-  ["l'aéroport",'المطار','the airport'],['le pont','الجسر','the bridge'],['le musée','المتحف','the museum'],['le restaurant','المطعم','the restaurant'],
-  ['la poste','مكتب البريد','the post office'],['le parc','الحديقة العامة','the park'],["l'hôtel",'الفندق','the hotel'],
-  ['à gauche','إلى اليسار','on the left'],['à droite','إلى اليمين','on the right'],['tout droit','مباشرةً إلى الأمام','straight ahead'] ]},
- { id:'a2-weather', ar:'الطقس والفصول', fr:'La météo', w:[
-  ['le soleil','الشمس','the sun'],['la pluie','المطر','the rain'],['la neige','الثلج','the snow'],['le vent','الرياح','the wind'],['le nuage','السحابة','the cloud'],
-  ["l'orage",'العاصفة الرعدية','the storm'],['chaud','حار','hot'],['froid','بارد','cold'],['il fait beau','الطقس جميل','the weather is nice'],['il pleut','تمطر','it is raining'],
-  ['la température','درجة الحرارة','the temperature'],['le printemps','الربيع','spring'],["l'été",'الصيف','summer'],["l'automne",'الخريف','autumn'],["l'hiver",'الشتاء','winter'] ]},
- { id:'a2-jobs', ar:'المهن', fr:'Les métiers', w:[
-  ['le médecin','الطبيب','the doctor'],["l'infirmier",'الممرّض','the nurse'],["l'ingénieur",'المهندس','the engineer'],["l'avocat",'المحامي','the lawyer'],
-  ['le boulanger','الخبّاز','the baker'],['le cuisinier','الطبّاخ','the cook'],['le chauffeur','السائق','the driver'],['le policier','الشرطي','the police officer'],
-  ['le pilote','الطيّار','the pilot'],["l'agriculteur",'المزارع','the farmer'],['le vendeur','البائع','the salesman'],['le journaliste','الصحفي','the journalist'],
-  ["l'artiste",'الفنان','the artist'],['le dentiste','طبيب الأسنان','the dentist'] ]},
- { id:'a2-travel', ar:'السفر', fr:'Le voyage', w:[
-  ['le voyage','الرحلة','the trip'],['le billet','التذكرة','the ticket'],['la valise','الحقيبة (السفر)','the suitcase'],['le passeport','جواز السفر','the passport'],
-  ['le train','القطار','the train'],["l'avion",'الطائرة','the plane'],['la voiture','السيارة','the car'],['le bus','الحافلة','the bus'],['le vélo','الدراجة','the bicycle'],
-  ['le bateau','القارب / السفينة','the boat'],['le départ','المغادرة','the departure'],["l'arrivée",'الوصول','the arrival'],['la réservation','الحجز','the booking'],
-  ['la carte','الخريطة / البطاقة','the map / the card'],['la plage','الشاطئ','the beach'],['la mer','البحر','the sea'],['la montagne','الجبل','the mountain'],['le touriste','السائح','the tourist'] ]},
- { id:'a2-health', ar:'الجسم والصحة', fr:'Le corps et la santé', w:[
-  ['la tête','الرأس','the head'],['le bras','الذراع','the arm'],['la main','اليد','the hand'],['le pied','القدم','the foot'],['la jambe','الساق','the leg'],
-  ["l'œil (pl. les yeux)",'العين','the eye'],['la bouche','الفم','the mouth'],['le nez','الأنف','the nose'],["l'oreille",'الأذن','the ear'],['le dos','الظهر','the back'],
-  ['le ventre','البطن','the belly'],['le cœur','القلب','the heart'],['la fièvre','الحمّى','the fever'],['le rhume','الزكام','the cold'],['la toux','السعال','the cough'],
-  ['la douleur','الألم','the pain'],['le médicament','الدواء','the medicine'],['le rendez-vous','الموعد','the appointment'],['malade','مريض','sick'],['en bonne santé','بصحة جيدة','healthy'] ]},
- { id:'a2-verbs', ar:'أفعال شائعة', fr:'Verbes courants', w:[
-  ['se lever','ينهض من النوم','to get up'],['se coucher','يذهب إلى النوم','to go to bed'],['travailler','يعمل','to work'],['étudier','يدرس','to study'],['acheter','يشتري','to buy'],
-  ['vendre','يبيع','to sell'],['prendre','يأخذ','to take'],['donner','يعطي','to give'],['regarder','يشاهد / ينظر','to watch / to look'],['écouter','يستمع','to listen'],
-  ['écrire','يكتب','to write'],['lire','يقرأ','to read'],['comprendre','يفهم','to understand'],['choisir','يختار','to choose'],['finir','ينهي','to finish'],
-  ['ouvrir','يفتح','to open'],['fermer','يغلق','to close'],['attendre','ينتظر','to wait'],['chercher','يبحث','to look for'],['trouver','يجد','to find'] ]}
-],
-B1: [
- { id:'b1-work', ar:'العمل والوظيفة', fr:'Le travail', w:[
-  ['le travail','العمل','work'],["l'entreprise",'الشركة','the company'],['le patron','المدير / رب العمل','the boss'],['le collègue','الزميل','the colleague'],['le salaire','الراتب','the salary'],
-  ['le contrat','العقد','the contract'],['la réunion','الاجتماع','the meeting'],["l'emploi",'الوظيفة','the job'],['le chômage','البطالة','unemployment'],['la candidature','طلب التوظيف','the application'],
-  ["l'entretien",'المقابلة','the interview'],['le CV','السيرة الذاتية','the CV'],["l'expérience",'الخبرة','the experience'],['le congé','الإجازة','the leave'],
-  ['embaucher','يوظّف','to hire'],['démissionner','يستقيل','to resign'],['licencier','يفصل من العمل','to dismiss'],['gagner','يكسب','to earn / to win'] ]},
- { id:'b1-emo', ar:'المشاعر', fr:'Les émotions', w:[
-  ['la joie','الفرح','joy'],['la tristesse','الحزن','sadness'],['la colère','الغضب','anger'],['la peur','الخوف','fear'],['la surprise','المفاجأة','surprise'],["l'inquiétude",'القلق','worry'],
-  ['la fierté','الفخر','pride'],['la honte','الخجل / العار','shame'],["l'espoir",'الأمل','hope'],['la confiance','الثقة','trust'],['la jalousie','الغيرة','jealousy'],
-  ['la déception','خيبة الأمل','disappointment'],['content','سعيد','happy'],['fâché','غاضب','angry'],['déçu','خائب الأمل','disappointed'],['inquiet','قلق','worried'],['soulagé','مرتاح','relieved'] ]},
- { id:'b1-env', ar:'البيئة', fr:"L'environnement", w:[
-  ["l'environnement",'البيئة','the environment'],['la pollution','التلوث','pollution'],['le réchauffement climatique','الاحترار المناخي','global warming'],['le recyclage','إعادة التدوير','recycling'],
-  ['les déchets','النفايات','waste'],["l'énergie",'الطاقة','energy'],['la forêt','الغابة','the forest'],['la planète','الكوكب','the planet'],['la nature','الطبيعة','nature'],
-  ['la sécheresse','الجفاف','the drought'],["l'inondation",'الفيضان','the flood'],['protéger','يحمي','to protect'],['gaspiller','يهدر','to waste'],['économiser','يوفّر','to save'],['polluer','يلوّث','to pollute'] ]},
- { id:'b1-tech', ar:'التكنولوجيا', fr:'La technologie', w:[
-  ["l'ordinateur",'الحاسوب','the computer'],['le téléphone portable','الهاتف المحمول','the mobile phone'],["l'application",'التطبيق','the app'],['le site web','الموقع الإلكتروني','the website'],
-  ['le mot de passe','كلمة المرور','the password'],['le courriel','البريد الإلكتروني','the email'],['le réseau social','شبكة التواصل الاجتماعي','the social network'],['le fichier','الملف','the file'],
-  ["l'écran",'الشاشة','the screen'],['le clavier','لوحة المفاتيح','the keyboard'],['la batterie','البطارية','the battery'],["l'intelligence artificielle",'الذكاء الاصطناعي','artificial intelligence'],
-  ['télécharger','يحمّل (ملفاً)','to download'],['envoyer','يرسل','to send'],['se connecter','يسجّل الدخول / يتصل','to log in / to connect'] ]},
- { id:'b1-link', ar:'أدوات الربط والتعابير', fr:'Connecteurs et expressions', w:[
-  ['pourtant','ومع ذلك','however'],['cependant','غير أنّ','however'],['donc','إذن','so / therefore'],['parce que','لأنّ','because'],["d'abord",'أولاً','first'],
-  ['ensuite','بعد ذلك','then'],['enfin','أخيراً','finally'],['en plus','إضافةً إلى ذلك','moreover'],['par exemple','مثلاً','for example'],['à mon avis','في رأيي','in my opinion'],
-  ['je pense que','أعتقد أنّ','I think that'],["être d'accord",'يوافق','to agree'],['malgré','رغم','despite'],['grâce à','بفضل','thanks to'],['à cause de','بسبب','because of'],
-  ['quand même','مع ذلك / رغم كل شيء','all the same'],['peut-être','ربما','maybe'] ]}
-]
+ A1: [
+  { id:"a1-greet", ar:"التحيات والتعارف", fr:"Salutations", w:[
+   ["Bonjour","مرحباً / صباح الخير","Hello / Good morning"],["Bonsoir","مساء الخير","Good evening"],["Salut","أهلاً (للأصدقاء)","Hi"],
+   ["Au revoir","مع السلامة","Goodbye"],["À bientôt","إلى اللقاء قريباً","See you soon"],["Merci","شكراً","Thank you"],
+   ["S'il vous plaît","من فضلك","Please"],["De rien","عفواً (رداً على الشكر)","You're welcome"],["Excusez-moi","المعذرة","Excuse me"],
+   ["Pardon","آسف / عفواً","Sorry"],["Comment allez-vous ?","كيف حالك؟","How are you?"],["Je m'appelle…","اسمي…","My name is…"],
+   ["Enchanté(e)","تشرفت بمعرفتك","Nice to meet you"],["Oui","نعم","Yes"],["Non","لا","No"],
+   ["Bonne nuit","ليلة سعيدة","Good night"],["Bonne journée","يوماً سعيداً","Have a nice day"],["Bienvenue","أهلاً بك","Welcome"],
+   ["Ça va ?","كيف الحال؟","How is it going?"],["Très bien","جيد جداً","Very well"],["Je ne comprends pas","لا أفهم","I don't understand"],
+   ["Répétez, s’il vous plaît","أعد من فضلك","Please repeat"],["Monsieur","سيد","Mr / Sir"],["Madame","سيدة","Mrs / Madam"]
+  ]},
+  { id:"a1-pron", ar:"الضمائر", fr:"Les pronoms", w:[
+   ["je","أنا","I"],["tu","أنتَ (للمفرد المقرّب)","you (informal)"],["il","هو","he"],
+   ["elle","هي","she"],["on","نحن / الناس (للعموم)","we / one"],["nous","نحن","we"],
+   ["vous","أنتم / حضرتك","you (plural / formal)"],["ils","هم","they (m)"],["elles","هنّ","they (f)"]
+  ]},
+  { id:"a1-q", ar:"كلمات الاستفهام", fr:"Les mots interrogatifs", w:[
+   ["qui","من","who"],["que / quoi","ماذا","what"],["où","أين","where"],
+   ["quand","متى","when"],["pourquoi","لماذا","why"],["comment","كيف","how"],
+   ["combien","كم","how much / how many"],["quel / quelle","أيّ","which"]
+  ]},
+  { id:"a1-num", ar:"الأرقام", fr:"Les nombres", w:[
+   ["zéro","صفر (0)","zero"],["un","واحد (1)","one"],["deux","اثنان (2)","two"],
+   ["trois","ثلاثة (3)","three"],["quatre","أربعة (4)","four"],["cinq","خمسة (5)","five"],
+   ["six","ستة (6)","six"],["sept","سبعة (7)","seven"],["huit","ثمانية (8)","eight"],
+   ["neuf","تسعة (9)","nine"],["dix","عشرة (10)","ten"],["onze","أحد عشر (11)","eleven"],
+   ["douze","اثنا عشر (12)","twelve"],["treize","ثلاثة عشر (13)","thirteen"],["quatorze","أربعة عشر (14)","fourteen"],
+   ["quinze","خمسة عشر (15)","fifteen"],["seize","ستة عشر (16)","sixteen"],["dix-sept","سبعة عشر (17)","seventeen"],
+   ["dix-huit","ثمانية عشر (18)","eighteen"],["dix-neuf","تسعة عشر (19)","nineteen"],["vingt","عشرون (20)","twenty"],
+   ["vingt et un","واحد وعشرون (21)","twenty-one"],["trente","ثلاثون (30)","thirty"],["quarante","أربعون (40)","forty"],
+   ["cinquante","خمسون (50)","fifty"],["soixante","ستون (60)","sixty"],["soixante-dix","سبعون (70)","seventy"],
+   ["quatre-vingts","ثمانون (80)","eighty"],["quatre-vingt-dix","تسعون (90)","ninety"],["cent","مئة (100)","one hundred"],
+   ["mille","ألف (1000)","one thousand"]
+  ]},
+  { id:"a1-qty", ar:"الترتيب والكمية", fr:"Rang et quantité", w:[
+   ["premier","الأول","first"],["deuxième","الثاني","second"],["troisième","الثالث","third"],
+   ["dernier","الأخير","last"],["beaucoup","كثير","a lot"],["peu","قليل","little"],
+   ["un peu","قليلاً","a little"],["plus","أكثر","more"],["moins","أقل","less"],
+   ["assez","كافٍ / بما فيه الكفاية","enough"],["tout","كل","all"],["trop","أكثر من اللازم","too much"]
+  ]},
+  { id:"a1-col", ar:"الألوان", fr:"Les couleurs", w:[
+   ["rouge","أحمر","red"],["bleu","أزرق","blue"],["vert","أخضر","green"],
+   ["jaune","أصفر","yellow"],["noir","أسود","black"],["blanc","أبيض","white"],
+   ["gris","رمادي","gray"],["orange","برتقالي","orange"],["rose","وردي","pink"],
+   ["marron","بني","brown"],["violet","بنفسجي","purple"],["la couleur","اللون","the colour"],
+   ["clair","فاتح","light"],["foncé","غامق","dark"]
+  ]},
+  { id:"a1-fam", ar:"العائلة", fr:"La famille", w:[
+   ["la famille","العائلة","the family"],["la mère","الأم","the mother"],["le père","الأب","the father"],
+   ["le frère","الأخ","the brother"],["la sœur","الأخت","the sister"],["le fils","الابن","the son"],
+   ["la fille","البنت","the daughter"],["le grand-père","الجد","the grandfather"],["la grand-mère","الجدة","the grandmother"],
+   ["l'oncle","العم / الخال","the uncle"],["la tante","العمة / الخالة","the aunt"],["le cousin","ابن العم / ابن الخال","the cousin"],
+   ["l'ami","الصديق","the friend"],["le mari","الزوج","the husband"],["la femme","الزوجة / المرأة","the wife / the woman"],
+   ["l'enfant","الطفل","the child"],["le bébé","الرضيع","the baby"],["le garçon","الولد","the boy"],
+   ["les parents","الوالدان","the parents"],["le voisin","الجار","the neighbour"]
+  ]},
+  { id:"a1-food", ar:"الطعام والشراب", fr:"La nourriture", w:[
+   ["le pain","الخبز","bread"],["l'eau","الماء","water"],["le lait","الحليب","milk"],
+   ["le café","القهوة","coffee"],["le thé","الشاي","tea"],["le jus","العصير","juice"],
+   ["le fromage","الجبن","cheese"],["l'œuf","البيضة","the egg"],["la viande","اللحم","meat"],
+   ["le poisson","السمك","fish"],["le poulet","الدجاج","chicken"],["le riz","الأرز","rice"],
+   ["la pomme","التفاحة","the apple"],["la banane","الموزة","the banana"],["l'orange","البرتقالة","the orange"],
+   ["le fruit","الفاكهة","fruit"],["le légume","الخضار","vegetable"],["la salade","السلطة","salad"],
+   ["le gâteau","الكعكة","cake"],["le sucre","السكر","sugar"],["le sel","الملح","salt"],
+   ["le petit déjeuner","الفطور","breakfast"],["le déjeuner","الغداء","lunch"],["le dîner","العشاء","dinner"],
+   ["la soupe","الشوربة","soup"],["le beurre","الزبدة","butter"],["la tomate","الطماطم","the tomato"],
+   ["la pomme de terre","البطاطس","the potato"],["l'oignon","البصل","the onion"],["la carotte","الجزرة","the carrot"],
+   ["le chocolat","الشوكولاتة","chocolate"],["la glace","الآيس كريم","ice cream"],["le miel","العسل","honey"],
+   ["le raisin","العنب","grapes"],["la fraise","الفراولة","the strawberry"],["la datte","التمرة","the date"]
+  ]},
+  { id:"a1-days", ar:"الأيام والوقت", fr:"Les jours et le temps", w:[
+   ["lundi","الاثنين","Monday"],["mardi","الثلاثاء","Tuesday"],["mercredi","الأربعاء","Wednesday"],
+   ["jeudi","الخميس","Thursday"],["vendredi","الجمعة","Friday"],["samedi","السبت","Saturday"],
+   ["dimanche","الأحد","Sunday"],["aujourd'hui","اليوم","today"],["demain","غداً","tomorrow"],
+   ["hier","أمس","yesterday"],["la semaine","الأسبوع","the week"],["le mois","الشهر","the month"],
+   ["l'année","السنة","the year"],["le matin","الصباح","the morning"],["le soir","المساء","the evening"]
+  ]},
+  { id:"a1-months", ar:"الشهور", fr:"Les mois", w:[
+   ["janvier","يناير","January"],["février","فبراير","February"],["mars","مارس","March"],
+   ["avril","أبريل","April"],["mai","مايو","May"],["juin","يونيو","June"],
+   ["juillet","يوليو","July"],["août","أغسطس","August"],["septembre","سبتمبر","September"],
+   ["octobre","أكتوبر","October"],["novembre","نوفمبر","November"],["décembre","ديسمبر","December"]
+  ]},
+  { id:"a1-school", ar:"في المدرسة", fr:"À l'école", w:[
+   ["l'école","المدرسة","the school"],["le professeur","المعلّم","the teacher"],["l'élève","التلميذ","the pupil"],
+   ["la classe","الفصل","the class"],["le livre","الكتاب","the book"],["le cahier","الدفتر","the notebook"],
+   ["le stylo","القلم","the pen"],["le crayon","قلم الرصاص","the pencil"],["le tableau","السبورة","the board"],
+   ["le sac","الحقيبة","the bag"],["la table","الطاولة","the table"],["la chaise","الكرسي","the chair"],
+   ["la porte","الباب","the door"],["la fenêtre","النافذة","the window"],["la salle de classe","قاعة الدرس","the classroom"],
+   ["la leçon","الدرس","the lesson"],["la question","السؤال","the question"],["la réponse","الجواب","the answer"],
+   ["la règle","المسطرة","the ruler"],["la gomme","الممحاة","the eraser"],["la trousse","مقلمة","the pencil case"]
+  ]},
+  { id:"a1-animals", ar:"الحيوانات", fr:"Les animaux", w:[
+   ["le chat","القط","the cat"],["le chien","الكلب","the dog"],["le cheval","الحصان","the horse"],
+   ["la vache","البقرة","the cow"],["le mouton","الخروف","the sheep"],["l'oiseau","الطائر","the bird"],
+   ["le lion","الأسد","the lion"],["l'éléphant","الفيل","the elephant"],["le lapin","الأرنب","the rabbit"],
+   ["le singe","القرد","the monkey"],["la souris","الفأر","the mouse"],["le canard","البطة","the duck"],
+   ["la poule","الدجاجة","the hen"],["l'âne","الحمار","the donkey"],["le loup","الذئب","the wolf"],
+   ["le tigre","النمر","the tiger"],["le serpent","الثعبان","the snake"],["la girafe","الزرافة","the giraffe"],
+   ["l'ours","الدب","the bear"],["le papillon","الفراشة","the butterfly"]
+  ]},
+  { id:"a1-home", ar:"البيت", fr:"La maison", w:[
+   ["la maison","البيت","the house"],["la chambre","غرفة النوم","the bedroom"],["la cuisine","المطبخ","the kitchen"],
+   ["la salle de bain","الحمام","the bathroom"],["le salon","غرفة الجلوس","the living room"],["le jardin","الحديقة","the garden"],
+   ["le lit","السرير","the bed"],["la lampe","المصباح","the lamp"],["le canapé","الأريكة","the sofa"],
+   ["le miroir","المرآة","the mirror"],["la clé","المفتاح","the key"],["la télévision","التلفاز","the television"],
+   ["le toit","السقف","the roof"],["l'escalier","السلّم","the stairs"],["le bureau","المكتب","the desk"],
+   ["l'armoire","الخزانة","the wardrobe"],["le tapis","السجادة","the carpet"],["le mur","الجدار","the wall"],
+   ["la douche","الدش","the shower"],["le frigo","الثلاجة","the fridge"],["le téléphone","الهاتف","the telephone"]
+  ]},
+  { id:"a1-verbs", ar:"أفعال أساسية", fr:"Verbes de base", w:[
+   ["être","يكون","to be"],["avoir","يملك","to have"],["aller","يذهب","to go"],
+   ["faire","يفعل / يصنع","to do / to make"],["manger","يأكل","to eat"],["boire","يشرب","to drink"],
+   ["parler","يتكلم","to speak"],["aimer","يحب","to like / to love"],["vouloir","يريد","to want"],
+   ["pouvoir","يستطيع","to be able to"],["voir","يرى","to see"],["venir","يأتي","to come"],
+   ["habiter","يسكن","to live"],["jouer","يلعب","to play"],["dormir","ينام","to sleep"],
+   ["savoir","يعرف (معلومة)","to know"],["dire","يقول","to say"],["aider","يساعد","to help"],
+   ["demander","يسأل / يطلب","to ask"],["répondre","يجيب","to answer"],["apprendre","يتعلم","to learn"],
+   ["appeler","ينادي / يتّصل","to call"]
+  ]}
+ ],
+ A2: [
+  { id:"a2-clothes", ar:"الملابس", fr:"Les vêtements", w:[
+   ["la chemise","القميص","the shirt"],["le pantalon","البنطال","the trousers"],["la robe","الفستان","the dress"],
+   ["la jupe","التنورة","the skirt"],["le manteau","المعطف","the coat"],["la veste","السترة","the jacket"],
+   ["le pull","الكنزة","the sweater"],["les chaussures","الأحذية","the shoes"],["les chaussettes","الجوارب","the socks"],
+   ["le chapeau","القبعة","the hat"],["l'écharpe","الوشاح","the scarf"],["les lunettes","النظارات","the glasses"],
+   ["la ceinture","الحزام","the belt"],["porter","يرتدي / يحمل","to wear / to carry"],["essayer","يجرّب","to try on / to try"],
+   ["la taille","المقاس","the size"],["la poche","الجيب","the pocket"],["le bouton","الزر","the button"],
+   ["la cravate","ربطة العنق","the tie"],["le sac à main","حقيبة اليد","the handbag"]
+  ]},
+  { id:"a2-city", ar:"المدينة والاتجاهات", fr:"La ville", w:[
+   ["la ville","المدينة","the city"],["la rue","الشارع","the street"],["la place","الساحة","the square"],
+   ["le magasin","المتجر","the shop"],["le marché","السوق","the market"],["la banque","البنك","the bank"],
+   ["l'hôpital","المستشفى","the hospital"],["la pharmacie","الصيدلية","the pharmacy"],["la gare","محطة القطار","the train station"],
+   ["l'aéroport","المطار","the airport"],["le pont","الجسر","the bridge"],["le musée","المتحف","the museum"],
+   ["le restaurant","المطعم","the restaurant"],["la poste","مكتب البريد","the post office"],["le parc","الحديقة العامة","the park"],
+   ["l'hôtel","الفندق","the hotel"],["à gauche","إلى اليسار","on the left"],["à droite","إلى اليمين","on the right"],
+   ["tout droit","مباشرةً إلى الأمام","straight ahead"],["le bureau de poste","مكتب البريد","the post office (office)"],["la bibliothèque","المكتبة","the library"],
+   ["le cinéma","السينما","the cinema"],["le carrefour","مفترق الطرق","the crossroads"],["le feu rouge","إشارة المرور","the traffic light"],
+   ["la boulangerie","المخبز","the bakery"],["le supermarché","السوبرماركت","the supermarket"],["la mairie","البلدية","the town hall"],
+   ["la piscine","المسبح","the swimming pool"],["le stade","الملعب","the stadium"],["près de","بالقرب من","near"],
+   ["loin de","بعيداً عن","far from"],["en face de","مقابل","opposite"],["à côté de","بجانب","next to"],
+   ["devant","أمام","in front of"],["derrière","خلف","behind"]
+  ]},
+  { id:"a2-weather", ar:"الطقس والفصول", fr:"La météo", w:[
+   ["le soleil","الشمس","the sun"],["la pluie","المطر","the rain"],["la neige","الثلج","the snow"],
+   ["le vent","الرياح","the wind"],["le nuage","السحابة","the cloud"],["l'orage","العاصفة الرعدية","the storm"],
+   ["chaud","حار","hot"],["froid","بارد","cold"],["il fait beau","الطقس جميل","the weather is nice"],
+   ["il pleut","تمطر","it is raining"],["la température","درجة الحرارة","the temperature"],["le printemps","الربيع","spring"],
+   ["l'été","الصيف","summer"],["l'automne","الخريف","autumn"],["l'hiver","الشتاء","winter"],
+   ["le ciel","السماء","the sky"],["le brouillard","الضباب","the fog"],["la tempête","العاصفة","the storm"],
+   ["humide","رطب","humid"],["sec","جاف","dry"],["il fait frais","الطقس منعش (بارد قليلاً)","it is cool"]
+  ]},
+  { id:"a2-time", ar:"الوقت والروتين", fr:"Le temps et la routine", w:[
+   ["l'heure","الساعة / الوقت","the hour / time"],["la minute","الدقيقة","the minute"],["midi","الظهر (12 ظهراً)","noon"],
+   ["minuit","منتصف الليل","midnight"],["l'après-midi","بعد الظهر","the afternoon"],["la nuit","الليل","the night"],
+   ["tôt","مبكراً","early"],["tard","متأخراً","late"],["toujours","دائماً","always"],
+   ["souvent","غالباً","often"],["parfois","أحياناً","sometimes"],["jamais","أبداً","never"],
+   ["déjà","بالفعل","already"],["encore","ما زال / مرة أخرى","still / again"],["maintenant","الآن","now"],
+   ["bientôt","قريباً","soon"],["le quart","الربع","the quarter"],["la demie","النصف (في الساعة)","half past"]
+  ]},
+  { id:"a2-shop", ar:"التسوق", fr:"Les achats", w:[
+   ["le prix","السعر","the price"],["cher","غالٍ","expensive"],["bon marché","رخيص","cheap"],
+   ["gratuit","مجاني","free"],["l'argent","المال","money"],["la caisse","الصندوق (المحاسب)","the checkout"],
+   ["la monnaie","الفكّة / العملة","change / currency"],["la carte bancaire","البطاقة المصرفية","the bank card"],["payer","يدفع","to pay"],
+   ["le panier","السلّة","the basket"],["la réduction","التخفيض","the discount"],["le client","الزبون","the customer"],
+   ["la facture","الفاتورة","the bill"],["ouvert","مفتوح","open"],["fermé","مغلق","closed"]
+  ]},
+  { id:"a2-adj", ar:"الصفات الشائعة", fr:"Adjectifs courants", w:[
+   ["grand","كبير / طويل","big / tall"],["petit","صغير / قصير","small / short"],["beau","جميل","beautiful"],
+   ["laid","قبيح","ugly"],["nouveau","جديد","new"],["vieux","قديم / عجوز","old"],
+   ["jeune","شاب / صغير السن","young"],["facile","سهل","easy"],["difficile","صعب","difficult"],
+   ["important","مهم","important"],["heureux","سعيد","happy"],["fatigué","متعب","tired"],
+   ["occupé","مشغول","busy"],["libre","حرّ / فارغ","free"],["propre","نظيف","clean"],
+   ["sale","متّسخ","dirty"],["rapide","سريع","fast"],["lent","بطيء","slow"],
+   ["fort","قوي","strong"],["faible","ضعيف","weak"],["gentil","لطيف","kind"],
+   ["drôle","مضحك","funny"],["intéressant","مثير للاهتمام","interesting"]
+  ]},
+  { id:"a2-jobs", ar:"المهن", fr:"Les métiers", w:[
+   ["le médecin","الطبيب","the doctor"],["l'infirmier","الممرّض","the nurse"],["l'ingénieur","المهندس","the engineer"],
+   ["l'avocat","المحامي","the lawyer"],["le boulanger","الخبّاز","the baker"],["le cuisinier","الطبّاخ","the cook"],
+   ["le chauffeur","السائق","the driver"],["le policier","الشرطي","the police officer"],["le pilote","الطيّار","the pilot"],
+   ["l'agriculteur","المزارع","the farmer"],["le vendeur","البائع","the salesman"],["le journaliste","الصحفي","the journalist"],
+   ["l'artiste","الفنان","the artist"],["le dentiste","طبيب الأسنان","the dentist"],["le facteur","ساعي البريد","the postman"],
+   ["le coiffeur","الحلاق","the hairdresser"],["le directeur","المدير","the director"],["le comptable","المحاسب","the accountant"],
+   ["le serveur","النادل","the waiter"],["le mécanicien","الميكانيكي","the mechanic"],["l'électricien","الكهربائي","the electrician"],
+   ["le pompier","رجل الإطفاء","the firefighter"],["le secrétaire","السكرتير","the secretary"]
+  ]},
+  { id:"a2-travel", ar:"السفر", fr:"Le voyage", w:[
+   ["le voyage","الرحلة","the trip"],["le billet","التذكرة","the ticket"],["la valise","الحقيبة (السفر)","the suitcase"],
+   ["le passeport","جواز السفر","the passport"],["le train","القطار","the train"],["l'avion","الطائرة","the plane"],
+   ["la voiture","السيارة","the car"],["le bus","الحافلة","the bus"],["le vélo","الدراجة","the bicycle"],
+   ["le bateau","القارب / السفينة","the boat"],["le départ","المغادرة","the departure"],["l'arrivée","الوصول","the arrival"],
+   ["la réservation","الحجز","the booking"],["la carte","الخريطة / البطاقة","the map / the card"],["la plage","الشاطئ","the beach"],
+   ["la mer","البحر","the sea"],["la montagne","الجبل","the mountain"],["le touriste","السائح","the tourist"],
+   ["la frontière","الحدود","the border"],["la douane","الجمارك","customs"],["le retard","التأخير","the delay"],
+   ["l'horaire","الجدول الزمني","the timetable"],["le quai","الرصيف","the platform"],["voyager","يسافر","to travel"],
+   ["visiter","يزور (مكاناً)","to visit"],["réserver","يحجز","to book"],["partir","يغادر","to leave"],
+   ["arriver","يصل","to arrive"]
+  ]},
+  { id:"a2-health", ar:"الجسم والصحة", fr:"Le corps et la santé", w:[
+   ["la tête","الرأس","the head"],["le bras","الذراع","the arm"],["la main","اليد","the hand"],
+   ["le pied","القدم","the foot"],["la jambe","الساق","the leg"],["l'œil (pl. les yeux)","العين","the eye"],
+   ["la bouche","الفم","the mouth"],["le nez","الأنف","the nose"],["l'oreille","الأذن","the ear"],
+   ["le dos","الظهر","the back"],["le ventre","البطن","the belly"],["le cœur","القلب","the heart"],
+   ["la fièvre","الحمّى","the fever"],["le rhume","الزكام","the cold"],["la toux","السعال","the cough"],
+   ["la douleur","الألم","the pain"],["le médicament","الدواء","the medicine"],["le rendez-vous","الموعد","the appointment"],
+   ["malade","مريض","sick"],["en bonne santé","بصحة جيدة","healthy"],["l'ordonnance","الوصفة الطبية","the prescription"],
+   ["l'ambulance","سيارة الإسعاف","the ambulance"],["la dent","السنّ","the tooth"],["la gorge","الحلق","the throat"],
+   ["le genou","الركبة","the knee"],["l'épaule","الكتف","the shoulder"],["le doigt","الإصبع","the finger"],
+   ["la peau","الجلد","the skin"],["tousser","يسعل","to cough"],["guérir","يتعافى","to recover"]
+  ]},
+  { id:"a2-verbs", ar:"أفعال شائعة", fr:"Verbes courants", w:[
+   ["se lever","ينهض من النوم","to get up"],["se coucher","يذهب إلى النوم","to go to bed"],["travailler","يعمل","to work"],
+   ["étudier","يدرس","to study"],["acheter","يشتري","to buy"],["vendre","يبيع","to sell"],
+   ["prendre","يأخذ","to take"],["donner","يعطي","to give"],["regarder","يشاهد / ينظر","to watch / to look"],
+   ["écouter","يستمع","to listen"],["écrire","يكتب","to write"],["lire","يقرأ","to read"],
+   ["comprendre","يفهم","to understand"],["choisir","يختار","to choose"],["finir","ينهي","to finish"],
+   ["ouvrir","يفتح","to open"],["fermer","يغلق","to close"],["attendre","ينتظر","to wait"],
+   ["chercher","يبحث","to look for"],["trouver","يجد","to find"],["sortir","يخرج","to go out"],
+   ["entrer","يدخل","to enter"],["rester","يبقى","to stay"],["devoir","يجب عليه","must / to have to"],
+   ["connaître","يعرف (شخصاً أو مكاناً)","to know (a person)"],["croire","يعتقد","to believe"],["penser","يفكّر","to think"],
+   ["oublier","ينسى","to forget"],["se souvenir","يتذكّر","to remember"],["se réveiller","يستيقظ","to wake up"],
+   ["se laver","يغتسل","to wash oneself"],["s'habiller","يرتدي ملابسه","to get dressed"],["se promener","يتنزّه","to go for a walk"],
+   ["rencontrer","يقابل","to meet"],["inviter","يدعو","to invite"],["recevoir","يستلم / يستقبل","to receive"]
+  ]}
+ ],
+ B1: [
+  { id:"b1-work", ar:"العمل والوظيفة", fr:"Le travail", w:[
+   ["le travail","العمل","work"],["l'entreprise","الشركة","the company"],["le patron","المدير / رب العمل","the boss"],
+   ["le collègue","الزميل","the colleague"],["le salaire","الراتب","the salary"],["le contrat","العقد","the contract"],
+   ["la réunion","الاجتماع","the meeting"],["l'emploi","الوظيفة","the job"],["le chômage","البطالة","unemployment"],
+   ["la candidature","طلب التوظيف","the application"],["l'entretien","المقابلة","the interview"],["le CV","السيرة الذاتية","the CV"],
+   ["l'expérience","الخبرة","the experience"],["le congé","الإجازة","the leave"],["embaucher","يوظّف","to hire"],
+   ["démissionner","يستقيل","to resign"],["licencier","يفصل من العمل","to dismiss"],["gagner","يكسب","to earn / to win"],
+   ["le stage","التدريب العملي","the internship"],["la compétence","المهارة","the skill"],["l'objectif","الهدف","the goal"],
+   ["le projet","المشروع","the project"],["le budget","الميزانية","the budget"],["la promotion","الترقية","the promotion"],
+   ["la retraite","التقاعد","retirement"],["le délai","المهلة / الموعد النهائي","the deadline"],["postuler","يتقدّم لوظيفة","to apply"],
+   ["diriger","يدير / يقود","to manage / to lead"]
+  ]},
+  { id:"b1-emo", ar:"المشاعر", fr:"Les émotions", w:[
+   ["la joie","الفرح","joy"],["la tristesse","الحزن","sadness"],["la colère","الغضب","anger"],
+   ["la peur","الخوف","fear"],["la surprise","المفاجأة","surprise"],["l'inquiétude","القلق","worry"],
+   ["la fierté","الفخر","pride"],["la honte","الخجل / العار","shame"],["l'espoir","الأمل","hope"],
+   ["la confiance","الثقة","trust"],["la jalousie","الغيرة","jealousy"],["la déception","خيبة الأمل","disappointment"],
+   ["content","سعيد","happy"],["fâché","غاضب","angry"],["déçu","خائب الأمل","disappointed"],
+   ["inquiet","قلق","worried"],["soulagé","مرتاح","relieved"],["la tendresse","الحنان","tenderness"],
+   ["l'amitié","الصداقة","friendship"],["l'ennui","الملل","boredom"],["la solitude","الوحدة","loneliness"],
+   ["le stress","التوتر","stress"],["la patience","الصبر","patience"],["le courage","الشجاعة","courage"],
+   ["le bonheur","السعادة","happiness"],["triste","حزين","sad"],["stressé","متوتر","stressed"],
+   ["ravi","مسرور","delighted"],["énervé","منزعج / عصبي","annoyed"],["gêné","محرَج","embarrassed"]
+  ]},
+  { id:"b1-env", ar:"البيئة", fr:"L'environnement", w:[
+   ["l'environnement","البيئة","the environment"],["la pollution","التلوث","pollution"],["le réchauffement climatique","الاحترار المناخي","global warming"],
+   ["le recyclage","إعادة التدوير","recycling"],["les déchets","النفايات","waste"],["l'énergie","الطاقة","energy"],
+   ["la forêt","الغابة","the forest"],["la planète","الكوكب","the planet"],["la nature","الطبيعة","nature"],
+   ["la sécheresse","الجفاف","the drought"],["l'inondation","الفيضان","the flood"],["protéger","يحمي","to protect"],
+   ["gaspiller","يهدر","to waste"],["économiser","يوفّر","to save"],["polluer","يلوّث","to pollute"],
+   ["le climat","المناخ","the climate"],["les ressources naturelles","الموارد الطبيعية","natural resources"],["le développement durable","التنمية المستدامة","sustainable development"],
+   ["l'énergie solaire","الطاقة الشمسية","solar energy"],["la biodiversité","التنوّع الحيوي","biodiversity"],["l'espèce","النوع / الفصيلة","the species"],
+   ["le tri sélectif","فرز النفايات","waste sorting"],["jeter","يرمي","to throw away"],["réduire","يقلّل","to reduce"],
+   ["réutiliser","يعيد الاستخدام","to reuse"],["préserver","يحافظ على","to preserve"]
+  ]},
+  { id:"b1-tech", ar:"التكنولوجيا", fr:"La technologie", w:[
+   ["l'ordinateur","الحاسوب","the computer"],["le téléphone portable","الهاتف المحمول","the mobile phone"],["l'application","التطبيق","the app"],
+   ["le site web","الموقع الإلكتروني","the website"],["le mot de passe","كلمة المرور","the password"],["le courriel","البريد الإلكتروني","the email"],
+   ["le réseau social","شبكة التواصل الاجتماعي","the social network"],["le fichier","الملف","the file"],["l'écran","الشاشة","the screen"],
+   ["le clavier","لوحة المفاتيح","the keyboard"],["la batterie","البطارية","the battery"],["l'intelligence artificielle","الذكاء الاصطناعي","artificial intelligence"],
+   ["télécharger","يحمّل (ملفاً)","to download"],["envoyer","يرسل","to send"],["se connecter","يسجّل الدخول / يتصل","to log in / to connect"],
+   ["les données","البيانات","the data"],["la connexion","الاتصال","the connection"],["le réseau","الشبكة","the network"],
+   ["la mise à jour","التحديث","the update"],["sauvegarder","يحفظ","to save"],["supprimer","يحذف","to delete"],
+   ["cliquer","ينقر","to click"],["le moteur de recherche","محرّك البحث","the search engine"],["le logiciel","البرنامج","the software"],
+   ["la vie privée","الخصوصية","privacy"],["en ligne","عبر الإنترنت","online"],["la capture d'écran","لقطة الشاشة","the screenshot"]
+  ]},
+  { id:"b1-link", ar:"أدوات الربط والتعابير", fr:"Connecteurs et expressions", w:[
+   ["pourtant","ومع ذلك","however"],["cependant","غير أنّ","however"],["donc","إذن","so / therefore"],
+   ["parce que","لأنّ","because"],["d'abord","أولاً","first"],["ensuite","بعد ذلك","then"],
+   ["enfin","أخيراً","finally"],["en plus","إضافةً إلى ذلك","moreover"],["par exemple","مثلاً","for example"],
+   ["à mon avis","في رأيي","in my opinion"],["je pense que","أعتقد أنّ","I think that"],["être d'accord","يوافق","to agree"],
+   ["malgré","رغم","despite"],["grâce à","بفضل","thanks to"],["à cause de","بسبب","because of"],
+   ["quand même","مع ذلك / رغم كل شيء","all the same"],["peut-être","ربما","maybe"],["ainsi","وهكذا","thus"],
+   ["d'ailleurs","علاوةً على ذلك","besides"],["bref","باختصار","in short"],["en conclusion","في الخلاصة","in conclusion"],
+   ["au contraire","على العكس","on the contrary"],["en revanche","في المقابل","on the other hand"],["de plus","فضلاً عن ذلك","furthermore"],
+   ["selon","وفقاً لـ","according to"],["afin de","من أجل","in order to"],["bien que","رغم أنّ","although"],
+   ["lorsque","عندما","when"],["puisque","بما أنّ","since"]
+  ]},
+  { id:"b1-soc", ar:"المجتمع والمواطنة", fr:"La société", w:[
+   ["la société","المجتمع","society"],["le citoyen","المواطن","the citizen"],["le droit","الحق / القانون","the right / law"],
+   ["le devoir","الواجب","the duty"],["la loi","القانون","the law"],["la liberté","الحرية","freedom"],
+   ["l'égalité","المساواة","equality"],["la justice","العدالة","justice"],["le gouvernement","الحكومة","the government"],
+   ["l'élection","الانتخاب","the election"],["le vote","التصويت","the vote"],["la paix","السلام","peace"],
+   ["la guerre","الحرب","war"],["la tradition","التقليد","the tradition"],["le débat","النقاش","the debate"]
+  ]},
+  { id:"b1-edu", ar:"الدراسة والتعليم", fr:"Les études", w:[
+   ["l'université","الجامعة","the university"],["le diplôme","الشهادة","the diploma"],["la licence","البكالوريوس","the bachelor’s degree"],
+   ["la bourse","المنحة","the scholarship"],["le cours","المحاضرة / الدرس","the course"],["la matière","المادة الدراسية","the subject"],
+   ["l'examen","الامتحان","the exam"],["la note","الدرجة","the grade"],["réussir","ينجح","to succeed / to pass"],
+   ["échouer","يفشل / يرسب","to fail"],["réviser","يراجع","to revise"],["s'inscrire","يسجّل نفسه","to enrol"],
+   ["la recherche","البحث العلمي","research"]
+  ]},
+  { id:"b1-culture", ar:"الثقافة والترفيه", fr:"Culture et loisirs", w:[
+   ["le film","الفيلم","the film"],["la musique","الموسيقى","music"],["le concert","الحفل الموسيقي","the concert"],
+   ["le roman","الرواية","the novel"],["le spectacle","العرض","the show"],["l'exposition","المعرض","the exhibition"],
+   ["le sport","الرياضة","sport"],["le match","المباراة","the match"],["l'équipe","الفريق","the team"],
+   ["le passe-temps","الهواية","the hobby"],["la lecture","القراءة","reading"],["la chanson","الأغنية","the song"],
+   ["le festival","المهرجان","the festival"],["les loisirs","أوقات الفراغ","leisure"]
+  ]},
+  { id:"b1-verbs", ar:"أفعال متقدمة", fr:"Verbes utiles", w:[
+   ["expliquer","يشرح","to explain"],["décrire","يصف","to describe"],["raconter","يروي","to tell (a story)"],
+   ["proposer","يقترح","to suggest"],["refuser","يرفض","to refuse"],["accepter","يقبل","to accept"],
+   ["décider","يقرّر","to decide"],["oser","يجرؤ","to dare"],["se rendre compte","يدرك","to realise"],
+   ["s'habituer","يعتاد","to get used to"],["se plaindre","يشتكي","to complain"],["réaliser","يحقق / يدرك","to achieve"],
+   ["améliorer","يحسّن","to improve"],["éviter","يتجنّب","to avoid"],["empêcher","يمنع","to prevent"],
+   ["souhaiter","يتمنّى","to wish"],["remarquer","يلاحظ","to notice"]
+  ]}
+ ]
 };
 
 /* ---------- المفردات ---------- */
