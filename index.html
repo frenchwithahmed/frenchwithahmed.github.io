@@ -166,7 +166,7 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .vtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .vfr{font-size:20px;font-weight:800;color:#0B1F3A;display:block;text-align:left}
 .vm{color:#374151;font-size:15px}.vsep{color:#b8893b}
-.vtx .vm,.vtx .vsep{display:inline}
+.vmw{display:block}.vmw .vm,.vmw .vsep{display:inline}
 .vk{border:1px solid #d9d2bf;background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:700;color:#6b7280;cursor:pointer;white-space:nowrap}
 .vk.on{background:#e6f5ec;border-color:#9fd3b2;color:#17623a}
 .vtag{font-size:12px;color:#8a6a2c;background:#faf3e0;border-radius:999px;padding:4px 10px;white-space:nowrap}
@@ -2806,7 +2806,7 @@ const vCats = () => VOC[V.level] || [];
 const vCat = id => vCats().find(c => c.id === id);
 function vMean(w){
   const ar = `<span class="vm">${esc(w[1])}</span>`, en = `<span class="vm" dir="ltr">${esc(w[2])}</span>`;
-  return V.mean === 'ar' ? ar : V.mean === 'en' ? en : ar + ' <span class="vsep">·</span> ' + en;
+  return '<span class="vmw">' + (V.mean === 'ar' ? ar : V.mean === 'en' ? en : ar + ' <span class="vsep">·</span> ' + en) + '</span>';
 }
 const vFr = w => `<span class="vfr" dir="ltr" lang="fr">${esc(w[0])}</span>`;
 const vSay = w => speak(w[0].replace(/[…()]/g, '').replace(/\bpl\.[^)]*/, ''), .85);
