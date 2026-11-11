@@ -147,6 +147,23 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
+.grbox{padding:16px 18px;margin-bottom:14px}
+.grp{font-size:16px;line-height:1.9;color:#1c2333;margin-bottom:12px}
+.grh{margin:16px 0 8px;color:#8a6a2c;font-size:15px}.grh2{margin:20px 2px 10px;color:#0B1F3A}
+.grul{padding:0 20px 0 0;margin:0;line-height:1.9;color:#374151}.grul li{margin-bottom:6px}
+.grtw{overflow-x:auto;margin:6px 0}
+.grt{border-collapse:collapse;width:100%;font-size:15px}
+.grt th{background:#0B1F3A;color:#fff;padding:8px 12px;font-weight:700;text-align:center}
+.grt td{border:1px solid #e8e2d4;padding:8px 12px;text-align:center}.grt td:first-child{background:#faf6ea;font-weight:700}
+.grt tbody tr:nth-child(even) td{background:#fcfaf3}.grt tbody tr:nth-child(even) td:first-child{background:#faf6ea}
+.grq{padding:12px 0;border-bottom:1px solid #eee7d6}.grq:last-of-type{border-bottom:0}
+.grqt{font-weight:800;color:#0B1F3A;margin-bottom:10px;font-size:16px;line-height:1.7}
+.gropts{display:flex;gap:8px;flex-wrap:wrap}
+.gro{border:1px solid #d9d2bf;background:#fff;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;color:#0B1F3A}
+.gro:disabled{cursor:default;opacity:.75}.gro.right{background:#e6f5ec;border-color:#4cb27a;color:#17623a;opacity:1}.gro.wrong{background:#fde8ea;border-color:#e46a77;color:#a3202f;opacity:1}
+.grwhy{margin-top:8px;font-size:14px;line-height:1.7}.grwhy.ok{color:#17623a}.grwhy.bad{color:#a3202f}
+.grres{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;padding:12px 14px;background:#faf3e0;border-radius:14px;color:#0B1F3A}
+
 .vbar2{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:6px 0 12px}
 .vpills{display:flex;gap:6px;flex-wrap:wrap}
 .vpill{border:1px solid #d9d2bf;background:#fff;color:#0B1F3A;border-radius:999px;padding:9px 18px;font:inherit;font-weight:800;cursor:pointer}
@@ -477,6 +494,7 @@ tr:hover td{background:#FBF9F3}
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4L10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gram" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11M9 8h6"/></symbol>
   <symbol id="i-vocab" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
@@ -640,7 +658,7 @@ async function loadAll(){
 setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(!document.querySelector('#modal .ov')) render(); }, 90*60*1000);
 
 /* ============ الواجهة العامة ============ */
-const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات']];
+const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
 
 function renderShell(){
   const tabs = TABS.slice();
@@ -811,6 +829,7 @@ function render(){
   if(((state.tab==='people' || state.tab==='track') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
   if(state.tab==='games') return renderGames(v);
   if(state.tab==='vocab') return renderVocab(v);
+  if(state.tab==='grammar') return renderGrammar(v);
   if(state.tab==='track') return renderTrack(v, err);
   if(state.tab==='people') return renderPeople(v, err);
   if(state.tab==='mine') return renderMine(v, err);
@@ -3094,8 +3113,237 @@ document.addEventListener('input', e => {
   if(e.target && e.target.id === 'vq'){ V.q = e.target.value; const r = document.getElementById('vres'); if(r) r.innerHTML = vSearchHtml(); }
 });
 
+/* القواعد: كل درس = شرح + جدول اختياري + أمثلة + تمرين */
+const GR = {
+A1:[
+{id:'a1-art',ar:'أدوات التعريف والتنكير',fr:'Les articles',
+ intro:'في الفرنسية كل اسم له جنس (مذكر أو مؤنث) وعدد (مفرد أو جمع)، والأداة تتغير حسب ذلك.',
+ table:{h:['','مذكر','مؤنث','جمع'],r:[['معرّف (الـ)','le (l\')','la (l\')','les'],['منكّر (واحد / ما)','un','une','des']]},
+ rules:['نستعمل l\' أمام الاسم الذي يبدأ بحرف متحرك أو h صامتة: l\'école, l\'homme.','le / la / les للشيء المعروف أو المحدد، و un / une / des للشيء غير المحدد.'],
+ ex:[['Le livre est sur la table.','الكتاب على الطاولة.'],['J\'ai une sœur et un frère.','عندي أخت وأخ.'],['Les enfants jouent.','الأطفال يلعبون.']],
+ quiz:[{q:'___ maison est grande.',o:['Le','La','Les'],a:1,why:'maison مؤنث ومفرد، فنستعمل la.'},
+  {q:'J\'ai ___ ami français.',o:['un','une','des'],a:0,why:'ami مذكر ومفرد، فنستعمل un.'},
+  {q:'___ élèves sont ici.',o:['Le','La','Les'],a:2,why:'élèves جمع، فنستعمل les.'},
+  {q:'Elle habite dans ___ appartement.',o:['un','une','des'],a:0,why:'appartement مذكر ومفرد: un appartement.'}]},
+{id:'a1-etre',ar:'الفعلان être و avoir',fr:'Être et avoir',
+ intro:'هذان أهم فعلين في الفرنسية: être (يكون) و avoir (يملك). يجب حفظهما جيداً.',
+ table:{h:['الضمير','être','avoir'],r:[['je','suis','ai'],['tu','es','as'],['il / elle / on','est','a'],['nous','sommes','avons'],['vous','êtes','avez'],['ils / elles','sont','ont']]},
+ rules:['être للتعريف والحالة: Je suis professeur. Il est fatigué.','avoir للملكية والعمر: J\'ai un livre. Elle a vingt ans.','لاحظ: العمر في الفرنسية مع avoir وليس être.'],
+ ex:[['Je suis étudiant.','أنا طالب.'],['Nous avons deux enfants.','عندنا طفلان.'],['Ils sont contents.','هم سعداء.']],
+ quiz:[{q:'Tu ___ en retard.',o:['es','as','est'],a:0,why:'مع tu نقول tu es.'},
+  {q:'Nous ___ faim.',o:['sommes','avons','avez'],a:1,why:'نقول avoir faim (أن تجوع)، فمع nous: nous avons.'},
+  {q:'Elle ___ quinze ans.',o:['est','a','as'],a:1,why:'العمر مع avoir: elle a quinze ans.'},
+  {q:'Vous ___ professeur.',o:['avez','êtes','sont'],a:1,why:'مع vous نقول vous êtes.'}]},
+{id:'a1-er',ar:'الأفعال المنتهية بـ -er',fr:'Les verbes en -er',
+ intro:'معظم الأفعال الفرنسية تنتهي بـ -er. نحذف -er ونضيف النهايات التالية (مثال: parler).',
+ table:{h:['الضمير','النهاية','parler'],r:[['je','-e','parle'],['tu','-es','parles'],['il / elle / on','-e','parle'],['nous','-ons','parlons'],['vous','-ez','parlez'],['ils / elles','-ent','parlent']]},
+ rules:['نهايات -e و -es و -ent لا تُنطق في الكلام.','نفس القاعدة مع: aimer, manger, habiter, travailler, regarder, étudier...','استثناء صغير: nous mangeons (نضيف e للحفاظ على النطق).'],
+ ex:[['Je parle français.','أتكلم الفرنسية.'],['Nous habitons à Paris.','نسكن في باريس.'],['Ils travaillent beaucoup.','هم يعملون كثيراً.']],
+ quiz:[{q:'Il ___ le matin.',o:['travaille','travailles','travaillent'],a:0,why:'مع il نضيف -e فقط.'},
+  {q:'Nous ___ la télévision.',o:['regardez','regardons','regardent'],a:1,why:'مع nous النهاية -ons.'},
+  {q:'Vous ___ très bien.',o:['parlons','parlez','parlent'],a:1,why:'مع vous النهاية -ez.'},
+  {q:'Elles ___ à Lyon.',o:['habite','habitons','habitent'],a:2,why:'مع elles النهاية -ent.'}]},
+{id:'a1-neg',ar:'النفي',fr:'La négation',
+ intro:'للنفي نضع الفعل بين كلمتين: ne … pas.',
+ rules:['ne قبل الفعل و pas بعده: Je ne parle pas arabe.','إذا بدأ الفعل بحرف متحرك تصبح ne هكذا n\': Je n\'aime pas le café.','بعد النفي تتحول un / une / des إلى de (أو d\'): J\'ai un frère ← Je n\'ai pas de frère.'],
+ ex:[['Il ne mange pas.','هو لا يأكل.'],['Je n\'ai pas de voiture.','ليست عندي سيارة.'],['Nous ne sommes pas fatigués.','لسنا متعبين.']],
+ quiz:[{q:'Je ___ parle ___ anglais.',o:['ne … pas','pas … ne','n\' … pas'],a:0,why:'الصيغة: ne + فعل + pas.'},
+  {q:'Elle ___ aime pas le thé.',o:['ne','n\'','non'],a:1,why:'aime يبدأ بحرف متحرك، فنقول n\'.'},
+  {q:'Je n\'ai pas ___ chat.',o:['un','une','de'],a:2,why:'بعد النفي نستعمل de بدل un: je n\'ai pas de chat.'},
+  {q:'Choisissez la phrase correcte:',o:['Il pas mange.','Il ne mange pas.','Il mange ne pas.'],a:1,why:'ne قبل الفعل و pas بعده.'}]},
+{id:'a1-poss',ar:'صفات الملكية',fr:'Les adjectifs possessifs',
+ intro:'تعبّر عن الملكية (كتابي، أختك...). تتبع جنس وعدد الشيء المملوك وليس المالك.',
+ table:{h:['المالك','مذكر','مؤنث','جمع'],r:[['أنا','mon','ma','mes'],['أنتَ','ton','ta','tes'],['هو / هي','son','sa','ses'],['نحن','notre','notre','nos'],['أنتم','votre','votre','vos'],['هم','leur','leur','leurs']]},
+ rules:['أمام اسم مؤنث يبدأ بحرف متحرك نستعمل mon / ton / son: mon amie, ton école.','son / sa تعني «له» أو «لها» وتحدّدها حسب الاسم بعدها.'],
+ ex:[['Mon père est professeur.','أبي معلم.'],['Ma sœur habite ici.','أختي تسكن هنا.'],['Nos amis arrivent.','أصدقاؤنا يصلون.']],
+ quiz:[{q:'___ mère est gentille. (أمي)',o:['Mon','Ma','Mes'],a:1,why:'mère مؤنث: ma mère.'},
+  {q:'Voici ___ livres. (كتبك)',o:['ton','ta','tes'],a:2,why:'livres جمع: tes livres.'},
+  {q:'___ amie s\'appelle Sara. (صديقتي)',o:['Ma','Mon','Mes'],a:1,why:'amie مؤنث لكنه يبدأ بحرف متحرك، فنقول mon amie.'},
+  {q:'Nous aimons ___ école. (مدرستنا)',o:['notre','nos','votre'],a:0,why:'école مفرد ومالكه «نحن»: notre école.'}]},
+{id:'a1-fp',ar:'المؤنث والجمع',fr:'Le féminin et le pluriel',
+ intro:'القاعدة العامة: للمؤنث نضيف -e، وللجمع نضيف -s (ولا تُنطق عادةً).',
+ table:{h:['القاعدة','مثال'],r:[['مؤنث: + e','petit ← petite'],['جمع: + s','un livre ← des livres'],['ينتهي بـ -eau: + x','un gâteau ← des gâteaux'],['ينتهي بـ -al ← -aux','un animal ← des animaux'],['ينتهي بـ -s أو -x: لا يتغير','un fils ← des fils']]},
+ rules:['الصفة تتفق مع الاسم في الجنس والعدد: une grande maison, des maisons grandes (أو: de grandes maisons).','بعض المؤنثات خاصة: un acteur ← une actrice.'],
+ ex:[['Il est grand, elle est grande.','هو طويل وهي طويلة.'],['Les chevaux sont rapides.','الخيول سريعة.'],['Ce sont des amis.','هؤلاء أصدقاء.']],
+ quiz:[{q:'Une amie ___.',o:['français','française','françaises'],a:1,why:'amie مؤنث مفرد: française.'},
+  {q:'Le pluriel de «un journal» est:',o:['des journals','des journaux','des journale'],a:1,why:'-al تتحول إلى -aux.'},
+  {q:'Le pluriel de «un gâteau» est:',o:['des gâteaus','des gâteaux','des gâteau'],a:1,why:'-eau تأخذ x في الجمع.'},
+  {q:'Elle est ___.',o:['petit','petite','petits'],a:1,why:'للمؤنث نضيف e: petite.'}]},
+{id:'a1-q',ar:'طرح الأسئلة',fr:'Poser des questions',
+ intro:'هناك ثلاث طرق شائعة لطرح سؤال إجابته نعم أو لا.',
+ rules:['بالنبرة فقط: Tu parles français ? (الأسهل في الكلام).','باستعمال est-ce que: Est-ce que tu parles français ?','بقلب الفعل والضمير: Parles-tu français ? (أكثر رسمية).','للأسئلة المفتوحة نضع كلمة الاستفهام أولاً: Où habites-tu ? Comment tu t\'appelles ?'],
+ ex:[['Est-ce que vous avez des frères ?','هل عندكم إخوة؟'],['Où habites-tu ?','أين تسكن؟'],['Quand est-ce que tu travailles ?','متى تعمل؟']],
+ quiz:[{q:'Quelle phrase est une question avec «est-ce que» ?',o:['Est-ce que tu viens ?','Tu est-ce que viens ?','Viens est-ce que tu ?'],a:0,why:'est-ce que تأتي في بداية الجملة.'},
+  {q:'«Parles-tu arabe ?» signifie:',o:['هل تتكلم العربية؟','أنا أتكلم العربية.','لا أتكلم العربية.'],a:0,why:'قلب الفعل والضمير يعطي سؤالاً.'},
+  {q:'Pour demander «أين؟» on dit:',o:['Quand','Où','Pourquoi'],a:1,why:'où = أين.'},
+  {q:'___ tu t\'appelles ? (ما اسمك؟)',o:['Comment','Combien','Pourquoi'],a:0,why:'Comment tu t\'appelles ? = ما اسمك؟'}]}
+],
+A2:[
+{id:'a2-pc',ar:'الماضي المركب (مع avoir)',fr:'Le passé composé avec avoir',
+ intro:'نستعمله للأحداث المنتهية في الماضي. يتكون من: avoir في الحاضر + اسم المفعول (participe passé).',
+ table:{h:['الأفعال','اسم المفعول','مثال'],r:[['-er ← é','parlé, mangé','J\'ai mangé'],['-ir ← i','fini, choisi','Tu as fini'],['-re ← u','vendu, attendu','Il a vendu'],['شاذة','eu, fait, pris, vu','Nous avons fait']]},
+ rules:['النفي: Je n\'ai pas mangé (ne + avoir + pas + اسم المفعول).','أفعال شاذة مهمة: avoir ← eu، être ← été، faire ← fait، prendre ← pris، voir ← vu.'],
+ ex:[['Hier, j\'ai regardé un film.','البارحة شاهدت فيلماً.'],['Elle a fini son travail.','أنهت عملها.'],['Nous n\'avons pas mangé.','لم نأكل.']],
+ quiz:[{q:'Hier, nous ___ au restaurant.',o:['avons mangé','sommes mangé','mangeons'],a:0,why:'manger يُصرَّف مع avoir: nous avons mangé.'},
+  {q:'Le participe passé de «faire» est:',o:['fait','faisé','fé'],a:0,why:'faire ← fait.'},
+  {q:'Il ___ fini ses devoirs.',o:['a','est','as'],a:0,why:'مع il نستعمل a (avoir).'},
+  {q:'Je ___ pas compris.',o:['n\'ai','ne suis','ne ai'],a:0,why:'النفي: je n\'ai pas compris.'}]},
+{id:'a2-etre',ar:'الماضي المركب (مع être)',fr:'Le passé composé avec être',
+ intro:'مجموعة من أفعال الحركة والتغيّر تُصرَّف مع être بدل avoir، ويتفق اسم المفعول مع الفاعل.',
+ rules:['الأفعال الأشهر: aller, venir, arriver, partir, entrer, sortir, monter, descendre, rester, naître, mourir, tomber, retourner.','كل الأفعال الانعكاسية (se lever, se laver...) تُصرَّف مع être.','الاتفاق: للمؤنث نضيف e وللجمع s: Elle est allée. Ils sont partis. Elles sont arrivées.'],
+ ex:[['Je suis allé au marché. (مذكر)','ذهبت إلى السوق.'],['Elle est arrivée hier.','وصلت البارحة.'],['Nous sommes restés à la maison.','بقينا في البيت.']],
+ quiz:[{q:'Hier, Marie ___ au cinéma.',o:['a allé','est allée','est allé'],a:1,why:'aller مع être، والفاعل مؤنث فنضيف e: est allée.'},
+  {q:'Ils ___ partis à huit heures.',o:['ont','sont','est'],a:1,why:'partir مع être، ومع ils: sont partis.'},
+  {q:'Choisissez la phrase correcte:',o:['J\'ai arrivé en retard.','Je suis arrivé en retard.','Je arrivé en retard.'],a:1,why:'arriver مع être: je suis arrivé.'},
+  {q:'Nous ___ levés tôt.',o:['avons','sommes','nous sommes'],a:2,why:'الأفعال الانعكاسية: nous nous sommes levés.'}]},
+{id:'a2-fp',ar:'المستقبل القريب',fr:'Le futur proche',
+ intro:'للتعبير عمّا سيحدث قريباً: aller في الحاضر + المصدر (infinitif).',
+ table:{h:['الضمير','aller'],r:[['je','vais'],['tu','vas'],['il / elle / on','va'],['nous','allons'],['vous','allez'],['ils / elles','vont']]},
+ rules:['النفي حول aller: Je ne vais pas partir.','الفعل الثاني يبقى مصدراً دائماً: Nous allons manger.'],
+ ex:[['Demain, je vais travailler.','غداً سأعمل.'],['Ils vont arriver bientôt.','سيصلون قريباً.'],['Tu vas voyager ?','هل ستسافر؟']],
+ quiz:[{q:'Ce soir, nous ___ regarder un film.',o:['allons','allez','vont'],a:0,why:'مع nous: allons.'},
+  {q:'Elle va ___.',o:['partir','part','partie'],a:0,why:'بعد aller نضع المصدر: partir.'},
+  {q:'Ils ___ voyager en été.',o:['va','vont','allons'],a:1,why:'مع ils: vont.'},
+  {q:'Je ne ___ pas manger.',o:['vais','vas','va'],a:0,why:'مع je: vais.'}]},
+{id:'a2-pron',ar:'الأفعال الانعكاسية',fr:'Les verbes pronominaux',
+ intro:'أفعال يرافقها ضمير إضافي (me, te, se, nous, vous, se) يعود على الفاعل، مثل se lever (ينهض).',
+ table:{h:['الضمير','se lever'],r:[['je','me lève'],['tu','te lèves'],['il / elle / on','se lève'],['nous','nous levons'],['vous','vous levez'],['ils / elles','se lèvent']]},
+ rules:['الضمير الانعكاسي قبل الفعل مباشرة.','me و te و se تصبح m\' و t\' و s\' أمام حرف متحرك: je m\'habille.','أفعال شائعة: se réveiller, se laver, s\'habiller, se coucher, se promener, s\'appeler.'],
+ ex:[['Je me réveille à sept heures.','أستيقظ في السابعة.'],['Elle s\'appelle Sara.','اسمها سارة.'],['Nous nous promenons le soir.','نتنزه في المساء.']],
+ quiz:[{q:'Tu ___ à quelle heure ?',o:['te lèves','se lèves','me lèves'],a:0,why:'مع tu الضمير te.'},
+  {q:'Je ___ habille.',o:['me','m\'','se'],a:1,why:'habille يبدأ بحرف متحرك فنقول m\'.'},
+  {q:'Ils ___ couchent tard.',o:['se','nous','te'],a:0,why:'مع ils الضمير se.'},
+  {q:'Nous ___ réveillons.',o:['vous','nous','se'],a:1,why:'مع nous الضمير nous.'}]},
+{id:'a2-part',ar:'أدوات التبعيض',fr:'Les articles partitifs',
+ intro:'نستعمل du / de la / des للتعبير عن «كمية غير محددة» من شيء لا يُعد (ماء، خبز، سكر).',
+ table:{h:['مذكر','مؤنث','أمام حرف متحرك','جمع'],r:[['du','de la','de l\'','des']]},
+ rules:['du pain (بعض الخبز)، de la soupe (بعض الشوربة)، de l\'eau (بعض الماء).','بعد النفي تصبح كلها de: Je ne mange pas de pain.','لا نستعملها مع الأفعال التي تعبّر عن التفضيل (aimer, adorer...) فنستعمل le / la / les: J\'aime le café.'],
+ ex:[['Je bois du thé.','أشرب شاياً.'],['Elle mange de la viande.','تأكل لحماً.'],['Je ne bois pas de lait.','لا أشرب الحليب.']],
+ quiz:[{q:'Je mange ___ pain.',o:['du','de la','des'],a:0,why:'pain مذكر: du pain.'},
+  {q:'Elle boit ___ eau.',o:['du','de l\'','de la'],a:1,why:'eau يبدأ بحرف متحرك: de l\'eau.'},
+  {q:'Je ne mange pas ___ viande.',o:['de la','de','du'],a:1,why:'بعد النفي نستعمل de.'},
+  {q:'J\'aime ___ chocolat.',o:['du','le','de'],a:1,why:'مع aimer نستعمل أداة التعريف: j\'aime le chocolat.'}]},
+{id:'a2-comp',ar:'المقارنة',fr:'Le comparatif',
+ intro:'للمقارنة بين شيئين: plus (أكثر) و moins (أقل) و aussi (بنفس القدر) ثم que (من).',
+ table:{h:['المعنى','الصيغة'],r:[['أكثر من','plus + صفة + que'],['أقل من','moins + صفة + que'],['بقدر','aussi + صفة + que']]},
+ rules:['Paul est plus grand que Marc.','استثناء مهم: bon ← meilleur (وليس plus bon): Ce gâteau est meilleur.','ومع الأفعال: Il travaille plus que moi.'],
+ ex:[['Ma sœur est plus jeune que moi.','أختي أصغر مني.'],['Ce livre est moins cher que celui-là.','هذا الكتاب أرخص من ذاك.'],['Il est aussi fort que son père.','هو قوي مثل أبيه.']],
+ quiz:[{q:'Il est ___ grand que moi. (أطول مني)',o:['plus','moins','aussi'],a:0,why:'أطول = plus grand.'},
+  {q:'Cette glace est ___ que l\'autre. (أفضل)',o:['plus bonne','meilleure','bonne plus'],a:1,why:'المقارنة الشاذة: bon ← meilleur / meilleure.'},
+  {q:'Elle est ___ fatiguée que lui. (أقل)',o:['moins','plus','aussi'],a:0,why:'أقل = moins.'},
+  {q:'Il est aussi fort ___ son frère.',o:['que','de','comme'],a:0,why:'بعد aussi نستعمل que.'}]}
+],
+B1:[
+{id:'b1-imp',ar:'الماضي الناقص',fr:'L\'imparfait',
+ intro:'نستعمله لوصف الماضي والعادات والحالة التي كانت مستمرة (كان يفعل). نأخذ صيغة nous في الحاضر، نحذف -ons، ونضيف النهايات.',
+ table:{h:['الضمير','النهاية','parler (nous parlons)'],r:[['je','-ais','parlais'],['tu','-ais','parlais'],['il / elle / on','-ait','parlait'],['nous','-ions','parlions'],['vous','-iez','parliez'],['ils / elles','-aient','parlaient']]},
+ rules:['الاستثناء الوحيد في الأساس: être ← ét- (j\'étais, nous étions).','نستعمله للوصف والعادة: Quand j\'étais petit, je jouais au foot.','نستعمل الماضي المركب للحدث المحدد، والناقص للخلفية: Il pleuvait quand je suis sorti.'],
+ ex:[['Quand j\'étais enfant, j\'habitais à Alger.','عندما كنت طفلاً كنت أسكن في الجزائر.'],['Nous mangions toujours ensemble.','كنا نأكل دائماً معاً.'],['Il faisait beau.','كان الطقس جميلاً.']],
+ quiz:[{q:'Quand j\'étais petit, je ___ au football.',o:['jouais','joue','ai joué'],a:0,why:'عادة في الماضي ← imparfait: je jouais.'},
+  {q:'Nous ___ à la plage chaque été.',o:['allions','allons','sommes allés'],a:0,why:'عادة متكررة: nous allions.'},
+  {q:'L\'imparfait de «être» avec «il» :',o:['était','étais','étaient'],a:0,why:'il était.'},
+  {q:'Il ___ quand je suis sorti. (كانت تمطر)',o:['pleuvait','a plu','pleut'],a:0,why:'الخلفية المستمرة ← imparfait.'}]},
+{id:'b1-fs',ar:'المستقبل البسيط',fr:'Le futur simple',
+ intro:'للتعبير عن المستقبل الأبعد أو الرسمي. نأخذ المصدر (infinitif) ونضيف: -ai, -as, -a, -ons, -ez, -ont.',
+ table:{h:['الضمير','parler','finir'],r:[['je','parlerai','finirai'],['tu','parleras','finiras'],['il / elle / on','parlera','finira'],['nous','parlerons','finirons'],['vous','parlerez','finirez'],['ils / elles','parleront','finiront']]},
+ rules:['الأفعال المنتهية بـ -re نحذف e: prendre ← je prendrai.','أفعال شاذة لها جذر خاص: être ← ser-، avoir ← aur-، aller ← ir-، faire ← fer-، venir ← viendr-، pouvoir ← pourr-.'],
+ ex:[['Demain, il fera beau.','غداً سيكون الجو جميلاً.'],['Je serai là à huit heures.','سأكون هناك في الثامنة.'],['Nous partirons en juillet.','سنسافر في يوليو.']],
+ quiz:[{q:'Demain, je ___ à Paris.',o:['serai','suis','étais'],a:0,why:'مستقبل: je serai.'},
+  {q:'Elle ___ une lettre. (ستكتب)',o:['écrira','écrit','écrivait'],a:0,why:'écrire ← écrir- ثم -a: elle écrira.'},
+  {q:'Nous ___ en vacances. (سنذهب)',o:['irons','allons','allions'],a:0,why:'aller في المستقبل جذره ir-: nous irons.'},
+  {q:'Ils ___ demain.',o:['viendront','venaient','viennent'],a:0,why:'venir في المستقبل: ils viendront.'}]},
+{id:'b1-cod',ar:'ضمائر المفعول المباشر',fr:'Les pronoms COD',
+ intro:'نستعمل الضمير بدل الاسم الذي وقع عليه الفعل مباشرة لتجنب التكرار. يوضع قبل الفعل.',
+ table:{h:['الضمير','المعنى'],r:[['le (l\')','هو (مذكر)'],['la (l\')','هي (مؤنث)'],['les','هم / هنّ'],['me / te','أنا / أنتَ'],['nous / vous','نحن / أنتم']]},
+ rules:['Je regarde le film ← Je le regarde.','النفي: Je ne le regarde pas.','في الماضي المركب يوضع قبل avoir ويتفق اسم المفعول: J\'ai vu la fille ← Je l\'ai vue.'],
+ ex:[['Tu connais Paul ? Oui, je le connais.','هل تعرف بول؟ نعم أعرفه.'],['Elle mange la pomme ? Oui, elle la mange.','هل تأكل التفاحة؟ نعم تأكلها.'],['Je les achète.','أشتريها / أشتريهم.']],
+ quiz:[{q:'Tu vois Marie ? Oui, je ___ vois.',o:['le','la','les'],a:1,why:'Marie مؤنث ← la.'},
+  {q:'Il prend les livres ← Il ___ prend.',o:['le','la','les'],a:2,why:'livres جمع ← les.'},
+  {q:'Je ne ___ connais pas. (أعرفه)',o:['le','la','lui'],a:0,why:'مذكر مفرد مفعول مباشر ← le.'},
+  {q:'Tu as acheté la robe ? Oui, je ___ ai achetée.',o:['l\'','le','les'],a:0,why:'la تصبح l\' أمام avoir.'}]},
+{id:'b1-cond',ar:'الشرطي (التمني والأدب)',fr:'Le conditionnel présent',
+ intro:'نستعمله للطلب المهذب والتمنّي والنصيحة. جذر المستقبل + نهايات الماضي الناقص.',
+ table:{h:['الضمير','vouloir'],r:[['je','voudrais'],['tu','voudrais'],['il / elle / on','voudrait'],['nous','voudrions'],['vous','voudriez'],['ils / elles','voudraient']]},
+ rules:['الطلب المهذب: Je voudrais un café. Pourriez-vous m\'aider ?','النصيحة: Tu devrais dormir plus.','التمنّي: J\'aimerais voyager.','جملة الشرط: Si j\'avais de l\'argent, j\'achèterais une voiture.'],
+ ex:[['Je voudrais un renseignement.','أريد معلومة (بأدب).'],['Tu devrais te reposer.','ينبغي أن ترتاح.'],['Si j\'étais riche, je voyagerais.','لو كنت غنياً لسافرت.']],
+ quiz:[{q:'Pour demander poliment: «___ un café.»',o:['Je veux','Je voudrais','Je voulais'],a:1,why:'الطلب المهذب: je voudrais.'},
+  {q:'Si j\'avais le temps, je ___.',o:['voyagerais','voyagerai','voyage'],a:0,why:'بعد si + imparfait نستعمل الشرطي.'},
+  {q:'Tu ___ dormir un peu. (نصيحة)',o:['devrais','dois','devais'],a:0,why:'النصيحة بالشرطي: tu devrais.'},
+  {q:'Nous ___ venir. (نودّ)',o:['aimerions','aimons','aimerons'],a:0,why:'nous aimerions.'}]},
+{id:'b1-rel',ar:'الضمائر الموصولة',fr:'Les pronoms relatifs qui et que',
+ intro:'تربط جملتين: qui تحلّ محل الفاعل، و que تحلّ محل المفعول.',
+ rules:['qui = الفاعل، وبعدها فعل: L\'homme qui parle est mon père.','que = المفعول، وبعدها فاعل: Le livre que je lis est intéressant.','que تصبح qu\' أمام حرف متحرك: Le film qu\'il regarde.','لا تتغير qui أبداً.'],
+ ex:[['La fille qui chante est ma cousine.','البنت التي تغني هي ابنة عمي.'],['Le café que tu bois est chaud.','القهوة التي تشربها ساخنة.'],['Voici le gâteau qu\'elle a préparé.','هذه الكعكة التي حضّرتها.']],
+ quiz:[{q:'L\'homme ___ travaille ici est médecin.',o:['qui','que','où'],a:0,why:'بعد الفراغ فعل (travaille) فالفراغ هو الفاعل ← qui.'},
+  {q:'Le livre ___ je lis est long.',o:['qui','que','dont'],a:1,why:'بعد الفراغ فاعل (je) فالفراغ هو المفعول ← que.'},
+  {q:'La voiture ___ il a achetée est rouge.',o:['qui','qu\'','que'],a:2,why:'بعد الفراغ فاعل (il) ← que.'},
+  {q:'J\'ai un ami ___ habite à Paris.',o:['qui','que','quoi'],a:0,why:'بعد الفراغ فعل (habite) فالفراغ هو الفاعل ← qui.'}]}
+]
+};
+
+/* ---------- القواعد ---------- */
+const GRS = { view:'menu', level:'A1', id:null, ans:[], done:{} };
+(function(){
+  try{ const p = JSON.parse(localStorage.getItem('fo_gr_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) GRS.level = p.level; }catch(e){}
+  try{ GRS.done = JSON.parse(localStorage.getItem('fo_gr_done')||'{}') || {}; }catch(e){}
+})();
+function grSave(){ try{ localStorage.setItem('fo_gr_pref', JSON.stringify({ level:GRS.level })); localStorage.setItem('fo_gr_done', JSON.stringify(GRS.done)); }catch(e){} }
+const grLessons = () => GR[GRS.level] || [];
+const grLesson = id => grLessons().find(l => l.id === id);
+function grQuizHtml(l){
+  const answered = GRS.ans.filter(a => a !== null && a !== undefined).length;
+  const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q.a ? 1 : 0), 0);
+  let h = l.quiz.map((q, qi) => {
+    const a = GRS.ans[qi], has = a !== null && a !== undefined;
+    return `<div class="grq"><p class="grqt" dir="auto">${qi + 1}. ${esc(q.q)}</p><div class="gropts">${q.o.map((o, oi) => {
+      let c = 'gro'; if(has){ if(oi === q.a) c += ' right'; else if(oi === a) c += ' wrong'; }
+      return `<button class="${c}" data-a="grAns" data-id="${qi}" data-o="${oi}" dir="auto" ${has ? 'disabled' : ''}>${esc(o)}</button>`;
+    }).join('')}</div>${has ? `<p class="grwhy ${a === q.a ? 'ok' : 'bad'}">${a === q.a ? '✓ صحيح. ' : '✗ ليس صحيحاً. '}${esc(q.why)}</p>` : ''}</div>`;
+  }).join('');
+  if(answered === l.quiz.length) h += `<div class="grres"><b>نتيجتك: ${right} من ${l.quiz.length}</b><button class="btn sec" data-a="grRetry">أعد التمرين</button></div>`;
+  return h;
+}
+function renderGrammar(v){
+  v.dir = '';
+  if(GRS.view === 'lesson') return renderGrLesson(v);
+  const pills = ['A1','A2','B1'].map(l => `<button class="vpill ${GRS.level === l ? 'on' : ''}" data-a="grLevel" data-id="${l}">${l}</button>`).join('');
+  const ls = grLessons(), dn = ls.filter(l => GRS.done[l.id] !== undefined).length;
+  v.innerHTML = `<h2 class="st"><span>${I('gram')} القواعد <small>Grammaire</small></span></h2>
+    <div class="vbar2"><div class="vpills">${pills}</div></div>
+    <p class="cap" style="margin:8px 2px 14px">أنهيت ${dn} من ${ls.length} دروس في هذا المستوى.</p>
+    <div class="vgrid">${ls.map((l, i) => { const d = GRS.done[l.id]; return `<button class="vcat" data-a="grOpen" data-id="${l.id}"><b>${i + 1}. ${esc(l.ar)}</b><span class="vf" dir="ltr">${esc(l.fr)}</span><span class="vn" dir="ltr">${d !== undefined ? '✓ ' + d + ' / ' + l.quiz.length : 'لم يُحلّ بعد'}</span></button>`; }).join('')}</div>`;
+}
+function renderGrLesson(v){
+  const l = grLesson(GRS.id); if(!l){ GRS.view = 'menu'; return renderGrammar(v); }
+  const tb = l.table ? `<div class="grtw"><table class="grt" dir="auto"><thead><tr>${l.table.h.map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${l.table.r.map(r => `<tr>${r.map((x, i) => `<td ${i ? 'dir="ltr" lang="fr"' : ''}>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
+  v.innerHTML = `<button class="btn sec" data-a="grBack" style="margin-bottom:12px">← القواعد</button>
+    <h2 class="st"><span>${esc(l.ar)} <small dir="ltr">${esc(l.fr)}</small></span></h2>
+    <div class="card grbox"><p class="grp">${esc(l.intro)}</p>${tb}
+      <h4 class="grh">القاعدة</h4><ul class="grul">${l.rules.map(r => `<li dir="auto">${esc(r)}</li>`).join('')}</ul>
+      <h4 class="grh">أمثلة</h4>${l.ex.map((e, i) => `<div class="vrow"><button class="vsp" data-a="grSay" data-id="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx"><span class="vfr" dir="ltr" lang="fr">${esc(e[0].replace(/\s*\(.*?\)\s*$/, ''))}</span><span class="vm">${esc(e[1])}</span></div></div>`).join('')}</div>
+    <h3 class="grh2">تمرين</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div>`;
+}
+const GRH = {
+  grLevel:(id) => { GRS.level = id; grSave(); render(); },
+  grOpen:(id) => { GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; render(); window.scrollTo(0, 0); },
+  grBack:() => { GRS.view = 'menu'; render(); },
+  grSay:(id) => { const l = grLesson(GRS.id); if(l && l.ex[+id]) speak(l.ex[+id][0].replace(/\s*\(.*?\)\s*$/, ''), .85); },
+  grAns:(id, el) => {
+    const l = grLesson(GRS.id); if(!l) return; const qi = +id;
+    if(GRS.ans[qi] !== undefined && GRS.ans[qi] !== null) return;
+    GRS.ans[qi] = +el.dataset.o;
+    if(l.quiz.every((q, i) => GRS.ans[i] !== undefined && GRS.ans[i] !== null)){
+      const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q.a ? 1 : 0), 0);
+      if(GRS.done[l.id] === undefined || right > GRS.done[l.id]) GRS.done[l.id] = right;
+      grSave();
+    }
+    const box = document.getElementById('grq'); if(box) box.innerHTML = grQuizHtml(l);
+  },
+  grRetry:() => { GRS.ans = []; const l = grLesson(GRS.id), box = document.getElementById('grq'); if(l && box) box.innerHTML = grQuizHtml(l); }
+};
+
 const H = {
-  ...GH, ...VH,
+  ...GH, ...VH, ...GRH,
   moreMenu:()=>{
     const m = [['videos','video','الفيديوهات'],['assignments','assign','الواجبات'],['links','link','الروابط']];
     if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
