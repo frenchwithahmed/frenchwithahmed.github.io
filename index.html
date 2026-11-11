@@ -147,6 +147,37 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
+.vbar2{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:6px 0 12px}
+.vpills{display:flex;gap:6px;flex-wrap:wrap}
+.vpill{border:1px solid #d9d2bf;background:#fff;color:#0B1F3A;border-radius:999px;padding:9px 18px;font:inherit;font-weight:800;cursor:pointer}
+.vpill.sm{padding:6px 13px;font-size:13px;font-weight:700}
+.vpill.on{background:#0B1F3A;color:#fff;border-color:#0B1F3A}
+.vq{width:100%;margin-top:4px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.vcat{background:#fff;border:1px solid #e8e2d4;border-radius:16px;padding:16px;text-align:right;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px;box-shadow:0 2px 8px rgba(11,31,58,.05);transition:transform .15s}
+.vcat:hover{transform:translateY(-3px)}
+.vcat b{font-size:17px;color:#0B1F3A}.vcat .vf{color:#6b7280;font-size:13px;text-align:left}.vcat .vn{font-size:13px;color:#8a6a2c;font-weight:700}
+.vbar{display:block;height:7px;border-radius:6px;background:#ece6d6;overflow:hidden;flex:1}
+.vbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0B1F3A,#B8893B)}
+.vlist{padding:4px 14px}
+.vrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee7d6}
+.vrow:last-child{border-bottom:0}.vrow.ok .vfr{color:#17623a}
+.vsp{flex:0 0 40px;height:40px;border-radius:12px;border:0;background:#e9eefc;color:#1d4e9e;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.vtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.vfr{font-size:20px;font-weight:800;color:#0B1F3A;display:block;text-align:left}
+.vm{color:#374151;font-size:15px}.vsep{color:#b8893b}
+.vtx .vm,.vtx .vsep{display:inline}
+.vk{border:1px solid #d9d2bf;background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:700;color:#6b7280;cursor:pointer;white-space:nowrap}
+.vk.on{background:#e6f5ec;border-color:#9fd3b2;color:#17623a}
+.vtag{font-size:12px;color:#8a6a2c;background:#faf3e0;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.vprog{display:flex;align-items:center;gap:12px;margin:4px 0 14px;font-weight:700;color:#0B1F3A}
+.vcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;min-height:240px;background:#fff;border:1px solid #e8e2d4;border-radius:22px;padding:28px 18px;margin-bottom:16px;font:inherit;cursor:pointer;box-shadow:0 6px 22px rgba(11,31,58,.08);text-align:center}
+.vcard .vfr{font-size:34px;text-align:center}.vcard.flip{background:#0B1F3A}
+.vcard.flip .vmean .vm{color:#fff;font-size:24px;font-weight:800}.vcard.flip .vsep{color:#e2c27a}
+.vcard.flip .vhint .vfr{color:#e2c27a;font-size:18px;font-weight:700}
+.vhint{color:#8a8f98;font-size:14px}
+@media(max-width:560px){.vfr{font-size:18px}.vcard .vfr{font-size:30px}.vtag{display:none}}
+
 #auth{display:flex;align-items:center;gap:8px}
 .tbtn.bell{position:relative;padding:8px 11px}
 .bn{position:absolute;top:-6px;inset-inline-start:-6px;min-width:20px;height:20px;border-radius:10px;background:#d64545;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #0B1F3A}
@@ -446,6 +477,7 @@ tr:hover td{background:#FBF9F3}
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4L10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-vocab" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
@@ -483,7 +515,7 @@ function fitNav(){
   try{
     const h = document.querySelector('header'), n = document.getElementById('nav'); if(!h || !n) return;
     h.classList.remove('navwrap');
-    if(n.clientWidth > 0 && (n.children.length >= 9 && innerWidth <= 1500 || n.scrollWidth > n.clientWidth + 1 || [...n.children].some(b => b.scrollWidth > b.clientWidth + 1))) h.classList.add('navwrap');
+    if(n.clientWidth > 0 && (n.children.length >= 8 && innerWidth <= 1500 || n.scrollWidth > n.clientWidth + 1 || [...n.children].some(b => b.scrollWidth > b.clientWidth + 1))) h.classList.add('navwrap');
   }catch(e){}
 }
 window.addEventListener('resize', fitNav);
@@ -608,7 +640,7 @@ async function loadAll(){
 setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(!document.querySelector('#modal .ov')) render(); }, 90*60*1000);
 
 /* ============ الواجهة العامة ============ */
-const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب']];
+const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات']];
 
 function renderShell(){
   const tabs = TABS.slice();
@@ -778,6 +810,7 @@ function render(){
   const files = items.filter(i=>i.kind==='file'), vids = items.filter(i=>i.kind==='video');
   if(((state.tab==='people' || state.tab==='track') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
   if(state.tab==='games') return renderGames(v);
+  if(state.tab==='vocab') return renderVocab(v);
   if(state.tab==='track') return renderTrack(v, err);
   if(state.tab==='people') return renderPeople(v, err);
   if(state.tab==='mine') return renderMine(v, err);
@@ -2650,8 +2683,208 @@ document.addEventListener('keydown', e => {
   else if(e.key==='Enter' && G.pick!==null){ e.preventDefault(); gameNext(); }
 });
 
+/* المفردات: [الفرنسية, العربية, English] */
+const VOC = {
+A1: [
+ { id:'a1-greet', ar:'التحيات والتعارف', fr:'Salutations', w:[
+  ['Bonjour','مرحباً / صباح الخير','Hello / Good morning'],['Bonsoir','مساء الخير','Good evening'],['Salut','أهلاً (للأصدقاء)','Hi'],
+  ['Au revoir','مع السلامة','Goodbye'],['À bientôt','إلى اللقاء قريباً','See you soon'],['Merci','شكراً','Thank you'],
+  ["S'il vous plaît",'من فضلك','Please'],['De rien','عفواً (رداً على الشكر)',"You're welcome"],['Excusez-moi','المعذرة','Excuse me'],
+  ['Pardon','آسف / عفواً','Sorry'],['Comment allez-vous ?','كيف حالك؟','How are you?'],["Je m'appelle…",'اسمي…','My name is…'],
+  ['Enchanté(e)','تشرفت بمعرفتك','Nice to meet you'],['Oui','نعم','Yes'],['Non','لا','No'] ]},
+ { id:'a1-num', ar:'الأرقام', fr:'Les nombres', w:[
+  ['un','واحد (1)','one'],['deux','اثنان (2)','two'],['trois','ثلاثة (3)','three'],['quatre','أربعة (4)','four'],['cinq','خمسة (5)','five'],
+  ['six','ستة (6)','six'],['sept','سبعة (7)','seven'],['huit','ثمانية (8)','eight'],['neuf','تسعة (9)','nine'],['dix','عشرة (10)','ten'],
+  ['onze','أحد عشر (11)','eleven'],['douze','اثنا عشر (12)','twelve'],['vingt','عشرون (20)','twenty'],['trente','ثلاثون (30)','thirty'],['cent','مئة (100)','one hundred'] ]},
+ { id:'a1-col', ar:'الألوان', fr:'Les couleurs', w:[
+  ['rouge','أحمر','red'],['bleu','أزرق','blue'],['vert','أخضر','green'],['jaune','أصفر','yellow'],['noir','أسود','black'],['blanc','أبيض','white'],
+  ['gris','رمادي','gray'],['orange','برتقالي','orange'],['rose','وردي','pink'],['marron','بني','brown'],['violet','بنفسجي','purple'] ]},
+ { id:'a1-fam', ar:'العائلة', fr:'La famille', w:[
+  ['la famille','العائلة','the family'],['la mère','الأم','the mother'],['le père','الأب','the father'],['le frère','الأخ','the brother'],['la sœur','الأخت','the sister'],
+  ['le fils','الابن','the son'],['la fille','البنت','the daughter'],['le grand-père','الجد','the grandfather'],['la grand-mère','الجدة','the grandmother'],
+  ["l'oncle",'العم / الخال','the uncle'],['la tante','العمة / الخالة','the aunt'],['le cousin','ابن العم / ابن الخال','the cousin'],
+  ["l'ami",'الصديق','the friend'],['le mari','الزوج','the husband'],['la femme','الزوجة / المرأة','the wife / the woman'] ]},
+ { id:'a1-food', ar:'الطعام والشراب', fr:'La nourriture', w:[
+  ['le pain','الخبز','bread'],["l'eau",'الماء','water'],['le lait','الحليب','milk'],['le café','القهوة','coffee'],['le thé','الشاي','tea'],['le jus','العصير','juice'],
+  ['le fromage','الجبن','cheese'],["l'œuf",'البيضة','the egg'],['la viande','اللحم','meat'],['le poisson','السمك','fish'],['le poulet','الدجاج','chicken'],
+  ['le riz','الأرز','rice'],['la pomme','التفاحة','the apple'],['la banane','الموزة','the banana'],["l'orange",'البرتقالة','the orange'],['le fruit','الفاكهة','fruit'],
+  ['le légume','الخضار','vegetable'],['la salade','السلطة','salad'],['le gâteau','الكعكة','cake'],['le sucre','السكر','sugar'],['le sel','الملح','salt'] ]},
+ { id:'a1-days', ar:'الأيام والوقت', fr:'Les jours et le temps', w:[
+  ['lundi','الاثنين','Monday'],['mardi','الثلاثاء','Tuesday'],['mercredi','الأربعاء','Wednesday'],['jeudi','الخميس','Thursday'],['vendredi','الجمعة','Friday'],
+  ['samedi','السبت','Saturday'],['dimanche','الأحد','Sunday'],["aujourd'hui",'اليوم','today'],['demain','غداً','tomorrow'],['hier','أمس','yesterday'],
+  ['la semaine','الأسبوع','the week'],['le mois','الشهر','the month'],["l'année",'السنة','the year'],['le matin','الصباح','the morning'],['le soir','المساء','the evening'] ]},
+ { id:'a1-school', ar:'في المدرسة', fr:"À l'école", w:[
+  ["l'école",'المدرسة','the school'],['le professeur','المعلّم','the teacher'],["l'élève",'التلميذ','the pupil'],['la classe','الفصل','the class'],['le livre','الكتاب','the book'],
+  ['le cahier','الدفتر','the notebook'],['le stylo','القلم','the pen'],['le crayon','قلم الرصاص','the pencil'],['le tableau','السبورة','the board'],['le sac','الحقيبة','the bag'],
+  ['la table','الطاولة','the table'],['la chaise','الكرسي','the chair'],['la porte','الباب','the door'],['la fenêtre','النافذة','the window'] ]},
+ { id:'a1-animals', ar:'الحيوانات', fr:'Les animaux', w:[
+  ['le chat','القط','the cat'],['le chien','الكلب','the dog'],['le cheval','الحصان','the horse'],['la vache','البقرة','the cow'],['le mouton','الخروف','the sheep'],
+  ["l'oiseau",'الطائر','the bird'],['le lion','الأسد','the lion'],["l'éléphant",'الفيل','the elephant'],['le lapin','الأرنب','the rabbit'],['le singe','القرد','the monkey'],
+  ['la souris','الفأر','the mouse'],['le canard','البطة','the duck'] ]},
+ { id:'a1-home', ar:'البيت', fr:'La maison', w:[
+  ['la maison','البيت','the house'],['la chambre','غرفة النوم','the bedroom'],['la cuisine','المطبخ','the kitchen'],['la salle de bain','الحمام','the bathroom'],
+  ['le salon','غرفة الجلوس','the living room'],['le jardin','الحديقة','the garden'],['le lit','السرير','the bed'],['la lampe','المصباح','the lamp'],
+  ['le canapé','الأريكة','the sofa'],['le miroir','المرآة','the mirror'],['la clé','المفتاح','the key'],['la télévision','التلفاز','the television'],
+  ['le toit','السقف','the roof'],["l'escalier",'السلّم','the stairs'] ]},
+ { id:'a1-verbs', ar:'أفعال أساسية', fr:'Verbes de base', w:[
+  ['être','يكون','to be'],['avoir','يملك','to have'],['aller','يذهب','to go'],['faire','يفعل / يصنع','to do / to make'],['manger','يأكل','to eat'],['boire','يشرب','to drink'],
+  ['parler','يتكلم','to speak'],['aimer','يحب','to like / to love'],['vouloir','يريد','to want'],['pouvoir','يستطيع','to be able to'],['voir','يرى','to see'],['venir','يأتي','to come'] ]}
+],
+A2: [
+ { id:'a2-clothes', ar:'الملابس', fr:'Les vêtements', w:[
+  ['la chemise','القميص','the shirt'],['le pantalon','البنطال','the trousers'],['la robe','الفستان','the dress'],['la jupe','التنورة','the skirt'],['le manteau','المعطف','the coat'],
+  ['la veste','السترة','the jacket'],['le pull','الكنزة','the sweater'],['les chaussures','الأحذية','the shoes'],['les chaussettes','الجوارب','the socks'],['le chapeau','القبعة','the hat'],
+  ["l'écharpe",'الوشاح','the scarf'],['les lunettes','النظارات','the glasses'],['la ceinture','الحزام','the belt'] ]},
+ { id:'a2-city', ar:'المدينة والاتجاهات', fr:'La ville', w:[
+  ['la ville','المدينة','the city'],['la rue','الشارع','the street'],['la place','الساحة','the square'],['le magasin','المتجر','the shop'],['le marché','السوق','the market'],
+  ['la banque','البنك','the bank'],["l'hôpital",'المستشفى','the hospital'],['la pharmacie','الصيدلية','the pharmacy'],['la gare','محطة القطار','the train station'],
+  ["l'aéroport",'المطار','the airport'],['le pont','الجسر','the bridge'],['le musée','المتحف','the museum'],['le restaurant','المطعم','the restaurant'],
+  ['la poste','مكتب البريد','the post office'],['le parc','الحديقة العامة','the park'],["l'hôtel",'الفندق','the hotel'],
+  ['à gauche','إلى اليسار','on the left'],['à droite','إلى اليمين','on the right'],['tout droit','مباشرةً إلى الأمام','straight ahead'] ]},
+ { id:'a2-weather', ar:'الطقس والفصول', fr:'La météo', w:[
+  ['le soleil','الشمس','the sun'],['la pluie','المطر','the rain'],['la neige','الثلج','the snow'],['le vent','الرياح','the wind'],['le nuage','السحابة','the cloud'],
+  ["l'orage",'العاصفة الرعدية','the storm'],['chaud','حار','hot'],['froid','بارد','cold'],['il fait beau','الطقس جميل','the weather is nice'],['il pleut','تمطر','it is raining'],
+  ['la température','درجة الحرارة','the temperature'],['le printemps','الربيع','spring'],["l'été",'الصيف','summer'],["l'automne",'الخريف','autumn'],["l'hiver",'الشتاء','winter'] ]},
+ { id:'a2-jobs', ar:'المهن', fr:'Les métiers', w:[
+  ['le médecin','الطبيب','the doctor'],["l'infirmier",'الممرّض','the nurse'],["l'ingénieur",'المهندس','the engineer'],["l'avocat",'المحامي','the lawyer'],
+  ['le boulanger','الخبّاز','the baker'],['le cuisinier','الطبّاخ','the cook'],['le chauffeur','السائق','the driver'],['le policier','الشرطي','the police officer'],
+  ['le pilote','الطيّار','the pilot'],["l'agriculteur",'المزارع','the farmer'],['le vendeur','البائع','the salesman'],['le journaliste','الصحفي','the journalist'],
+  ["l'artiste",'الفنان','the artist'],['le dentiste','طبيب الأسنان','the dentist'] ]},
+ { id:'a2-travel', ar:'السفر', fr:'Le voyage', w:[
+  ['le voyage','الرحلة','the trip'],['le billet','التذكرة','the ticket'],['la valise','الحقيبة (السفر)','the suitcase'],['le passeport','جواز السفر','the passport'],
+  ['le train','القطار','the train'],["l'avion",'الطائرة','the plane'],['la voiture','السيارة','the car'],['le bus','الحافلة','the bus'],['le vélo','الدراجة','the bicycle'],
+  ['le bateau','القارب / السفينة','the boat'],['le départ','المغادرة','the departure'],["l'arrivée",'الوصول','the arrival'],['la réservation','الحجز','the booking'],
+  ['la carte','الخريطة / البطاقة','the map / the card'],['la plage','الشاطئ','the beach'],['la mer','البحر','the sea'],['la montagne','الجبل','the mountain'],['le touriste','السائح','the tourist'] ]},
+ { id:'a2-health', ar:'الجسم والصحة', fr:'Le corps et la santé', w:[
+  ['la tête','الرأس','the head'],['le bras','الذراع','the arm'],['la main','اليد','the hand'],['le pied','القدم','the foot'],['la jambe','الساق','the leg'],
+  ["l'œil (pl. les yeux)",'العين','the eye'],['la bouche','الفم','the mouth'],['le nez','الأنف','the nose'],["l'oreille",'الأذن','the ear'],['le dos','الظهر','the back'],
+  ['le ventre','البطن','the belly'],['le cœur','القلب','the heart'],['la fièvre','الحمّى','the fever'],['le rhume','الزكام','the cold'],['la toux','السعال','the cough'],
+  ['la douleur','الألم','the pain'],['le médicament','الدواء','the medicine'],['le rendez-vous','الموعد','the appointment'],['malade','مريض','sick'],['en bonne santé','بصحة جيدة','healthy'] ]},
+ { id:'a2-verbs', ar:'أفعال شائعة', fr:'Verbes courants', w:[
+  ['se lever','ينهض من النوم','to get up'],['se coucher','يذهب إلى النوم','to go to bed'],['travailler','يعمل','to work'],['étudier','يدرس','to study'],['acheter','يشتري','to buy'],
+  ['vendre','يبيع','to sell'],['prendre','يأخذ','to take'],['donner','يعطي','to give'],['regarder','يشاهد / ينظر','to watch / to look'],['écouter','يستمع','to listen'],
+  ['écrire','يكتب','to write'],['lire','يقرأ','to read'],['comprendre','يفهم','to understand'],['choisir','يختار','to choose'],['finir','ينهي','to finish'],
+  ['ouvrir','يفتح','to open'],['fermer','يغلق','to close'],['attendre','ينتظر','to wait'],['chercher','يبحث','to look for'],['trouver','يجد','to find'] ]}
+],
+B1: [
+ { id:'b1-work', ar:'العمل والوظيفة', fr:'Le travail', w:[
+  ['le travail','العمل','work'],["l'entreprise",'الشركة','the company'],['le patron','المدير / رب العمل','the boss'],['le collègue','الزميل','the colleague'],['le salaire','الراتب','the salary'],
+  ['le contrat','العقد','the contract'],['la réunion','الاجتماع','the meeting'],["l'emploi",'الوظيفة','the job'],['le chômage','البطالة','unemployment'],['la candidature','طلب التوظيف','the application'],
+  ["l'entretien",'المقابلة','the interview'],['le CV','السيرة الذاتية','the CV'],["l'expérience",'الخبرة','the experience'],['le congé','الإجازة','the leave'],
+  ['embaucher','يوظّف','to hire'],['démissionner','يستقيل','to resign'],['licencier','يفصل من العمل','to dismiss'],['gagner','يكسب','to earn / to win'] ]},
+ { id:'b1-emo', ar:'المشاعر', fr:'Les émotions', w:[
+  ['la joie','الفرح','joy'],['la tristesse','الحزن','sadness'],['la colère','الغضب','anger'],['la peur','الخوف','fear'],['la surprise','المفاجأة','surprise'],["l'inquiétude",'القلق','worry'],
+  ['la fierté','الفخر','pride'],['la honte','الخجل / العار','shame'],["l'espoir",'الأمل','hope'],['la confiance','الثقة','trust'],['la jalousie','الغيرة','jealousy'],
+  ['la déception','خيبة الأمل','disappointment'],['content','سعيد','happy'],['fâché','غاضب','angry'],['déçu','خائب الأمل','disappointed'],['inquiet','قلق','worried'],['soulagé','مرتاح','relieved'] ]},
+ { id:'b1-env', ar:'البيئة', fr:"L'environnement", w:[
+  ["l'environnement",'البيئة','the environment'],['la pollution','التلوث','pollution'],['le réchauffement climatique','الاحترار المناخي','global warming'],['le recyclage','إعادة التدوير','recycling'],
+  ['les déchets','النفايات','waste'],["l'énergie",'الطاقة','energy'],['la forêt','الغابة','the forest'],['la planète','الكوكب','the planet'],['la nature','الطبيعة','nature'],
+  ['la sécheresse','الجفاف','the drought'],["l'inondation",'الفيضان','the flood'],['protéger','يحمي','to protect'],['gaspiller','يهدر','to waste'],['économiser','يوفّر','to save'],['polluer','يلوّث','to pollute'] ]},
+ { id:'b1-tech', ar:'التكنولوجيا', fr:'La technologie', w:[
+  ["l'ordinateur",'الحاسوب','the computer'],['le téléphone portable','الهاتف المحمول','the mobile phone'],["l'application",'التطبيق','the app'],['le site web','الموقع الإلكتروني','the website'],
+  ['le mot de passe','كلمة المرور','the password'],['le courriel','البريد الإلكتروني','the email'],['le réseau social','شبكة التواصل الاجتماعي','the social network'],['le fichier','الملف','the file'],
+  ["l'écran",'الشاشة','the screen'],['le clavier','لوحة المفاتيح','the keyboard'],['la batterie','البطارية','the battery'],["l'intelligence artificielle",'الذكاء الاصطناعي','artificial intelligence'],
+  ['télécharger','يحمّل (ملفاً)','to download'],['envoyer','يرسل','to send'],['se connecter','يسجّل الدخول / يتصل','to log in / to connect'] ]},
+ { id:'b1-link', ar:'أدوات الربط والتعابير', fr:'Connecteurs et expressions', w:[
+  ['pourtant','ومع ذلك','however'],['cependant','غير أنّ','however'],['donc','إذن','so / therefore'],['parce que','لأنّ','because'],["d'abord",'أولاً','first'],
+  ['ensuite','بعد ذلك','then'],['enfin','أخيراً','finally'],['en plus','إضافةً إلى ذلك','moreover'],['par exemple','مثلاً','for example'],['à mon avis','في رأيي','in my opinion'],
+  ['je pense que','أعتقد أنّ','I think that'],["être d'accord",'يوافق','to agree'],['malgré','رغم','despite'],['grâce à','بفضل','thanks to'],['à cause de','بسبب','because of'],
+  ['quand même','مع ذلك / رغم كل شيء','all the same'],['peut-être','ربما','maybe'] ]}
+]
+};
+
+/* ---------- المفردات ---------- */
+const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, flip:false, total:0, again:0, known:new Set() };
+(function(){
+  try{ const p = JSON.parse(localStorage.getItem('fo_voc_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) V.level = p.level; if(['ar','en','both'].includes(p.mean)) V.mean = p.mean; }catch(e){}
+  try{ V.known = new Set(JSON.parse(localStorage.getItem('fo_voc_known')||'[]')); }catch(e){}
+})();
+function vSave(){
+  try{ localStorage.setItem('fo_voc_pref', JSON.stringify({ level:V.level, mean:V.mean })); localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){}
+}
+const vCats = () => VOC[V.level] || [];
+const vCat = id => vCats().find(c => c.id === id);
+function vMean(w){
+  const ar = `<span class="vm">${esc(w[1])}</span>`, en = `<span class="vm" dir="ltr">${esc(w[2])}</span>`;
+  return V.mean === 'ar' ? ar : V.mean === 'en' ? en : ar + ' <span class="vsep">·</span> ' + en;
+}
+const vFr = w => `<span class="vfr" dir="ltr" lang="fr">${esc(w[0])}</span>`;
+const vSay = w => speak(w[0].replace(/[…()]/g, '').replace(/\bpl\.[^)]*/, ''), .85);
+function vProg(c){ const k = c.w.filter(w => V.known.has(w[0])).length; return { k, n:c.w.length, p:Math.round(k / c.w.length * 100) }; }
+function vSearchHtml(){
+  const q = V.q.trim().toLowerCase();
+  if(!q){
+    return `<div class="vgrid">${vCats().map(c => { const p = vProg(c); return `<button class="vcat" data-a="vOpen" data-id="${c.id}"><b>${esc(c.ar)}</b><span class="vf" dir="ltr">${esc(c.fr)}</span><span class="vn" dir="ltr">${p.k} / ${p.n}</span><span class="vbar"><i style="width:${p.p}%"></i></span></button>`; }).join('')}</div>`;
+  }
+  const hits = [];
+  vCats().forEach(c => c.w.forEach((w, i) => { if(w.some(x => x.toLowerCase().includes(q))) hits.push({ c, w, i }); }));
+  if(!hits.length) return `<div class="empty" style="border:0"><h4>لا توجد نتائج</h4><p>جرّب كلمة أخرى أو غيّر المستوى.</p></div>`;
+  return `<div class="card vlist">${hits.slice(0, 60).map(h => `<div class="vrow"><button class="vsp" data-a="vSayW" data-id="${h.c.id}" data-i="${h.i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(h.w)}${vMean(h.w)}</div><span class="vtag">${esc(h.c.ar)}</span></div>`).join('')}</div>${hits.length > 60 ? '<p class="cap">أول 60 نتيجة. دقّق البحث للمزيد.</p>' : ''}`;
+}
+function renderVocab(v){
+  v.dir = '';
+  if(V.view === 'cards') return renderVCards(v);
+  if(V.view === 'cat') return renderVCat(v);
+  const pills = ['A1','A2','B1'].map(l => `<button class="vpill ${V.level === l ? 'on' : ''}" data-a="vLevel" data-id="${l}">${l}</button>`).join('');
+  const means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
+  const all = vCats().reduce((n, c) => n + c.w.length, 0), kn = vCats().reduce((n, c) => n + vProg(c).k, 0);
+  v.innerHTML = `<h2 class="st"><span>${I('vocab')} المفردات <small>Vocabulaire</small></span></h2>
+    <div class="vbar2"><div class="vpills">${pills}</div><div class="vpills">${means}</div></div>
+    <input class="in vq" id="vq" type="search" placeholder="ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية" value="${esc(V.q)}" autocomplete="off">
+    <p class="cap" style="margin:8px 2px 14px">${kn} من ${all} كلمة وضعت عليها علامة «عرفتها» في هذا المستوى.</p>
+    <div id="vres">${vSearchHtml()}</div>`;
+}
+function renderVCat(v){
+  const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
+  const p = vProg(c), means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
+  v.innerHTML = `<button class="btn sec" data-a="vBack" style="margin-bottom:12px">← المفردات</button>
+    <h2 class="st"><span>${esc(c.ar)} <small dir="ltr">${esc(c.fr)}</small></span><small dir="ltr">${p.k} / ${p.n}</small></h2>
+    <div class="vbar2"><div class="vpills">${means}</div><button class="btn" data-a="vCards">${I('play','s')} بطاقات المراجعة</button></div>
+    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}</div><button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div>`).join('')}</div>`;
+}
+function renderVCards(v){
+  const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
+  if(!V.deck.length){
+    v.innerHTML = `<div class="card gend" style="text-align:center;padding:34px 18px"><div class="eic c-green" style="margin:0 auto 10px">${I('check')}</div><h3>أحسنت! أنهيت المراجعة</h3>
+      <p class="cap">راجعت ${V.total} كلمة${V.again ? ` وأعدت ${V.again} منها` : ' دون أي إعادة'}.</p>
+      <div class="actions" style="justify-content:center"><button class="btn lg" data-a="vCards">راجع مرة أخرى</button><button class="btn sec lg" data-a="vCatBack">رجوع للقائمة</button></div></div>`;
+    return;
+  }
+  const w = V.deck[0], done = V.total - V.deck.length;
+  v.innerHTML = `<button class="btn sec" data-a="vCatBack" style="margin-bottom:12px">← ${esc(c.ar)}</button>
+    <div class="vprog"><span dir="ltr">${done} / ${V.total}</span><span class="vbar"><i style="width:${Math.round(done / V.total * 100)}%"></i></span></div>
+    <button class="vcard ${V.flip ? 'flip' : ''}" data-a="vFlip" aria-label="اقلب البطاقة">
+      ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
+    </button>
+    <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>
+      ${V.flip ? `<button class="btn del lg" data-a="vNo">أعيدها</button><button class="btn lg" data-a="vYes">عرفتها ✓</button>` : `<button class="btn lg" data-a="vFlip">أظهر المعنى</button>`}</div>`;
+}
+function vStartCards(){
+  const c = vCat(V.cat); if(!c) return;
+  let ws = c.w.filter(w => !V.known.has(w[0])); if(!ws.length) ws = c.w.slice();
+  for(let i = ws.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [ws[i], ws[j]] = [ws[j], ws[i]]; }
+  V.deck = ws; V.total = ws.length; V.again = 0; V.flip = false; V.view = 'cards'; render(); window.scrollTo(0, 0);
+}
+const VH = {
+  vLevel:(id) => { V.level = id; V.q = ''; vSave(); render(); },
+  vMean:(id) => { V.mean = id; vSave(); render(); },
+  vOpen:(id) => { V.cat = id; V.view = 'cat'; render(); window.scrollTo(0, 0); },
+  vBack:() => { V.view = 'menu'; render(); },
+  vCatBack:() => { V.view = 'cat'; render(); },
+  vSayW:(id, el) => { const c = vCat(id); if(c) vSay(c.w[+el.dataset.i]); },
+  vKnow:(id, el) => { const c = vCat(V.cat); if(!c) return; const w = c.w[+el.dataset.i]; V.known.has(w[0]) ? V.known.delete(w[0]) : V.known.add(w[0]); vSave(); render(); },
+  vCards:() => vStartCards(),
+  vFlip:() => { V.flip = !V.flip; render(); },
+  vSayC:() => { if(V.deck[0]) vSay(V.deck[0]); },
+  vYes:() => { const w = V.deck.shift(); if(w) V.known.add(w[0]); V.flip = false; vSave(); render(); },
+  vNo:() => { const w = V.deck.shift(); if(w){ V.deck.push(w); V.again++; } V.flip = false; render(); }
+};
+document.addEventListener('input', e => {
+  if(e.target && e.target.id === 'vq'){ V.q = e.target.value; const r = document.getElementById('vres'); if(r) r.innerHTML = vSearchHtml(); }
+});
+
 const H = {
-  ...GH,
+  ...GH, ...VH,
   moreMenu:()=>{
     const m = [['videos','video','الفيديوهات'],['assignments','assign','الواجبات'],['links','link','الروابط']];
     if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
