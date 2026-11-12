@@ -623,8 +623,13 @@ async function upMedia(file, folder, classId){
 async function rmMedia(paths){
   const all = (paths || []).filter(isStored);
   const priv = all.filter(isPrivPath), pub = all.filter(p => !isPrivPath(p));
-  try{ if(pub.length) await sb.storage.from(BUCKET).remove(pub); }catch{}
-  try{ if(priv.length) await sb.storage.from(PRIV_BUCKET).remove(priv); }catch{}
+  let ok = true;
+  for(const [bucket, list] of [[BUCKET, pub], [PRIV_BUCKET, priv]]){
+    if(!list.length) continue;
+    try{ const r = await sb.storage.from(bucket).remove(list); if(r.error) throw r.error; }
+    catch(e){ ok = false; logErr('rmMedia:' + bucket, e); }   // لا نزعج المستخدم: العنصر حُذف، والملف اليتيم يُسجَّل فقط
+  }
+  return ok;
 }
 async function resolveSigned(){
   const ps = new Set();
@@ -637,8 +642,12 @@ async function resolveSigned(){
   if(!ps.size) return;
   try{
     const r = await sb.storage.from(PRIV_BUCKET).createSignedUrls([...ps], 7200);
+    if(r.error) throw r.error;
     (r.data || []).forEach(x => { if(x.signedUrl) signed[x.path] = x.signedUrl; });
-  }catch{}
+  }catch(e){
+    logErr('resolveSigned', e);
+    if(!resolveSigned._t || Date.now() - resolveSigned._t > 60000){ resolveSigned._t = Date.now(); toast('تعذر تحميل بعض الملفات الخاصة بالصف. حدّث الصفحة وحاول مرة أخرى.', 'err'); }
+  }
 }
 const legacyTag = (cls, path) => (state.teacher && cls && path && isStored(path) && !isPrivPath(path)) ? `<span class="tag bad" title="هذا الملف مخزّن في مكان عام. احذف العنصر وأعد رفعه ليصبح خاصاً بالصف">⚠ ملف عام: أعد رفعه</span>` : '';
 
@@ -1366,7 +1375,7 @@ function openSubmit(id){
       openModal(`<div class="empty" style="border:0;margin-top:10px"><div class="eic c-green">${I('check')}</div><h4>تم استلام إجابتك</h4><div>شكراً ${esc(name)}، وصل واجبك إلى المدرس.</div><button class="btn lg" data-a="close" style="margin-top:16px">إغلاق</button></div>`);
       if(state.teacher){ counts.a[id] = (counts.a[id]||0)+1; }
     }catch(err){
-      if(uploaded && path){ try{ await sb.storage.from(SUB_BUCKET).remove([path]); }catch{} }
+      if(uploaded && path){ try{ const rr = await sb.storage.from(SUB_BUCKET).remove([path]); if(rr.error) throw rr.error; }catch(e2){ logErr('subCleanup', e2); } }
       const m = errMsg(err);
       toast(/deadline/i.test(m) ? 'انتهى موعد تسليم هذا الواجب' : (submitErr(m) || (/mime|type|not allowed/i.test(m) ? 'نوع الملف غير مسموح' : /row-level security|violates/i.test(m) ? 'غير مسموح لك برفع ملف لهذا الواجب' : 'تعذر الإرسال: ' + m)), 'err');
       btn.disabled = false; $('#prog').style.display = 'none';
@@ -2630,13 +2639,31 @@ function matchEnd(){
   G.view = 'end'; G.tot = Math.round((Date.now()-G.tot)/1000);
   const b = getBest(); G.newBest = G.pts > b; if(G.newBest) setBest(G.pts); G.prevBest = b; if(G.m.err===0) beep('win'); gSaveScore(); render();
 }
+/* رسالة مفهومة لأخطاء الحفظ (بدون كشف تفاصيل تقنية للطالب) */
+function saveErrMsg(e){
+  const m = String((e && e.message) || '');
+  if(navigator.onLine === false || /failed to fetch|networkerror|load failed/i.test(m)) return 'لا يوجد اتصال بالإنترنت. لم تُحفظ نتيجتك.';
+  if(/jwt|expired|not authenticated|401/i.test(m + ' ' + ((e && (e.code || e.status)) || ''))) return 'انتهت جلسة الدخول. سجّل الدخول من جديد ثم أعد المحاولة.';
+  return 'تعذر حفظ نتيجتك. حاول مرة أخرى.';
+}
+function opErrMsg(e){
+  const m = String((e && e.message) || '');
+  if(navigator.onLine === false || /failed to fetch|networkerror|load failed/i.test(m)) return 'لا يوجد اتصال بالإنترنت. لم تكتمل العملية.';
+  if(/jwt|expired|not authenticated|401/i.test(m + ' ' + ((e && (e.code || e.status)) || ''))) return 'انتهت جلسة الدخول. سجّل الدخول من جديد ثم أعد المحاولة.';
+  return 'تعذر إكمال العملية. حاول مرة أخرى.';
+}
 async function gSaveScore(){
+  if(G.saved || typeof sb === 'undefined' || !sb || state.teacher || !(state.me && state.me.student)) return;
+  const total = G.qs.length, correct = Math.max(0, Math.min(G.ok, total)); if(!total) return;
+  G.saved = true;   // يمنع الإرسال المزدوج أثناء الطلب
   try{
-    if(G.saved || typeof sb === 'undefined' || !sb || state.teacher || !(state.me && state.me.student)) return;
-    const total = G.qs.length, correct = Math.max(0, Math.min(G.ok, total)); if(!total) return;
-    G.saved = true;
-    await sb.from('game_scores').insert({ game:G.game, level:G.level, correct, total });
-  }catch(e){}
+    const r = await sb.from('game_scores').insert({ game:G.game, level:G.level, correct, total });
+    if(r.error) throw r.error;
+  }catch(e){
+    G.saved = false;   // لم يُحفظ فعلاً
+    logErr('gSaveScore', e);
+    toast(saveErrMsg(e), 'err');
+  }
 }
 function gameNext(){
   if(G.view!=='play' || G.pick===null) return;
@@ -3697,6 +3724,7 @@ const GRH = {
   grRetry:() => { const l = grLesson(GRS.id), box = document.getElementById('grq'); if(!l || !box) return; GRS.ans = []; grNewOrder(l); box.innerHTML = grQuizHtml(l); box.scrollIntoView({ block:'start' }); }
 };
 
+const INFLIGHT = new Set();
 const H = {
   ...GH, ...VH, ...GRH,
   moreMenu:()=>{
@@ -3727,7 +3755,14 @@ document.addEventListener('click', e=>{
   if(el.tagName==='A') e.preventDefault();
   if(el.dataset.a==='ovclose'){ if(e.target===el && !el.classList.contains('full') && !modalHasText()) requestClose(); return; }
   if(el.dataset.a==='search') return;
-  H[el.dataset.a]?.(el.dataset.id, el);
+  const act = el.dataset.a, fn = H[act]; if(!fn) return;
+  const key = act + ':' + (el.dataset.id || '');
+  if(INFLIGHT.has(key)) return;                       // منع الضغط المتكرر أثناء تنفيذ نفس العملية
+  let res; try{ res = fn(el.dataset.id, el); }catch(err){ logErr('action:' + act, err); toast(opErrMsg(err), 'err'); return; }
+  if(res && typeof res.then === 'function'){
+    INFLIGHT.add(key);
+    res.catch(err => { logErr('action:' + act, err); toast(opErrMsg(err), 'err'); }).finally(() => INFLIGHT.delete(key));   // لا فشل صامت
+  }
 });
 document.addEventListener('input', e=>{
   if(e.target.dataset?.a==='search'){
