@@ -147,21 +147,29 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(15,22,45,.6);z-index:100;display:grid;place-items:center;padding:20px;overflow:auto}
 .modal{background:var(--flag-card) top/100% 6px no-repeat, #fff;border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:28px;position:relative;margin:auto}
 .modal.wide{max-width:900px}
-.grbox{padding:16px 18px;margin-bottom:14px}
+.grl{direction:ltr;text-align:left}
+.grtitle{display:flex;flex-direction:column;gap:2px;margin:6px 0 14px;padding-bottom:8px;border-bottom:3px solid #B8893B;width:max-content;max-width:100%}
+.grfr{font-size:26px;font-weight:800;color:#0B1F3A}.grsub{font-size:15px;color:#6b7385}
+.grbox{padding:16px 18px;margin-bottom:14px;text-align:left}
 .grp{font-size:16px;line-height:1.9;color:#1c2333;margin-bottom:12px}
+.gar{display:block;text-align:left;color:#1c2333;line-height:1.9}
+.gen{display:block;text-align:left;color:#6b7385;font-size:.93em;line-height:1.7}
+.gsep{color:#b8893b}
 .grh{margin:16px 0 8px;color:#8a6a2c;font-size:15px}.grh2{margin:20px 2px 10px;color:#0B1F3A}
-.grul{padding:0 20px 0 0;margin:0;line-height:1.9;color:#374151}.grul li{margin-bottom:6px}
-.grtw{overflow-x:auto;margin:6px 0}
+.grul{padding:0 0 0 22px;margin:0}.grul li{margin-bottom:10px}
+.grtw{overflow-x:auto;margin:8px 0}
 .grt{border-collapse:collapse;width:100%;font-size:15px}
 .grt th{background:#0B1F3A;color:#fff;padding:8px 12px;font-weight:700;text-align:center}
 .grt td{border:1px solid #e8e2d4;padding:8px 12px;text-align:center}.grt td:first-child{background:#faf6ea;font-weight:700}
 .grt tbody tr:nth-child(even) td{background:#fcfaf3}.grt tbody tr:nth-child(even) td:first-child{background:#faf6ea}
+.grl .vfr{text-align:left}.grtr .gar,.grtr .gen{display:block}
 .grq{padding:12px 0;border-bottom:1px solid #eee7d6}.grq:last-of-type{border-bottom:0}
 .grqt{font-weight:800;color:#0B1F3A;margin-bottom:10px;font-size:16px;line-height:1.7}
 .gropts{display:flex;gap:8px;flex-wrap:wrap}
-.gro{border:1px solid #d9d2bf;background:#fff;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;color:#0B1F3A}
+.gro{border:1px solid #d9d2bf;background:#fff;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;color:#0B1F3A;text-align:left}
 .gro:disabled{cursor:default;opacity:.75}.gro.right{background:#e6f5ec;border-color:#4cb27a;color:#17623a;opacity:1}.gro.wrong{background:#fde8ea;border-color:#e46a77;color:#a3202f;opacity:1}
-.grwhy{margin-top:8px;font-size:14px;line-height:1.7}.grwhy.ok{color:#17623a}.grwhy.bad{color:#a3202f}
+.grwhy{margin-top:8px;font-size:14px;line-height:1.7}.grwhy b{display:block;margin-bottom:2px}.grwhy.ok{color:#17623a}.grwhy.bad{color:#a3202f}
+.grwhy .gar,.grwhy .gen{color:inherit}
 .grres{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;padding:12px 14px;background:#faf3e0;border-radius:14px;color:#0B1F3A}
 
 .vbar2{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:6px 0 12px}
@@ -3113,233 +3121,548 @@ document.addEventListener('input', e => {
   if(e.target && e.target.id === 'vq'){ V.q = e.target.value; const r = document.getElementById('vres'); if(r) r.innerHTML = vSearchHtml(); }
 });
 
-/* القواعد: كل درس = شرح + جدول اختياري + أمثلة + تمرين */
+/* القواعد: كل درس = شرح + جدول + أمثلة + تمرين. النصوص 'عربي|English' */
 const GR = {
 A1:[
-{id:'a1-art',ar:'أدوات التعريف والتنكير',fr:'Les articles',
- intro:'في الفرنسية كل اسم له جنس (مذكر أو مؤنث) وعدد (مفرد أو جمع)، والأداة تتغير حسب ذلك.',
- table:{h:['','مذكر','مؤنث','جمع'],r:[['معرّف (الـ)','le (l\')','la (l\')','les'],['منكّر (واحد / ما)','un','une','des']]},
- rules:['نستعمل l\' أمام الاسم الذي يبدأ بحرف متحرك أو h صامتة: l\'école, l\'homme.','le / la / les للشيء المعروف أو المحدد، و un / une / des للشيء غير المحدد.'],
- ex:[['Le livre est sur la table.','الكتاب على الطاولة.'],['J\'ai une sœur et un frère.','عندي أخت وأخ.'],['Les enfants jouent.','الأطفال يلعبون.']],
- quiz:[{q:'___ maison est grande.',o:['Le','La','Les'],a:1,why:'maison مؤنث ومفرد، فنستعمل la.'},
-  {q:'J\'ai ___ ami français.',o:['un','une','des'],a:0,why:'ami مذكر ومفرد، فنستعمل un.'},
-  {q:'___ élèves sont ici.',o:['Le','La','Les'],a:2,why:'élèves جمع، فنستعمل les.'},
-  {q:'Elle habite dans ___ appartement.',o:['un','une','des'],a:0,why:'appartement مذكر ومفرد: un appartement.'}]},
-{id:'a1-etre',ar:'الفعلان être و avoir',fr:'Être et avoir',
- intro:'هذان أهم فعلين في الفرنسية: être (يكون) و avoir (يملك). يجب حفظهما جيداً.',
- table:{h:['الضمير','être','avoir'],r:[['je','suis','ai'],['tu','es','as'],['il / elle / on','est','a'],['nous','sommes','avons'],['vous','êtes','avez'],['ils / elles','sont','ont']]},
- rules:['être للتعريف والحالة: Je suis professeur. Il est fatigué.','avoir للملكية والعمر: J\'ai un livre. Elle a vingt ans.','لاحظ: العمر في الفرنسية مع avoir وليس être.'],
- ex:[['Je suis étudiant.','أنا طالب.'],['Nous avons deux enfants.','عندنا طفلان.'],['Ils sont contents.','هم سعداء.']],
- quiz:[{q:'Tu ___ en retard.',o:['es','as','est'],a:0,why:'مع tu نقول tu es.'},
-  {q:'Nous ___ faim.',o:['sommes','avons','avez'],a:1,why:'نقول avoir faim (أن تجوع)، فمع nous: nous avons.'},
-  {q:'Elle ___ quinze ans.',o:['est','a','as'],a:1,why:'العمر مع avoir: elle a quinze ans.'},
-  {q:'Vous ___ professeur.',o:['avez','êtes','sont'],a:1,why:'مع vous نقول vous êtes.'}]},
-{id:'a1-er',ar:'الأفعال المنتهية بـ -er',fr:'Les verbes en -er',
- intro:'معظم الأفعال الفرنسية تنتهي بـ -er. نحذف -er ونضيف النهايات التالية (مثال: parler).',
- table:{h:['الضمير','النهاية','parler'],r:[['je','-e','parle'],['tu','-es','parles'],['il / elle / on','-e','parle'],['nous','-ons','parlons'],['vous','-ez','parlez'],['ils / elles','-ent','parlent']]},
- rules:['نهايات -e و -es و -ent لا تُنطق في الكلام.','نفس القاعدة مع: aimer, manger, habiter, travailler, regarder, étudier...','استثناء صغير: nous mangeons (نضيف e للحفاظ على النطق).'],
- ex:[['Je parle français.','أتكلم الفرنسية.'],['Nous habitons à Paris.','نسكن في باريس.'],['Ils travaillent beaucoup.','هم يعملون كثيراً.']],
- quiz:[{q:'Il ___ le matin.',o:['travaille','travailles','travaillent'],a:0,why:'مع il نضيف -e فقط.'},
-  {q:'Nous ___ la télévision.',o:['regardez','regardons','regardent'],a:1,why:'مع nous النهاية -ons.'},
-  {q:'Vous ___ très bien.',o:['parlons','parlez','parlent'],a:1,why:'مع vous النهاية -ez.'},
-  {q:'Elles ___ à Lyon.',o:['habite','habitons','habitent'],a:2,why:'مع elles النهاية -ent.'}]},
-{id:'a1-neg',ar:'النفي',fr:'La négation',
- intro:'للنفي نضع الفعل بين كلمتين: ne … pas.',
- rules:['ne قبل الفعل و pas بعده: Je ne parle pas arabe.','إذا بدأ الفعل بحرف متحرك تصبح ne هكذا n\': Je n\'aime pas le café.','بعد النفي تتحول un / une / des إلى de (أو d\'): J\'ai un frère ← Je n\'ai pas de frère.'],
- ex:[['Il ne mange pas.','هو لا يأكل.'],['Je n\'ai pas de voiture.','ليست عندي سيارة.'],['Nous ne sommes pas fatigués.','لسنا متعبين.']],
- quiz:[{q:'Je ___ parle ___ anglais.',o:['ne … pas','pas … ne','n\' … pas'],a:0,why:'الصيغة: ne + فعل + pas.'},
-  {q:'Elle ___ aime pas le thé.',o:['ne','n\'','non'],a:1,why:'aime يبدأ بحرف متحرك، فنقول n\'.'},
-  {q:'Je n\'ai pas ___ chat.',o:['un','une','de'],a:2,why:'بعد النفي نستعمل de بدل un: je n\'ai pas de chat.'},
-  {q:'Choisissez la phrase correcte:',o:['Il pas mange.','Il ne mange pas.','Il mange ne pas.'],a:1,why:'ne قبل الفعل و pas بعده.'}]},
-{id:'a1-poss',ar:'صفات الملكية',fr:'Les adjectifs possessifs',
- intro:'تعبّر عن الملكية (كتابي، أختك...). تتبع جنس وعدد الشيء المملوك وليس المالك.',
- table:{h:['المالك','مذكر','مؤنث','جمع'],r:[['أنا','mon','ma','mes'],['أنتَ','ton','ta','tes'],['هو / هي','son','sa','ses'],['نحن','notre','notre','nos'],['أنتم','votre','votre','vos'],['هم','leur','leur','leurs']]},
- rules:['أمام اسم مؤنث يبدأ بحرف متحرك نستعمل mon / ton / son: mon amie, ton école.','son / sa تعني «له» أو «لها» وتحدّدها حسب الاسم بعدها.'],
- ex:[['Mon père est professeur.','أبي معلم.'],['Ma sœur habite ici.','أختي تسكن هنا.'],['Nos amis arrivent.','أصدقاؤنا يصلون.']],
- quiz:[{q:'___ mère est gentille. (أمي)',o:['Mon','Ma','Mes'],a:1,why:'mère مؤنث: ma mère.'},
-  {q:'Voici ___ livres. (كتبك)',o:['ton','ta','tes'],a:2,why:'livres جمع: tes livres.'},
-  {q:'___ amie s\'appelle Sara. (صديقتي)',o:['Ma','Mon','Mes'],a:1,why:'amie مؤنث لكنه يبدأ بحرف متحرك، فنقول mon amie.'},
-  {q:'Nous aimons ___ école. (مدرستنا)',o:['notre','nos','votre'],a:0,why:'école مفرد ومالكه «نحن»: notre école.'}]},
-{id:'a1-fp',ar:'المؤنث والجمع',fr:'Le féminin et le pluriel',
- intro:'القاعدة العامة: للمؤنث نضيف -e، وللجمع نضيف -s (ولا تُنطق عادةً).',
- table:{h:['القاعدة','مثال'],r:[['مؤنث: + e','petit ← petite'],['جمع: + s','un livre ← des livres'],['ينتهي بـ -eau: + x','un gâteau ← des gâteaux'],['ينتهي بـ -al ← -aux','un animal ← des animaux'],['ينتهي بـ -s أو -x: لا يتغير','un fils ← des fils']]},
- rules:['الصفة تتفق مع الاسم في الجنس والعدد: une grande maison, des maisons grandes (أو: de grandes maisons).','بعض المؤنثات خاصة: un acteur ← une actrice.'],
- ex:[['Il est grand, elle est grande.','هو طويل وهي طويلة.'],['Les chevaux sont rapides.','الخيول سريعة.'],['Ce sont des amis.','هؤلاء أصدقاء.']],
- quiz:[{q:'Une amie ___.',o:['français','française','françaises'],a:1,why:'amie مؤنث مفرد: française.'},
-  {q:'Le pluriel de «un journal» est:',o:['des journals','des journaux','des journale'],a:1,why:'-al تتحول إلى -aux.'},
-  {q:'Le pluriel de «un gâteau» est:',o:['des gâteaus','des gâteaux','des gâteau'],a:1,why:'-eau تأخذ x في الجمع.'},
-  {q:'Elle est ___.',o:['petit','petite','petits'],a:1,why:'للمؤنث نضيف e: petite.'}]},
-{id:'a1-q',ar:'طرح الأسئلة',fr:'Poser des questions',
- intro:'هناك ثلاث طرق شائعة لطرح سؤال إجابته نعم أو لا.',
- rules:['بالنبرة فقط: Tu parles français ? (الأسهل في الكلام).','باستعمال est-ce que: Est-ce que tu parles français ?','بقلب الفعل والضمير: Parles-tu français ? (أكثر رسمية).','للأسئلة المفتوحة نضع كلمة الاستفهام أولاً: Où habites-tu ? Comment tu t\'appelles ?'],
- ex:[['Est-ce que vous avez des frères ?','هل عندكم إخوة؟'],['Où habites-tu ?','أين تسكن؟'],['Quand est-ce que tu travailles ?','متى تعمل؟']],
- quiz:[{q:'Quelle phrase est une question avec «est-ce que» ?',o:['Est-ce que tu viens ?','Tu est-ce que viens ?','Viens est-ce que tu ?'],a:0,why:'est-ce que تأتي في بداية الجملة.'},
-  {q:'«Parles-tu arabe ?» signifie:',o:['هل تتكلم العربية؟','أنا أتكلم العربية.','لا أتكلم العربية.'],a:0,why:'قلب الفعل والضمير يعطي سؤالاً.'},
-  {q:'Pour demander «أين؟» on dit:',o:['Quand','Où','Pourquoi'],a:1,why:'où = أين.'},
-  {q:'___ tu t\'appelles ? (ما اسمك؟)',o:['Comment','Combien','Pourquoi'],a:0,why:'Comment tu t\'appelles ? = ما اسمك؟'}]}
+{id:"a1-art",ar:"أدوات التعريف والتنكير",en:"Articles",fr:"Les articles",
+ intro:"في الفرنسية كل اسم له جنس (مذكر أو مؤنث) وعدد (مفرد أو جمع)، والأداة تتغير حسب ذلك.|In French every noun has a gender (masculine or feminine) and a number (singular or plural), and the article changes accordingly.",
+ table:{h:["|","مذكر|Masculine","مؤنث|Feminine","جمع|Plural"],r:[["معرّف (الـ)|definite (the)","le (l')","la (l')","les"],["منكّر (واحد / ما)|indefinite (a)","un","une","des"]]},
+ rules:["نستعمل l' أمام الاسم الذي يبدأ بحرف متحرك أو h صامتة: l'école, l'homme.|Use l' before a vowel or a silent h: l'école, l'homme.","le / la / les للشيء المعروف المحدد، و un / une / des للشيء غير المحدد.|Le / la / les for something specific; un / une / des for something non-specific."],
+ ex:[["Le livre est sur la table.","الكتاب على الطاولة.|The book is on the table."],["J'ai une sœur et un frère.","عندي أخت وأخ.|I have a sister and a brother."],["Les enfants jouent.","الأطفال يلعبون.|The children are playing."]],
+ quiz:[["___ maison est grande.",["Le","La","Les"],1,"maison مؤنث ومفرد، فنستعمل la.|Maison is feminine singular, so we use la."],
+ ["J'ai ___ ami français.",["un","une","des"],0,"ami مذكر ومفرد: un ami.|Ami is masculine singular: un ami."],
+ ["___ élèves sont ici.",["Le","La","Les"],2,"élèves جمع، فنستعمل les.|Élèves is plural, so we use les."],
+ ["Elle habite dans ___ appartement.",["un","une","des"],0,"appartement مذكر ومفرد: un appartement.|Appartement is masculine singular."],
+ ["Il y a ___ chat dans le jardin.",["un","une","des"],0,"chat مذكر مفرد: un chat.|Chat is masculine singular: un chat."],
+ ["Elle mange ___ pomme.",["un","une","des"],1,"pomme مؤنث: une pomme.|Pomme is feminine: une pomme."],
+ ["___ étudiants parlent.",["Les","Le","La"],0,"étudiants جمع: les étudiants.|Étudiants is plural: les étudiants."],
+ ["___ hôtel est cher.",["La","L'","Les"],1,"hôtel يبدأ بحرف h صامتة: l'hôtel.|Hôtel starts with a silent h: l'hôtel."]]},
+{id:"a1-etre",ar:"أهم فعلين: الكينونة والملكية",en:"To be and to have",fr:"Être et avoir",
+ intro:"هذان أهم فعلين في الفرنسية: être (يكون) و avoir (يملك). يجب حفظهما جيداً.|These are the two most important French verbs: être (to be) and avoir (to have). Learn them well.",
+ table:{h:["الضمير|Pronoun","être","avoir"],r:[["je","suis","ai"],["tu","es","as"],["il / elle / on","est","a"],["nous","sommes","avons"],["vous","êtes","avez"],["ils / elles","sont","ont"]]},
+ rules:["être للتعريف والحالة: Je suis professeur. Il est fatigué.|Être for identity and state: Je suis professeur.","avoir للملكية والعمر: J'ai un livre. Elle a vingt ans.|Avoir for possession and age: Elle a vingt ans.","لاحظ: العمر في الفرنسية مع avoir وليس être.|Note: age uses avoir, not être."],
+ ex:[["Je suis étudiant.","أنا طالب.|I am a student."],["Nous avons deux enfants.","عندنا طفلان.|We have two children."],["Ils sont contents.","هم سعداء.|They are happy."]],
+ quiz:[["Tu ___ en retard.",["es","as","est"],0,"مع tu نقول tu es.|With tu we say tu es."],
+ ["Nous ___ faim.",["sommes","avons","avez"],1,"نقول avoir faim (أن تجوع): nous avons faim.|We say avoir faim: nous avons faim."],
+ ["Elle ___ quinze ans.",["est","a","as"],1,"العمر مع avoir: elle a quinze ans.|Age uses avoir: elle a quinze ans."],
+ ["Vous ___ professeur.",["avez","êtes","sont"],1,"مع vous نقول vous êtes.|With vous we say vous êtes."],
+ ["Ils ___ une grande maison.",["ont","sont","a"],0,"الملكية مع avoir: ils ont.|Possession uses avoir: ils ont."],
+ ["Je ___ très content.",["ai","suis","es"],1,"الحالة مع être: je suis.|State uses être: je suis."],
+ ["Vous ___ soif.",["êtes","avez","ont"],1,"avoir soif (أن تعطش): vous avez soif.|Avoir soif: vous avez soif."],
+ ["Il ___ dans le jardin.",["a","est","es"],1,"المكان مع être: il est.|Location uses être: il est."]]},
+{id:"a1-er",ar:"الأفعال المنتهية بـ -er",en:"Verbs ending in -er",fr:"Les verbes en -er",
+ intro:"معظم الأفعال الفرنسية تنتهي بـ -er. نحذف -er ونضيف النهايات التالية (مثال: parler).|Most French verbs end in -er. Remove -er and add these endings (example: parler).",
+ table:{h:["الضمير|Pronoun","النهاية|Ending","parler"],r:[["je","-e","parle"],["tu","-es","parles"],["il / elle / on","-e","parle"],["nous","-ons","parlons"],["vous","-ez","parlez"],["ils / elles","-ent","parlent"]]},
+ rules:["نهايات -e و -es و -ent لا تُنطق.|The endings -e, -es and -ent are silent.","نفس القاعدة مع: aimer, manger, habiter, travailler, regarder, étudier...|Same rule for: aimer, manger, habiter, travailler, regarder, étudier...","استثناء صغير: nous mangeons (نضيف e للحفاظ على النطق).|Small exception: nous mangeons (an extra e keeps the sound)."],
+ ex:[["Je parle français.","أتكلم الفرنسية.|I speak French."],["Nous habitons à Paris.","نسكن في باريس.|We live in Paris."],["Ils travaillent beaucoup.","هم يعملون كثيراً.|They work a lot."]],
+ quiz:[["Il ___ le matin.",["travaille","travailles","travaillent"],0,"مع il نضيف -e فقط.|With il we add just -e."],
+ ["Nous ___ la télévision.",["regardez","regardons","regardent"],1,"مع nous النهاية -ons.|With nous the ending is -ons."],
+ ["Vous ___ très bien.",["parlons","parlez","parlent"],1,"مع vous النهاية -ez.|With vous the ending is -ez."],
+ ["Elles ___ à Lyon.",["habite","habitons","habitent"],2,"مع elles النهاية -ent.|With elles the ending is -ent."],
+ ["Tu ___ le thé.",["aime","aimes","aiment"],1,"مع tu النهاية -es.|With tu the ending is -es."],
+ ["Je ___ à la maison.",["reste","restes","restons"],0,"مع je النهاية -e.|With je the ending is -e."],
+ ["Les enfants ___ dans le parc.",["joue","jouons","jouent"],2,"فاعل جمع (غائب) ← -ent.|Third-person plural ← -ent."],
+ ["Nous ___ du poisson. (manger)",["mangons","mangeons","mangez"],1,"مع nous نضيف e بعد g للمحافظة على النطق: mangeons.|With nous we keep an e after g: mangeons."]]},
+{id:"a1-neg",ar:"النفي",en:"Negation",fr:"La négation",
+ intro:"للنفي نضع الفعل بين كلمتين: ne … pas.|To make a sentence negative, put the verb between two words: ne … pas.",
+ rules:["ne قبل الفعل و pas بعده: Je ne parle pas arabe.|Ne before the verb, pas after it: Je ne parle pas arabe.","إذا بدأ الفعل بحرف متحرك تصبح ne هكذا n': Je n'aime pas le café.|Before a vowel ne becomes n': Je n'aime pas le café.","بعد النفي تتحول un / une / des إلى de (أو d'): J'ai un frère ← Je n'ai pas de frère.|After a negation un / une / des become de (or d'): Je n'ai pas de frère."],
+ ex:[["Il ne mange pas.","هو لا يأكل.|He is not eating."],["Je n'ai pas de voiture.","ليست عندي سيارة.|I don't have a car."],["Nous ne sommes pas fatigués.","لسنا متعبين.|We are not tired."]],
+ quiz:[["Je ___ parle ___ anglais.",["ne … pas","pas … ne","n' … pas"],0,"الصيغة: ne + فعل + pas.|The pattern: ne + verb + pas."],
+ ["Elle ___ aime pas le thé.",["ne","n'","non"],1,"aime يبدأ بحرف متحرك، فنقول n'.|Aime starts with a vowel, so n'."],
+ ["Je n'ai pas ___ chat.",["un","une","de"],2,"بعد النفي نستعمل de بدل un.|After a negation use de instead of un."],
+ ["Choisissez la phrase correcte:",["Il pas mange.","Il ne mange pas.","Il mange ne pas."],1,"ne قبل الفعل و pas بعده.|Ne before the verb, pas after."],
+ ["Nous ___ travaillons pas le dimanche.",["ne","n'","non"],0,"travaillons يبدأ بحرف ساكن: ne.|Travaillons starts with a consonant: ne."],
+ ["Tu ___ pas content.",["n'es","ne es","n'est"],0,"مع tu: tu es ← tu n'es pas.|With tu: tu es ← tu n'es pas."],
+ ["Ils ne ___ pas ici.",["habite","habitent","habitons"],1,"مع ils النهاية -ent.|With ils the ending is -ent."],
+ ["Il n'y a pas ___ eau.",["de l'","d'","de la"],1,"بعد النفي de تصبح d' أمام حرف متحرك: d'eau.|After a negation de becomes d' before a vowel: d'eau."]]},
+{id:"a1-poss",ar:"صفات الملكية",en:"Possessive adjectives",fr:"Les adjectifs possessifs",
+ intro:"تعبّر عن الملكية (كتابي، أختك...). تتبع جنس وعدد الشيء المملوك وليس المالك.|They show ownership (my book, your sister...). They agree with the thing owned, not with the owner.",
+ table:{h:["المالك|Owner","مذكر|Masc.","مؤنث|Fem.","جمع|Plural"],r:[["أنا|I","mon","ma","mes"],["أنتَ|you","ton","ta","tes"],["هو / هي|he / she","son","sa","ses"],["نحن|we","notre","notre","nos"],["أنتم|you (pl.)","votre","votre","vos"],["هم|they","leur","leur","leurs"]]},
+ rules:["أمام اسم مؤنث يبدأ بحرف متحرك نستعمل mon / ton / son: mon amie, ton école.|Before a feminine noun starting with a vowel use mon / ton / son: mon amie.","son / sa تعني «له» أو «لها» وتتحدد حسب الاسم بعدها.|Son / sa mean «his» or «her»; they depend on the noun that follows."],
+ ex:[["Mon père est professeur.","أبي معلم.|My father is a teacher."],["Ma sœur habite ici.","أختي تسكن هنا.|My sister lives here."],["Nos amis arrivent.","أصدقاؤنا يصلون.|Our friends are arriving."]],
+ quiz:[["___ mère est gentille. (أمي)",["Mon","Ma","Mes"],1,"mère مؤنث: ma mère.|Mère is feminine: ma mère."],
+ ["Voici ___ livres. (كتبك)",["ton","ta","tes"],2,"livres جمع: tes livres.|Livres is plural: tes livres."],
+ ["___ amie s'appelle Sara. (صديقتي)",["Ma","Mon","Mes"],1,"amie مؤنث لكنه يبدأ بحرف متحرك: mon amie.|Amie is feminine but starts with a vowel: mon amie."],
+ ["Nous aimons ___ école. (مدرستنا)",["notre","nos","votre"],0,"école مفرد ومالكه «نحن»: notre école.|École is singular, owner is «we»: notre école."],
+ ["___ frère est grand. (أخي)",["Mon","Ma","Mes"],0,"frère مذكر: mon frère.|Frère is masculine: mon frère."],
+ ["Marie aime ___ chat.",["son","sa","ses"],0,"chat مذكر مفرد: son chat.|Chat is masculine singular: son chat."],
+ ["Vous avez ___ clés ? (مفاتيحكم)",["votre","vos","vôtre"],1,"clés جمع: vos clés.|Clés is plural: vos clés."],
+ ["Ils habitent avec ___ parents.",["leur","leurs","sa"],1,"parents جمع: leurs parents.|Parents is plural: leurs parents."]]},
+{id:"a1-fp",ar:"المؤنث والجمع",en:"Feminine and plural",fr:"Le féminin et le pluriel",
+ intro:"القاعدة العامة: للمؤنث نضيف -e، وللجمع نضيف -s (ولا تُنطق عادةً).|General rule: add -e for the feminine and -s for the plural (usually silent).",
+ table:{h:["القاعدة|Rule","مثال|Example"],r:[["مؤنث: + e|feminine: + e","petit ← petite"],["جمع: + s|plural: + s","un livre ← des livres"],["ينتهي بـ -eau: + x|-eau: + x","un gâteau ← des gâteaux"],["-al ← -aux","un animal ← des animaux"],["-s أو -x: لا يتغير|-s or -x: no change","un fils ← des fils"]]},
+ rules:["الصفة تتفق مع الاسم في الجنس والعدد: une grande maison.|The adjective agrees with the noun: une grande maison.","بعض المؤنثات خاصة: un acteur ← une actrice.|Some feminines are special: un acteur ← une actrice."],
+ ex:[["Il est grand, elle est grande.","هو طويل وهي طويلة.|He is tall, she is tall."],["Les chevaux sont rapides.","الخيول سريعة.|The horses are fast."],["Ce sont des amis.","هؤلاء أصدقاء.|They are friends."]],
+ quiz:[["Une amie ___.",["français","française","françaises"],1,"amie مؤنث مفرد: française.|Amie is feminine singular: française."],
+ ["Le pluriel de «un journal» est:",["des journals","des journaux","des journale"],1,"-al تتحول إلى -aux.|-al becomes -aux."],
+ ["Le pluriel de «un gâteau» est:",["des gâteaus","des gâteaux","des gâteau"],1,"-eau تأخذ x في الجمع.|-eau takes x in the plural."],
+ ["Elle est ___.",["petit","petite","petits"],1,"للمؤنث نضيف e: petite.|Add e for the feminine: petite."],
+ ["Le pluriel de «un cheval» est:",["des chevals","des chevaux","des cheval"],1,"-al ← -aux: des chevaux.|-al ← -aux: des chevaux."],
+ ["Elle est ___. (سعيدة)",["heureux","heureuse","heureuxe"],1,"heureux ← heureuse.|Heureux ← heureuse."],
+ ["Les filles sont ___.",["content","contente","contentes"],2,"مؤنث وجمع: contentes.|Feminine plural: contentes."],
+ ["Le pluriel de «un fils» est:",["des fils","des filses","des fil"],0,"ما ينتهي بـ s لا يتغير.|Words ending in s do not change."]]},
+{id:"a1-q",ar:"طرح الأسئلة",en:"Asking questions",fr:"Poser des questions",
+ intro:"هناك ثلاث طرق شائعة لطرح سؤال إجابته نعم أو لا.|There are three common ways to ask a yes/no question.",
+ rules:["بالنبرة فقط: Tu parles français ? (الأسهل في الكلام).|By intonation only: Tu parles français ? (easiest in speech).","باستعمال est-ce que: Est-ce que tu parles français ?|With est-ce que: Est-ce que tu parles français ?","بقلب الفعل والضمير: Parles-tu français ? (أكثر رسمية).|By inversion: Parles-tu français ? (more formal).","للأسئلة المفتوحة نضع كلمة الاستفهام أولاً: Où habites-tu ?|For open questions start with the question word: Où habites-tu ?"],
+ ex:[["Est-ce que vous avez des frères ?","هل عندكم إخوة؟|Do you have any brothers?"],["Où habites-tu ?","أين تسكن؟|Where do you live?"],["Quand est-ce que tu travailles ?","متى تعمل؟|When do you work?"]],
+ quiz:[["Quelle phrase est une question avec «est-ce que» ?",["Est-ce que tu viens ?","Tu est-ce que viens ?","Viens est-ce que tu ?"],0,"est-ce que تأتي في بداية الجملة.|Est-ce que comes at the start."],
+ ["«Parles-tu arabe ?» signifie:",["هل تتكلم العربية؟","أنا أتكلم العربية.","لا أتكلم العربية."],0,"قلب الفعل والضمير يعطي سؤالاً.|Inversion makes a question."],
+ ["Pour demander «أين؟» on dit:",["Quand","Où","Pourquoi"],1,"où = أين.|Où = where."],
+ ["___ tu t'appelles ? (ما اسمك؟)",["Comment","Combien","Pourquoi"],0,"Comment tu t'appelles ? = ما اسمك؟|Comment tu t'appelles ? = What is your name?"],
+ ["___ est-ce que tu habites ? (أين)",["Où","Quand","Qui"],0,"où = أين.|Où = where."],
+ ["Pour demander «لماذا؟» on dit:",["Pourquoi","Combien","Comment"],0,"pourquoi = لماذا.|Pourquoi = why."],
+ ["___ coûte ce livre ? (كم)",["Combien","Comment","Quand"],0,"combien = كم: Combien coûte ce livre ?|Combien = how much."],
+ ["«Qui est-ce ?» signifie:",["من هذا؟","أين هذا؟","ما هذا؟"],0,"qui = من.|Qui = who."]]},
+{id:"a1-prep",ar:"حروف الجر للمكان والمدن",en:"Prepositions of place",fr:"Les prépositions de lieu",
+ intro:"نستعمل هذه الكلمات لنقول أين يوجد الشيء.|We use these words to say where something is.",
+ table:{h:["الكلمة|Word","المعنى|Meaning"],r:[["sur","فوق / على|on"],["sous","تحت|under"],["dans","داخل|in"],["devant","أمام|in front of"],["derrière","خلف|behind"],["entre","بين|between"],["à côté de","بجانب|next to"],["en face de","مقابل|opposite"]]},
+ rules:["مع المدن نقول à: à Paris. مع الدولة المؤنثة en: en France. مع المذكرة au: au Maroc.|With cities use à: à Paris. Feminine countries: en France. Masculine countries: au Maroc.","chez + شخص: chez moi (عندي / في بيتي).|Chez + person: chez moi (at my place)."],
+ ex:[["Le chat est sous la table.","القط تحت الطاولة.|The cat is under the table."],["Il habite à Paris.","يسكن في باريس.|He lives in Paris."],["Je vais chez mon ami.","أذهب إلى صديقي.|I am going to my friend's place."]],
+ quiz:[["Le chat est ___ la table. (تحت)",["sur","sous","entre"],1,"sous = تحت.|Sous = under."],
+ ["Il habite ___ Paris.",["à","en","au"],0,"مع المدن: à.|With cities: à."],
+ ["Nous habitons ___ Maroc.",["au","en","à"],0,"Maroc دولة مذكرة: au Maroc.|Maroc is masculine: au Maroc."],
+ ["Je suis ___ mon ami. (عند)",["chez","dans","à côté"],0,"chez + شخص.|Chez + person."],
+ ["Le livre est ___ le sac. (داخل)",["dans","sur","devant"],0,"dans = داخل.|Dans = in."],
+ ["La banque est ___ de la poste. (بجانب)",["à côté","au côté","côté"],0,"à côté de = بجانب.|À côté de = next to."],
+ ["La voiture est ___ la maison. (أمام)",["devant","derrière","sous"],0,"devant = أمام.|Devant = in front of."],
+ ["Marie est assise ___ Paul et Sara. (بين)",["entre","sur","dans"],0,"entre = بين.|Entre = between."]]},
+{id:"a1-ce",ar:"هذا هو / هناك: c'est و il y a",en:"This is / There is",fr:"C'est, ce sont, il y a",
+ intro:"نستعمل c'est للتعريف بشيء أو شخص، و il y a للدلالة على وجود شيء.|C'est identifies something or someone; il y a says that something exists.",
+ rules:["c'est + اسم أو صفة: C'est un livre. C'est beau.|C'est + noun or adjective: C'est un livre.","ce sont + جمع: Ce sont des amis.|Ce sont + plural: Ce sont des amis.","il y a تعني «يوجد» وتبقى ثابتة للمفرد والجمع: Il y a un chat. Il y a trois chats.|Il y a means «there is / there are» and never changes.","النفي: Il n'y a pas de lait.|Negative: Il n'y a pas de lait."],
+ ex:[["C'est mon frère.","هذا أخي.|This is my brother."],["Il y a des étudiants dans la classe.","يوجد طلاب في الصف.|There are students in the class."],["Il n'y a pas de pain.","لا يوجد خبز.|There is no bread."]],
+ quiz:[["___ une table.",["C'est","Il y a","Ce sont"],0,"للتعريف بشيء مفرد: c'est.|To identify one thing: c'est."],
+ ["___ trois livres sur la table.",["Il y a","C'est","Il est"],0,"للدلالة على الوجود: il y a.|To state existence: il y a."],
+ ["___ mes amis.",["C'est","Ce sont","Il y a"],1,"جمع معرّف: ce sont.|Plural identification: ce sont."],
+ ["Il n'y a pas ___ lait.",["de","du","des"],0,"بعد النفي: de.|After a negation: de."],
+ ["Dans la classe, ___ vingt élèves.",["il y a","c'est","ce sont"],0,"الوجود: il y a.|Existence: il y a."],
+ ["Qu'est-ce que c'est ? ___ un stylo.",["C'est","Ce sont","Il y a"],0,"للتعريف بشيء واحد: c'est.|One object: c'est."],
+ ["La phrase correcte:",["Il y a un chat.","Il y a une chat est.","Il a un chat là."],0,"il y a + اسم.|Il y a + noun."],
+ ["«Ce sont» تُستعمل مع:|«Ce sont» is used with:",["مفرد|singular","جمع|plural","مؤنث فقط|feminine only"],1,"ce sont للجمع.|Ce sont is for plurals."]]},
+{id:"a1-dem",ar:"أسماء الإشارة",en:"Demonstrative adjectives",fr:"Les adjectifs démonstratifs",
+ intro:"تعني «هذا / هذه / هؤلاء» وتتبع جنس وعدد الاسم.|They mean «this / that / these» and agree with the noun.",
+ table:{h:["|","مذكر|Masc.","مؤنث|Fem.","جمع|Plural"],r:[["هذا / هذه|this / these","ce (cet)","cette","ces"]]},
+ rules:["cet قبل اسم مذكر يبدأ بحرف متحرك: cet homme, cet ami.|Cet before a masculine noun starting with a vowel: cet homme.","للتمييز بين القريب والبعيد نضيف -ci و -là: ce livre-ci (هذا) / ce livre-là (ذاك).|Add -ci / -là for near / far: ce livre-ci / ce livre-là."],
+ ex:[["Ce livre est intéressant.","هذا الكتاب مثير للاهتمام.|This book is interesting."],["Cette femme est professeur.","هذه المرأة معلمة.|This woman is a teacher."],["Ces enfants sont gentils.","هؤلاء الأطفال لطفاء.|These children are kind."]],
+ quiz:[["___ garçon est grand.",["Ce","Cette","Ces"],0,"garçon مذكر: ce garçon.|Garçon is masculine: ce garçon."],
+ ["___ fille est ma sœur.",["Ce","Cette","Cet"],1,"fille مؤنث: cette fille.|Fille is feminine: cette fille."],
+ ["___ élèves travaillent.",["Ces","Cette","Ce"],0,"élèves جمع: ces élèves.|Élèves is plural: ces élèves."],
+ ["___ homme est gentil.",["Ce","Cet","Cette"],1,"homme يبدأ بحرف h صامتة: cet homme.|Homme starts with a silent h: cet homme."],
+ ["___ école est grande.",["Cet","Cette","Ce"],1,"école مؤنث: cette école.|École is feminine: cette école."],
+ ["___ ami est français.",["Cet","Ce","Cette"],0,"ami مذكر يبدأ بحرف متحرك: cet ami.|Ami is masculine and starts with a vowel: cet ami."],
+ ["Je préfère ce livre-___. (ذاك)",["là","ci","ça"],0,"-là للبعيد.|-là is for far."],
+ ["___ fruits sont frais.",["Ces","Ce","Cet"],0,"fruits جمع: ces fruits.|Fruits is plural: ces fruits."]]},
+{id:"a1-irr",ar:"أفعال مهمة: aller, faire, prendre, venir",en:"Key irregular verbs",fr:"Quatre verbes irréguliers",
+ intro:"هذه الأفعال الأربعة شائعة جداً ولا تتبع قاعدة -er، لذلك يجب حفظها.|These four verbs are very common and do not follow the -er rule, so learn them by heart.",
+ table:{h:["الضمير|Pronoun","aller","faire","prendre","venir"],r:[["je","vais","fais","prends","viens"],["tu","vas","fais","prends","viens"],["il / elle / on","va","fait","prend","vient"],["nous","allons","faisons","prenons","venons"],["vous","allez","faites","prenez","venez"],["ils / elles","vont","font","prennent","viennent"]]},
+ rules:["aller + à / en: Je vais à l'école.|Aller + à / en: Je vais à l'école.","faire للطقس والأنشطة: Il fait beau. Je fais du sport.|Faire for weather and activities: Il fait beau.","prendre للمواصلات والطعام: prendre le bus, prendre un café.|Prendre for transport and food: prendre le bus.","venir de = جاء من: Je viens de Syrie.|Venir de = to come from: Je viens de Syrie."],
+ ex:[["Je vais au marché.","أذهب إلى السوق.|I am going to the market."],["Nous faisons du sport.","نمارس الرياضة.|We do sport."],["Elle vient de Tunisie.","هي من تونس.|She comes from Tunisia."]],
+ quiz:[["Je ___ au marché.",["vais","vas","va"],0,"مع je: vais.|With je: vais."],
+ ["Nous ___ du sport.",["faisons","faites","font"],0,"مع nous: faisons.|With nous: faisons."],
+ ["Vous ___ le bus.",["prenez","prenons","prennent"],0,"مع vous: prenez.|With vous: prenez."],
+ ["Ils ___ de Tunisie.",["vient","viennent","venons"],1,"مع ils: viennent.|With ils: viennent."],
+ ["Il ___ beau aujourd'hui.",["fait","fais","font"],0,"Il fait beau.|Il fait beau."],
+ ["Tu ___ un café ?",["prends","prend","prenez"],0,"مع tu: prends.|With tu: prends."],
+ ["Elle ___ à Paris demain.",["va","vas","vont"],0,"مع elle: va.|With elle: va."],
+ ["Vous ___ ce soir ?",["venez","viens","viennent"],0,"مع vous: venez.|With vous: venez."]]},
+{id:"a1-contr",ar:"الاختصار مع à و de",en:"Contractions with à and de",fr:"Les contractions",
+ intro:"عندما تأتي à أو de قبل le أو les تندمج معها في كلمة واحدة.|When à or de is followed by le or les, they merge into one word.",
+ table:{h:["|","le","la","l'","les"],r:[["à (إلى / في)|to / at","au","à la","à l'","aux"],["de (من / عن)|of / from","du","de la","de l'","des"]]},
+ rules:["au و aux و du و des اختصارات إجبارية: à + le = au.|Au, aux, du, des are mandatory: à + le = au.","لا اختصار مع la و l': à la maison, de l'école.|No contraction with la or l': à la maison.","jouer au + رياضة، jouer de la / du + آلة موسيقية.|Jouer au + sport; jouer du / de la + instrument."],
+ ex:[["Je vais au marché.","أذهب إلى السوق.|I am going to the market."],["Il parle aux enfants.","يكلّم الأطفال.|He talks to the children."],["Elle joue de la guitare.","تعزف على الجيتار.|She plays the guitar."]],
+ quiz:[["Je vais ___ marché.",["au","à le","à la"],0,"à + le = au.|À + le = au."],
+ ["Elle parle ___ professeur.",["du","de le","de la"],0,"parler du professeur (عن المعلم): de + le = du.|De + le = du."],
+ ["Nous allons ___ école.",["à l'","au","aux"],0,"école يبدأ بحرف متحرك: à l'école.|École starts with a vowel: à l'école."],
+ ["Il parle ___ enfants.",["aux","au","à les"],0,"à + les = aux.|À + les = aux."],
+ ["Je joue ___ football.",["au","du","à la"],0,"jouer au + رياضة.|Jouer au + sport."],
+ ["Elle joue ___ guitare.",["de la","à la","du"],0,"jouer de la + آلة موسيقية.|Jouer de la + instrument."],
+ ["Le livre ___ professeur est ici.",["du","de le","au"],0,"de + le = du.|De + le = du."],
+ ["Tu vas ___ cinéma ?",["au","à le","du"],0,"à + le = au.|À + le = au."]]}
 ],
 A2:[
-{id:'a2-pc',ar:'الماضي المركب (مع avoir)',fr:'Le passé composé avec avoir',
- intro:'نستعمله للأحداث المنتهية في الماضي. يتكون من: avoir في الحاضر + اسم المفعول (participe passé).',
- table:{h:['الأفعال','اسم المفعول','مثال'],r:[['-er ← é','parlé, mangé','J\'ai mangé'],['-ir ← i','fini, choisi','Tu as fini'],['-re ← u','vendu, attendu','Il a vendu'],['شاذة','eu, fait, pris, vu','Nous avons fait']]},
- rules:['النفي: Je n\'ai pas mangé (ne + avoir + pas + اسم المفعول).','أفعال شاذة مهمة: avoir ← eu، être ← été، faire ← fait، prendre ← pris، voir ← vu.'],
- ex:[['Hier, j\'ai regardé un film.','البارحة شاهدت فيلماً.'],['Elle a fini son travail.','أنهت عملها.'],['Nous n\'avons pas mangé.','لم نأكل.']],
- quiz:[{q:'Hier, nous ___ au restaurant.',o:['avons mangé','sommes mangé','mangeons'],a:0,why:'manger يُصرَّف مع avoir: nous avons mangé.'},
-  {q:'Le participe passé de «faire» est:',o:['fait','faisé','fé'],a:0,why:'faire ← fait.'},
-  {q:'Il ___ fini ses devoirs.',o:['a','est','as'],a:0,why:'مع il نستعمل a (avoir).'},
-  {q:'Je ___ pas compris.',o:['n\'ai','ne suis','ne ai'],a:0,why:'النفي: je n\'ai pas compris.'}]},
-{id:'a2-etre',ar:'الماضي المركب (مع être)',fr:'Le passé composé avec être',
- intro:'مجموعة من أفعال الحركة والتغيّر تُصرَّف مع être بدل avoir، ويتفق اسم المفعول مع الفاعل.',
- rules:['الأفعال الأشهر: aller, venir, arriver, partir, entrer, sortir, monter, descendre, rester, naître, mourir, tomber, retourner.','كل الأفعال الانعكاسية (se lever, se laver...) تُصرَّف مع être.','الاتفاق: للمؤنث نضيف e وللجمع s: Elle est allée. Ils sont partis. Elles sont arrivées.'],
- ex:[['Je suis allé au marché. (مذكر)','ذهبت إلى السوق.'],['Elle est arrivée hier.','وصلت البارحة.'],['Nous sommes restés à la maison.','بقينا في البيت.']],
- quiz:[{q:'Hier, Marie ___ au cinéma.',o:['a allé','est allée','est allé'],a:1,why:'aller مع être، والفاعل مؤنث فنضيف e: est allée.'},
-  {q:'Ils ___ partis à huit heures.',o:['ont','sont','est'],a:1,why:'partir مع être، ومع ils: sont partis.'},
-  {q:'Choisissez la phrase correcte:',o:['J\'ai arrivé en retard.','Je suis arrivé en retard.','Je arrivé en retard.'],a:1,why:'arriver مع être: je suis arrivé.'},
-  {q:'Nous ___ levés tôt.',o:['avons','sommes','nous sommes'],a:2,why:'الأفعال الانعكاسية: nous nous sommes levés.'}]},
-{id:'a2-fp',ar:'المستقبل القريب',fr:'Le futur proche',
- intro:'للتعبير عمّا سيحدث قريباً: aller في الحاضر + المصدر (infinitif).',
- table:{h:['الضمير','aller'],r:[['je','vais'],['tu','vas'],['il / elle / on','va'],['nous','allons'],['vous','allez'],['ils / elles','vont']]},
- rules:['النفي حول aller: Je ne vais pas partir.','الفعل الثاني يبقى مصدراً دائماً: Nous allons manger.'],
- ex:[['Demain, je vais travailler.','غداً سأعمل.'],['Ils vont arriver bientôt.','سيصلون قريباً.'],['Tu vas voyager ?','هل ستسافر؟']],
- quiz:[{q:'Ce soir, nous ___ regarder un film.',o:['allons','allez','vont'],a:0,why:'مع nous: allons.'},
-  {q:'Elle va ___.',o:['partir','part','partie'],a:0,why:'بعد aller نضع المصدر: partir.'},
-  {q:'Ils ___ voyager en été.',o:['va','vont','allons'],a:1,why:'مع ils: vont.'},
-  {q:'Je ne ___ pas manger.',o:['vais','vas','va'],a:0,why:'مع je: vais.'}]},
-{id:'a2-pron',ar:'الأفعال الانعكاسية',fr:'Les verbes pronominaux',
- intro:'أفعال يرافقها ضمير إضافي (me, te, se, nous, vous, se) يعود على الفاعل، مثل se lever (ينهض).',
- table:{h:['الضمير','se lever'],r:[['je','me lève'],['tu','te lèves'],['il / elle / on','se lève'],['nous','nous levons'],['vous','vous levez'],['ils / elles','se lèvent']]},
- rules:['الضمير الانعكاسي قبل الفعل مباشرة.','me و te و se تصبح m\' و t\' و s\' أمام حرف متحرك: je m\'habille.','أفعال شائعة: se réveiller, se laver, s\'habiller, se coucher, se promener, s\'appeler.'],
- ex:[['Je me réveille à sept heures.','أستيقظ في السابعة.'],['Elle s\'appelle Sara.','اسمها سارة.'],['Nous nous promenons le soir.','نتنزه في المساء.']],
- quiz:[{q:'Tu ___ à quelle heure ?',o:['te lèves','se lèves','me lèves'],a:0,why:'مع tu الضمير te.'},
-  {q:'Je ___ habille.',o:['me','m\'','se'],a:1,why:'habille يبدأ بحرف متحرك فنقول m\'.'},
-  {q:'Ils ___ couchent tard.',o:['se','nous','te'],a:0,why:'مع ils الضمير se.'},
-  {q:'Nous ___ réveillons.',o:['vous','nous','se'],a:1,why:'مع nous الضمير nous.'}]},
-{id:'a2-part',ar:'أدوات التبعيض',fr:'Les articles partitifs',
- intro:'نستعمل du / de la / des للتعبير عن «كمية غير محددة» من شيء لا يُعد (ماء، خبز، سكر).',
- table:{h:['مذكر','مؤنث','أمام حرف متحرك','جمع'],r:[['du','de la','de l\'','des']]},
- rules:['du pain (بعض الخبز)، de la soupe (بعض الشوربة)، de l\'eau (بعض الماء).','بعد النفي تصبح كلها de: Je ne mange pas de pain.','لا نستعملها مع الأفعال التي تعبّر عن التفضيل (aimer, adorer...) فنستعمل le / la / les: J\'aime le café.'],
- ex:[['Je bois du thé.','أشرب شاياً.'],['Elle mange de la viande.','تأكل لحماً.'],['Je ne bois pas de lait.','لا أشرب الحليب.']],
- quiz:[{q:'Je mange ___ pain.',o:['du','de la','des'],a:0,why:'pain مذكر: du pain.'},
-  {q:'Elle boit ___ eau.',o:['du','de l\'','de la'],a:1,why:'eau يبدأ بحرف متحرك: de l\'eau.'},
-  {q:'Je ne mange pas ___ viande.',o:['de la','de','du'],a:1,why:'بعد النفي نستعمل de.'},
-  {q:'J\'aime ___ chocolat.',o:['du','le','de'],a:1,why:'مع aimer نستعمل أداة التعريف: j\'aime le chocolat.'}]},
-{id:'a2-comp',ar:'المقارنة',fr:'Le comparatif',
- intro:'للمقارنة بين شيئين: plus (أكثر) و moins (أقل) و aussi (بنفس القدر) ثم que (من).',
- table:{h:['المعنى','الصيغة'],r:[['أكثر من','plus + صفة + que'],['أقل من','moins + صفة + que'],['بقدر','aussi + صفة + que']]},
- rules:['Paul est plus grand que Marc.','استثناء مهم: bon ← meilleur (وليس plus bon): Ce gâteau est meilleur.','ومع الأفعال: Il travaille plus que moi.'],
- ex:[['Ma sœur est plus jeune que moi.','أختي أصغر مني.'],['Ce livre est moins cher que celui-là.','هذا الكتاب أرخص من ذاك.'],['Il est aussi fort que son père.','هو قوي مثل أبيه.']],
- quiz:[{q:'Il est ___ grand que moi. (أطول مني)',o:['plus','moins','aussi'],a:0,why:'أطول = plus grand.'},
-  {q:'Cette glace est ___ que l\'autre. (أفضل)',o:['plus bonne','meilleure','bonne plus'],a:1,why:'المقارنة الشاذة: bon ← meilleur / meilleure.'},
-  {q:'Elle est ___ fatiguée que lui. (أقل)',o:['moins','plus','aussi'],a:0,why:'أقل = moins.'},
-  {q:'Il est aussi fort ___ son frère.',o:['que','de','comme'],a:0,why:'بعد aussi نستعمل que.'}]}
+{id:"a2-pc",ar:"الماضي المركب (مع avoir)",en:"Past tense with avoir",fr:"Le passé composé avec avoir",
+ intro:"نستعمله للأحداث المنتهية في الماضي. يتكون من: avoir في الحاضر + اسم المفعول (participe passé).|Used for completed past actions. Formed with avoir in the present + the past participle.",
+ table:{h:["الأفعال|Verbs","اسم المفعول|Participle","مثال|Example"],r:[["-er ← é","parlé, mangé","J'ai mangé"],["-ir ← i","fini, choisi","Tu as fini"],["-re ← u","vendu, attendu","Il a vendu"],["شاذة|irregular","eu, fait, pris, vu","Nous avons fait"]]},
+ rules:["النفي: Je n'ai pas mangé (ne + avoir + pas + اسم المفعول).|Negative: Je n'ai pas mangé (ne + avoir + pas + participle).","أفعال شاذة مهمة: avoir ← eu، être ← été، faire ← fait، prendre ← pris، voir ← vu.|Key irregulars: avoir ← eu, être ← été, faire ← fait, prendre ← pris, voir ← vu."],
+ ex:[["Hier, j'ai regardé un film.","البارحة شاهدت فيلماً.|Yesterday I watched a film."],["Elle a fini son travail.","أنهت عملها.|She finished her work."],["Nous n'avons pas mangé.","لم نأكل.|We did not eat."]],
+ quiz:[["Hier, nous ___ au restaurant.",["avons mangé","sommes mangé","mangeons"],0,"manger مع avoir: nous avons mangé.|Manger uses avoir: nous avons mangé."],
+ ["Le participe passé de «faire» est:",["fait","faisé","fé"],0,"faire ← fait.|Faire ← fait."],
+ ["Il ___ fini ses devoirs.",["a","est","as"],0,"مع il نستعمل a.|With il use a."],
+ ["Je ___ pas compris.",["n'ai","ne suis","ne ai"],0,"النفي: je n'ai pas compris.|Negative: je n'ai pas compris."],
+ ["Elle ___ un livre hier. (acheter)",["a acheté","est acheté","achète"],0,"acheter مع avoir: elle a acheté.|Acheter uses avoir: elle a acheté."],
+ ["Nous ___ le film. (voir)",["avons vu","avons voi","sommes vu"],0,"voir ← vu.|Voir ← vu."],
+ ["J'___ pris le bus.",["ai","suis","a"],0,"مع je: j'ai.|With je: j'ai."],
+ ["Ils n'___ pas fini.",["ont","sont","a"],0,"مع ils: ont.|With ils: ont."]]},
+{id:"a2-etre",ar:"الماضي المركب (مع être)",en:"Past tense with être",fr:"Le passé composé avec être",
+ intro:"مجموعة من أفعال الحركة والتغيّر تُصرَّف مع être بدل avoir، ويتفق اسم المفعول مع الفاعل.|A group of movement and change verbs use être instead of avoir, and the participle agrees with the subject.",
+ rules:["الأفعال الأشهر: aller, venir, arriver, partir, entrer, sortir, monter, descendre, rester, naître, mourir, tomber, retourner.|Most common: aller, venir, arriver, partir, entrer, sortir, monter, descendre, rester, naître, mourir, tomber, retourner.","كل الأفعال الانعكاسية (se lever, se laver...) تُصرَّف مع être.|All reflexive verbs (se lever, se laver...) use être.","الاتفاق: للمؤنث نضيف e وللجمع s: Elle est allée. Ils sont partis.|Agreement: add e for feminine and s for plural: Elle est allée. Ils sont partis."],
+ ex:[["Je suis allé au marché.","ذهبت إلى السوق.|I went to the market."],["Elle est arrivée hier.","وصلت البارحة.|She arrived yesterday."],["Nous sommes restés à la maison.","بقينا في البيت.|We stayed at home."]],
+ quiz:[["Hier, Marie ___ au cinéma.",["a allé","est allée","est allé"],1,"aller مع être، والفاعل مؤنث: est allée.|Aller uses être and the subject is feminine: est allée."],
+ ["Ils ___ partis à huit heures.",["ont","sont","est"],1,"partir مع être: ils sont partis.|Partir uses être: ils sont partis."],
+ ["Choisissez la phrase correcte:",["J'ai arrivé en retard.","Je suis arrivé en retard.","Je arrivé en retard."],1,"arriver مع être.|Arriver uses être."],
+ ["Nous ___ levés tôt.",["avons","sommes","nous sommes"],2,"الانعكاسية: nous nous sommes levés.|Reflexive: nous nous sommes levés."],
+ ["Elles ___ arrivées.",["sont","ont","est"],0,"arriver مع être: elles sont arrivées.|Arriver uses être."],
+ ["Je ___ tombée. (امرأة تتكلم)",["suis","ai","est"],0,"tomber مع être: je suis tombée.|Tomber uses être: je suis tombée."],
+ ["Il ___ sorti à six heures.",["est","a","as"],0,"sortir مع être.|Sortir uses être."],
+ ["Mes amis ___ restés à la maison.",["sont","ont","est"],0,"rester مع être: sont restés.|Rester uses être: sont restés."]]},
+{id:"a2-fp",ar:"المستقبل القريب",en:"The near future",fr:"Le futur proche",
+ intro:"للتعبير عمّا سيحدث قريباً: aller في الحاضر + المصدر (infinitif).|To say what is going to happen soon: aller in the present + the infinitive.",
+ table:{h:["الضمير|Pronoun","aller"],r:[["je","vais"],["tu","vas"],["il / elle / on","va"],["nous","allons"],["vous","allez"],["ils / elles","vont"]]},
+ rules:["النفي حول aller: Je ne vais pas partir.|Negation goes around aller: Je ne vais pas partir.","الفعل الثاني يبقى مصدراً دائماً: Nous allons manger.|The second verb always stays in the infinitive: Nous allons manger."],
+ ex:[["Demain, je vais travailler.","غداً سأعمل.|Tomorrow I am going to work."],["Ils vont arriver bientôt.","سيصلون قريباً.|They are going to arrive soon."],["Tu vas voyager ?","هل ستسافر؟|Are you going to travel?"]],
+ quiz:[["Ce soir, nous ___ regarder un film.",["allons","allez","vont"],0,"مع nous: allons.|With nous: allons."],
+ ["Elle va ___.",["partir","part","partie"],0,"بعد aller نضع المصدر.|After aller use the infinitive."],
+ ["Ils ___ voyager en été.",["va","vont","allons"],1,"مع ils: vont.|With ils: vont."],
+ ["Je ne ___ pas manger.",["vais","vas","va"],0,"مع je: vais.|With je: vais."],
+ ["Tu ___ faire tes devoirs ?",["vas","va","vais"],0,"مع tu: vas.|With tu: vas."],
+ ["Nous ___ prendre le train.",["allons","allez","vont"],0,"مع nous: allons.|With nous: allons."],
+ ["Elle va ___ un gâteau.",["faire","fait","fais"],0,"بعد aller المصدر: faire.|After aller the infinitive: faire."],
+ ["Le futur proche se forme avec:|The near future is formed with:",["aller + infinitif","avoir + infinitif","être + participe"],0,"aller + مصدر.|Aller + infinitive."]]},
+{id:"a2-pron",ar:"الأفعال الانعكاسية",en:"Reflexive verbs",fr:"Les verbes pronominaux",
+ intro:"أفعال يرافقها ضمير إضافي (me, te, se, nous, vous, se) يعود على الفاعل، مثل se lever (ينهض).|Verbs accompanied by an extra pronoun (me, te, se, nous, vous, se) that refers back to the subject, like se lever (to get up).",
+ table:{h:["الضمير|Pronoun","se lever"],r:[["je","me lève"],["tu","te lèves"],["il / elle / on","se lève"],["nous","nous levons"],["vous","vous levez"],["ils / elles","se lèvent"]]},
+ rules:["الضمير الانعكاسي قبل الفعل مباشرة.|The reflexive pronoun comes right before the verb.","me و te و se تصبح m' و t' و s' أمام حرف متحرك: je m'habille.|Me, te, se become m', t', s' before a vowel: je m'habille.","أفعال شائعة: se réveiller, se laver, s'habiller, se coucher, se promener, s'appeler.|Common: se réveiller, se laver, s'habiller, se coucher, se promener, s'appeler."],
+ ex:[["Je me réveille à sept heures.","أستيقظ في السابعة.|I wake up at seven."],["Elle s'appelle Sara.","اسمها سارة.|Her name is Sara."],["Nous nous promenons le soir.","نتنزه في المساء.|We go for a walk in the evening."]],
+ quiz:[["Tu ___ à quelle heure ?",["te lèves","se lèves","me lèves"],0,"مع tu الضمير te.|With tu the pronoun is te."],
+ ["Je ___ habille.",["me","m'","se"],1,"habille يبدأ بحرف متحرك: m'.|Habille starts with a vowel: m'."],
+ ["Ils ___ couchent tard.",["se","nous","te"],0,"مع ils الضمير se.|With ils the pronoun is se."],
+ ["Nous ___ réveillons.",["vous","nous","se"],1,"مع nous الضمير nous.|With nous the pronoun is nous."],
+ ["Elle ___ lave les mains.",["se","me","te"],0,"مع elle الضمير se.|With elle the pronoun is se."],
+ ["Vous ___ levez à quelle heure ?",["vous","nous","te"],0,"مع vous الضمير vous.|With vous the pronoun is vous."],
+ ["Je ___ appelle Karim.",["m'","me","s'"],0,"je m'appelle.|Je m'appelle."],
+ ["Les enfants ___ réveillent tôt.",["se","nous","vous"],0,"مع les enfants (ils) الضمير se.|With les enfants (ils) the pronoun is se."]]},
+{id:"a2-part",ar:"أدوات التبعيض",en:"Partitive articles",fr:"Les articles partitifs",
+ intro:"نستعمل du / de la / des للتعبير عن «كمية غير محددة» من شيء لا يُعد (ماء، خبز، سكر).|Du / de la / des express an unspecified quantity of something uncountable (water, bread, sugar).",
+ table:{h:["مذكر|Masc.","مؤنث|Fem.","حرف متحرك|Vowel","جمع|Plural"],r:[["du","de la","de l'","des"]]},
+ rules:["du pain (بعض الخبز)، de la soupe (بعض الشوربة)، de l'eau (بعض الماء).|Du pain (some bread), de la soupe (some soup), de l'eau (some water).","بعد النفي تصبح كلها de: Je ne mange pas de pain.|After a negation they all become de: Je ne mange pas de pain.","مع aimer / adorer نستعمل le / la / les: J'aime le café.|With aimer / adorer use le / la / les: J'aime le café."],
+ ex:[["Je bois du thé.","أشرب شاياً.|I drink tea."],["Elle mange de la viande.","تأكل لحماً.|She eats meat."],["Je ne bois pas de lait.","لا أشرب الحليب.|I don't drink milk."]],
+ quiz:[["Je mange ___ pain.",["du","de la","des"],0,"pain مذكر: du pain.|Pain is masculine: du pain."],
+ ["Elle boit ___ eau.",["du","de l'","de la"],1,"eau يبدأ بحرف متحرك: de l'eau.|Eau starts with a vowel: de l'eau."],
+ ["Je ne mange pas ___ viande.",["de la","de","du"],1,"بعد النفي: de.|After a negation: de."],
+ ["J'aime ___ chocolat.",["du","le","de"],1,"مع aimer نستعمل أداة التعريف.|With aimer use the definite article."],
+ ["Elle prend ___ café.",["du","de la","des"],0,"café مذكر: du café.|Café is masculine: du café."],
+ ["Nous mangeons ___ fruits.",["des","du","de la"],0,"fruits جمع: des fruits.|Fruits is plural: des fruits."],
+ ["Tu veux ___ salade ?",["de la","du","de l'"],0,"salade مؤنث: de la salade.|Salade is feminine: de la salade."],
+ ["Il n'y a plus ___ sucre.",["de","du","de la"],0,"بعد النفي: de.|After a negation: de."]]},
+{id:"a2-comp",ar:"المقارنة",en:"Comparatives",fr:"Le comparatif",
+ intro:"للمقارنة بين شيئين: plus (أكثر) و moins (أقل) و aussi (بنفس القدر) ثم que (من).|To compare two things: plus (more), moins (less), aussi (as) followed by que (than / as).",
+ table:{h:["المعنى|Meaning","الصيغة|Form"],r:[["أكثر من|more than","plus + صفة|adj. + que"],["أقل من|less than","moins + صفة|adj. + que"],["بقدر|as … as","aussi + صفة|adj. + que"]]},
+ rules:["Paul est plus grand que Marc.|Paul is taller than Marc.","استثناء مهم: bon ← meilleur، وbien ← mieux.|Key exceptions: bon ← meilleur, bien ← mieux.","ومع الأفعال: Il travaille plus que moi.|With verbs: Il travaille plus que moi."],
+ ex:[["Ma sœur est plus jeune que moi.","أختي أصغر مني.|My sister is younger than me."],["Ce livre est moins cher que celui-là.","هذا الكتاب أرخص من ذاك.|This book is cheaper than that one."],["Il est aussi fort que son père.","هو قوي مثل أبيه.|He is as strong as his father."]],
+ quiz:[["Il est ___ grand que moi. (أطول)",["plus","moins","aussi"],0,"أطول = plus grand.|Taller = plus grand."],
+ ["Cette glace est ___ que l'autre. (أفضل)",["plus bonne","meilleure","bonne plus"],1,"bon ← meilleur / meilleure.|Bon ← meilleur / meilleure."],
+ ["Elle est ___ fatiguée que lui. (أقل)",["moins","plus","aussi"],0,"أقل = moins.|Less = moins."],
+ ["Il est aussi fort ___ son frère.",["que","de","comme"],0,"بعد aussi نستعمل que.|After aussi use que."],
+ ["Ce film est ___ intéressant que l'autre. (أكثر)",["plus","moins","mieux"],0,"أكثر = plus.|More = plus."],
+ ["Je cours ___ vite que lui. (بنفس السرعة)",["aussi","plus","moins"],0,"aussi … que = بقدر.|Aussi … que = as … as."],
+ ["Il parle ___ que moi. (أفضل)",["mieux","meilleur","plus bien"],0,"bien (ظرف) ← mieux.|Bien (adverb) ← mieux."],
+ ["Ma maison est ___ ta maison.",["plus grande que","plus grand de","plus grande de"],0,"plus + صفة + que.|Plus + adjective + que."]]},
+{id:"a2-neg",ar:"نفي متقدم",en:"More negations",fr:"Ne … jamais, plus, rien, personne",
+ intro:"إلى جانب ne … pas هناك صيغ نفي أخرى تغيّر المعنى.|Besides ne … pas there are other negations that change the meaning.",
+ table:{h:["الصيغة|Form","المعنى|Meaning","مثال|Example"],r:[["ne … jamais","أبداً|never","Je ne mange jamais de viande."],["ne … plus","لم يعد|no longer","Il ne travaille plus."],["ne … rien","لا شيء|nothing","Je ne vois rien."],["ne … personne","لا أحد|nobody","Je ne connais personne."],["ne … pas encore","ليس بعد|not yet","Elle n'est pas encore arrivée."]]},
+ rules:["في الماضي المركب: Je n'ai rien mangé.|In the passé composé: Je n'ai rien mangé.","personne و rien يمكن أن يكونا فاعلاً: Personne ne vient. Rien ne change.|Personne and rien can be the subject: Personne ne vient.","بعد ne … jamais / plus تأتي de: Je ne bois plus de café.|After ne … jamais / plus use de: Je ne bois plus de café."],
+ ex:[["Je ne bois jamais de café.","لا أشرب القهوة أبداً.|I never drink coffee."],["Il n'y a plus de pain.","لم يعد هناك خبز.|There is no more bread."],["Personne ne parle.","لا أحد يتكلم.|Nobody is speaking."]],
+ quiz:[["Il ne mange ___ de viande. (أبداً)",["jamais","rien","personne"],0,"jamais = أبداً.|Jamais = never."],
+ ["Je ne vois ___. (لا شيء)",["rien","personne","plus"],0,"rien = لا شيء.|Rien = nothing."],
+ ["Elle ne travaille ___. (لم تعد)",["plus","jamais","rien"],0,"plus = لم يعد.|Plus = no longer."],
+ ["Je ne connais ___ ici. (لا أحد)",["personne","rien","jamais"],0,"personne = لا أحد.|Personne = nobody."],
+ ["Il n'est ___ arrivé. (ليس بعد)",["pas encore","jamais","plus rien"],0,"pas encore = ليس بعد.|Pas encore = not yet."],
+ ["Je n'ai ___ mangé. (لا شيء)",["rien","personne","jamais pas"],0,"rien بعد avoir.|Rien after avoir."],
+ ["___ ne vient. (لا أحد)",["Personne","Rien","Jamais"],0,"personne فاعل: Personne ne vient.|Personne as subject: Personne ne vient."],
+ ["Nous ne sommes ___ allés au Canada. (أبداً)",["jamais","rien","personne"],0,"jamais = أبداً.|Jamais = never."]]},
+{id:"a2-coi",ar:"ضمائر المفعول غير المباشر",en:"Indirect object pronouns",fr:"Les pronoms COI",
+ intro:"تحلّ محل «à + شخص» وتوضع قبل الفعل.|They replace «à + person» and go before the verb.",
+ table:{h:["الضمير|Pronoun","المعنى|Meaning"],r:[["me (m')","لي|to me"],["te (t')","لك|to you"],["lui","له / لها|to him / her"],["nous","لنا|to us"],["vous","لكم|to you"],["leur","لهم|to them"]]},
+ rules:["lui للمفرد و leur للجمع: Je parle à Marie ← Je lui parle.|Lui for singular, leur for plural: Je parle à Marie ← Je lui parle.","مع أفعال: parler à, donner à, écrire à, téléphoner à, répondre à, dire à.|With verbs: parler à, donner à, écrire à, téléphoner à, répondre à, dire à.","في الماضي المركب قبل avoir: Je lui ai téléphoné.|In the passé composé before avoir: Je lui ai téléphoné."],
+ ex:[["Je lui parle.","أكلّمه.|I talk to him / her."],["Elle leur écrit.","تكتب لهم.|She writes to them."],["Il me donne un livre.","يعطيني كتاباً.|He gives me a book."]],
+ quiz:[["Je parle à Paul ← Je ___ parle.",["lui","leur","le"],0,"مفرد: lui.|Singular: lui."],
+ ["Elle écrit à ses parents ← Elle ___ écrit.",["leur","lui","les"],0,"جمع: leur.|Plural: leur."],
+ ["Tu téléphones à ta sœur ← Tu ___ téléphones.",["lui","la","leur"],0,"téléphoner à ← lui.|Téléphoner à ← lui."],
+ ["Il donne un cadeau à Marie ← Il ___ donne un cadeau.",["lui","la","leur"],0,"donner à ← lui.|Donner à ← lui."],
+ ["Nous répondons aux élèves ← Nous ___ répondons.",["leur","lui","les"],0,"جمع: leur.|Plural: leur."],
+ ["Il ___ a dit la vérité. (لي)",["m'","me","moi"],0,"me ← m' قبل a.|Me ← m' before a."],
+ ["Elle ___ a téléphoné. (لنا)",["nous","nos","lui"],0,"nous = لنا.|Nous = to us."],
+ ["Je ne ___ parle pas. (له)",["lui","le","leur"],0,"lui قبل الفعل.|Lui before the verb."]]},
+{id:"a2-yen",ar:"الضميران y و en",en:"The pronouns y and en",fr:"Les pronoms y et en",
+ intro:"ضميران يغنيان عن تكرار المكان أو الكمية.|Two pronouns that avoid repeating a place or a quantity.",
+ rules:["y يعوّض مكاناً بعد à / dans / chez: Tu vas à Paris ? Oui, j'y vais.|Y replaces a place after à / dans / chez: Oui, j'y vais.","en يعوّض de + اسم أو كمية: Tu as des frères ? J'en ai deux.|En replaces de + noun or a quantity: J'en ai deux.","نبقي الرقم أو الكمية: J'en ai trois. Il en mange beaucoup.|Keep the number or quantity: J'en ai trois.","يوضعان قبل الفعل مباشرة.|Both go right before the verb."],
+ ex:[["Tu vas au cinéma ? Oui, j'y vais.","هل تذهب إلى السينما؟ نعم أذهب إليها.|Are you going to the cinema? Yes, I'm going."],["Tu veux du thé ? Oui, j'en veux.","هل تريد شاياً؟ نعم أريد.|Do you want tea? Yes, I do."],["J'en ai deux.","عندي اثنان منها.|I have two of them."]],
+ quiz:[["Tu vas au cinéma ? Oui, j'___ vais.",["y","en","le"],0,"y للمكان.|Y for a place."],
+ ["Tu veux du café ? Oui, j'___ veux.",["en","y","le"],0,"en بدل du café.|En replaces du café."],
+ ["Tu as des frères ? Oui, j'___ ai deux.",["en","y","les"],0,"en مع الكمية.|En with a quantity."],
+ ["Elle habite à Lyon ? Oui, elle ___ habite.",["y","en","la"],0,"y للمكان.|Y for a place."],
+ ["Vous mangez de la viande ? Non, nous n'___ mangeons pas.",["en","y","la"],0,"de la viande ← en.|De la viande ← en."],
+ ["Il revient de Paris ? Oui, il ___ revient.",["en","y","le"],0,"de + مكان ← en.|De + place ← en."],
+ ["Tu vas chez le médecin ? Oui, j'___ vais ce soir.",["y","en","lui"],0,"chez + مكان ← y.|Chez + place ← y."],
+ ["Combien de livres as-tu ? J'___ ai cinq.",["en","y","les"],0,"en مع الرقم.|En with a number."]]},
+{id:"a2-imp",ar:"الأمر",en:"The imperative",fr:"L'impératif",
+ intro:"لإعطاء أمر أو نصيحة. نستعمل صيغ tu و nous و vous فقط، بدون ضمير.|To give an order or advice. Only the tu, nous and vous forms are used, without the pronoun.",
+ table:{h:["الضمير|Pronoun","parler","finir","être","avoir"],r:[["tu","parle","finis","sois","aie"],["nous","parlons","finissons","soyons","ayons"],["vous","parlez","finissez","soyez","ayez"]]},
+ rules:["مع الأفعال المنتهية بـ -er نحذف s في tu: Tu parles ← Parle !|With -er verbs drop the s in tu: Tu parles ← Parle !","النفي: Ne parle pas ! Ne parlez pas !|Negative: Ne parle pas ! Ne parlez pas !","في الإثبات الضمير بعد الفعل بشرطة: Dis-moi. وفي النفي قبله: Ne me dis pas.|In the affirmative the pronoun follows with a hyphen: Dis-moi. In the negative it comes before: Ne me dis pas."],
+ ex:[["Ouvre la porte !","افتح الباب!|Open the door!"],["Soyez à l'heure !","كونوا في الموعد!|Be on time!"],["Ne parlez pas !","لا تتكلموا!|Don't speak!"]],
+ quiz:[["(Parler, tu) ___ plus doucement !",["Parle","Parles","Parler"],0,"في -er نحذف s: Parle.|With -er verbs drop the s: Parle."],
+ ["(Finir, vous) ___ vos devoirs !",["Finissez","Finissons","Finis"],0,"مع vous: Finissez.|With vous: Finissez."],
+ ["(Être, tu) ___ gentil !",["Sois","Es","Être"],0,"être ← sois.|Être ← sois."],
+ ["(Faire, vous) ___ attention !",["Faites","Faisez","Fais"],0,"faire ← faites.|Faire ← faites."],
+ ["Ne ___ pas en retard ! (être, tu)",["sois","es","soit"],0,"être ← sois.|Être ← sois."],
+ ["(Venir, vous) ___ à la maison !",["Venez","Vient","Viens"],0,"مع vous: Venez.|With vous: Venez."],
+ ["«Prenons le bus !» signifie:",["لنركب الحافلة!","سأركب الحافلة","اركب الحافلة"],0,"nous في الأمر = لنفعل.|Nous imperative = let's."],
+ ["Pour dire à un ami «اكتب لي»:",["Écris-moi","Tu écris moi","Écrire-moi"],0,"أمر + ضمير بشرطة.|Imperative + hyphenated pronoun."]]},
+{id:"a2-mod",ar:"أفعال القدرة والرغبة والوجوب",en:"Modal verbs",fr:"Pouvoir, vouloir, devoir",
+ intro:"ثلاثة أفعال شائعة جداً، يأتي بعدها فعل في المصدر.|Three very common verbs, followed by an infinitive.",
+ table:{h:["الضمير|Pronoun","pouvoir","vouloir","devoir"],r:[["je","peux","veux","dois"],["tu","peux","veux","dois"],["il / elle / on","peut","veut","doit"],["nous","pouvons","voulons","devons"],["vous","pouvez","voulez","devez"],["ils / elles","peuvent","veulent","doivent"]]},
+ rules:["pouvoir = يستطيع أو يُسمح، vouloir = يريد، devoir = يجب عليه.|Pouvoir = can / may, vouloir = to want, devoir = must / to have to.","للأدب نستعمل je voudrais بدل je veux.|For politeness use je voudrais instead of je veux.","النفي حول الفعل الأول: Je ne peux pas venir.|Negation goes around the first verb: Je ne peux pas venir."],
+ ex:[["Je peux venir demain.","أستطيع المجيء غداً.|I can come tomorrow."],["Nous devons partir.","يجب أن نغادر.|We must leave."],["Je voudrais un café.","أريد قهوة (بأدب).|I would like a coffee."]],
+ quiz:[["Je ___ venir demain. (أستطيع)",["peux","peut","peuvent"],0,"مع je: peux.|With je: peux."],
+ ["Tu ___ du thé ? (تريد)",["veux","veut","voulez"],0,"مع tu: veux.|With tu: veux."],
+ ["Nous ___ travailler. (يجب علينا)",["devons","devez","doivent"],0,"مع nous: devons.|With nous: devons."],
+ ["Ils ___ partir. (يريدون)",["veulent","veut","voulons"],0,"مع ils: veulent.|With ils: veulent."],
+ ["Elle ___ rester ici. (تستطيع)",["peut","peux","pouvons"],0,"مع elle: peut.|With elle: peut."],
+ ["Vous ___ m'aider ? (تستطيعون)",["pouvez","peuvent","peux"],0,"مع vous: pouvez.|With vous: pouvez."],
+ ["Je ___ un café, s'il vous plaît.",["voudrais","veux","voulais"],0,"للطلب المهذب: je voudrais.|Polite request: je voudrais."],
+ ["On ne ___ pas fumer ici.",["peut","peux","peuvent"],0,"مع on: peut.|With on: peut."]]},
+{id:"a2-sup",ar:"صيغة التفضيل",en:"The superlative",fr:"Le superlatif",
+ intro:"للتعبير عن الأكثر أو الأقل أو الأفضل بين الجميع.|To say the most, the least or the best of all.",
+ table:{h:["المعنى|Meaning","الصيغة|Form"],r:[["الأطول|the tallest","le plus grand"],["الأقل ثمناً|the cheapest","le moins cher"],["الأفضل|the best","le meilleur / la meilleure"]]},
+ rules:["le / la / les + plus / moins + صفة: Il est le plus grand de la classe.|Le / la / les + plus / moins + adjective: Il est le plus grand de la classe.","للأفضل: le meilleur / la meilleure / les meilleurs.|For the best: le meilleur / la meilleure / les meilleurs.","بعدها نستعمل de: le plus grand de la classe / du monde.|Afterwards use de: le plus grand de la classe."],
+ ex:[["C'est le plus grand de la classe.","هو الأطول في الصف.|He is the tallest in the class."],["C'est la meilleure élève.","هي أفضل طالبة.|She is the best student."],["Ce livre est le moins cher.","هذا الكتاب هو الأرخص.|This book is the cheapest."]],
+ quiz:[["Elle est ___ grande de la classe.",["la plus","plus la","le plus"],0,"مؤنث: la plus grande.|Feminine: la plus grande."],
+ ["C'est ___ gâteau de la ville. (الأفضل)",["le meilleur","le plus bon","meilleur le"],0,"le meilleur.|Le meilleur."],
+ ["Ce livre est ___ cher. (الأقل)",["le moins","le plus petit","moins le"],0,"le moins + صفة.|Le moins + adjective."],
+ ["Paul est ___ rapide de tous.",["le plus","plus le","la plus"],0,"مذكر: le plus.|Masculine: le plus."],
+ ["Ce sont ___ élèves de l'école. (الأفضل)",["les meilleurs","les plus bons","le meilleur"],0,"جمع: les meilleurs.|Plural: les meilleurs."],
+ ["Mon frère est ___ jeune de la famille.",["le plus","la plus","plus"],0,"مذكر: le plus jeune.|Masculine: le plus jeune."],
+ ["Elle est ___ intelligente de tous.",["la plus","le plus","plus la"],0,"مؤنث: la plus intelligente.|Feminine: la plus intelligente."],
+ ["بعد الصيغة نستعمل غالباً:|After the superlative we usually use:",["de","que","à"],0,"le plus grand de la classe.|Le plus grand de la classe."]]}
 ],
 B1:[
-{id:'b1-imp',ar:'الماضي الناقص',fr:'L\'imparfait',
- intro:'نستعمله لوصف الماضي والعادات والحالة التي كانت مستمرة (كان يفعل). نأخذ صيغة nous في الحاضر، نحذف -ons، ونضيف النهايات.',
- table:{h:['الضمير','النهاية','parler (nous parlons)'],r:[['je','-ais','parlais'],['tu','-ais','parlais'],['il / elle / on','-ait','parlait'],['nous','-ions','parlions'],['vous','-iez','parliez'],['ils / elles','-aient','parlaient']]},
- rules:['الاستثناء الوحيد في الأساس: être ← ét- (j\'étais, nous étions).','نستعمله للوصف والعادة: Quand j\'étais petit, je jouais au foot.','نستعمل الماضي المركب للحدث المحدد، والناقص للخلفية: Il pleuvait quand je suis sorti.'],
- ex:[['Quand j\'étais enfant, j\'habitais à Alger.','عندما كنت طفلاً كنت أسكن في الجزائر.'],['Nous mangions toujours ensemble.','كنا نأكل دائماً معاً.'],['Il faisait beau.','كان الطقس جميلاً.']],
- quiz:[{q:'Quand j\'étais petit, je ___ au football.',o:['jouais','joue','ai joué'],a:0,why:'عادة في الماضي ← imparfait: je jouais.'},
-  {q:'Nous ___ à la plage chaque été.',o:['allions','allons','sommes allés'],a:0,why:'عادة متكررة: nous allions.'},
-  {q:'L\'imparfait de «être» avec «il» :',o:['était','étais','étaient'],a:0,why:'il était.'},
-  {q:'Il ___ quand je suis sorti. (كانت تمطر)',o:['pleuvait','a plu','pleut'],a:0,why:'الخلفية المستمرة ← imparfait.'}]},
-{id:'b1-fs',ar:'المستقبل البسيط',fr:'Le futur simple',
- intro:'للتعبير عن المستقبل الأبعد أو الرسمي. نأخذ المصدر (infinitif) ونضيف: -ai, -as, -a, -ons, -ez, -ont.',
- table:{h:['الضمير','parler','finir'],r:[['je','parlerai','finirai'],['tu','parleras','finiras'],['il / elle / on','parlera','finira'],['nous','parlerons','finirons'],['vous','parlerez','finirez'],['ils / elles','parleront','finiront']]},
- rules:['الأفعال المنتهية بـ -re نحذف e: prendre ← je prendrai.','أفعال شاذة لها جذر خاص: être ← ser-، avoir ← aur-، aller ← ir-، faire ← fer-، venir ← viendr-، pouvoir ← pourr-.'],
- ex:[['Demain, il fera beau.','غداً سيكون الجو جميلاً.'],['Je serai là à huit heures.','سأكون هناك في الثامنة.'],['Nous partirons en juillet.','سنسافر في يوليو.']],
- quiz:[{q:'Demain, je ___ à Paris.',o:['serai','suis','étais'],a:0,why:'مستقبل: je serai.'},
-  {q:'Elle ___ une lettre. (ستكتب)',o:['écrira','écrit','écrivait'],a:0,why:'écrire ← écrir- ثم -a: elle écrira.'},
-  {q:'Nous ___ en vacances. (سنذهب)',o:['irons','allons','allions'],a:0,why:'aller في المستقبل جذره ir-: nous irons.'},
-  {q:'Ils ___ demain.',o:['viendront','venaient','viennent'],a:0,why:'venir في المستقبل: ils viendront.'}]},
-{id:'b1-cod',ar:'ضمائر المفعول المباشر',fr:'Les pronoms COD',
- intro:'نستعمل الضمير بدل الاسم الذي وقع عليه الفعل مباشرة لتجنب التكرار. يوضع قبل الفعل.',
- table:{h:['الضمير','المعنى'],r:[['le (l\')','هو (مذكر)'],['la (l\')','هي (مؤنث)'],['les','هم / هنّ'],['me / te','أنا / أنتَ'],['nous / vous','نحن / أنتم']]},
- rules:['Je regarde le film ← Je le regarde.','النفي: Je ne le regarde pas.','في الماضي المركب يوضع قبل avoir ويتفق اسم المفعول: J\'ai vu la fille ← Je l\'ai vue.'],
- ex:[['Tu connais Paul ? Oui, je le connais.','هل تعرف بول؟ نعم أعرفه.'],['Elle mange la pomme ? Oui, elle la mange.','هل تأكل التفاحة؟ نعم تأكلها.'],['Je les achète.','أشتريها / أشتريهم.']],
- quiz:[{q:'Tu vois Marie ? Oui, je ___ vois.',o:['le','la','les'],a:1,why:'Marie مؤنث ← la.'},
-  {q:'Il prend les livres ← Il ___ prend.',o:['le','la','les'],a:2,why:'livres جمع ← les.'},
-  {q:'Je ne ___ connais pas. (أعرفه)',o:['le','la','lui'],a:0,why:'مذكر مفرد مفعول مباشر ← le.'},
-  {q:'Tu as acheté la robe ? Oui, je ___ ai achetée.',o:['l\'','le','les'],a:0,why:'la تصبح l\' أمام avoir.'}]},
-{id:'b1-cond',ar:'الشرطي (التمني والأدب)',fr:'Le conditionnel présent',
- intro:'نستعمله للطلب المهذب والتمنّي والنصيحة. جذر المستقبل + نهايات الماضي الناقص.',
- table:{h:['الضمير','vouloir'],r:[['je','voudrais'],['tu','voudrais'],['il / elle / on','voudrait'],['nous','voudrions'],['vous','voudriez'],['ils / elles','voudraient']]},
- rules:['الطلب المهذب: Je voudrais un café. Pourriez-vous m\'aider ?','النصيحة: Tu devrais dormir plus.','التمنّي: J\'aimerais voyager.','جملة الشرط: Si j\'avais de l\'argent, j\'achèterais une voiture.'],
- ex:[['Je voudrais un renseignement.','أريد معلومة (بأدب).'],['Tu devrais te reposer.','ينبغي أن ترتاح.'],['Si j\'étais riche, je voyagerais.','لو كنت غنياً لسافرت.']],
- quiz:[{q:'Pour demander poliment: «___ un café.»',o:['Je veux','Je voudrais','Je voulais'],a:1,why:'الطلب المهذب: je voudrais.'},
-  {q:'Si j\'avais le temps, je ___.',o:['voyagerais','voyagerai','voyage'],a:0,why:'بعد si + imparfait نستعمل الشرطي.'},
-  {q:'Tu ___ dormir un peu. (نصيحة)',o:['devrais','dois','devais'],a:0,why:'النصيحة بالشرطي: tu devrais.'},
-  {q:'Nous ___ venir. (نودّ)',o:['aimerions','aimons','aimerons'],a:0,why:'nous aimerions.'}]},
-{id:'b1-rel',ar:'الضمائر الموصولة',fr:'Les pronoms relatifs qui et que',
- intro:'تربط جملتين: qui تحلّ محل الفاعل، و que تحلّ محل المفعول.',
- rules:['qui = الفاعل، وبعدها فعل: L\'homme qui parle est mon père.','que = المفعول، وبعدها فاعل: Le livre que je lis est intéressant.','que تصبح qu\' أمام حرف متحرك: Le film qu\'il regarde.','لا تتغير qui أبداً.'],
- ex:[['La fille qui chante est ma cousine.','البنت التي تغني هي ابنة عمي.'],['Le café que tu bois est chaud.','القهوة التي تشربها ساخنة.'],['Voici le gâteau qu\'elle a préparé.','هذه الكعكة التي حضّرتها.']],
- quiz:[{q:'L\'homme ___ travaille ici est médecin.',o:['qui','que','où'],a:0,why:'بعد الفراغ فعل (travaille) فالفراغ هو الفاعل ← qui.'},
-  {q:'Le livre ___ je lis est long.',o:['qui','que','dont'],a:1,why:'بعد الفراغ فاعل (je) فالفراغ هو المفعول ← que.'},
-  {q:'La voiture ___ il a achetée est rouge.',o:['qui','qu\'','que'],a:2,why:'بعد الفراغ فاعل (il) ← que.'},
-  {q:'J\'ai un ami ___ habite à Paris.',o:['qui','que','quoi'],a:0,why:'بعد الفراغ فعل (habite) فالفراغ هو الفاعل ← qui.'}]}
+{id:"b1-imp",ar:"الماضي الناقص",en:"The imperfect",fr:"L'imparfait",
+ intro:"نستعمله لوصف الماضي والعادات والحالة المستمرة (كان يفعل). نأخذ صيغة nous في الحاضر، نحذف -ons، ونضيف النهايات.|Used to describe the past, habits and ongoing states (used to / was doing). Take the nous form of the present, remove -ons and add the endings.",
+ table:{h:["الضمير|Pronoun","النهاية|Ending","parler"],r:[["je","-ais","parlais"],["tu","-ais","parlais"],["il / elle / on","-ait","parlait"],["nous","-ions","parlions"],["vous","-iez","parliez"],["ils / elles","-aient","parlaient"]]},
+ rules:["الاستثناء الوحيد: être ← ét- (j'étais, nous étions).|The only exception: être ← ét- (j'étais, nous étions).","للوصف والعادة: Quand j'étais petit, je jouais au foot.|For description and habit: Quand j'étais petit, je jouais au foot.","الماضي المركب للحدث المحدد، والناقص للخلفية: Il pleuvait quand je suis sorti.|Passé composé for a specific event, imperfect for the background: Il pleuvait quand je suis sorti."],
+ ex:[["Quand j'étais enfant, j'habitais à Alger.","عندما كنت طفلاً كنت أسكن في الجزائر.|When I was a child I lived in Algiers."],["Nous mangions toujours ensemble.","كنا نأكل دائماً معاً.|We always used to eat together."],["Il faisait beau.","كان الطقس جميلاً.|The weather was nice."]],
+ quiz:[["Quand j'étais petit, je ___ au football.",["jouais","joue","ai joué"],0,"عادة في الماضي: je jouais.|Past habit: je jouais."],
+ ["Nous ___ à la plage chaque été.",["allions","allons","sommes allés"],0,"عادة متكررة: nous allions.|Repeated habit: nous allions."],
+ ["L'imparfait de «être» avec «il»:",["était","étais","étaient"],0,"il était.|Il était."],
+ ["Il ___ quand je suis sorti. (كانت تمطر)",["pleuvait","a plu","pleut"],0,"الخلفية المستمرة ← imparfait.|Ongoing background ← imperfect."],
+ ["Quand elle était jeune, elle ___ beaucoup.",["lisait","lit","a lu"],0,"عادة ماضية: elle lisait.|Past habit: elle lisait."],
+ ["Nous ___ voisins à l'époque. (être)",["étions","sommes","serons"],0,"nous étions.|Nous étions."],
+ ["Ils ___ toujours en retard. (être)",["étaient","étaient en","ont été"],0,"عادة: ils étaient.|Habit: ils étaient."],
+ ["Tu ___ où quand j'ai téléphoné ? (être)",["étais","es","seras"],0,"حالة وقتها: tu étais.|State at that moment: tu étais."]]},
+{id:"b1-fs",ar:"المستقبل البسيط",en:"The simple future",fr:"Le futur simple",
+ intro:"للتعبير عن المستقبل الأبعد أو الرسمي. نأخذ المصدر (infinitif) ونضيف: -ai, -as, -a, -ons, -ez, -ont.|For the more distant or formal future. Take the infinitive and add: -ai, -as, -a, -ons, -ez, -ont.",
+ table:{h:["الضمير|Pronoun","parler","finir"],r:[["je","parlerai","finirai"],["tu","parleras","finiras"],["il / elle / on","parlera","finira"],["nous","parlerons","finirons"],["vous","parlerez","finirez"],["ils / elles","parleront","finiront"]]},
+ rules:["الأفعال المنتهية بـ -re نحذف e: prendre ← je prendrai.|For -re verbs drop the e: prendre ← je prendrai.","أفعال شاذة لها جذر خاص: être ← ser-، avoir ← aur-، aller ← ir-، faire ← fer-، venir ← viendr-، pouvoir ← pourr-.|Irregular stems: être ← ser-, avoir ← aur-, aller ← ir-, faire ← fer-, venir ← viendr-, pouvoir ← pourr-."],
+ ex:[["Demain, il fera beau.","غداً سيكون الجو جميلاً.|Tomorrow the weather will be nice."],["Je serai là à huit heures.","سأكون هناك في الثامنة.|I will be there at eight."],["Nous partirons en juillet.","سنسافر في يوليو.|We will leave in July."]],
+ quiz:[["Demain, je ___ à Paris.",["serai","suis","étais"],0,"مستقبل: je serai.|Future: je serai."],
+ ["Elle ___ une lettre. (ستكتب)",["écrira","écrit","écrivait"],0,"écrire ← écrir- ثم -a.|Écrire ← écrir- then -a."],
+ ["Nous ___ en vacances. (سنذهب)",["irons","allons","allions"],0,"aller جذره ir-: nous irons.|Aller stem ir-: nous irons."],
+ ["Ils ___ demain.",["viendront","venaient","viennent"],0,"venir ← viendr-.|Venir ← viendr-."],
+ ["Tu ___ tes amis la semaine prochaine. (voir)",["verras","vois","voyais"],0,"voir ← verr-: tu verras.|Voir ← verr-: tu verras."],
+ ["Il ___ beau demain. (faire)",["fera","fait","faisait"],0,"faire ← fer-: il fera.|Faire ← fer-: il fera."],
+ ["Je ___ du temps. (avoir)",["aurai","ai","avais"],0,"avoir ← aur-: j'aurai.|Avoir ← aur-: j'aurai."],
+ ["Vous ___ prendre le train ? (pouvoir)",["pourrez","pouvez","pouviez"],0,"pouvoir ← pourr-: vous pourrez.|Pouvoir ← pourr-: vous pourrez."]]},
+{id:"b1-cod",ar:"ضمائر المفعول المباشر",en:"Direct object pronouns",fr:"Les pronoms COD",
+ intro:"نستعمل الضمير بدل الاسم الذي وقع عليه الفعل مباشرة لتجنب التكرار. يوضع قبل الفعل.|Use a pronoun instead of the noun that receives the action directly, to avoid repetition. It goes before the verb.",
+ table:{h:["الضمير|Pronoun","المعنى|Meaning"],r:[["le (l')","هو (مذكر)|him / it (m.)"],["la (l')","هي (مؤنث)|her / it (f.)"],["les","هم / هنّ|them"],["me / te","أنا / أنتَ|me / you"],["nous / vous","نحن / أنتم|us / you"]]},
+ rules:["Je regarde le film ← Je le regarde.|Je regarde le film ← Je le regarde.","النفي: Je ne le regarde pas.|Negative: Je ne le regarde pas.","في الماضي المركب يوضع قبل avoir ويتفق اسم المفعول: J'ai vu la fille ← Je l'ai vue.|In the passé composé it goes before avoir and the participle agrees: J'ai vu la fille ← Je l'ai vue."],
+ ex:[["Tu connais Paul ? Oui, je le connais.","هل تعرف بول؟ نعم أعرفه.|Do you know Paul? Yes, I know him."],["Elle mange la pomme ? Oui, elle la mange.","هل تأكل التفاحة؟ نعم تأكلها.|Is she eating the apple? Yes, she is eating it."],["Je les achète.","أشتريها / أشتريهم.|I buy them."]],
+ quiz:[["Tu vois Marie ? Oui, je ___ vois.",["le","la","les"],1,"Marie مؤنث ← la.|Marie is feminine ← la."],
+ ["Il prend les livres ← Il ___ prend.",["le","la","les"],2,"livres جمع ← les.|Livres is plural ← les."],
+ ["Je ne ___ connais pas. (أعرفه)",["le","la","lui"],0,"مذكر مفرد مفعول مباشر ← le.|Masculine singular direct object ← le."],
+ ["Tu as acheté la robe ? Oui, je ___ ai achetée.",["l'","le","les"],0,"la تصبح l' أمام avoir.|La becomes l' before avoir."],
+ ["Il regarde le match ← Il ___ regarde.",["le","la","les"],0,"match مذكر ← le.|Match is masculine ← le."],
+ ["Elle mange les fruits ← Elle ___ mange.",["les","le","lui"],0,"جمع ← les.|Plural ← les."],
+ ["Je ___ aime beaucoup. (أحبه، le film)",["l'","lui","y"],0,"le ← l' قبل حرف متحرك.|Le ← l' before a vowel."],
+ ["Où est ta clé ? Je ne ___ trouve pas.",["la","le","les"],0,"clé مؤنث ← la.|Clé is feminine ← la."]]},
+{id:"b1-cond",ar:"الشرطي (التمني والأدب)",en:"The conditional",fr:"Le conditionnel présent",
+ intro:"نستعمله للطلب المهذب والتمنّي والنصيحة. جذر المستقبل + نهايات الماضي الناقص.|Used for polite requests, wishes and advice. Future stem + imperfect endings.",
+ table:{h:["الضمير|Pronoun","vouloir"],r:[["je","voudrais"],["tu","voudrais"],["il / elle / on","voudrait"],["nous","voudrions"],["vous","voudriez"],["ils / elles","voudraient"]]},
+ rules:["الطلب المهذب: Je voudrais un café. Pourriez-vous m'aider ?|Polite request: Je voudrais un café. Pourriez-vous m'aider ?","النصيحة: Tu devrais dormir plus.|Advice: Tu devrais dormir plus.","التمنّي: J'aimerais voyager.|Wish: J'aimerais voyager.","جملة الشرط: Si j'avais de l'argent, j'achèterais une voiture.|Condition: Si j'avais de l'argent, j'achèterais une voiture."],
+ ex:[["Je voudrais un renseignement.","أريد معلومة (بأدب).|I would like some information."],["Tu devrais te reposer.","ينبغي أن ترتاح.|You should rest."],["Si j'étais riche, je voyagerais.","لو كنت غنياً لسافرت.|If I were rich, I would travel."]],
+ quiz:[["Pour demander poliment: «___ un café.»",["Je veux","Je voudrais","Je voulais"],1,"الطلب المهذب: je voudrais.|Polite request: je voudrais."],
+ ["Si j'avais le temps, je ___.",["voyagerais","voyagerai","voyage"],0,"بعد si + imparfait نستعمل الشرطي.|After si + imperfect use the conditional."],
+ ["Tu ___ dormir un peu. (نصيحة)",["devrais","dois","devais"],0,"النصيحة بالشرطي.|Advice uses the conditional."],
+ ["Nous ___ venir. (نودّ)",["aimerions","aimons","aimerons"],0,"nous aimerions.|Nous aimerions."],
+ ["Si tu étudiais, tu ___ ton examen.",["réussirais","réussiras","réussis"],0,"si + imparfait ← شرطي.|Si + imperfect ← conditional."],
+ ["Vous ___ m'aider ? (بأدب)",["pourriez","pouvez","pourrez"],0,"pourriez للأدب.|Pourriez for politeness."],
+ ["Il ___ venir, mais il est malade.",["voudrait","voudra","voulait"],0,"التمنّي ← شرطي.|Wish ← conditional."],
+ ["Si j'étais toi, je ___ cet emploi.",["prendrais","prendrai","prends"],0,"prendre ← prendr- + -ais.|Prendre ← prendr- + -ais."]]},
+{id:"b1-rel",ar:"الضمائر الموصولة qui و que",en:"Relative pronouns qui and que",fr:"Les pronoms relatifs qui et que",
+ intro:"تربط جملتين: qui تحلّ محل الفاعل، و que تحلّ محل المفعول.|They join two sentences: qui replaces the subject, que replaces the object.",
+ rules:["qui = الفاعل، وبعدها فعل: L'homme qui parle est mon père.|Qui = subject, followed by a verb: L'homme qui parle est mon père.","que = المفعول، وبعدها فاعل: Le livre que je lis est intéressant.|Que = object, followed by a subject: Le livre que je lis est intéressant.","que تصبح qu' أمام حرف متحرك: Le film qu'il regarde.|Que becomes qu' before a vowel: Le film qu'il regarde.","لا تتغير qui أبداً.|Qui never changes."],
+ ex:[["La fille qui chante est ma cousine.","البنت التي تغني هي ابنة عمي.|The girl who is singing is my cousin."],["Le café que tu bois est chaud.","القهوة التي تشربها ساخنة.|The coffee you are drinking is hot."],["Voici le gâteau qu'elle a préparé.","هذه الكعكة التي حضّرتها.|Here is the cake she made."]],
+ quiz:[["L'homme ___ travaille ici est médecin.",["qui","que","où"],0,"بعد الفراغ فعل فالفراغ فاعل ← qui.|A verb follows, so the blank is the subject ← qui."],
+ ["Le livre ___ je lis est long.",["qui","que","dont"],1,"بعد الفراغ فاعل (je) ← que.|A subject follows (je) ← que."],
+ ["La voiture ___ il a achetée est rouge.",["qui","qu'","que"],2,"بعد الفراغ فاعل (il) ← que.|A subject follows (il) ← que."],
+ ["J'ai un ami ___ habite à Paris.",["qui","que","quoi"],0,"بعد الفراغ فعل (habite) ← qui.|A verb follows (habite) ← qui."],
+ ["Le film ___ nous avons vu était drôle.",["que","qui","dont"],0,"بعد الفراغ فاعل (nous) ← que.|A subject follows (nous) ← que."],
+ ["Les élèves ___ étudient réussissent.",["qui","que","où"],0,"فعل بعدها ← qui.|Verb follows ← qui."],
+ ["La chanson ___ elle écoute est triste.",["qu'","qui","quoi"],0,"que ← qu' قبل elle.|Que ← qu' before elle."],
+ ["Le professeur ___ j'admire est très gentil.",["que","qui","quoi"],0,"بعد الفراغ فاعل j' ← que.|A subject follows (j') ← que."]]},
+{id:"b1-pqp",ar:"الماضي البعيد",en:"The pluperfect",fr:"Le plus-que-parfait",
+ intro:"نستعمله لحدث وقع قبل حدث آخر في الماضي: avoir أو être في الماضي الناقص + اسم المفعول.|Used for an event that happened before another past event: avoir or être in the imperfect + the past participle.",
+ table:{h:["الضمير|Pronoun","avoir","être"],r:[["je","avais mangé","étais allé(e)"],["tu","avais mangé","étais allé(e)"],["il / elle","avait mangé","était allé(e)"],["nous","avions mangé","étions allé(e)s"],["vous","aviez mangé","étiez allé(e)(s)"],["ils / elles","avaient mangé","étaient allé(e)s"]]},
+ rules:["اختيار avoir أو être كما في الماضي المركب.|The choice of avoir or être is the same as in the passé composé.","Quand je suis arrivé, il était déjà parti.|Quand je suis arrivé, il était déjà parti.","في الشرط للماضي: Si j'avais su, je serais venu.|Past condition: Si j'avais su, je serais venu."],
+ ex:[["Il avait déjà mangé.","كان قد أكل بالفعل.|He had already eaten."],["Elles étaient parties avant nous.","كنّ قد غادرن قبلنا.|They had left before us."],["Nous n'avions pas compris.","لم نكن قد فهمنا.|We had not understood."]],
+ quiz:[["Quand je suis arrivé, elle ___ déjà partie.",["était","est","avait"],0,"partir مع être: elle était partie.|Partir uses être: elle était partie."],
+ ["J'___ fini quand il a téléphoné.",["avais","ai","aurais"],0,"plus-que-parfait: j'avais fini.|Pluperfect: j'avais fini."],
+ ["Nous ___ déjà mangé.",["avions","étions","avons"],0,"nous avions mangé.|Nous avions mangé."],
+ ["Ils ___ arrivés avant nous.",["étaient","avaient","sont"],0,"arriver مع être: ils étaient arrivés.|Arriver uses être: ils étaient arrivés."],
+ ["Il a dit qu'il ___ oublié. (كان قد نسي)",["avait","a","aura"],0,"il avait oublié.|Il avait oublié."],
+ ["Tu ___ déjà vu ce film ?",["avais","avait","étais"],0,"tu avais vu.|Tu avais vu."],
+ ["Le plus-que-parfait exprime:|The pluperfect expresses:",["حدثاً سابقاً لحدث ماضٍ آخر|an event before another past event","حدثاً مستقبلياً|a future event","عادة في الحاضر|a present habit"],0,"سابق لحدث ماضٍ.|Before another past event."],
+ ["Elle n'___ pas compris.",["avait","était","a"],0,"elle n'avait pas compris.|Elle n'avait pas compris."]]},
+{id:"b1-subj",ar:"المضارع الإلزامي",en:"The subjunctive",fr:"Le subjonctif présent",
+ intro:"نستعمله بعد التعبيرات التي تعبّر عن الضرورة والرغبة والعاطفة والشك: il faut que، vouloir que، bien que... نأخذ ils في الحاضر، نحذف -ent، ونضيف النهايات.|Used after expressions of necessity, wish, emotion and doubt: il faut que, vouloir que, bien que... Take the ils present form, remove -ent and add the endings.",
+ table:{h:["الضمير|Pronoun","النهاية|Ending","parler"],r:[["que je","-e","parle"],["que tu","-es","parles"],["qu'il / elle","-e","parle"],["que nous","-ions","parlions"],["que vous","-iez","parliez"],["qu'ils / elles","-ent","parlent"]]},
+ rules:["أفعال شاذة: être ← sois, avoir ← aie, aller ← aille, faire ← fasse, pouvoir ← puisse.|Irregulars: être ← sois, avoir ← aie, aller ← aille, faire ← fasse, pouvoir ← puisse.","بعد: il faut que, vouloir que, avant que, bien que, pour que.|After: il faut que, vouloir que, avant que, bien que, pour que.","إذا كان الفاعل واحداً نستعمل المصدر: Je veux partir. لكن: Je veux que tu partes.|With the same subject use the infinitive: Je veux partir. But: Je veux que tu partes.","لا نستعمله بعد croire / penser في الإثبات.|Not used after croire / penser in the affirmative."],
+ ex:[["Il faut que tu fasses tes devoirs.","يجب أن تؤدي واجباتك.|You must do your homework."],["Je veux que vous soyez à l'heure.","أريدكم أن تكونوا في الموعد.|I want you to be on time."],["Bien qu'il soit fatigué, il travaille.","رغم أنه متعب فهو يعمل.|Although he is tired, he works."]],
+ quiz:[["Il faut que tu ___ tes devoirs.",["fasses","fais","faire"],0,"faire ← fasse.|Faire ← fasse."],
+ ["Je veux que vous ___ à l'heure.",["soyez","êtes","serez"],0,"être ← soyez.|Être ← soyez."],
+ ["Bien qu'il ___ fatigué, il travaille.",["soit","est","sera"],0,"بعد bien que: soit.|After bien que: soit."],
+ ["Il faut que j'___ plus de temps.",["aie","ai","aurai"],0,"avoir ← aie.|Avoir ← aie."],
+ ["Je veux ___ au cinéma. (فاعل واحد)",["aller","que j'aille","allé"],0,"فاعل واحد ← مصدر.|Same subject ← infinitive."],
+ ["Il faut qu'elle ___ chez le médecin.",["aille","va","allait"],0,"aller ← aille.|Aller ← aille."],
+ ["Avant qu'il ___, appelle-moi. (partir)",["parte","part","partira"],0,"بعد avant que: parte.|After avant que: parte."],
+ ["Après «croire que» au positif on utilise:|After «croire que» (affirmative) we use:",["l'indicatif","le subjonctif","le conditionnel"],0,"المؤكد ← indicatif.|Affirmative ← indicative."]]},
+{id:"b1-pass",ar:"المبني للمجهول",en:"The passive voice",fr:"La voix passive",
+ intro:"نجعل المفعول به فاعلاً: être (بزمن الجملة) + اسم المفعول + par. يتفق اسم المفعول مع الفاعل الجديد.|The object becomes the subject: être (in the sentence tense) + past participle + par. The participle agrees with the new subject.",
+ rules:["Le professeur corrige les exercices ← Les exercices sont corrigés par le professeur.|Le professeur corrige les exercices ← Les exercices sont corrigés par le professeur.","الزمن في être هو زمن الجملة: ont été corrigés (ماضي)، seront corrigés (مستقبل).|The tense is carried by être: ont été corrigés (past), seront corrigés (future).","في الكلام اليومي نفضّل on أو الصيغة الفاعلة.|In everyday speech we prefer on or the active voice.","par للفاعل، و de مع بعض الأفعال: Il est aimé de tous.|Par for the agent, de with some verbs: Il est aimé de tous."],
+ ex:[["Le gâteau est préparé par ma mère.","الكعكة تُحضَّر من أمي.|The cake is prepared by my mother."],["Ce livre a été écrit en 1990.","كُتب هذا الكتاب سنة 1990.|This book was written in 1990."],["Le pont sera construit l'année prochaine.","سيُبنى الجسر العام القادم.|The bridge will be built next year."]],
+ quiz:[["Le gâteau ___ par ma mère.",["est préparé","prépare","a préparé"],0,"être + participe.|Être + participle."],
+ ["Les lettres ___ écrites par Paul.",["sont","ont","est"],0,"être مع الجمع: sont.|Être with plural: sont."],
+ ["Ce livre a été ___ en 1990.",["écrit","écrivé","écrire"],0,"écrire ← écrit.|Écrire ← écrit."],
+ ["La porte ___ fermée.",["est","a","sont"],0,"être مع مفرد: est.|Être with singular: est."],
+ ["Le voleur ___ arrêté par la police. (ماضي)",["a été","sera","sont"],0,"ماضٍ مركب: a été arrêté.|Passé composé: a été arrêté."],
+ ["Les élèves ___ punis par le directeur.",["ont été","a été","as été"],0,"جمع: ont été.|Plural: ont été."],
+ ["La forme passive utilise le verbe:|The passive uses the verb:",["être","avoir","aller"],0,"être + participe.|Être + participle."],
+ ["Le pont sera ___ l'année prochaine.",["construit","construite","construire"],0,"pont مذكر: construit.|Pont is masculine: construit."]]},
+{id:"b1-ger",ar:"الجيرون (en + -ant)",en:"The gerund",fr:"Le gérondif",
+ intro:"en + الفعل بنهاية -ant، ويعبّر عن حدثين متزامنين أو عن الطريقة. نأخذ nous في الحاضر، نحذف -ons ونضيف -ant.|En + the -ant form, used for two simultaneous actions or for the manner. Take the nous present form, remove -ons and add -ant.",
+ table:{h:["الفعل|Verb","الجيرون|Gerund"],r:[["parler","en parlant"],["finir","en finissant"],["faire","en faisant"],["prendre","en prenant"],["aller","en allant"]]},
+ rules:["Il mange en regardant la télé.|Il mange en regardant la télé.","للطريقة: On apprend en pratiquant.|For the manner: On apprend en pratiquant.","الفاعل واحد دائماً للفعلين.|The subject is always the same for both verbs.","استثناءات: être ← étant، avoir ← ayant، savoir ← sachant.|Exceptions: être ← étant, avoir ← ayant, savoir ← sachant."],
+ ex:[["Elle chante en cuisinant.","تغني وهي تطبخ.|She sings while cooking."],["On apprend en pratiquant.","نتعلم بالممارسة.|We learn by practising."],["Il est tombé en courant.","سقط وهو يركض.|He fell while running."]],
+ quiz:[["Elle écoute de la musique ___ (travailler).",["en travaillant","en travailler","travaillons"],0,"en + -ant.|En + -ant."],
+ ["Le gérondif se forme avec:|The gerund is formed with:",["en + -ant","à + -ant","de + -ant"],0,"en + -ant.|En + -ant."],
+ ["Je me suis blessé ___ du sport. (faire)",["en faisant","en faire","faisant en"],0,"faire ← faisant.|Faire ← faisant."],
+ ["On apprend ___. (pratiquer)",["en pratiquant","en pratique","pratiquant"],0,"en pratiquant.|En pratiquant."],
+ ["Il est tombé ___. (courir)",["en courant","en courir","courant"],0,"courir ← courant.|Courir ← courant."],
+ ["Elle sourit ___. (parler)",["en parlant","parlait","en parle"],0,"en parlant.|En parlant."],
+ ["Le gérondif de «finir»:",["en finissant","en finant","en finir"],0,"nous finissons ← finissant.|Nous finissons ← finissant."],
+ ["Le gérondif de «prendre»:",["en prenant","en prendant","en prendre"],0,"nous prenons ← prenant.|Nous prenons ← prenant."]]},
+{id:"b1-dont",ar:"الضميران dont و où",en:"Relative pronouns dont and où",fr:"Dont et où",
+ intro:"dont تحلّ محل «de + اسم»، و où للمكان والزمان.|Dont replaces «de + noun», and où is for place and time.",
+ rules:["dont: Le livre dont je parle (je parle du livre).|Dont: Le livre dont je parle (I speak about the book).","où للمكان والزمان: La ville où j'habite. Le jour où il est venu.|Où for place and time: La ville où j'habite. Le jour où il est venu.","dont للملكية: L'homme dont la fille est médecin.|Dont for possession: L'homme dont la fille est médecin.","بعد dont يأتي فاعل ثم فعل.|After dont come a subject and a verb."],
+ ex:[["Voici le film dont je t'ai parlé.","هذا هو الفيلم الذي حدثتك عنه.|Here is the film I told you about."],["La ville où je suis né est belle.","المدينة التي وُلدت فيها جميلة.|The town where I was born is beautiful."],["C'est le jour où nous nous sommes rencontrés.","إنه اليوم الذي التقينا فيه.|It is the day we met."]],
+ quiz:[["Voici le film ___ je t'ai parlé.",["dont","que","où"],0,"parler de ← dont.|Parler de ← dont."],
+ ["La ville ___ je suis né est belle.",["où","dont","que"],0,"مكان ← où.|Place ← où."],
+ ["C'est le jour ___ nous nous sommes rencontrés.",["où","dont","qui"],0,"زمان ← où.|Time ← où."],
+ ["Le livre ___ j'ai besoin est ici.",["dont","que","qui"],0,"avoir besoin de ← dont.|Avoir besoin de ← dont."],
+ ["Le restaurant ___ nous mangeons est cher.",["où","dont","qui"],0,"مكان ← où.|Place ← où."],
+ ["L'ami ___ le père est médecin habite ici.",["dont","que","qui"],0,"ملكية ← dont.|Possession ← dont."],
+ ["La chose ___ je rêve est simple.",["dont","que","où"],0,"rêver de ← dont.|Rêver de ← dont."],
+ ["Le pays ___ il est né est loin.",["où","dont","que"],0,"مكان ← où.|Place ← où."]]},
+{id:"b1-di",ar:"الكلام المنقول",en:"Reported speech",fr:"Le discours indirect",
+ intro:"لنقل كلام شخص آخر. إذا كان فعل النقل في الماضي (il a dit que…) تتغير الأزمنة.|To report what someone said. When the reporting verb is in the past (il a dit que…) the tenses shift.",
+ table:{h:["مباشر|Direct","منقول|Reported"],r:[["présent","imparfait"],["passé composé","plus-que-parfait"],["futur","conditionnel"],["demain","le lendemain"],["hier","la veille"]]},
+ rules:["«Je suis fatigué» ← Il a dit qu'il était fatigué.|«Je suis fatigué» ← Il a dit qu'il était fatigué.","السؤال: Il a demandé si je venais. (si لأسئلة نعم / لا)|Question: Il a demandé si je venais. (si for yes/no questions)","الأمر: Il m'a dit de partir.|Order: Il m'a dit de partir.","الضمائر والظروف تتغير حسب المعنى.|Pronouns and time words change with the meaning."],
+ ex:[["Il a dit qu'il viendrait demain.","قال إنه سيأتي غداً.|He said he would come tomorrow."],["Elle a demandé si j'avais faim.","سألت إن كنت جائعاً.|She asked if I was hungry."],["Il m'a dit de partir.","قال لي أن أغادر.|He told me to leave."]],
+ quiz:[["«Je suis fatigué.» ← Il a dit qu'il ___ fatigué.",["était","est","sera"],0,"présent ← imparfait.|Present ← imperfect."],
+ ["«Je viendrai demain.» ← Il a dit qu'il ___ le lendemain.",["viendrait","viendra","vient"],0,"futur ← conditionnel.|Future ← conditional."],
+ ["«Tu viens ?» ← Il m'a demandé ___ je venais.",["si","que","qui"],0,"السؤال نعم/لا ← si.|Yes/no question ← si."],
+ ["«Pars !» ← Il m'a dit ___ partir.",["de","que","à"],0,"الأمر ← de + مصدر.|Order ← de + infinitive."],
+ ["«J'ai mangé.» ← Elle a dit qu'elle ___ mangé.",["avait","a","aurait"],0,"passé composé ← plus-que-parfait.|Passé composé ← pluperfect."],
+ ["«Je suis ici.» ← Il a dit qu'il était ___.",["là","ici","demain"],0,"ici ← là.|Ici ← là."],
+ ["«Demain» devient souvent:|«Demain» often becomes:",["le lendemain","hier","la veille"],0,"demain ← le lendemain.|Demain ← le lendemain."],
+ ["«Hier» devient souvent:|«Hier» often becomes:",["la veille","le lendemain","demain"],0,"hier ← la veille.|Hier ← la veille."]]}
 ]
 };
 
 /* ---------- القواعد ---------- */
-const GRS = { view:'menu', level:'A1', id:null, ans:[], done:{} };
+const GRS = { view:'menu', level:'A1', lang:'both', id:null, ans:[], ord:[], done:{} };
 (function(){
-  try{ const p = JSON.parse(localStorage.getItem('fo_gr_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) GRS.level = p.level; }catch(e){}
+  try{ const p = JSON.parse(localStorage.getItem('fo_gr_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) GRS.level = p.level; if(['ar','en','both'].includes(p.lang)) GRS.lang = p.lang; }catch(e){}
   try{ GRS.done = JSON.parse(localStorage.getItem('fo_gr_done')||'{}') || {}; }catch(e){}
 })();
-function grSave(){ try{ localStorage.setItem('fo_gr_pref', JSON.stringify({ level:GRS.level })); localStorage.setItem('fo_gr_done', JSON.stringify(GRS.done)); }catch(e){} }
+function grSave(){ try{ localStorage.setItem('fo_gr_pref', JSON.stringify({ level:GRS.level, lang:GRS.lang })); localStorage.setItem('fo_gr_done', JSON.stringify(GRS.done)); }catch(e){} }
 const grLessons = () => GR[GRS.level] || [];
 const grLesson = id => grLessons().find(l => l.id === id);
+/* نص بلغتين: 'عربي|English' */
+function grT(s){ const p = String(s).split('|'); return { ar:p[0], en:(p[1] !== undefined ? p[1] : p[0]), two:p.length > 1 }; }
+/* نص عربي: تُعزل الكلمات الفرنسية داخل الجملة حتى لا يختلط الترتيب */
+function grAr(str){
+  const re = /[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9'’\-.,!?…()\/+←→ ]*[A-Za-zÀ-ÿ0-9'’!?…)]|[A-Za-zÀ-ÿ]/g; let out = '', last = 0, m;
+  while((m = re.exec(str))){ out += esc(str.slice(last, m.index)) + '<bdi dir="ltr" lang="fr" class="grlat">' + esc(m[0]) + '</bdi>'; last = m.index + m[0].length; }
+  return out + esc(str.slice(last));
+}
+function grBi(s, cls){
+  const t = grT(s); if(!t.two) return `<span class="${cls||''}" dir="auto">${esc(t.ar)}</span>`;
+  const ar = `<span class="gar" dir="rtl">${grAr(t.ar)}</span>`, en = `<span class="gen" dir="ltr">${esc(t.en)}</span>`;
+  return GRS.lang === 'ar' ? ar : GRS.lang === 'en' ? en : ar + en;
+}
+function grInline(s){
+  const t = grT(s); if(!t.two) return esc(t.ar);
+  return GRS.lang === 'ar' ? grAr(t.ar) : GRS.lang === 'en' ? esc(t.en) : grAr(t.ar) + ' <span class="gsep">·</span> ' + esc(t.en);
+}
+const grShuffle = n => { const a = [...Array(n).keys()]; for(let i = n - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function grNewOrder(l){ GRS.ord = l.quiz.map(q => grShuffle(q[1].length)); }
+const grDone = id => GRS.done[id];
+function grLangBar(){
+  return `<div class="vpills">${[['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${GRS.lang === k ? 'on' : ''}" data-a="grLang" data-id="${k}">${l}</button>`).join('')}</div>`;
+}
+const grVerdict = ok => { const ar = ok ? '✓ صحيح' : '✗ غير صحيح', en = ok ? '✓ Correct' : '✗ Incorrect'; return GRS.lang === 'ar' ? ar : GRS.lang === 'en' ? en : ar + ' · ' + en; };
 function grQuizHtml(l){
   const answered = GRS.ans.filter(a => a !== null && a !== undefined).length;
-  const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q.a ? 1 : 0), 0);
+  const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q[2] ? 1 : 0), 0);
   let h = l.quiz.map((q, qi) => {
     const a = GRS.ans[qi], has = a !== null && a !== undefined;
-    return `<div class="grq"><p class="grqt" dir="auto">${qi + 1}. ${esc(q.q)}</p><div class="gropts">${q.o.map((o, oi) => {
-      let c = 'gro'; if(has){ if(oi === q.a) c += ' right'; else if(oi === a) c += ' wrong'; }
-      return `<button class="${c}" data-a="grAns" data-id="${qi}" data-o="${oi}" dir="auto" ${has ? 'disabled' : ''}>${esc(o)}</button>`;
-    }).join('')}</div>${has ? `<p class="grwhy ${a === q.a ? 'ok' : 'bad'}">${a === q.a ? '✓ صحيح. ' : '✗ ليس صحيحاً. '}${esc(q.why)}</p>` : ''}</div>`;
+    const ord = GRS.ord[qi] || q[1].map((_, i) => i);
+    return `<div class="grq"><p class="grqt">${qi + 1}. ${grInline(q[0])}</p><div class="gropts">${ord.map(oi => {
+      let c = 'gro'; if(has){ if(oi === q[2]) c += ' right'; else if(oi === a) c += ' wrong'; }
+      return `<button class="${c}" data-a="grAns" data-id="${qi}" data-o="${oi}" dir="auto" ${has ? 'disabled' : ''}>${grInline(q[1][oi])}</button>`;
+    }).join('')}</div>${has ? `<div class="grwhy ${a === q[2] ? 'ok' : 'bad'}"><b>${grVerdict(a === q[2])}</b>${grBi(q[3])}</div>` : ''}</div>`;
   }).join('');
-  if(answered === l.quiz.length) h += `<div class="grres"><b>نتيجتك: ${right} من ${l.quiz.length}</b><button class="btn sec" data-a="grRetry">أعد التمرين</button></div>`;
+  if(answered === l.quiz.length) h += `<div class="grres"><b>${right} / ${l.quiz.length}</b><span>${right === l.quiz.length ? 'ممتاز! Excellent!' : right >= l.quiz.length * .6 ? 'جيد Good' : 'راجع الدرس وأعد المحاولة · Review and try again'}</span><button class="btn sec" data-a="grRetry">أعد التمرين · Retry</button></div>`;
   return h;
 }
 function renderGrammar(v){
   v.dir = '';
   if(GRS.view === 'lesson') return renderGrLesson(v);
   const pills = ['A1','A2','B1'].map(l => `<button class="vpill ${GRS.level === l ? 'on' : ''}" data-a="grLevel" data-id="${l}">${l}</button>`).join('');
-  const ls = grLessons(), dn = ls.filter(l => GRS.done[l.id] !== undefined).length;
+  const ls = grLessons(), dn = ls.filter(l => grDone(l.id) !== undefined).length;
   v.innerHTML = `<h2 class="st"><span>${I('gram')} القواعد <small>Grammaire</small></span></h2>
-    <div class="vbar2"><div class="vpills">${pills}</div></div>
-    <p class="cap" style="margin:8px 2px 14px">أنهيت ${dn} من ${ls.length} دروس في هذا المستوى.</p>
-    <div class="vgrid">${ls.map((l, i) => { const d = GRS.done[l.id]; return `<button class="vcat" data-a="grOpen" data-id="${l.id}"><b>${i + 1}. ${esc(l.ar)}</b><span class="vf" dir="ltr">${esc(l.fr)}</span><span class="vn" dir="ltr">${d !== undefined ? '✓ ' + d + ' / ' + l.quiz.length : 'لم يُحلّ بعد'}</span></button>`; }).join('')}</div>`;
+    <div class="vbar2"><div class="vpills">${pills}</div>${grLangBar()}</div>
+    <p class="cap" style="margin:8px 2px 14px">أنهيت ${dn} من ${ls.length} درساً في هذا المستوى.</p>
+    <div class="vgrid">${ls.map((l, i) => { const d = grDone(l.id); return `<button class="vcat" data-a="grOpen" data-id="${l.id}"><b>${i + 1}. ${GRS.lang === 'en' ? esc(l.en) : esc(l.ar)}</b><span class="vf" dir="ltr">${esc(l.fr)}${GRS.lang === 'both' ? ' · ' + esc(l.en) : ''}</span><span class="vn" dir="ltr">${d !== undefined ? '✓ ' + d + ' / ' + l.quiz.length : 'لم يُحلّ بعد'}</span></button>`; }).join('')}</div>`;
 }
 function renderGrLesson(v){
   const l = grLesson(GRS.id); if(!l){ GRS.view = 'menu'; return renderGrammar(v); }
-  const tb = l.table ? `<div class="grtw"><table class="grt" dir="auto"><thead><tr>${l.table.h.map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${l.table.r.map(r => `<tr>${r.map((x, i) => `<td ${i ? 'dir="ltr" lang="fr"' : ''}>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
-  v.innerHTML = `<button class="btn sec" data-a="grBack" style="margin-bottom:12px">← القواعد</button>
-    <h2 class="st"><span>${esc(l.ar)} <small dir="ltr">${esc(l.fr)}</small></span></h2>
-    <div class="card grbox"><p class="grp">${esc(l.intro)}</p>${tb}
-      <h4 class="grh">القاعدة</h4><ul class="grul">${l.rules.map(r => `<li dir="auto">${esc(r)}</li>`).join('')}</ul>
-      <h4 class="grh">أمثلة</h4>${l.ex.map((e, i) => `<div class="vrow"><button class="vsp" data-a="grSay" data-id="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx"><span class="vfr" dir="ltr" lang="fr">${esc(e[0].replace(/\s*\(.*?\)\s*$/, ''))}</span><span class="vm">${esc(e[1])}</span></div></div>`).join('')}</div>
-    <h3 class="grh2">تمرين</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div>`;
+  const tb = l.table ? `<div class="grtw"><table class="grt"><thead><tr>${l.table.h.map(x => `<th>${grInline(x)}</th>`).join('')}</tr></thead><tbody>${l.table.r.map(r => `<tr>${r.map((x, i) => `<td ${grT(x).two ? '' : 'lang="fr"'}>${grInline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
+  v.innerHTML = `<div class="grl"><div class="vbar2"><button class="btn sec" data-a="grBack">← القواعد · Grammar</button>${grLangBar()}</div>
+    <h2 class="grtitle"><span class="grfr" lang="fr">${esc(l.fr)}</span><span class="grsub">${GRS.lang === 'en' ? esc(l.en) : GRS.lang === 'ar' ? esc(l.ar) : esc(l.ar) + ' · ' + esc(l.en)}</span></h2>
+    <div class="card grbox"><p class="grp">${grBi(l.intro)}</p>${tb}
+      <h4 class="grh">القاعدة · Rules</h4><ul class="grul">${l.rules.map(r => `<li>${grBi(r)}</li>`).join('')}</ul>
+      <h4 class="grh">أمثلة · Examples</h4>${l.ex.map((e, i) => `<div class="vrow"><button class="vsp" data-a="grSay" data-id="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx"><span class="vfr" lang="fr">${esc(e[0])}</span><span class="grtr">${grBi(e[1])}</span></div></div>`).join('')}</div>
+    <h3 class="grh2">تمرين · Exercise</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div></div>`;
 }
 const GRH = {
   grLevel:(id) => { GRS.level = id; grSave(); render(); },
-  grOpen:(id) => { GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; render(); window.scrollTo(0, 0); },
+  grLang:(id) => { GRS.lang = id; grSave(); render(); },
+  grOpen:(id) => { const l = grLesson(id); if(!l) return; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; grNewOrder(l); render(); window.scrollTo(0, 0); },
   grBack:() => { GRS.view = 'menu'; render(); },
-  grSay:(id) => { const l = grLesson(GRS.id); if(l && l.ex[+id]) speak(l.ex[+id][0].replace(/\s*\(.*?\)\s*$/, ''), .85); },
+  grSay:(id) => { const l = grLesson(GRS.id); if(l && l.ex[+id]) speak(l.ex[+id][0], .85); },
   grAns:(id, el) => {
     const l = grLesson(GRS.id); if(!l) return; const qi = +id;
     if(GRS.ans[qi] !== undefined && GRS.ans[qi] !== null) return;
     GRS.ans[qi] = +el.dataset.o;
     if(l.quiz.every((q, i) => GRS.ans[i] !== undefined && GRS.ans[i] !== null)){
-      const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q.a ? 1 : 0), 0);
-      if(GRS.done[l.id] === undefined || right > GRS.done[l.id]) GRS.done[l.id] = right;
+      const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q[2] ? 1 : 0), 0);
+      if(grDone(l.id) === undefined || right > grDone(l.id)) GRS.done[l.id] = right;
       grSave();
     }
     const box = document.getElementById('grq'); if(box) box.innerHTML = grQuizHtml(l);
   },
-  grRetry:() => { GRS.ans = []; const l = grLesson(GRS.id), box = document.getElementById('grq'); if(l && box) box.innerHTML = grQuizHtml(l); }
+  grRetry:() => { const l = grLesson(GRS.id), box = document.getElementById('grq'); if(!l || !box) return; GRS.ans = []; grNewOrder(l); box.innerHTML = grQuizHtml(l); box.scrollIntoView({ block:'start' }); }
 };
 
 const H = {
