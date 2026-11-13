@@ -1900,7 +1900,7 @@ const clsChips = noneLabel => `<div class="chips" style="margin:-6px 0 18px">
 
 let authP = null;
 function afterAuth(){
-  if(!authP) authP = (async () => { try{ await loadMe(); await loadAll(); } finally { authP = null; } })();
+  if(!authP) authP = (async () => { try{ await loadMe(); await loadAll(); try{ progPull(); }catch(e){} } finally { authP = null; } })();
   return authP;
 }
 /* Fail Closed: لا صلاحيات (مدرس/طالب) إلا بعد نجاح whoami على الخادم. أي فشل = زائر بلا صلاحيات + رسالة وزر إعادة المحاولة. */
@@ -2338,7 +2338,9 @@ function trkOpen(id){
     ${x.b.length ? `<div style="overflow-x:auto"><table><tr><th>الواجب</th><th>التاريخ</th><th>الحالة</th></tr>${x.b.map(r=>`<tr><td dir="auto">${esc(aT(r.assignment_id))}</td><td>${fmtDT(r.created_at)}</td><td>${r.grade?`<span class="tag ok">${esc(r.grade)}</span>`:'<span class="tag warn">بانتظار التصحيح</span>'}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يسلّم أي واجب بعد.</p>'}
     <h2 class="st"><span>الألعاب</span><small>${x.g.length}</small></h2>
     ${x.g.length ? `<div style="overflow-x:auto"><table><tr><th>اللعبة</th><th>المستوى</th><th>النتيجة</th><th>التاريخ</th></tr>${x.g.slice(0,30).map(r=>`<tr><td>${esc((GAME_DATA[r.game]||{}).title||r.game)}</td><td>${esc(r.level)}</td><td>${r.correct}/${r.total}</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يلعب بعد.</p>'}
+    <div id="trkprog"></div>
     <div class="actions"><button class="btn lg" data-a="close">إغلاق</button></div>`, true);
+  trkProgress(id);
 }
 document.addEventListener('change', e => { const el = e.target; if(el && el.dataset && el.dataset.a === 'trkCls'){ trk.cls = el.value; drawTrack($('#view'), ''); } });
 
@@ -3289,6 +3291,7 @@ const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, fl
 })();
 function vSave(){
   try{ localStorage.setItem('fo_voc_pref', JSON.stringify({ level:V.level, mean:V.mean })); localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){}
+  try{ progSchedule(); }catch(e){}
 }
 const vCats = () => VOC[V.level] || [];
 const vCat = id => vCats().find(c => c.id === id);
@@ -3908,7 +3911,7 @@ const GRH = {
     if(l.quiz.every((q, i) => GRS.ans[i] !== undefined && GRS.ans[i] !== null)){
       const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q[2] ? 1 : 0), 0);
       if(grDone(l.id) === undefined || right > grDone(l.id)) GRS.done[l.id] = right;
-      grSave();
+      grSave(); try{ progSchedule(); }catch(e){}
     }
     const box = document.getElementById('grq'); if(box) box.innerHTML = grQuizHtml(l);
   },
@@ -3916,6 +3919,89 @@ const GRH = {
 };
 
 const INFLIGHT = new Set();
+/* ---------- حفظ تقدّم الطالب على الخادم (student_progress) ---------- */
+/* المفردات: صف لكل كلمة عرفها. القواعد: صف لكل درس بأعلى درجة. للطلاب فقط. أي فشل لا يزعج الطالب: يبقى التقدّم محلياً ويُعاد الرفع لاحقاً. */
+let progSrvVoc = null, progSrvGr = null, progT = null, progBusy = false;
+const PROG_OWNER = 'fo_prog_owner', PROG_DIRTY = 'fo_prog_dirty';
+const progOn = () => typeof sb !== 'undefined' && !!sb && !!state.uid && !state.teacher && !!(state.me && state.me.student);
+const progWordLevel = (() => { let m = null; return w => { if(!m){ m = {}; for(const L in VOC) VOC[L].forEach(c => c.w.forEach(x => { m[x[0]] = L; })); } return m[w] || null; }; })();
+const progLesson = (() => { let m = null; return id => { if(!m){ m = {}; for(const L in GR) GR[L].forEach(l => { m[l.id] = { level:L, total:l.quiz.length, title:l.ar, fr:l.fr }; }); } return m[id] || null; }; })();
+function progSchedule(){
+  if(!progOn()) return;
+  lsSet(PROG_DIRTY, '1');                 // توجد تغييرات لم تُرفع بعد
+  if(progSrvVoc === null) return;          // قبل أول مزامنة: تُرفع بعد السحب
+  clearTimeout(progT); progT = setTimeout(progFlush, 900);
+}
+async function progFlush(){
+  if(progBusy){ progSchedule(); return; }
+  if(!progOn() || progSrvVoc === null) return;
+  progBusy = true;
+  try{
+    const now = new Date().toISOString(), uid = state.uid;
+    const adds = [...V.known].filter(w => !progSrvVoc.has(w) && progWordLevel(w)).map(w => ({ student_id:uid, kind:'vocab', item:w, level:progWordLevel(w), updated_at:now }));
+    const dels = [...progSrvVoc].filter(w => !V.known.has(w));
+    const grs = [];
+    Object.keys(GRS.done).forEach(id => { const L = progLesson(id), sc = GRS.done[id]; if(L && Number.isInteger(sc) && sc >= 0 && sc <= L.total && (!(id in progSrvGr) || sc > progSrvGr[id])) grs.push({ student_id:uid, kind:'grammar', item:id, level:L.level, score:sc, total:L.total, updated_at:now }); });
+    const rows = adds.concat(grs);
+    for(let i = 0; i < rows.length; i += 200){ const r = await sb.from('student_progress').upsert(rows.slice(i, i + 200), { onConflict:'student_id,kind,item' }); if(r.error) throw r.error; }
+    for(let i = 0; i < dels.length; i += 100){ const r = await sb.from('student_progress').delete().eq('student_id', uid).eq('kind', 'vocab').in('item', dels.slice(i, i + 100)); if(r.error) throw r.error; }
+    adds.forEach(a => progSrvVoc.add(a.item)); dels.forEach(w => progSrvVoc.delete(w)); grs.forEach(g => { progSrvGr[g.item] = g.score; });
+    lsSet(PROG_DIRTY, '');
+  }catch(e){
+    logErr('progFlush', e);
+    clearTimeout(progT); progT = setTimeout(progFlush, 30000);   // إعادة المحاولة لاحقاً (يبقى التقدّم محفوظاً على الجهاز)
+  }finally{ progBusy = false; }
+}
+window.addEventListener('online', () => { if(progOn() && progSrvVoc !== null) progSchedule(); });
+async function progPull(){
+  progSrvVoc = null; progSrvGr = null;
+  if(!progOn()) return;
+  const uid = state.uid;
+  try{
+    const owner = lsGet(PROG_OWNER);
+    if(owner && owner !== uid){ V.known = new Set(); GRS.done = {}; vSave(); grSave(); lsSet(PROG_DIRTY, ''); }   // جهاز استعمله طالب آخر: لا نخلط التقدّمين
+    const r = await sb.from('student_progress').select('kind,item,level,score,total').eq('student_id', uid).limit(1000);
+    if(r.error) throw r.error;
+    if(state.uid !== uid) return;
+    const voc = new Set(), gr = {};
+    (r.data || []).forEach(x => { if(x.kind === 'vocab' && progWordLevel(x.item)) voc.add(x.item); else if(x.kind === 'grammar' && progLesson(x.item) && Number.isInteger(x.score)) gr[x.item] = x.score; });
+    const merge = !owner || lsGet(PROG_DIRTY) === '1';   // أول مرة أو توجد تغييرات محلية لم تُرفع: ندمج. غير ذلك الخادم هو المرجع.
+    let changed = false;
+    if(merge){
+      voc.forEach(w => { if(!V.known.has(w)){ V.known.add(w); changed = true; } });
+      Object.keys(gr).forEach(id => { if(GRS.done[id] === undefined || gr[id] > GRS.done[id]){ GRS.done[id] = gr[id]; changed = true; } });
+    }else{
+      const nk = new Set(voc); if(nk.size !== V.known.size || [...nk].some(w => !V.known.has(w))){ V.known = nk; changed = true; }
+      const nd = {}; Object.keys(gr).forEach(id => { nd[id] = Math.max(gr[id], GRS.done[id] || 0); });
+      if(JSON.stringify(nd) !== JSON.stringify(GRS.done)){ GRS.done = nd; changed = true; }
+    }
+    progSrvVoc = voc; progSrvGr = gr;
+    lsSet(PROG_OWNER, uid);
+    if(changed){ try{ localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){} grSave(); }
+    progSchedule();   // يرفع ما هو على الجهاز فقط (ترحيل تقدّم ما قبل التحديث)
+    if(changed && (state.tab === 'vocab' || state.tab === 'grammar') && !document.querySelector('#modal .ov')) render();
+  }catch(e){ logErr('progPull', e); }
+}
+/* عرض تقدّم طالب للمدرس داخل نافذة التفاصيل */
+async function trkProgress(id){
+  const box = document.getElementById('trkprog'); if(!box) return;
+  box.innerHTML = '<p class="cap">جارٍ تحميل تقدّم المفردات والقواعد…</p>';
+  let r; try{ r = await sb.from('student_progress').select('kind,item,level,score,total,updated_at').eq('student_id', id).limit(1000); }catch(e){ r = { error:e }; }
+  if(!document.getElementById('trkprog')) return;
+  if(r.error){ logErr('trkProgress', r.error); box.innerHTML = '<p class="cap">تعذر تحميل تقدّم المفردات والقواعد.</p>'; return; }
+  const rows = r.data || [], voc = rows.filter(x => x.kind === 'vocab' && progWordLevel(x.item)), gr = rows.filter(x => x.kind === 'grammar' && progLesson(x.item));
+  const tot = {}; for(const L in VOC) tot[L] = VOC[L].reduce((n, c) => n + c.w.length, 0);
+  const bar = p => `<span class="pbar ${p < 50 ? 'low' : ''}"><i style="width:${Math.round(p)}%"></i></span>`;
+  const vrow = ['A1','A2','B1'].map(L => { const k = voc.filter(x => progWordLevel(x.item) === L).length; return `<tr><td>${L}</td><td>${k} / ${tot[L]}</td><td>${bar(k / tot[L] * 100)}</td></tr>`; }).join('');
+  const last = rows.map(x => x.updated_at).filter(Boolean).sort().pop();
+  const gsorted = gr.slice().sort((a, b) => (progLesson(a.item).level + a.item).localeCompare(progLesson(b.item).level + b.item));
+  box.innerHTML = `<h2 class="st"><span>المفردات</span><small>${voc.length} كلمة معروفة</small></h2>
+    ${voc.length ? `<div style="overflow-x:auto"><table><tr><th>المستوى</th><th>الكلمات المعروفة</th><th>النسبة</th></tr>${vrow}</table></div>` : '<p class="cap">لم يحدّد أي كلمة كمعروفة بعد.</p>'}
+    <h2 class="st"><span>القواعد</span><small>${gr.length} درس</small></h2>
+    ${gr.length ? `<div style="overflow-x:auto"><table><tr><th>الدرس</th><th>المستوى</th><th>أعلى درجة</th></tr>${gsorted.map(x => { const L = progLesson(x.item), p = x.total ? x.score / x.total * 100 : 0; return `<tr><td dir="auto">${esc(L.title)} <small dir="ltr">${esc(L.fr)}</small></td><td>${esc(x.level)}</td><td><span class="tag ${p >= 50 ? 'ok' : 'bad'}">${x.score}/${x.total}</span></td></tr>`; }).join('')}</table></div>` : '<p class="cap">لم يحلّ أي تمرين قواعد بعد.</p>'}
+    ${last ? `<p class="cap">آخر تحديث للتقدّم: ${esc(fmtDT(last))}</p>` : ''}`;
+}
+
 const H = {
   ...GH, ...VH, ...GRH,
   moreMenu:()=>{
