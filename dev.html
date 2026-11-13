@@ -410,6 +410,7 @@ footer .fl{font-size:15px;margin-bottom:4px;direction:ltr}footer .fl b{letter-sp
 #bnav{display:none}
 .moregrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
 .moregrid button{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 8px;background:var(--ivory);border:1px solid var(--line);border-radius:16px;font-weight:700;font-size:15px;color:var(--navy);min-height:92px;justify-content:center}
+.moregrid button:last-child:nth-child(odd){grid-column:1/-1}
 .moregrid button:active{background:var(--blue-soft,#E6EEF8)}.moregrid .i{width:28px;height:28px;color:var(--blue)}
 @media(max-width:820px){
   nav#nav{display:none}
@@ -473,6 +474,22 @@ tr:hover td{background:#FBF9F3}
 .gnext{background:var(--navy)}.gnext:hover{background:var(--navy2)}
 .gopt:not(:disabled):hover{background:var(--blue-soft,#E6EEF8)}
 .glvb b{color:var(--navy)}.gq{border-color:var(--line)}
+
+/* ===== تحسينات بصرية بسيطة (المرحلة D) — إضافات فقط، لا تغيّر الألوان ولا الهوية ===== */
+button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:transparent}   /* يلغي تأخير النقر المزدوج ويقلل الضغط المتكرر على الجوال */
+.ov{overscroll-behavior:contain}                                   /* لا يتحرك ما خلف النافذة المنبثقة أثناء التمرير */
+.card h3,.upi b,.tag{overflow-wrap:anywhere}                      /* العناوين الطويلة لا تكسر البطاقة */
+.errbox .btn{margin-top:10px}                                      /* زر «إعادة المحاولة» داخل رسالة الخطأ */
+@media(pointer:coarse){                                            /* أهداف لمس مريحة للجهاز اللوحي والهاتف */
+  .chip{min-height:40px;display:inline-flex;align-items:center}
+  .btn{min-height:42px}.tbtn,.cbtn,.add{min-height:44px}
+  nav button{min-height:42px}
+}
+@media(max-width:560px){
+  .tiles .tile:last-child:nth-child(odd){grid-column:1/-1}          /* لا تبقى البطاقة الأخيرة وحيدة في نصف صف */
+  .chips .chip{padding:7px 10px;font-size:12.5px}                  /* مرشحات المستوى في صف واحد قدر الإمكان */
+  .chips{gap:5px}
+}
 </style>
 </head>
 <body>
@@ -685,6 +702,7 @@ setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(
 /* ============ الواجهة العامة ============ */
 const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
 
+const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
 function renderShell(){
   const tabs = TABS.slice();
   if(state.teacher){ tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
@@ -693,7 +711,7 @@ function renderShell(){
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
   fitNav();
   try{ const on = _nv.querySelector('.on'); if(on && _nv.scrollWidth > _nv.clientWidth) on.scrollIntoView({ inline:'center', block:'nearest' }); }catch(e){}
-  const main5 = [['home','home','الرئيسية'],['files','book','الدروس'],['games','sparkle','الألعاب'],['quizzes','quiz','الاختبارات']];
+  const main5 = BNAV_MAIN.map(k => TABS.find(t => t[0] === k));
   const inMain = main5.some(x=>x[0]===state.tab);
   $('#bnav').innerHTML = main5.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}" ${state.tab===k?'aria-current="page"':''}>${I(ic)}<span>${l}</span></button>`).join('')
     + `<button class="${!inMain?'on':''}" data-a="moreMenu">${I('list')}<span>المزيد</span></button>`;
@@ -701,7 +719,9 @@ function renderShell(){
     ? `<button class="tbtn bell" data-a="bellOpen" aria-label="التنبيهات">${I('bell','s')}<b class="bn" id="bellN" hidden></b></button><button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
     : (state.me && state.me.student)
       ? `<span class="who">${I('user','s')} ${esc(state.me.student.full_name)}</span><button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
-      : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
+      : (state.uid && state.authErr)   // جلسة موجودة لكن تعذر التحقق: نتيح الخروج بدل زر الدخول
+        ? `<button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
+        : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
   $('#tbar').innerHTML = state.teacher
     ? `<div class="tbar">${I('check','s')} وضع المدرس مفعّل — يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات <button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
 }
@@ -3728,7 +3748,7 @@ const INFLIGHT = new Set();
 const H = {
   ...GH, ...VH, ...GRH,
   moreMenu:()=>{
-    const m = [['videos','video','الفيديوهات'],['assignments','assign','الواجبات'],['links','link','الروابط']];
+    const m = TABS.filter(t => !BNAV_MAIN.includes(t[0]));   // الفيديوهات، الواجبات، الروابط، المفردات، القواعد
     if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
     else if(state.me && state.me.student) m.push(['mine','list','نتائجي']);
     openModal(`<h3>المزيد</h3><div class="moregrid">${m.map(([k,ic,l])=>`<button data-a="moreGo" data-id="${k}">${I(ic)}<span>${l}</span></button>`).join('')}</div>`);
