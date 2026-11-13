@@ -304,6 +304,10 @@ footer::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;backgrou
 .stats3 b{display:block;font-size:22px;color:var(--text)}
 .score .verdict{font-weight:800;margin-top:6px}
 .jsonbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.jsonmsg{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;font-size:14px;line-height:1.8;text-align:right}
+.jsonmsg p{margin:6px 0 0}.jsonmsg ul{margin:4px 0 0;padding:0 18px 0 0}
+.jsonmsg.ok{background:#e3f7ec;color:#17623a}.jsonmsg.warn{background:#fff4dc;color:#7a5200}.jsonmsg.err{background:#fde8ea;color:#a3202f}.jsonmsg.info{background:#eef2fb;color:#1d4e9e}
+.note.qwarn{color:#a3202f;font-weight:700}
 .tag.cls{background:#dff6f6;color:#0c6f75}
 .who{color:#fff;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;margin-left:10px}
 .who .i{color:#8fb0ff}
@@ -1088,7 +1092,8 @@ function addQBlock(d){
   if(d){
     div.querySelector('.qtxt').value = d.q;
     div.querySelectorAll('.otxt').forEach((el, i) => { el.value = d.options[i] || ''; });
-    const r = div.querySelectorAll('input[type=radio]')[d.correct]; if(r) r.checked = true;
+    if(d.correct >= 0){ const r = div.querySelectorAll('input[type=radio]')[d.correct]; if(r) r.checked = true; }
+    else{ div.querySelectorAll('input[type=radio]').forEach(r => { r.checked = false; }); const nt = div.querySelector('p.note'); if(nt){ nt.textContent = '⚠ لم تُحدَّد الإجابة الصحيحة لهذا السؤال — حدّد الدائرة بجانبها قبل الحفظ'; nt.classList.add('qwarn'); } }
     div.querySelector('.qexp').value = d.explain || '';
     div.querySelector('.qimgurl').value = d.image || '';
   }
@@ -1106,7 +1111,8 @@ function quizForm(fresh){
     <div class="infobox">
       <b>استيراد الأسئلة من ملف JSON</b>
       <div class="jsonbox"><input type="file" id="z_json" accept=".json,application/json"><button type="button" class="btn sec" data-a="jsonSample">${I('download','s')} تحميل نموذج JSON</button></div>
-      <p class="note">اختر ملف JSON فتُملأ الأسئلة تلقائياً لتراجعها قبل الحفظ. يمكنك أيضاً إرسال ملف PDF للأسئلة إلى Claude في المحادثة ليحوّله لك إلى JSON.</p>
+      <p class="note">اختر ملف JSON فتُملأ الأسئلة تلقائياً لتراجعها وتعدّلها قبل الحفظ. يقبل الاستيراد صيغاً متعددة (question / q، options / choices، answer / correct بالرقم أو الحرف أو نص الإجابة). يمكنك أيضاً إرسال ملف PDF للأسئلة إلى Claude في المحادثة ليحوّله لك إلى JSON.</p>
+      <div id="z_jsonmsg" class="jsonmsg" role="status" aria-live="polite"></div>
     </div>
     ${clsSelect('z_cls')}
     <div class="infobox">
@@ -1649,43 +1655,208 @@ function resBlock(x){
   return out.join('');
 }
 
-/* ---- استيراد أسئلة من ملف JSON ---- */
-function parseQuizJson(txt){
-  let j = JSON.parse(txt);
-  if(Array.isArray(j)) j = { questions:j };
-  if(!j || !Array.isArray(j.questions)) throw new Error('لا توجد قائمة questions');
-  const qs = j.questions.map((x, i) => {
-    const q = String(x.q ?? x.question ?? '').trim();
-    const options = (x.options ?? x.choices ?? []).map(o => String(o).trim()).filter(Boolean).slice(0, 6);
-    const c = x.correct ?? x.answer;
-    let idx = -1;
-    if(typeof c === 'number') idx = c - 1;
-    else if(typeof c === 'string'){
-      const s = c.trim(), k = options.findIndex(o => o === s);
-      if(k >= 0) idx = k;
-      else if(/^\d+$/.test(s)) idx = parseInt(s, 10) - 1;
-      else if(/^[A-Fa-f]$/.test(s)) idx = s.toUpperCase().charCodeAt(0) - 65;
+/* ---- استيراد أسئلة من ملف JSON (مستورد مرن) ---- */
+/* قراءة JSON بتسامح: BOM، أسوار ```، تعليقات، فواصل زائدة، نص قبل/بعد الـ JSON */
+function jsonLoose(txt){
+  let s = String(txt).replace(/^﻿/, '').trim();
+  s = s.replace(/^```[a-zA-Z]*\s*/, '').replace(/\s*```\s*$/, '').trim();
+  try{ return JSON.parse(s); }catch(e0){
+    const a = s.search(/[\[{]/); if(a > 0) s = s.slice(a);
+    const b = Math.max(s.lastIndexOf('}'), s.lastIndexOf(']')); if(b >= 0) s = s.slice(0, b + 1);
+    let out = '', inStr = false, i = 0;
+    while(i < s.length){
+      const ch = s[i], nx = s[i + 1];
+      if(inStr){ out += ch; if(ch === '\\'){ out += (nx ?? ''); i += 2; continue; } if(ch === '"') inStr = false; i++; continue; }
+      if(ch === '"'){ inStr = true; out += ch; i++; continue; }
+      if(ch === '/' && nx === '/'){ while(i < s.length && s[i] !== '\n') i++; continue; }
+      if(ch === '/' && nx === '*'){ i += 2; while(i < s.length && !(s[i] === '*' && s[i + 1] === '/')) i++; i += 2; continue; }
+      if(ch === ','){ let k = i + 1; while(k < s.length && /\s/.test(s[k])) k++; if(s[k] === '}' || s[k] === ']'){ i++; continue; } }
+      out += ch; i++;
     }
-    if(!q) throw new Error('السؤال ' + (i+1) + ': نص السؤال فارغ');
-    if(options.length < 2) throw new Error('السؤال ' + (i+1) + ': يحتاج خيارين على الأقل');
-    if(idx < 0 || idx >= options.length) throw new Error('السؤال ' + (i+1) + ': الإجابة الصحيحة غير محددة');
-    return { q, options, correct:idx, explain:String(x.explain ?? x.explanation ?? '').trim(), image:String(x.image ?? x.img ?? '').trim() };
-  });
-  if(!qs.length) throw new Error('لا توجد أسئلة في الملف');
-  return { title:String(j.title || ''), level:String(j.level || ''), description:String(j.description || ''), time:parseInt(j.time_limit_min ?? j.time, 10) || 0, questions:qs };
+    try{ return JSON.parse(out); }catch(e1){
+      const m = /position (\d+)/.exec(e1.message || ''); let where = '';
+      if(m){ const pos = Math.min(+m[1], out.length), before = out.slice(0, pos); where = ' (قرب السطر ' + (before.split('\n').length) + ')'; }
+      const err = new Error('الملف ليس بصيغة JSON صحيحة' + where + '. غالباً ينقص فاصلة أو علامة اقتباس أو قوس.'); err.code = 'syntax'; throw err;
+    }
+  }
 }
-async function importQuizJson(file){
-  if(!file) return;
+const qjNorm = s => String(s ?? '').normalize('NFD').replace(/[̀-ًͯ-ٟ]/g, '').toLowerCase().replace(/[\s ]+/g, ' ').replace(/[«»"'“”‘’.,;:!?()\[\]]/g, '').trim();
+const qjKey = k => String(k).toLowerCase().replace(/[\s_\-]/g, '');
+function qjPick(o, keys, ok){
+  if(!o || typeof o !== 'object' || Array.isArray(o)) return null;
+  const idx = {}; Object.keys(o).forEach(k => { idx[qjKey(k)] = k; });
+  for(const k of keys){ const real = idx[qjKey(k)]; if(real === undefined) continue; const v = o[real]; if(v === null || v === undefined || v === '') continue; if(ok && !ok(v)) continue; return { k:real, v }; }
+  return null;
+}
+const QJ = {
+  text:['q','question','questionText','text','prompt','statement','enonce','énoncé','intitule','سؤال','السؤال','نص_السؤال'],
+  opts:['options','choices','answers','propositions','reponses','réponses','alternatives','choix','الخيارات','الاختيارات','خيارات'],
+  ans:['correct','answer','correct_answer','correctAnswer','correct_option','correctOption','correct_index','correctIndex','answer_index','answerIndex','right','right_answer','solution','reponse','réponse','key','الإجابة','الاجابة','الإجابة_الصحيحة','الاجابة_الصحيحة'],
+  exp:['explain','explanation','explanations','rationale','feedback','explication','note','شرح','الشرح','تفسير'],
+  img:['image','img','image_url','imageUrl','picture','photo','media','صورة','الصورة'],
+  title:['title','quiz_title','quizTitle','name','titre','عنوان','العنوان'],
+  level:['level','niveau','cefr','المستوى'],
+  desc:['description','desc','details','subtitle','وصف','الوصف'],
+  time:['time_limit_min','time_limit','timeLimit','time','duration','duration_min','minutes','durée','duree']
+};
+const qjIsQ = o => o && typeof o === 'object' && !Array.isArray(o) && !!qjPick(o, QJ.text);
+function qjFind(root, depth){
+  if(Array.isArray(root)){ if(root.length && root.every(x => x && typeof x === 'object' && !Array.isArray(x)) && root.some(qjIsQ)) return { arr:root, parent:null }; return null; }
+  if(!root || typeof root !== 'object' || depth > 3) return null;
+  const first = ['questions','items','quiz','data','exercises','qcm','quiz_questions','الأسئلة','أسئلة'];
+  const keys = Object.keys(root), order = [...first.filter(k => k in root), ...keys.filter(k => !first.includes(k))];
+  for(const k of order){ const r = qjFind(root[k], depth + 1); if(r){ if(!r.parent) r.parent = root; return r; } }
+  return null;
+}
+const QJ_AR = { 'أ':0, 'ا':0, 'ب':1, 'ج':2, 'د':3, 'ه':4, 'هـ':4, 'و':5 };
+function qjOptText(x){
+  if(x === null || x === undefined) return '';
+  if(typeof x === 'string' || typeof x === 'number') return String(x).trim();
+  if(typeof x === 'object'){ const p = qjPick(x, ['text','label','value','option','answer','content','title','name','texte','نص'], v => typeof v !== 'object'); return p ? String(p.v).trim() : ''; }
+  return '';
+}
+/* تحويل الخيارات إلى [{id,text,flag}] بأي صيغة: مصفوفة نصوص / كائنات / خريطة حروف / حقول منفصلة */
+function qjOptions(x){
+  const v = qjPick(x, QJ.opts, o => (Array.isArray(o) && o.length >= 2) || (o && typeof o === 'object' && !Array.isArray(o) && Object.keys(o).length >= 2));
+  let list = [];
+  if(v && Array.isArray(v.v)){
+    list = v.v.map((o, i) => {
+      const flag = (o && typeof o === 'object') ? !!(qjPick(o, ['correct','isCorrect','is_correct','right','isRight','is_right'], z => z === true || z === 'true' || z === 1 || z === '1')) : false;
+      const idp = (o && typeof o === 'object') ? qjPick(o, ['id','key','letter','index'], z => typeof z !== 'object') : null;
+      return { id: idp ? String(idp.v).trim() : '', text: qjOptText(o), flag };
+    });
+  }else if(v){
+    list = Object.keys(v.v).map(k => { const o = v.v[k]; const flag = (o && typeof o === 'object') ? !!qjPick(o, ['correct','isCorrect','is_correct','right'], z => z === true || z === 'true') : false; return { id:String(k).trim(), text:qjOptText(o), flag }; });
+  }else{
+    const found = [];
+    Object.keys(x).forEach(k => {
+      let m = /^(?:option|opt|choice|choix|answer|reponse|réponse|proposition)?[\s_\-]?([a-fA-F])$/.exec(k);
+      if(m && k.length > 1 || (m && /^[A-F]$/.test(k))) found.push({ n:m[1].toUpperCase().charCodeAt(0) - 64, id:m[1].toUpperCase(), text:qjOptText(x[k]) });
+      else if((m = /^(?:option|opt|choice|choix|proposition)[\s_\-]?([1-6])$/i.exec(k))) found.push({ n:+m[1], id:m[1], text:qjOptText(x[k]) });
+    });
+    found.sort((a, b) => a.n - b.n); list = found.map(f => ({ id:f.id, text:f.text, flag:false }));
+  }
+  /* إزالة ترقيم «A) » إذا كانت كل الخيارات تبدأ به */
+  const re = /^\(?[A-Fa-f][\)\.\:\-]\s+/;
+  if(list.length >= 2 && list.every(o => re.test(o.text))) list.forEach(o => { if(!o.id) o.id = o.text.trim()[0].toUpperCase().replace('(', ''); o.text = o.text.replace(re, '').trim(); });
+  return list;
+}
+function qjResolve(x, opts, numMode){
+  const flagged = opts.findIndex(o => o.flag); if(flagged >= 0) return { idx:flagged };
+  const p = qjPick(x, QJ.ans, v => typeof v !== 'object' || Array.isArray(v)); if(!p) return { idx:-1, why:'لم يُذكر حقل الإجابة الصحيحة' };
+  let val = Array.isArray(p.v) ? p.v[0] : p.v;
+  const isIdxKey = /index|idx/i.test(p.k);
+  const n = opts.length;
+  if(typeof val === 'number' || (typeof val === 'string' && /^\s*\d+\s*$/.test(val))){
+    const num = Number(val);
+    const idx = isIdxKey ? num : (numMode === 'zero' ? num : num - 1);
+    return idx >= 0 && idx < n ? { idx, numeric:!isIdxKey } : { idx:-1, why:'رقم الإجابة (' + num + ') خارج عدد الخيارات' };
+  }
+  if(typeof val === 'boolean') return { idx:-1, why:'قيمة الإجابة صح/خطأ بدون خيارات' };
+  const s = String(val).trim(), ns = qjNorm(s);
+  let k = opts.findIndex(o => qjNorm(o.text) === ns && ns !== ''); if(k >= 0) return { idx:k };
+  k = opts.findIndex(o => o.id && qjNorm(o.id) === ns && ns !== ''); if(k >= 0) return { idx:k };
+  let m = /^\(?([A-Fa-f])\)?(?:[\.\):\-]|\s|$)/.exec(s);
+  if(m){ const i = m[1].toUpperCase().charCodeAt(0) - 65; if(i < n) return { idx:i }; }
+  m = /^\(?([أبجدهو])\)?(?:[\.\):\-]|\s|$)/.exec(s); if(m && QJ_AR[m[1]] < n) return { idx:QJ_AR[m[1]] };
+  m = /^(?:option|choice|choix|proposition|الخيار)?\s*(\d)[\.\)]?$/i.exec(s); if(m){ const i = +m[1] - 1; if(i >= 0 && i < n) return { idx:i, numeric:true }; }
+  /* احتواء: الإجابة مكتوبة مع ترقيم أو زيادة مثل «B) Merci» */
+  const hits = opts.map((o, i) => ({ o, i })).filter(h => qjNorm(h.o.text) && (ns.includes(qjNorm(h.o.text)) || qjNorm(h.o.text).includes(ns)) && ns.length >= 2);
+  if(hits.length === 1) return { idx:hits[0].i };
+  return { idx:-1, why:'تعذّر مطابقة الإجابة «' + s.slice(0, 40) + '» مع أحد الخيارات' };
+}
+function qjImage(v, warns, i){
+  let s = v; if(s && typeof s === 'object'){ const p = qjPick(s, ['url','src','link']); s = p ? p.v : ''; }
+  s = String(s ?? '').trim(); if(!s) return '';
+  if(/^data:image\//i.test(s) || /^https?:\/\//i.test(s)) return s;
+  if(/^(www\.|drive\.google\.|docs\.google\.|youtu)/i.test(s)) return 'https://' + s;
+  warns.push('السؤال ' + i + ': الصورة «' + s.slice(0, 40) + '» ليست رابطاً (http) فلم تُستورد. ضع رابط الصورة أو ارفعها يدوياً.');
+  return '';
+}
+function parseQuizJson(txt){
+  const head = String(txt).replace(/^﻿/, '').trimStart();
+  if(head.startsWith('%PDF')) throw new Error('هذا ملف PDF وليس JSON. أرسل الـ PDF إلى Claude ليحوّله لك إلى ملف JSON ثم اختره هنا.');
+  if(/^<(!doctype|html|\?xml)/i.test(head)) throw new Error('هذا الملف صفحة ويب وليس JSON.');
+  const j = jsonLoose(txt);
+  const found = qjFind(j, 0);
+  if(!found) throw new Error('لم أجد قائمة أسئلة داخل الملف. المطلوب مصفوفة questions، كل عنصر فيه نص السؤال (q أو question) وخياراته (options) والإجابة الصحيحة (correct أو answer).');
+  const meta = (k) => { const a = qjPick(Array.isArray(j) ? null : j, QJ[k]); if(a && typeof a.v !== 'object') return a.v; const b = found.parent ? qjPick(found.parent, QJ[k]) : null; return b && typeof b.v !== 'object' ? b.v : ''; };
+  /* نمط ترقيم الإجابات الرقمية: من 1 أو من 0 */
+  let hasZero = false, hasEdge = false;
+  found.arr.forEach(x => { const p = qjPick(x, QJ.ans); if(p && !/index|idx/i.test(p.k) && (typeof p.v === 'number' || (typeof p.v === 'string' && /^\s*\d+\s*$/.test(p.v)))){ const num = Number(p.v); const len = qjOptions(x).length; if(num === 0) hasZero = true; if(len && num === len) hasEdge = true; } });
+  const numMode = (hasZero && !hasEdge) ? 'zero' : 'one';
+  const questions = [], warns = [], skipped = []; let usedNum = false;
+  found.arr.forEach((x, ix) => {
+    const i = ix + 1;
+    const tq = qjPick(x, QJ.text, v => typeof v !== 'object'); const q = tq ? String(tq.v).trim() : '';
+    if(!q){ skipped.push('السؤال ' + i + ': نص السؤال فارغ'); return; }
+    let opts = qjOptions(x), res;
+    if(opts.length < 2){
+      const pa = qjPick(x, QJ.ans); const sv = pa ? qjNorm(pa.v) : '';
+      if(pa && (typeof pa.v === 'boolean' || ['true','false','vrai','faux','صح','خطا','صحيح','خطأ'].includes(sv))){
+        const yes = pa.v === true || ['true','vrai','صح','صحيح'].includes(sv);
+        opts = [{ id:'', text:'Vrai', flag:false }, { id:'', text:'Faux', flag:false }]; res = { idx: yes ? 0 : 1 };
+        warns.push('السؤال ' + i + ': سؤال صح/خطأ — أُنشئ له الخياران Vrai / Faux.');
+      }else{ skipped.push('السؤال ' + i + ': يحتاج خيارين على الأقل'); return; }
+    }
+    if(!res) res = qjResolve(x, opts, numMode);
+    if(res.numeric) usedNum = true;
+    let idx = res.idx;
+    /* حذف الخيارات الفارغة مع إعادة حساب موضع الإجابة */
+    const keep = []; opts.forEach((o, k) => { if(o.text) keep.push(k); });
+    if(keep.length < 2){ skipped.push('السؤال ' + i + ': الخيارات فارغة'); return; }
+    if(idx >= 0 && !keep.includes(idx)) idx = -1;
+    let options = keep.map(k => opts[k].text); if(idx >= 0) idx = keep.indexOf(idx);
+    if(options.length > 6){ warns.push('السؤال ' + i + ': أكثر من 6 خيارات، استُورد أول 6 فقط.'); if(idx >= 6) idx = -1; options = options.slice(0, 6); }
+    const ep = qjPick(x, QJ.exp, v => typeof v !== 'object'), ip = qjPick(x, QJ.img);
+    const item = { q, options, correct:idx, explain: ep ? String(ep.v).trim() : '', image: ip ? qjImage(ip.v, warns, i) : '' };
+    if(idx < 0){ item.warn = res.why || 'لم تُحدَّد الإجابة الصحيحة'; warns.push('السؤال ' + i + ': ' + item.warn + ' — حدّدها يدوياً قبل الحفظ.'); }
+    questions.push(item);
+  });
+  if(!questions.length) throw new Error('لا توجد أسئلة صالحة. ' + (skipped.slice(0, 3).join('، ') || ''));
+  const tv = parseInt(meta('time'), 10);
+  return { title:String(meta('title') || '').trim(), level:String(meta('level') || '').trim(), description:String(meta('desc') || '').trim(), time:isNaN(tv) ? 0 : tv, questions, warns, skipped, numNote: usedNum ? (numMode === 'zero' ? 'أرقام الإجابات في الملف اعتُبرت تبدأ من 0 (الخيار الأول = 0).' : 'أرقام الإجابات في الملف اعتُبرت تبدأ من 1 (الخيار الأول = 1).') : '' };
+}
+function qjMsg(type, html){
+  const box = $('#z_jsonmsg'); if(!box) return;
+  box.className = 'jsonmsg ' + type; box.innerHTML = html; box.style.display = 'block';
+  try{ box.scrollIntoView({ block:'nearest' }); }catch(e){}
+}
+async function importQuizJson(inp){
+  const file = inp && inp.files && inp.files[0]; if(!file) return;
+  qjMsg('info', 'جارٍ قراءة الملف «' + esc(file.name) + '» ...');
   try{
-    const d = parseQuizJson(await file.text());
-    if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
-    if(LEVELS.includes(d.level)) $('#z_level').value = d.level;
-    if(d.description && !$('#z_desc').value.trim()) $('#z_desc').value = d.description;
-    if(d.time > 0 && !$('#z_time').value) $('#z_time').value = d.time;
-    $('#qlist').innerHTML = '';
+    if(file.size > 5 * 1024 * 1024) throw new Error('حجم الملف كبير جداً (' + (file.size / 1048576).toFixed(1) + ' ميجابايت). الحد 5 ميجابايت.');
+    let txt;
+    try{ txt = await file.text(); }catch(e){ throw new Error('تعذّرت قراءة الملف من الجهاز. انسخه إلى مجلد التنزيلات (Downloads) ثم اختره مرة أخرى.'); }
+    if(!String(txt).trim()) throw new Error('الملف فارغ.');
+    const d = parseQuizJson(txt);
+    /* أبقِ الأسئلة التي كتبها المدرس يدوياً، واحذف الفارغة فقط */
+    let kept = 0;
+    document.querySelectorAll('#qlist .qb').forEach(b => {
+      const has = b.querySelector('.qtxt').value.trim() || [...b.querySelectorAll('.otxt')].some(o => o.value.trim()) || b.querySelector('.qimgurl').value.trim() || b.querySelector('.qimg').files[0];
+      if(has) kept++; else b.remove();
+    });
     d.questions.forEach(q => addQBlock(q));
-    toast('تم استيراد ' + d.questions.length + ' سؤال. راجعها ثم اضغط حفظ الاختبار', 'ok');
-  }catch(err){ toast('ملف JSON غير صالح: ' + (err.message || ''), 'err'); }
+    numberQs();
+    if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
+    const lv = (/\b(A1|A2|B1|B2|C1)\b/i.exec(d.level) || [])[1]; if(lv && LEVELS.includes(lv.toUpperCase())) $('#z_level').value = lv.toUpperCase();
+    if(d.description && !$('#z_desc').value.trim()) $('#z_desc').value = d.description;
+    if(d.time > 0 && d.time <= 300 && !$('#z_time').value) $('#z_time').value = d.time;
+    const li = a => a.map(x => '<li>' + esc(x) + '</li>').join('');
+    const bad = d.warns.length || d.skipped.length;
+    qjMsg(bad ? 'warn' : 'ok', '<b>' + (bad ? '⚠ ' : '✓ ') + 'تم استيراد ' + d.questions.length + ' سؤال' + (kept ? ' (أُبقي ' + kept + ' سؤال كتبتَه يدوياً قبلها)' : '') + '. راجعها ثم اضغط «حفظ الاختبار».</b>'
+      + (d.numNote ? '<p>' + esc(d.numNote) + ' تأكد من الإجابات المحددة.</p>' : '')
+      + (d.skipped.length ? '<p>أسئلة لم تُستورد:</p><ul>' + li(d.skipped.slice(0, 8)) + '</ul>' : '')
+      + (d.warns.length ? '<p>ملاحظات:</p><ul>' + li(d.warns.slice(0, 10)) + (d.warns.length > 10 ? '<li>… و' + (d.warns.length - 10) + ' ملاحظة أخرى</li>' : '') + '</ul>' : ''));
+    toast('تم استيراد ' + d.questions.length + ' سؤال' + (bad ? ' (مع ملاحظات)' : ''), bad ? '' : 'ok');
+    clearTimeout(drT); drT = setTimeout(drSave, 400);
+    const first = document.querySelector('#qlist .qb.qimp'); if(first && kept === 0) { /* يبقى التمرير عند الرسالة */ }
+  }catch(err){
+    const m = (err && err.message) ? err.message : 'سبب غير معروف';
+    qjMsg('err', '<b>✗ تعذّر استيراد الملف</b><p>' + esc(m) + '</p><p>حمّل «نموذج JSON» من الزر المجاور لترى الصيغة الصحيحة، أو أرسل ملفك إلى Claude ليصحّحه لك.</p>');
+    toast('تعذّر الاستيراد: ' + m, 'err');
+  }finally{ try{ inp.value = ''; }catch(e){} }
 }
 function downloadSample(){
   const sample = {
@@ -1700,7 +1871,7 @@ function downloadSample(){
   a.download = 'quiz-sample.json'; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
-document.addEventListener('change', e => { if(e.target && e.target.id === 'z_json') importQuizJson(e.target.files[0]); });
+document.addEventListener('change', e => { if(e.target && e.target.id === 'z_json') importQuizJson(e.target); });
 function setRv(wrongOnly){
   const rv = $('#rv'); if(!rv) return;
   rv.classList.toggle('only-wrong', wrongOnly);
