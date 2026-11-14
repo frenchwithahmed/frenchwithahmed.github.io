@@ -673,10 +673,25 @@ async function resolveSigned(){
 const legacyTag = (cls, path) => (state.teacher && cls && path && isStored(path) && !isPrivPath(path)) ? `<span class="tag bad" title="هذا الملف مخزّن في مكان عام. احذف العنصر وأعد رفعه ليصبح خاصاً بالصف">⚠ ملف عام: أعد رفعه</span>` : '';
 
 /* ============ تحميل البيانات ============ */
+/* جلب كل الصفوف على دفعات: الخادم لا يعيد أكثر من 1000 صف في الطلب الواحد حتى مع limit أكبر،
+   فكانت أعداد المدرس ونتائج المتابعة تُقطع بصمت عند تجاوز 1000. make(from,to) يُرجع استعلاماً مرتّباً ترتيباً ثابتاً. */
+async function fetchAll(make, maxRows = 20000){
+  const PAGE = 1000, out = [];
+  for(let from = 0; from < maxRows; from += PAGE){
+    let r; try{ r = await make(from, from + PAGE - 1); }catch(e){ return { data:null, error:e }; }
+    if(r.error) return { data:null, error:r.error };
+    const d = r.data || []; out.push(...d);
+    if(d.length < PAGE) break;
+  }
+  return { data:out, error:null };
+}
 async function refreshCounts(){
   counts = { q:{}, a:{} };
   if(!state.teacher) return;
-  const [r, s] = await Promise.all([ sb.from('results').select('quiz_id'), sb.from('submissions').select('assignment_id') ]);
+  const [r, s] = await Promise.all([
+    fetchAll((a, b) => sb.from('results').select('quiz_id').order('id').range(a, b)),
+    fetchAll((a, b) => sb.from('submissions').select('assignment_id').order('id').range(a, b))
+  ]);
   (r.data||[]).forEach(x => counts.q[x.quiz_id] = (counts.q[x.quiz_id]||0)+1);
   (s.data||[]).forEach(x => counts.a[x.assignment_id] = (counts.a[x.assignment_id]||0)+1);
 }
@@ -2277,9 +2292,9 @@ async function bellDel(id){
 let trk = { cls:'all', data:null };
 async function loadTrack(){
   const [r, s, g] = await Promise.all([
-    sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}),
-    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false}),
-    sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').order('created_at',{ascending:false}).limit(5000)
+    fetchAll((a, b) => sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}).order('id').range(a, b)),
+    fetchAll((a, b) => sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false}).order('id').range(a, b)),
+    fetchAll((a, b) => sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').order('created_at',{ascending:false}).order('id').range(a, b), 5000)
   ]);
   const bad = r.error || s.error;
   trk.data = bad ? null : { results:r.data||[], subs:s.data||[], games:g.error ? [] : (g.data||[]), gOk:!g.error };
