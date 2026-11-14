@@ -1945,6 +1945,10 @@ function genLogin(taken){
 }
 const validLogin = v => v.includes('@') ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) : /^[a-z0-9._-]{3,30}$/.test(v);
 function friendlyErr(err){
+  const c = err && err.code;
+  if(c === 'login_taken') return 'اسم الدخول مستخدم من قبل';
+  if(c === 'forbidden' || c === 'unauthorized') return 'غير مصرّح: سجّل الدخول كمدرس من جديد ثم أعد المحاولة.';
+  if(c === 'bad_input' || c === 'class_not_found' || c === 'server' || c === 'network') return err.message;
   const m = errMsg(err);
   if(err && err.code === 'confirm') return 'أوقف خيار "Confirm email" في Supabase أولاً (راجع التعليمات) ثم جرّب باسم دخول جديد';
   if(/already registered|already been registered|already exists|duplicate/i.test(m)) return 'اسم الدخول مستخدم من قبل';
@@ -1958,7 +1962,9 @@ function tmpClient(){
   if(!sb2) sb2 = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { global:{ fetch: safeFetch }, auth:{ persistSession:false, autoRefreshToken:false, detectSessionInUrl:false, storageKey:'fo-tmp-signup' } });
   return sb2;
 }
-async function createStudent({ name, login, pw, classId }){
+/* الطريقة القديمة (من المتصفح): تعمل فقط ما دام «Allow new users to sign up» مفعّلاً في Supabase.
+   تُستخدم احتياطاً إذا كانت دالة الخادم غير منشورة أو لا يمكن الوصول إليها. بعد إغلاق التسجيل العام لن تعمل (وهذا مقصود). */
+async function createStudentLegacy({ name, login, pw, classId }){
   const r = await tmpClient().auth.signUp({ email: loginEmail(login), password: pw });
   if(r.error) throw r.error;
   const u = r.data && r.data.user;
@@ -1966,6 +1972,26 @@ async function createStudent({ name, login, pw, classId }){
   if(!r.data.session){ const e = new Error('confirm'); e.code = 'confirm'; throw e; }
   const p = await sb.from('profiles').insert({ id:u.id, full_name:name, login_id:login, class_id:classId || null });
   if(p.error){ await sb.rpc('admin_delete_student', { p_user:u.id }); throw p.error; }
+}
+/* إنشاء الطالب يتم على الخادم (Edge Function) بعد التحقق من أن المستدعي هو المدرس. */
+const STUDENT_FN = 'rapid-action';   // اسم (slug) دالة إنشاء الطلاب في Supabase Edge Functions
+async function createStudent({ name, login, pw, classId }){
+  let r;
+  try{ r = await sb.functions.invoke(STUDENT_FN, { body:{ name, login, pw, classId: classId || null } }); }
+  catch(e){ logErr('createStudent', e); const x = new Error('لا يوجد اتصال بالإنترنت. لم يُنشأ الحساب.'); x.code = 'network'; throw x; }
+  if(r.error){
+    const status = r.error.context && r.error.context.status;
+    let body = null; try{ body = await r.error.context.json(); }catch(_){}
+    const code = (body && body.code) || null;
+    // الدالة غير منشورة (404) أو رُفض الطلب من بوابة Supabase قبل وصوله للدالة (401 بلا رمز من دالتنا): نستعمل الطريقة القديمة
+    if(!code && (status === 404 || status === 401)){ logErr('createStudent:fallback', { message:'function unavailable', status }); return createStudentLegacy({ name, login, pw, classId }); }
+    const x = new Error((body && body.message) || 'تعذر إنشاء الحساب');
+    x.code = code || (r.error.name === 'FunctionsFetchError' ? 'network' : 'fn');
+    if(x.code === 'network') x.message = 'لا يوجد اتصال بالإنترنت. لم يُنشأ الحساب.';
+    logErr('createStudent', { message:x.code, status });
+    throw x;
+  }
+  if(!r.data || !r.data.id) throw new Error('تعذر إنشاء الحساب');
 }
 
 let lastCreds = '';
@@ -2092,7 +2118,7 @@ function bulkForm(classId){
       try{ await createStudent({ name:r.name, login:r.login, pw:r.pw, classId:cls }); r.ok = true; }
       catch(err){
         r.err = friendlyErr(err);
-        if(err && (err.code==='confirm' || /rate limit|too many|429/i.test(errMsg(err)))) stop = r.err;
+        if(err && (['confirm','forbidden','unauthorized','network'].includes(err.code) || /rate limit|too many|429/i.test(errMsg(err)))) stop = r.err;
       }
       done++; await new Promise(res=>setTimeout(res, 250));
     }
