@@ -1487,18 +1487,22 @@ function linkForm(){
 }
 
 /* ============ المعاينة ============ */
+const OFFICE_RE = /\.(pptx?|docx?|xlsx?)(\?|#|$)/i;
+const officeView = u => `<div class="vwrap" style="border-radius:14px;overflow:hidden;min-height:60vh"><iframe src="${esc('https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(u))}" allowfullscreen loading="lazy"></iframe></div><p class="cap" style="margin-top:8px">إن لم يظهر العرض، استخدم زر «تنزيل / فتح» بالأسفل.</p>`;
 function preview(id){
   const it = items.find(i=>i.id===id); if(!it||(!it.file_path && !it.url)) return;
   if(!it.file_path){
     openModal(`<h3 dir="auto">${esc(it.title)}</h3>${mediaHtml(embedInfo(it.url))}<div class="actions"><a class="btn sec" href="${esc(safeHref(it.url))}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح في نافذة جديدة</a></div>`, true);
     return;
   }
-  const u = esc(pubUrl(it.file_path)); const n = (it.file_name||'').toLowerCase();
-  let body;
+  const raw = pubUrl(it.file_path), u = esc(raw); const n = (it.file_name||'').toLowerCase();
+  let body, dl = '';
   if(n.endsWith('.pdf')) body = `<iframe class="pv" src="${u}"></iframe>`;
   else if(/\.(png|jpe?g|gif|webp)$/.test(n)) body = `<img class="pv" src="${u}">`;
-  else body = `<audio controls src="${u}" style="width:100%"></audio>`;
-  openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}`, true);
+  else if(OFFICE_RE.test(n)){ body = officeView(raw); dl = `<div class="actions"><a class="btn sec" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
+  else if(/\.(mp3|wav|m4a|ogg)$/.test(n)) body = `<audio controls src="${u}" style="width:100%"></audio>`;
+  else { body = `<p class="cap">لا توجد معاينة لهذا النوع من الملفات.</p>`; dl = `<div class="actions"><a class="btn" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
+  openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}${dl}`, true);
 }
 
 /* ============ دخول المدرس ============ */
@@ -1631,6 +1635,7 @@ function embedInfo(u){
     return { type:'drive', embed:'https://docs.google.com/' + m[1] + '/d/' + m[2] + (m[1]==='presentation' ? '/embed' : '/preview'), url:u };
   if(u.startsWith('data:image/') || /\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(u)) return { type:'image', embed:u, url:u };
   if(/\.pdf(\?|#|$)/i.test(u)) return { type:'pdf', embed:u, url:u };
+  if(/^https?:\/\//i.test(u) && OFFICE_RE.test(u)) return { type:'office', url:u };
   if(/\.(mp4|webm|ogg)(\?|#|$)/i.test(u)) return { type:'video', embed:u, url:u };
   return { type:'link', url:u };
 }
@@ -1641,6 +1646,7 @@ function mediaHtml(info){
     return `<div class="vwrap" style="border-radius:14px;overflow:hidden"><iframe src="${esc(info.embed)}" allowfullscreen loading="lazy" allow="autoplay; fullscreen"></iframe></div>`;
   if(info.type==='pdf')
     return `<iframe class="pv" src="${esc('https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(info.url))}"></iframe>`;
+  if(info.type==='office') return officeView(info.url);
   if(info.type==='pdfown') return `<iframe class="pv" src="${esc(info.embed)}"></iframe>`;
   if(info.type==='image') return `<img class="pv" src="${esc(info.embed)}" alt="">`;
   if(info.type==='video') return `<video controls preload="metadata" src="${esc(info.embed)}" style="width:100%;border-radius:14px"></video>`;
