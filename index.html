@@ -494,6 +494,30 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
   .chips .chip{padding:7px 10px;font-size:12.5px}                  /* مرشحات المستوى في صف واحد قدر الإمكان */
   .chips{gap:5px}
 }
+
+/* ===== عرض PDF + طباعة الاختبار + نتائج الاختبار ===== */
+.pdfv{display:flex;flex-direction:column;gap:10px;min-height:120px}
+.pdfv .pdfpg{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+#printroot{display:none}
+@media print{
+  @page{margin:14mm}
+  body.printing > *:not(#printroot){display:none !important}
+  body.printing{background:#fff !important}
+  body.printing #printroot, body.printing #printroot *{visibility:visible !important}   /* يتجاوز قاعدة الطباعة القديمة (بيانات دخول الطلاب) */
+  body.printing #printroot{display:block !important;color:#000;background:#fff;font-size:12.5pt;line-height:1.7}
+  .pdoc .phead{border-bottom:2px solid #b8893a;padding-bottom:6px;margin-bottom:10px;color:#0b2a4a}
+  .pdoc h1{font-size:18pt;margin:6px 0}
+  .pdoc .pmeta{margin-bottom:14px;color:#333}
+  .pdoc .pq{break-inside:avoid;page-break-inside:avoid;border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin-bottom:10px}
+  .pdoc .pqt{font-weight:700;margin-bottom:4px}
+  .pdoc .pmark{font-weight:400;font-size:10.5pt;margin-inline-start:8px}
+  .pdoc .pq.ok .pmark{color:#176b34}.pdoc .pq.bad .pmark{color:#b3261e}
+  .pdoc .pch{padding:1px 4px}
+  .pdoc .pch.r{font-weight:700;color:#176b34}
+  .pdoc .pch.w{color:#b3261e;font-weight:700}
+  .pdoc .pex{margin-top:4px;font-size:11pt;color:#444;border-inline-start:3px solid #b8893a;padding-inline-start:8px}
+  .pdoc .pimg{max-width:55%;margin:4px 0}
+}
 </style>
 </head>
 <body>
@@ -784,7 +808,7 @@ function icoFor(it){
 }
 function fileCard(it){
   const [c,ic] = icoFor(it);
-  const canPrev = /\.(pdf|png|jpe?g|gif|webp|mp3|wav|m4a|ogg)$/i.test(it.file_name||'');
+  const canPrev = /\.(pdf|pptx?|ppsx?|png|jpe?g|gif|webp|mp3|wav|m4a|ogg)$/i.test(it.file_name||'');
   return `<div class="card">
     <div class="top"><div class="ico ${c}">${I(ic)}</div><span class="lv">${esc(it.level)}</span></div>
     <h3 dir="auto">${esc(it.title)}</h3>
@@ -975,6 +999,7 @@ function render(){
 function openModal(html, wide, full){
   dr = null;
   $('#modal').innerHTML = `<div class="ov ${full?'full':''}" data-a="ovclose"><div class="modal ${wide?'wide':''} ${full?'full':''}"><button class="x" data-a="close" aria-label="إغلاق">${I('x','s')}</button>${html}</div></div>`;
+  try{ hydratePdfs($('#modal')); }catch(e){ logErr('hydratePdfs', e); }
 }
 function closeModal(){ drDrop(); $('#modal').innerHTML = ''; }
 /* ---- مسودات النماذج: حفظ تلقائي واسترجاع ---- */
@@ -1282,6 +1307,37 @@ async function startQuiz(id){
     tick(); qs.iv = setInterval(tick, 500);
   }
 }
+/* ---- طباعة / حفظ PDF: نبني صفحة طباعة داخل الموقع ثم نفتح نافذة الطباعة (اختر «حفظ بصيغة PDF») ---- */
+function printDoc(html, title){
+  let root = $('#printroot');
+  if(!root){ root = document.createElement('div'); root.id = 'printroot'; document.body.appendChild(root); }
+  root.innerHTML = html;
+  const oldTitle = document.title; if(title) document.title = title;   // اسم الملف الافتراضي عند الحفظ
+  document.body.classList.add('printing');
+  // لا ننظّف فور انتهاء الطباعة: بعض المتصفحات (خصوصاً الجوال) تُطلق afterprint مبكراً وتبني المعاينة لاحقاً.
+  // ننظّف عند أول لمسة أو ضغطة مفتاح بعد إغلاق نافذة الطباعة.
+  const done = () => { document.body.classList.remove('printing'); root.innerHTML = ''; document.title = oldTitle; };
+  const arm = () => { ['pointerdown','keydown'].forEach(ev => document.addEventListener(ev, done, { once:true, capture:true })); };
+  window.addEventListener('afterprint', arm, { once:true });
+  setTimeout(() => { try{ window.print(); }catch(e){ logErr('print', e); done(); toast('تعذر فتح نافذة الطباعة','err'); } }, 200);
+}
+function quizPdfHtml(R){
+  const { z, answers, correct, ex } = R;
+  const body = z.questions.map((q,i) => {
+    const my = answers[i], ok = my === correct[i];
+    return `<div class="pq ${ok?'ok':'bad'}"><div class="pqt" dir="auto">${i+1}. ${esc(q.q)} <span class="pmark">${ok ? '✔ صحيحة' : (my === -1 ? '✘ بلا إجابة' : '✘ خاطئة')}</span></div>
+      ${q.img ? `<img class="pimg" src="${esc(imgSrc(q.img))}" alt="">` : ''}
+      ${q.options.map((o,j) => `<div class="pch ${j===correct[i]?'r':''} ${(j===my && !ok)?'w':''}" dir="auto">${j===correct[i] ? '✔ ' : (j===my ? '✘ ' : '○ ')}${esc(o)}${j===my ? ' ← إجابتك' : ''}</div>`).join('')}
+      ${ex[i] ? `<div class="pex" dir="auto">${esc(ex[i])}</div>` : ''}</div>`;
+  }).join('');
+  return `<div class="pdoc" dir="rtl"><div class="phead"><b>French Online</b> by Monsieur Ahmed</div>
+    <h1 dir="auto">${esc(z.title)}</h1>
+    <div class="pmeta">الطالب: <b dir="auto">${esc(R.name)}</b> · التاريخ: ${esc(fmtDT(R.date))} · الدرجة: <bdi dir="ltr"><b>${R.score} / ${R.total} (${R.pct}%)</b></bdi></div>${body}</div>`;
+}
+function quizPdf(){
+  const R = qs && qs.review; if(!R){ toast('لا توجد نتيجة لتحميلها','err'); return; }
+  printDoc(quizPdfHtml(R), `${R.z.title} — ${R.name}`);
+}
 async function submitQuiz(id){
   if(!qs || qs.sub) return;
   const z = quizzes.find(x=>x.id===id);
@@ -1298,6 +1354,7 @@ async function submitQuiz(id){
   const { score, total, answers: correct, explanations } = data;
   const ex = Array.isArray(explanations) ? explanations : [];
   const pct = Math.round(score/total*100);
+  qs.review = { z, answers, correct, ex, score, total, pct, name: ((state.me && state.me.student && state.me.student.full_name) || qs.name || ''), date: new Date().toISOString() };
   const wrongN = answers.filter((a,i)=>a!==-1 && a!==correct[i]).length;
   const skipN = answers.filter(a=>a===-1).length;
   const bad = total - score;
@@ -1317,19 +1374,110 @@ async function submitQuiz(id){
       <div class="stats3"><div><b style="color:var(--ok)">${score}</b>صحيحة</div><div><b style="color:var(--bad)">${wrongN}</b>خاطئة</div><div><b>${skipN}</b>بلا إجابة</div></div></div>
     ${bad ? `<div class="rvbar"><button class="chip on" data-a="rvWrong">الأخطاء فقط (${bad})</button><button class="chip" data-a="rvAll">كل الأسئلة</button></div>` : `<div class="infobox">${I('check','s')} إجاباتك كلها صحيحة. أحسنت!</div>`}
     <div id="rv" class="${bad?'only-wrong':''}">${rows}</div>
-    <div class="actions"><button class="btn lg" data-a="close">إغلاق</button></div>`, true);
+    <div class="actions"><button class="btn lg" data-a="close">إغلاق</button><button class="btn sec lg" data-a="quizPdf">${I('file','s')} تحميل الاختبار PDF</button></div>`, true);
 
 }
+/* ---------- نتائج الاختبار للمدرس: درجات كل الطلاب + تحليل الأخطاء ---------- */
+let QR = null;
+const qrPct = r => r.total ? r.score / r.total * 100 : 0;
 async function showResults(id){
-  const z = quizzes.find(x=>x.id===id);
-  openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3><div class="loading"><div class="spin"></div></div>`);
-  const { data, error } = await sb.from('results').select('*').eq('quiz_id', id).order('created_at',{ascending:false});
-  if(error){ openModal(`<h3>خطأ</h3><div class="errbox">${esc(errMsg(error))}</div>`); return; }
-  openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3>
-    ${data.length?`<div style="overflow-x:auto"><table><tr><th>الطالب</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
-    ${data.map(r=>`<tr><td>${esc(r.student)}</td><td>${r.score}/${r.total}</td><td>${Math.round(r.score/r.total*100)}%</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>`
-    : emptyBox('list','c-green','لا توجد محاولات بعد','')}`, true);
+  const z = quizzes.find(x=>x.id===id); if(!z) return;
+  openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3><div class="loading"><div class="spin"></div></div>`, true);
+  const [rr, kr] = await Promise.all([
+    fetchAll((a, b) => sb.from('results').select('*').eq('quiz_id', id).order('created_at',{ascending:false}).order('id').range(a, b)),
+    sb.from('quiz_keys').select('answers').eq('quiz_id', id).maybeSingle()
+  ]);
+  if(rr.error){ openModal(`<h3>خطأ</h3><div class="errbox">${esc(errMsg(rr.error))}</div>`); return; }
+  QR = { z, data: rr.data || [], key: (!kr.error && kr.data && Array.isArray(kr.data.answers)) ? kr.data.answers : null, cls:'all' };
+  drawResults();
 }
+function qrGroups(){
+  const m = new Map();
+  QR.data.forEach(r => {
+    const k = r.student_id || ('n:' + (r.student || ''));
+    let g = m.get(k);
+    if(!g){ const st = r.student_id ? students.find(s=>s.id===r.student_id) : null; g = { key:k, name:(st && st.full_name) || r.student || '—', cls: st ? st.class_id : null, att:[] }; m.set(k, g); }
+    g.att.push(r);
+  });
+  return [...m.values()].map(g => {
+    g.att.sort((x,y) => new Date(y.created_at) - new Date(x.created_at));
+    g.latest = g.att[0]; g.best = g.att.reduce((b,r) => qrPct(r) > qrPct(b) ? r : b, g.att[0]);
+    return g;
+  });
+}
+const qrFiltered = () => qrGroups().filter(g => QR.cls === 'all' || (QR.cls === 'none' ? !g.cls : g.cls === QR.cls)).sort((x,y) => x.name.localeCompare(y.name, 'ar'));
+const qrOpt = (q, j) => (j == null || j < 0 || j >= q.options.length) ? 'لم يُجب' : q.options[j];
+function drawResults(){
+  const { z, key } = QR, cname = id => (classes.find(c=>c.id===id)||{}).name || '—';
+  const gs = qrFiltered();
+  const bests = gs.map(g => qrPct(g.best));
+  const avg = bests.length ? Math.round(bests.reduce((a,b)=>a+b,0) / bests.length) : null;
+  const hi = bests.length ? Math.round(Math.max(...bests)) : null, lo = bests.length ? Math.round(Math.min(...bests)) : null;
+  const pass = bests.filter(p => p >= 50).length, attN = gs.reduce((n,g) => n + g.att.length, 0);
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${QR.cls===c.id?'selected':''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${QR.cls==='none'?'selected':''}>بدون صف</option>`;
+  const bar = p => `<span class="pbar ${p<50?'low':''}"><i style="width:${Math.round(p)}%"></i></span>`;
+  // تحليل الأسئلة: أحدث محاولة لكل طالب محفوظ فيها إجاباته
+  const picks = gs.map(g => g.att.find(r => Array.isArray(r.picked))).filter(Boolean);
+  let qa = '';
+  if(!key){
+    qa = `<div class="infobox">تعذر قراءة مفتاح الإجابات، فلا يمكن تحليل الأخطاء الآن.</div>`;
+  } else if(!picks.length){
+    qa = `<div class="infobox">${I('sparkle','s')} تفاصيل أخطاء الطلاب تُحفظ للمحاولات المسلَّمة بعد تفعيل تحديث قاعدة البيانات (ملف 04). المحاولات السابقة تظهر درجاتها فقط.</div>`;
+  } else {
+    const rows = z.questions.map((q, i) => {
+      const wrong = picks.filter(r => r.picked[i] !== key[i]);
+      const tally = {}; wrong.forEach(r => { const v = r.picked[i]; if(v != null && v >= 0) tally[v] = (tally[v]||0) + 1; });
+      const top = Object.entries(tally).sort((x,y) => y[1] - x[1])[0];
+      return { i, q, n: wrong.length, p: wrong.length / picks.length * 100, top };
+    }).sort((x,y) => y.p - x.p);
+    qa = `<div style="overflow-x:auto"><table><tr><th>السؤال</th><th>أخطأ فيه</th><th>الإجابة الخاطئة الأشهر</th><th>الصحيحة</th></tr>
+      ${rows.map(x => `<tr><td data-label="السؤال" dir="auto">${x.i+1}. ${esc(x.q.q)}</td><td data-label="أخطأ فيه">${x.n} من ${picks.length} · ${Math.round(x.p)}%<span class="pbar ${x.p>=50?'low':''}"><i style="width:${Math.round(x.p)}%"></i></span></td>
+        <td data-label="الأشهر" dir="auto">${x.top ? esc(qrOpt(x.q, +x.top[0])) + ` (${x.top[1]})` : '—'}</td><td data-label="الصحيحة" dir="auto">${esc(qrOpt(x.q, key[x.i]))}</td></tr>`).join('')}</table></div>
+      <p class="note">يعتمد التحليل على أحدث محاولة لكل طالب (${picks.length} من ${gs.length} طالب).</p>`;
+  }
+  openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3>
+    <div class="trk-bar"><select class="in" data-a="qrCls" aria-label="الصف">${opts}</select><button class="btn sec" data-a="qrCsv">${I('file','s')} تحميل الدرجات (Excel)</button></div>
+    ${gs.length ? `<div class="stats3"><div><b>${gs.length}</b>طالب</div><div><b>${attN}</b>محاولة</div><div><b>${avg}%</b>متوسط أفضل الدرجات</div></div>
+      <div class="stats3" style="margin-top:8px"><div><b style="color:var(--ok)">${hi}%</b>الأعلى</div><div><b style="color:var(--bad)">${lo}%</b>الأدنى</div><div><b>${pass}/${gs.length}</b>ناجح (50%+)</div></div>
+      <h4 style="margin:16px 0 6px">درجات الطلاب <small class="note">اضغط على طالب لرؤية أخطائه</small></h4>
+      <div style="overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>أفضل درجة</th><th>المحاولات</th><th>آخر محاولة</th></tr>
+      ${gs.map(g => `<tr class="rowopen" data-a="qrStudent" data-id="${esc(g.key)}"><td data-label="الطالب" dir="auto"><b>${esc(g.name)}</b></td><td data-label="الصف">${esc(cname(g.cls))}</td>
+        <td data-label="أفضل درجة">${g.best.score}/${g.best.total} · ${Math.round(qrPct(g.best))}%${bar(qrPct(g.best))}</td><td data-label="المحاولات">${g.att.length}</td><td data-label="آخر محاولة">${fmtDT(g.latest.created_at)}</td></tr>`).join('')}</table></div>
+      <h4 style="margin:18px 0 6px">الأسئلة الأكثر خطأً</h4>${qa}`
+    : emptyBox('list','c-green','لا توجد محاولات في هذا الاختيار','')}`, true);
+}
+function qrStudent(k){
+  if(!QR) return;
+  const g = qrGroups().find(x => x.key === k); if(!g) return;
+  const { z, key } = QR;
+  const att = g.att.map((r, idx) => {
+    let detail = '';
+    if(Array.isArray(r.picked) && key){
+      const wrongs = z.questions.map((q,i) => ({ q, i, my: r.picked[i] })).filter(x => x.my !== key[x.i]);
+      detail = wrongs.length
+        ? wrongs.map(x => `<div class="q bad"><div class="qt" dir="auto">✘ ${x.i+1}. ${esc(x.q.q)}</div><div class="mini">${(x.my == null || x.my < 0) ? 'لم يُجب' : `إجابته: <b dir="auto">${esc(qrOpt(x.q, x.my))}</b>`} — الصحيحة: <b dir="auto">${esc(qrOpt(x.q, key[x.i]))}</b></div></div>`).join('')
+        : `<div class="infobox">${I('check','s')} كل إجاباته صحيحة.</div>`;
+    } else {
+      detail = `<div class="infobox">تفاصيل الإجابات غير محفوظة لهذه المحاولة (سُلّمت قبل تفعيل تحديث قاعدة البيانات).</div>`;
+    }
+    return `<details class="res" ${idx===0?'open':''}><summary>${fmtDT(r.created_at)} — <b>${r.score}/${r.total}</b> (${Math.round(qrPct(r))}%)</summary>${detail}</details>`;
+  }).join('');
+  openModal(`<h3 dir="auto">${esc(g.name)} — <span dir="auto">${esc(z.title)}</span></h3>${att}
+    <div class="actions"><button class="btn lg" data-a="qrBack">رجوع لكل الطلاب</button></div>`, true);
+}
+function qrCsv(){
+  if(!QR) return;
+  const cname = id => (classes.find(c=>c.id===id)||{}).name || '';
+  const safe = v => { let t = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; };   // يمنع حقن الصيغ في Excel
+  const head = ['الطالب','الصف','أفضل درجة','الإجمالي','النسبة %','عدد المحاولات','آخر محاولة'];
+  const rows = qrFiltered().map(g => [g.name, g.cls ? cname(g.cls) : '', g.best.score, g.best.total, Math.round(qrPct(g.best)), g.att.length, fmtDT(g.latest.created_at)]);
+  const csv = '\ufeff' + [head, ...rows].map(r => r.map(safe).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+  a.download = `نتائج - ${QR.z.title}.csv`.replace(/[\\/:*?"<>|]/g, '-');
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+document.addEventListener('change', e => { const el = e.target; if(el && el.dataset && el.dataset.a === 'qrCls' && QR){ QR.cls = el.value; drawResults(); } });
 
 /* ---------- الواجبات ---------- */
 function assignForm(fresh){
@@ -1490,6 +1638,64 @@ function linkForm(){
 }
 
 /* ============ المعاينة ============ */
+/* ---- عرض PDF داخل الموقع ----
+   متصفحات الجوال لا تعرض PDF داخل إطار (تحمّله فقط)، فنرسم صفحاته بمكتبة PDF.js التي تُحمَّل عند الحاجة فقط.
+   على الكمبيوتر نستخدم عارض المتصفح نفسه. */
+const IS_TOUCH = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+const PDFJS_VER = '3.11.174';
+let pdfjsP = null;
+function loadPdfJs(){
+  if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if(pdfjsP) return pdfjsP;
+  pdfjsP = new Promise((res, rej) => {
+    const sc = document.createElement('script');
+    sc.src = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VER}/pdf.min.js`;
+    sc.onload = () => { try{ window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VER}/pdf.worker.min.js`; res(window.pdfjsLib); }catch(e){ pdfjsP = null; rej(e); } };
+    sc.onerror = () => { pdfjsP = null; rej(new Error('pdf.js load failed')); };
+    document.head.appendChild(sc);
+  });
+  return pdfjsP;
+}
+function pdfViewerHtml(url){
+  if(!url || url === '#') return `<div class="errbox">تعذر تجهيز رابط الملف. حدّث الصفحة وحاول مرة أخرى.</div>`;
+  if(!IS_TOUCH) return `<iframe class="pv" src="${esc(url)}"></iframe>`;
+  return `<div class="pdfv" data-src="${esc(url)}"><div class="loading"><div class="spin"></div></div></div>
+    <div class="actions"><a class="btn sec" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح / تحميل الملف</a></div>`;
+}
+async function hydratePdfs(root){
+  const els = [...(root || document).querySelectorAll('.pdfv[data-src]:not([data-done])')];
+  for(const el of els){
+    el.dataset.done = '1';
+    try{
+      const lib = await loadPdfJs();
+      const doc = await lib.getDocument({ url: el.dataset.src }).promise;
+      el.innerHTML = '';
+      const n = Math.min(doc.numPages, 60);
+      for(let i = 1; i <= n; i++){
+        if(!el.isConnected) return;
+        const page = await doc.getPage(i);
+        const base = page.getViewport({ scale:1 });
+        const w = Math.max(280, el.clientWidth || 320);
+        const vp = page.getViewport({ scale: (w / base.width) * Math.min(window.devicePixelRatio || 1, 2) });
+        const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height; cv.className = 'pdfpg';
+        el.appendChild(cv);
+        await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+      }
+      if(doc.numPages > n){ const m = document.createElement('div'); m.className = 'note'; m.textContent = `يُعرض أول ${n} صفحة فقط. افتح الملف كاملاً من الزر.`; el.appendChild(m); }
+    }catch(e){
+      logErr('pdfView', e);
+      el.innerHTML = `<div class="errbox">تعذر عرض الملف داخل الموقع. يمكنك فتحه أو تحميله من الزر بالأسفل.</div>`;
+    }
+  }
+}
+document.addEventListener('toggle', e => { if(e.target && e.target.open) hydratePdfs(e.target); }, true);   // ملفات مرفقة داخل <details>
+/* PowerPoint: عبر عارض Microsoft Office Online (يحتاج رابطاً يصل إليه الخادم؛ الملفات حتى 10MB تقريباً) */
+function officeViewerHtml(url){
+  if(!url || url === '#') return `<div class="errbox">تعذر تجهيز رابط الملف. حدّث الصفحة وحاول مرة أخرى.</div>`;
+  const src = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(url);
+  return `<iframe class="pv" src="${esc(src)}" allowfullscreen></iframe>
+    <div class="note" style="margin-top:8px">يُعرض العرض التقديمي عبر Microsoft Office Online. إن لم يظهر (ملف كبير أو اتصال بطيء) فاستخدم زر التحميل.</div>`;
+}
 function preview(id){
   const it = items.find(i=>i.id===id); if(!it||(!it.file_path && !it.url)) return;
   if(!it.file_path){
@@ -1498,7 +1704,8 @@ function preview(id){
   }
   const u = esc(pubUrl(it.file_path)); const n = (it.file_name||'').toLowerCase();
   let body;
-  if(n.endsWith('.pdf')) body = `<iframe class="pv" src="${u}"></iframe>`;
+  if(n.endsWith('.pdf')) body = pdfViewerHtml(pubUrl(it.file_path));
+  else if(/\.(pptx?|ppsx?)$/.test(n)) body = officeViewerHtml(pubUrl(it.file_path));
   else if(/\.(png|jpe?g|gif|webp)$/.test(n)) body = `<img class="pv" src="${u}">`;
   else body = `<audio controls src="${u}" style="width:100%"></audio>`;
   openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}`, true);
@@ -1644,7 +1851,7 @@ function mediaHtml(info){
     return `<div class="vwrap" style="border-radius:14px;overflow:hidden"><iframe src="${esc(info.embed)}" allowfullscreen loading="lazy" allow="autoplay; fullscreen"></iframe></div>`;
   if(info.type==='pdf')
     return `<iframe class="pv" src="${esc('https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(info.url))}"></iframe>`;
-  if(info.type==='pdfown') return `<iframe class="pv" src="${esc(info.embed)}"></iframe>`;
+  if(info.type==='pdfown') return pdfViewerHtml(info.embed);
   if(info.type==='image') return `<img class="pv" src="${esc(info.embed)}" alt="">`;
   if(info.type==='video') return `<video controls preload="metadata" src="${esc(info.embed)}" style="width:100%;border-radius:14px"></video>`;
   return `<a class="btn" href="${esc(safeHref(info.url))}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح الرابط</a>`;
@@ -4061,7 +4268,7 @@ const H = {
   bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
-  takeQuiz, startQuiz, submitQuiz, results:showResults,
+  takeQuiz, startQuiz, submitQuiz, results:showResults, qrStudent, qrBack:() => { if(QR) drawResults(); }, qrCsv, quizPdf,
   openSubmit, subs:showSubs, saveGrade,
   preview, close:requestClose,
   addClass:addClassForm, delClass, addStudent:id=>addStudentForm(id), bulkStudents:id=>bulkForm(id),
