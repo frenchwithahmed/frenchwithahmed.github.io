@@ -778,7 +778,7 @@ function icoFor(it){
 }
 function fileCard(it){
   const [c,ic] = icoFor(it);
-  const canPrev = /\.(pdf|png|jpe?g|gif|webp|mp3|wav|m4a|ogg)$/i.test(it.file_name||'');
+  const canPrev = /\.(pdf|png|jpe?g|gif|webp|mp3|wav|m4a|ogg|pptx?|docx?|xlsx?)$/i.test(it.file_name||'');
   return `<div class="card">
     <div class="top"><div class="ico ${c}">${I(ic)}</div><span class="lv">${esc(it.level)}</span></div>
     <h3 dir="auto">${esc(it.title)}</h3>
