@@ -2616,10 +2616,49 @@ function giReg(){
     else if(it.game==='match') reg(d.m, en.m);
   });
 }
-function gPool(game, level){
-  const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
-  return base.concat(gameItems.filter(x=>x.game===src && x.level===level).map(giToEngine).filter(Boolean));
+/* ---- تنظيف الأسئلة: حذف الناقص والمكرر ---- */
+const gS = x => typeof x === 'string' && x.trim().length > 0;
+function gValid(src, q){
+  if(!q || typeof q !== 'object') return false;
+  const opts = (min) => Array.isArray(q.o) && q.o.length >= min && q.o.every(gS) && new Set(q.o.map(x => x.trim().toLowerCase())).size === q.o.length && Number.isInteger(q.a) && q.a >= 0 && q.a < q.o.length;
+  switch(src){
+    case 'mcq': return gS(q.q) && opts(2);
+    case 'odd': return opts(3);
+    case 'listen': return gS(q.w) && Array.isArray(q.o) && q.o.length >= 3 && q.o.every(gS) && q.o[0] === q.w && new Set(q.o.map(x => x.toLowerCase())).size === q.o.length;
+    case 'tf': return gS(q.q) && typeof q.a === 'boolean';
+    case 'scramble': return gS(q.w) && q.w.trim().length >= 3 && !/\s/.test(q.w.trim());
+    case 'order': { if(!gS(q.w)) return false; const n = q.w.trim().split(/\s+/).length; return n >= 3 && n <= 9; }
+    case 'match': return gS(q.f) && gS(q.m);
+    case 'fill': return gS(q.q) && q.q.includes('___') && Array.isArray(q.a) && q.a.length > 0 && q.a.every(gS);
+  }
+  return false;
 }
+function gKey(src, q){
+  switch(src){
+    case 'mcq': case 'tf': case 'fill': return String(q.q).trim().toLowerCase();
+    case 'odd': return [...q.o].map(x => x.trim().toLowerCase()).sort().join('|');
+    case 'scramble': case 'listen': return String(q.w).trim().toLowerCase();
+    case 'order': return String(q.w).trim().replace(/\s+/g, ' ').toLowerCase();
+    case 'match': return String(q.f).trim().toLowerCase();
+  }
+  return JSON.stringify(q);
+}
+function gClean(src, arr){
+  const seen = new Set(), seenM = new Set(), out = [];
+  (arr || []).forEach(q => {
+    if(!gValid(src, q)) return;
+    const k = gKey(src, q); if(seen.has(k)) return;
+    if(src === 'match'){ const m = q.m.trim().toLowerCase(); if(seenM.has(m)) return; seenM.add(m); }
+    seen.add(k); out.push(q);
+  });
+  return out;
+}
+function gPool(game, level){
+  if(G.lessonPool && G.lessonId && G.game === game) return gClean(game, G.lessonPool);
+  const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
+  return gClean(src, base.concat(gameItems.filter(x=>x.game===src && x.level===level).map(giToEngine).filter(Boolean)));
+}
+const gMin = game => (game === 'match' || game === 'memory') ? 3 : 1;
 async function loadGameItems(){
   try{ const r = await sb.from('game_items').select('*').order('created_at',{ascending:false}); gameItems = r.error ? [] : (r.data||[]); }
   catch(e){ gameItems = []; }
@@ -2757,13 +2796,13 @@ function beep(kind){
     seq.forEach(([f,d]) => { const o = _ac.createOscillator(), g = _ac.createGain(); o.type = kind==='bad'?'sawtooth':'sine'; o.frequency.value = f; g.gain.value = .08; o.connect(g); g.connect(_ac.destination); const s = _ac.currentTime + d; o.start(s); g.gain.exponentialRampToValueAtTime(.0001, s+.2); o.stop(s+.22); });
   }catch(e){}
 }
-const bestKey = () => 'fo_best_' + G.game + '_' + G.level;
+const bestKey = () => 'fo_best_' + G.game + '_' + (G.lessonId ? 'L_' + G.lessonId : G.level);
 const getBest = () => { try{ return +localStorage.getItem(bestKey()) || 0; }catch(e){ return 0; } };
 const setBest = n => { try{ localStorage.setItem(bestKey(), String(n)); }catch(e){} };
 
 function gameStart(level){
   const d = GAME_DATA[G.game], pool = gPool(G.game, level);
-  if(!pool.length) return;
+  if(pool.length < gMin(G.game)){ toast('لا توجد أسئلة كافية في هذا المستوى بعد. جرّب مستوى آخر أو لعبة أخرى.', 'err'); return; }
   const isM = G.game==='match' || G.game==='memory';
   const qs = shuf(pool).slice(0, isM ? 6 : GAME_ROUND).map(q => {
     if(G.game==='scramble'){ let l, tries = 0; do{ l = shuf(Array.from(q.w)); }while(l.join('')===q.w && ++tries<9); return { w:q.w, h:q.h, a:1, e:'الكلمة الصحيحة: '+q.w, tiles:l.map((c,k)=>({c,k})) }; }
@@ -2954,7 +2993,7 @@ function renderGames0(v){
     else if(G.game==='mcq' || G.game==='odd' || G.game==='listen') body = `<div class="gopts">${q.o.map((t,k)=>`<button class="gopt ${ans?(k===q.a?'ok':k===G.pick?'bad':'dim'):''}" data-a="gAns" data-id="${k}" ${ans?'disabled':''}><i>${k+1}</i><span dir="auto">${esc(t)}</span></button>`).join('')}</div>`;
     else body = `<div class="gtf">${['صح ✓ Vrai','خطأ ✗ Faux'].map((t,k)=>`<button class="gopt ${ans?(k===q.a?'ok':k===G.pick?'bad':'dim'):''}" data-a="gAns" data-id="${k}" ${ans?'disabled':''}><i>${k+1}</i><span>${t}</span></button>`).join('')}</div>`;
     const fb = ans ? `<div class="gfb ${G.pick===q.a?'ok':'bad'}"><b>${G.pick===q.a?'أحسنت! 🎉':'ليست الإجابة الصحيحة'}</b><span>${esc(q.e||'')}${G.close&&G.game==='fill'?' — '+esc(G.close):''}</span></div><button class="gnext" data-a="gNext" autofocus>${G.i+1>=n?'عرض النتيجة':'السؤال التالي'} ←</button>` : '';
-    v.innerHTML = `<div class="ghead"><span>${esc(d.title)} · ${G.level}</span><span>⭐ ${G.pts}</span>${G.streak>=2?`<span>🔥 ${G.streak}</span>`:''}${snd}</div>
+    v.innerHTML = `<div class="ghead"><span>${esc(d.title)} · ${G.lessonId ? esc(G.lessonTitle||'') : G.level}</span><span>⭐ ${G.pts}</span>${G.streak>=2?`<span>🔥 ${G.streak}</span>`:''}${snd}</div>
       <div class="gbar"><i style="width:${(G.i+(ans?1:0))/n*100}%"></i></div>
       <div class="gq"><small>السؤال ${G.i+1} من ${n}</small><h3 dir="auto">${esc(G.game==='listen'?'استمع ثم اختر الكلمة التي سمعتها':(G.game==='scramble'||G.game==='order'||G.game==='hangman')?q.h:q.q)}</h3>${G.game==='odd'?'<small dir="ltr" style="display:block;text-align:right">Quel est l\'intrus ?</small>':G.game==='scramble'?'<small>رتّب الحروف لتكوين الكلمة الفرنسية</small>':G.game==='order'?'<small>رتّب الكلمات لتكوين الجملة الفرنسية</small>':''}</div>${G.game==='listen'?'<div class="gacts" style="margin-bottom:14px"><button class="gnext" data-a="gSpeak">🔊 استمع</button><button class="chip" data-a="gSlow">🐢 ببطء</button></div>':''}${body}${fb}
       <button class="chip" data-a="gMenu" style="margin-top:18px">إنهاء اللعبة</button>`;
@@ -2966,16 +3005,37 @@ function renderGames0(v){
       <h2>${pc===1?'ممتاز! علامة كاملة':pc>=.7?'أحسنت!':pc>=.4?'جيد، حاول مرة أخرى':'لا بأس، التدريب يصنع الإتقان'}</h2>
       <div class="gstats"><div><b>${G.ok}/${n}</b><span>إجابات صحيحة</span></div><div><b>${G.pts}</b><span>النقاط</span></div><div><b>${G.stat3?G.stat3[0]:G.maxStreak}</b><span>${G.stat3?G.stat3[1]:'أطول سلسلة'}</span></div><div><b>${G.tot}ث</b><span>الوقت</span></div></div>
       ${G.newBest?`<p class="gnb">🏆 رقم قياسي جديد على هذا الجهاز!</p>`:G.prevBest?`<p class="gsub">أفضل نتيجة سابقة: ${G.prevBest}</p>`:''}
-      <div class="gacts"><button class="gnext" data-a="gAgain">العب مرة أخرى</button><button class="chip" data-a="gLevels">تغيير المستوى</button><button class="chip" data-a="gMenu">كل الألعاب</button></div></div>`;
+      <div class="gacts"><button class="gnext" data-a="gAgain">العب مرة أخرى</button><button class="chip" data-a="gLevels">${G.lessonId?'العودة للدرس':'تغيير المستوى'}</button>${G.lessonId?'':'<button class="chip" data-a="gMenu">كل الألعاب</button>'}</div></div>`;
   }
+}
+/* ---- ألعاب دروس القواعد: تُبنى من تمرين وأمثلة الدرس نفسه ---- */
+function grLessonPool(l, kind){
+  const t0 = s => grT(s), txt = s => { const t = t0(s); return GRS.lang === 'en' ? t.en : (GRS.lang === 'both' && t.two) ? t.ar + ' · ' + t.en : t.ar; }, opt = s => { const t = t0(s); return GRS.lang === 'en' ? t.en : t.ar; };
+  if(kind === 'mcq') return l.quiz.map(q => ({ q:txt(q[0]), o:q[1].map(opt), a:q[2], e:txt(q[3]) }));
+  if(kind === 'order') return l.ex.map(e => ({ w:String(e[0]).trim().replace(/\s+/g, ' '), h:txt(e[1]) }));
+  return [];
+}
+function lessonGame(kind){
+  const l = grLesson(GRS.id); if(!l || (kind !== 'mcq' && kind !== 'order')) return;
+  const pool = gClean(kind, grLessonPool(l, kind));
+  if(!pool.length){ toast('لا توجد أسئلة كافية لهذه اللعبة في هذا الدرس.', 'err'); return; }
+  state.tab = 'games';
+  G.game = kind; G.lessonId = l.id; G.lessonPool = grLessonPool(l, kind); G.lessonTitle = l.fr;
+  gameStart(GRS.level);
+}
+function lessonBack(){
+  const id = G.lessonId; G.lessonId = null; G.lessonPool = null; G.view = 'menu'; G.game = null;
+  if(id && grLesson(id)){ state.tab = 'grammar'; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; try{ grNewOrder(grLesson(id)); }catch(e){} }
+  render(); window.scrollTo(0, 0);
 }
 const GH = {
   ...GIH,
-  gPick:id=>{ if(!GAME_DATA[id]) return; if(id==='listen' && !window.speechSynthesis){ toast(trText('جهازك أو متصفحك لا يدعم النطق الصوتي'),'err'); return; } G.game = id; G.view = 'level'; render(); },
+  lessonGame:(id)=>lessonGame(id), lessonBack:()=>lessonBack(),
+  gPick:id=>{ if(!GAME_DATA[id]) return; G.lessonId = null; G.lessonPool = null; if(id==='listen' && !window.speechSynthesis){ toast(trText('جهازك أو متصفحك لا يدعم النطق الصوتي'),'err'); return; } G.game = id; G.view = 'level'; render(); },
   gLvl:id=>gameStart(id), gAns:id=>gameAnswer(id), gNext:gameNext,
   gAgain:()=>gameStart(G.level), gLang:()=>{ G.lang = G.lang==='en'?'ar':'en'; try{ localStorage.setItem('fo_lang', G.lang); }catch(e){} render(); }, gTile:id=>scrTile(id), gKey:id=>hgKey(id), gSpeak:()=>speak(G.qs[G.i].w,.9), gSlow:()=>speak(G.qs[G.i].w,.55), gMem:id=>memPick(id), gBack:scrBack, gClear:scrClear, gFill:fillCheck, gML:id=>matchPick('l',id), gMR:id=>matchPick('r',id),
-  gLevels:()=>{ G.view='level'; render(); },
-  gMenu:()=>{ G.view='menu'; G.game=null; render(); },
+  gLevels:()=>{ if(G.lessonId) return lessonBack(); G.view='level'; render(); },
+  gMenu:()=>{ if(G.lessonId) return lessonBack(); G.view='menu'; G.game=null; render(); },
   gSound:()=>{ G.snd = !G.snd; try{ localStorage.setItem('fo_snd', G.snd?'1':'0'); }catch(e){} render(); }
 };
 document.addEventListener('keydown', e => {
@@ -3922,7 +3982,8 @@ function renderGrLesson(v){
     <div class="card grbox"><p class="grp">${grBi(l.intro)}</p>${tb}
       <h4 class="grh">القاعدة · Rules</h4><ul class="grul">${l.rules.map(r => `<li>${grBi(r)}</li>`).join('')}</ul>
       <h4 class="grh">أمثلة · Examples</h4>${l.ex.map((e, i) => `<div class="vrow"><button class="vsp" data-a="grSay" data-id="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx"><span class="vfr" lang="fr">${esc(e[0])}</span><span class="grtr">${grBi(e[1])}</span></div></div>`).join('')}</div>
-    <h3 class="grh2">تمرين · Exercise</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div></div>`;
+    <h3 class="grh2">تمرين · Exercise</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div>
+    <h3 class="grh2">العب · Play</h3><div class="card grbox"><p class="cap" style="margin:0 0 10px">ألعاب من هذا الدرس نفسه · Games from this lesson</p><div class="gacts"><button class="btn" data-a="lessonGame" data-id="mcq">${I('quiz','s')} اختر الإجابة · Quiz</button><button class="btn sec" data-a="lessonGame" data-id="order">${I('list','s')} رتّب الجملة · Order</button></div></div></div>`;
 }
 const GRH = {
   grLevel:(id) => { GRS.level = id; grSave(); render(); },
