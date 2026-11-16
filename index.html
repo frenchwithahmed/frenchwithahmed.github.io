@@ -1530,7 +1530,7 @@ async function doLogin(){
 }
 async function logout(){
   try{ await sb.auth.signOut(); }catch(e){ logErr('signOut', e); }
-  state.me = null; state.teacher = false; state.uid = null; state.authErr = ''; state.tab = 'home';   // مسح الصلاحيات محلياً حتى لو فشل الاتصال
+  state.me = null; state.teacher = false; state.uid = null; state.authErr = ''; state.tab = 'home'; progStatus(null);   // مسح الصلاحيات محلياً حتى لو فشل الاتصال
   await afterAuth();
 }
 
@@ -4013,6 +4013,21 @@ const PROG_OWNER = 'fo_prog_owner', PROG_DIRTY = 'fo_prog_dirty';
 const progOn = () => typeof sb !== 'undefined' && !!sb && !!state.uid && !state.teacher && !!(state.me && state.me.student);
 const progWordLevel = (() => { let m = null; return w => { if(!m){ m = {}; for(const L in VOC) VOC[L].forEach(c => c.w.forEach(x => { m[x[0]] = L; })); } return m[w] || null; }; })();
 const progLesson = (() => { let m = null; return id => { if(!m){ m = {}; for(const L in GR) GR[L].forEach(l => { m[l.id] = { level:L, total:l.quiz.length, title:l.ar, fr:l.fr }; }); } return m[id] || null; }; })();
+/* مؤشر حالة حفظ التقدّم (للطالب فقط): جارٍ الحفظ / تم الحفظ / تعذّر (يبقى على الجهاز ويُعاد الرفع) */
+let progChipT = null;
+function progStatus(s){
+  try{
+    let c = document.getElementById('progchip');
+    if(!c){ c = document.createElement('div'); c.id = 'progchip'; c.setAttribute('role', 'status'); c.setAttribute('aria-live', 'polite');
+      c.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9000;padding:8px 14px;border-radius:999px;font:600 13px sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.25);display:none;max-width:calc(100vw - 24px)';
+      document.body.appendChild(c); }
+    clearTimeout(progChipT);
+    if(!s || !progOn()){ c.style.display = 'none'; return; }
+    const m = { saving:['⏳ جارٍ حفظ تقدّمك…', '#1e3a5f', '#fff'], saved:['✓ تم حفظ تقدّمك', '#166534', '#fff'], err:['⚠ لم يُحفظ تقدّمك على الخادم الآن — هو محفوظ على جهازك وسنعيد المحاولة', '#b45309', '#fff'] }[s];
+    c.textContent = m[0]; c.style.background = m[1]; c.style.color = m[2]; c.style.display = 'block';
+    if(s === 'saved') progChipT = setTimeout(() => { c.style.display = 'none'; }, 2500);
+  }catch(e){}
+}
 function progSchedule(){
   if(!progOn()) return;
   lsSet(PROG_DIRTY, '1');                 // توجد تغييرات لم تُرفع بعد
@@ -4022,7 +4037,7 @@ function progSchedule(){
 async function progFlush(){
   if(progBusy){ progSchedule(); return; }
   if(!progOn() || progSrvVoc === null) return;
-  progBusy = true;
+  progBusy = true; let quiet = true;
   try{
     const now = new Date().toISOString(), uid = state.uid;
     const adds = [...V.known].filter(w => !progSrvVoc.has(w) && progWordLevel(w)).map(w => ({ student_id:uid, kind:'vocab', item:w, level:progWordLevel(w), updated_at:now }));
@@ -4030,18 +4045,20 @@ async function progFlush(){
     const grs = [];
     Object.keys(GRS.done).forEach(id => { const L = progLesson(id), sc = GRS.done[id]; if(L && Number.isInteger(sc) && sc >= 0 && sc <= L.total && (!(id in progSrvGr) || sc > progSrvGr[id])) grs.push({ student_id:uid, kind:'grammar', item:id, level:L.level, score:sc, total:L.total, updated_at:now }); });
     const rows = adds.concat(grs);
+    quiet = !rows.length && !dels.length; if(!quiet) progStatus('saving');
     for(let i = 0; i < rows.length; i += 200){ const r = await sb.from('student_progress').upsert(rows.slice(i, i + 200), { onConflict:'student_id,kind,item' }); if(r.error) throw r.error; }
     for(let i = 0; i < dels.length; i += 100){ const r = await sb.from('student_progress').delete().eq('student_id', uid).eq('kind', 'vocab').in('item', dels.slice(i, i + 100)); if(r.error) throw r.error; }
     adds.forEach(a => progSrvVoc.add(a.item)); dels.forEach(w => progSrvVoc.delete(w)); grs.forEach(g => { progSrvGr[g.item] = g.score; });
     lsSet(PROG_DIRTY, '');
+    if(!quiet) progStatus('saved');
   }catch(e){
-    logErr('progFlush', e);
+    logErr('progFlush', e); progStatus('err');
     clearTimeout(progT); progT = setTimeout(progFlush, 30000);   // إعادة المحاولة لاحقاً (يبقى التقدّم محفوظاً على الجهاز)
   }finally{ progBusy = false; }
 }
 window.addEventListener('online', () => { if(progOn() && progSrvVoc !== null) progSchedule(); });
 async function progPull(){
-  progSrvVoc = null; progSrvGr = null;
+  progSrvVoc = null; progSrvGr = null; progStatus(null);
   if(!progOn()) return;
   const uid = state.uid;
   try{
@@ -4067,7 +4084,7 @@ async function progPull(){
     if(changed){ try{ localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){} grSave(); }
     progSchedule();   // يرفع ما هو على الجهاز فقط (ترحيل تقدّم ما قبل التحديث)
     if(changed && (state.tab === 'vocab' || state.tab === 'grammar') && !document.querySelector('#modal .ov')) render();
-  }catch(e){ logErr('progPull', e); }
+  }catch(e){ logErr('progPull', e); progStatus('err'); }
 }
 /* عرض تقدّم طالب للمدرس داخل نافذة التفاصيل */
 async function trkProgress(id){
