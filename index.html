@@ -214,6 +214,32 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .bitem .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.bitem .row .btn{padding:6px 12px;font-size:13px}
 .trk-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 4px}
 .trk-bar select{max-width:260px}
+.rhead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.rhead .st{margin:0}
+.racts{display:flex;gap:8px;flex-wrap:wrap}
+.rsearch{position:relative;margin:12px 0 8px}.rsearch .i{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px}.rsearch input{padding-inline-start:42px;border-radius:999px}
+.rfilters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:6px 0}
+.rchips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px}.rcl{font-size:.8rem;color:var(--muted);font-weight:700;margin-inline-start:8px}.rcl:first-child{margin-inline-start:0}
+.rtiles{margin-top:14px}
+.rins{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
+.rins h3{font-size:.95rem;margin-bottom:10px}
+.rbars{display:flex;align-items:flex-end;gap:10px;height:150px}.rb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}.rb i{display:block;width:100%;max-width:46px;border-radius:8px 8px 0 0;min-height:3px;transition:height .4s}.rb b{font-size:.85rem}.rb small{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.rlead ul{list-style:none;display:grid;gap:8px}.rlead li{display:flex;align-items:center;gap:10px}.rlead li span{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rlead li small{color:var(--muted);font-size:.75rem}
+.rlist{margin-top:16px}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.rcard{display:flex;align-items:center;gap:14px;text-align:right;width:100%;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow);transition:.2s}
+.rcard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,31,58,.12)}
+.rring{flex:none;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#e8e2d4 0);display:grid;place-items:center;position:relative}
+.rring::before{content:'';position:absolute;inset:6px;border-radius:50%;background:var(--card)}
+.rring b{position:relative;font-size:.8rem}.rring.big{width:92px;height:92px}.rring.big::before{inset:9px}.rring.big b{font-size:1.2rem}
+.rmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.rmain b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rmain small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.75rem;color:var(--muted);margin-top:4px}
+.rscore{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.rband{display:inline-block;color:#fff;font-style:normal;font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:999px}
+.rdet{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.rdet h4{font-size:1.1rem}
+.resprint .rfilters,.resprint .rchips,.resprint .rsearch,.resprint .racts,.resprint .rins,.resprint .actions{display:none!important}
+@media print{header,#nav,#bnav,.toast,#toast,#offbar,#progchip,.rfilters,.rchips,.rsearch,.racts,.actions{display:none!important}body{background:#fff!important}.rcard{break-inside:avoid;box-shadow:none}.rring{-webkit-print-color-adjust:exact;print-color-adjust:exact}.rband{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.rdt{grid-template-columns:repeat(2,1fr)!important;gap:10px!important}.rdt .tile{padding:12px;min-width:0}.rdt .tile b{font-size:1.05rem}.rdt .tile span{font-size:.75rem}
+
 .pbar{display:inline-block;vertical-align:middle;width:84px;height:8px;border-radius:6px;background:#e8e2d4;overflow:hidden;margin-inline-start:8px}
 .pbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0B1F3A,#B8893B)}
 .pbar.low i{background:#c0392b}
@@ -639,7 +665,17 @@ const pubUrl = (path, dl) => {
   }
   return sb.storage.from(BUCKET).getPublicUrl(path, dl ? { download: dl } : undefined).data.publicUrl;
 };
+const UP_EXT = ['pdf','doc','docx','ppt','pptx','xls','xlsx','png','jpg','jpeg','gif','webp','mp3','wav','m4a','ogg','txt','mp4','webm','mov','m4v'];
+const MAX_UP = 50 * 1024 * 1024;   // حد الرفع في الخطة المجانية لـ Supabase
+function upCheck(file){
+  if(!file) throw new Error('لم يتم اختيار ملف');
+  const ext = ((file.name || '').split('.').length > 1) ? extOf(file.name) : '';
+  if(!ext || !UP_EXT.includes(ext)) throw new Error('نوع الملف غير مسموح' + (ext ? ' (.' + ext + ')' : '') + '. الأنواع المسموحة: PDF, Word, PowerPoint, Excel, صور, صوت, فيديو mp4/webm.');
+  if(!file.size) throw new Error('الملف فارغ.');
+  if(file.size > MAX_UP) throw new Error('حجم الملف ' + (file.size / 1048576).toFixed(1) + ' ميجابايت، والحد الأقصى 50 ميجابايت. اضغط الملف أو قلّل حجمه.');
+}
 async function upMedia(file, folder, classId){
+  upCheck(file);
   const path = (classId ? classId + '/' : '') + `${folder}/${uid()}.${extOf(file.name)}`;
   const r = await sb.storage.from(classId ? PRIV_BUCKET : BUCKET).upload(path, file, { contentType: file.type || undefined, cacheControl:'3600' });
   if(r.error) throw r.error;
@@ -718,7 +754,7 @@ const TABS = [['home','home','الرئيسية'],['files','book','الدروس']
 const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
 function renderShell(){
   const tabs = TABS.slice();
-  if(state.teacher){ tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
+  if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
@@ -884,11 +920,12 @@ function render(){
   if(state.loading){ v.innerHTML = skel(); return; }
   const err = (state.authErr ? `<div class="errbox">${esc(state.authErr)}<br>${retryAuthBtn()}</div>` : '') + (state.err ? `<div class="errbox">${esc(state.err)}<br><button class="btn sec" data-a="retryLoad" style="margin-top:8px">إعادة المحاولة</button></div>` : '');
   const files = items.filter(i=>i.kind==='file'), vids = items.filter(i=>i.kind==='video');
-  if(((state.tab==='people' || state.tab==='track') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
+  if(((state.tab==='people' || state.tab==='track' || state.tab==='results') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
   if(state.tab==='games') return renderGames(v);
   if(state.tab==='vocab') return renderVocab(v);
   if(state.tab==='grammar') return renderGrammar(v);
   if(state.tab==='track') return renderTrack(v, err);
+  if(state.tab==='results') return renderResults(v, err);
   if(state.tab==='people') return renderPeople(v, err);
   if(state.tab==='mine') return renderMine(v, err);
 
@@ -1322,7 +1359,8 @@ async function showResults(id){
   openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3>
     ${data.length?`<div style="overflow-x:auto"><table><tr><th>الطالب</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
     ${data.map(r=>`<tr><td>${esc(r.student)}</td><td>${r.score}/${r.total}</td><td>${Math.round(r.score/r.total*100)}%</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>`
-    : emptyBox('list','c-green','لا توجد محاولات بعد','')}`, true);
+    : emptyBox('list','c-green','لا توجد محاولات بعد','')}
+    <div class="actions"><button class="btn" data-a="resFromQuiz" data-id="${id}">${I('list','s')} فتح في صفحة النتائج (فلاتر وتصدير)</button></div>`, true);
 }
 
 /* ---------- الواجبات ---------- */
@@ -4112,11 +4150,178 @@ async function trkProgress(id){
   window.addEventListener('offline', upd); window.addEventListener('online', upd);
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', upd); else upd();
 })();
+/* ---------- صفحة النتائج (للمعلم): كل نتائج الاختبارات مع فلاتر وتصدير ---------- */
+const RES = { rows:[], ok:false, loading:false, err:'', q:'', cls:'all', quiz:'all', per:'all', band:'all', sort:'new', view:'cards', limit:30 };
+const resPct = r => r.total ? Math.round(r.score / r.total * 100) : 0;
+const resBandOf = p => p >= 85 ? 'top' : p >= 60 ? 'mid' : 'low';
+const RES_BAND = { top:['ممتاز', '#1e9e5a'], mid:['جيد', '#e8890c'], low:['يحتاج دعم', '#d6334a'] };
+const resName = r => { const s = students.find(x => x.id === r.student_id); return s ? s.full_name : (r.student || '—'); };
+async function resLoad(){
+  if(RES.loading) return;
+  RES.loading = true; RES.err = '';
+  if(state.tab === 'results') resDraw();
+  try{
+    let all = [], from = 0;
+    for(let i = 0; i < 30; i++){
+      const r = await sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at', { ascending:false }).range(from, from + 999);
+      if(r.error) throw r.error;
+      const d = r.data || []; all = all.concat(d);
+      if(d.length < 1000) break; from += 1000;
+    }
+    RES.rows = all; RES.ok = true;
+  }catch(e){ RES.err = errMsg(e); logErr('resLoad', e); }
+  RES.loading = false;
+  if(state.tab === 'results') resDraw();
+}
+function renderResults(v, err){
+  if(!RES.ok && !RES.loading && !RES.err) resLoad();
+  resDraw(v, err);
+}
+function resCtx(){
+  const sMap = new Map(students.map(s => [s.id, s])), qMap = new Map(quizzes.map(z => [z.id, z])), cMap = new Map(classes.map(c => [c.id, c]));
+  const info = r => {
+    const s = sMap.get(r.student_id), z = qMap.get(r.quiz_id);
+    return { name: s ? s.full_name : (r.student || '—'), login: s ? (s.login_id || '') : '', reg: !!s, cid: s ? s.class_id : null,
+      cname: s ? ((cMap.get(s.class_id) || {}).name || 'بدون صف') : 'غير مسجّل', qt: z ? z.title : 'اختبار محذوف', lv: z ? (z.level || '') : '', p: resPct(r), key: r.student_id || ('n:' + r.student) };
+  };
+  return { info };
+}
+function resFiltered(){
+  const { info } = resCtx(), q = RES.q.trim().toLowerCase(), now = Date.now();
+  const since = RES.per === 'today' ? new Date().setHours(0, 0, 0, 0) : RES.per === '7' ? now - 7 * 864e5 : RES.per === '30' ? now - 30 * 864e5 : 0;
+  const out = [];
+  RES.rows.forEach(r => {
+    const i = info(r);
+    if(RES.cls === 'none' ? i.cid : RES.cls !== 'all' && i.cid !== RES.cls) return;
+    if(RES.quiz !== 'all' && r.quiz_id !== RES.quiz) return;
+    if(since && new Date(r.created_at).getTime() < since) return;
+    if(RES.band !== 'all' && resBandOf(i.p) !== RES.band) return;
+    if(q && !(i.name + ' ' + i.login + ' ' + i.qt).toLowerCase().includes(q)) return;
+    out.push({ r, i });
+  });
+  const cmp = { new:(a, b) => new Date(b.r.created_at) - new Date(a.r.created_at), old:(a, b) => new Date(a.r.created_at) - new Date(b.r.created_at),
+    high:(a, b) => b.i.p - a.i.p, low:(a, b) => a.i.p - b.i.p, name:(a, b) => a.i.name.localeCompare(b.i.name, 'ar') }[RES.sort] || (() => 0);
+  return out.sort(cmp);
+}
+function resDraw(v, err){
+  v = v || document.getElementById('view'); if(!v || state.tab !== 'results') return;
+  v.innerHTML = (err || '') + `
+    <div class="rhead"><h2 class="st"><span>${I('list')} نتائج الاختبارات</span><small id="rcount"></small></h2>
+      <div class="racts"><button class="btn sec" data-a="resRefresh">تحديث</button><button class="btn" data-a="resCsv">${I('download','s')} تصدير Excel / CSV</button><button class="btn sec" data-a="resPrint">${I('print','s')} طباعة / PDF</button></div></div>
+    <div class="rsearch">${I('search','s')}<input class="in" data-res="q" value="${esc(RES.q)}" placeholder="ابحث باسم الطالب أو الاختبار…" aria-label="بحث" dir="auto"></div>
+    <div id="resBody"></div>`;
+  resUpdate();
+}
+function resUpdate(){
+  const box = document.getElementById('resBody'); if(!box || state.tab !== 'results') return;
+  if(RES.loading && !RES.ok){ box.innerHTML = skel(); return; }
+  if(RES.err && !RES.ok){ box.innerHTML = `<div class="errbox">تعذر تحميل النتائج: ${esc(RES.err)}<br><button class="btn sec" data-a="resRefresh" style="margin-top:8px">إعادة المحاولة</button></div>`; return; }
+  const list = resFiltered(), all = RES.rows.length;
+  const cnt = document.getElementById('rcount'); if(cnt) cnt.textContent = list.length === all ? all + ' نتيجة' : list.length + ' من ' + all;
+  const n = list.length, avg = n ? Math.round(list.reduce((s, x) => s + x.i.p, 0) / n) : null;
+  const studs = new Set(list.map(x => x.i.key)).size, pass = n ? Math.round(list.filter(x => x.i.p >= 50).length / n * 100) : null, best = n ? Math.max(...list.map(x => x.i.p)) : null;
+  const tiles = [['quiz','c-blue',n,'محاولة'], ['users','c-teal',studs,'طالب'], ['chart','c-purple',avg == null ? '—' : avg + '%','متوسط الدرجات'], ['check','c-green',pass == null ? '—' : pass + '%','نسبة النجاح (50%+)'], ['sparkle','c-orange',best == null ? '—' : best + '%','أعلى نتيجة']];
+  // التوزيع
+  const B = [['أقل من 50', 0, 49], ['50–59', 50, 59], ['60–74', 60, 74], ['75–89', 75, 89], ['90–100', 90, 100]];
+  const dist = B.map(([l, a, b]) => [l, list.filter(x => x.i.p >= a && x.i.p <= b).length]), mx = Math.max(1, ...dist.map(d => d[1]));
+  const col = ['#d6334a', '#e8890c', '#d4a017', '#2F6DB5', '#1e9e5a'];
+  // أفضل / أحوج الطلاب (بالمتوسط)
+  const by = new Map(); list.forEach(x => { const k = x.i.key; if(!by.has(k)) by.set(k, { name:x.i.name, s:0, n:0 }); const o = by.get(k); o.s += x.i.p; o.n++; });
+  const stu = [...by.values()].map(o => ({ name:o.name, avg:Math.round(o.s / o.n), n:o.n })).sort((a, b) => b.avg - a.avg);
+  const mini = (arr, c) => arr.map(s => `<li><span dir="auto">${esc(s.name)}</span><b style="color:${c}">${s.avg}%</b><small>${s.n} محاولة</small></li>`).join('');
+  const topS = stu.slice(0, 3), lowS = stu.length > 3 ? stu.slice(-3).reverse() : [];
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${RES.cls === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${RES.cls === 'none' ? 'selected' : ''}>بدون صف / غير مسجّل</option>`;
+  const qopts = `<option value="all">كل الاختبارات</option>` + quizzes.map(z => `<option value="${z.id}" ${RES.quiz === z.id ? 'selected' : ''}>${esc(z.title)}</option>`).join('');
+  const sopts = [['new','الأحدث'], ['old','الأقدم'], ['high','الأعلى درجة'], ['low','الأقل درجة'], ['name','الاسم']].map(([k, l]) => `<option value="${k}" ${RES.sort === k ? 'selected' : ''}>${l}</option>`).join('');
+  const chip = (act, id, cur, l) => `<button class="chip ${cur === id ? 'on' : ''}" data-a="${act}" data-id="${id}">${l}</button>`;
+  const shown = list.slice(0, RES.limit);
+  const card = ({ r, i }) => { const b = RES_BAND[resBandOf(i.p)];
+    return `<button class="rcard" data-a="resOpen" data-id="${r.id}"><span class="rring" style="--p:${i.p};--c:${b[1]}"><b>${i.p}%</b></span>
+      <span class="rmain"><b dir="auto">${esc(i.name)}</b><small dir="auto">${esc(i.qt)}</small><span class="rmeta"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><time>${esc(fmtDT(r.created_at))}</time></span></span>
+      <span class="rscore"><b>${r.score}/${r.total}</b><i class="rband" style="background:${b[1]}">${b[0]}</i></span></button>`; };
+  const trow = ({ r, i }) => { const b = RES_BAND[resBandOf(i.p)];
+    return `<tr class="rowopen" data-a="resOpen" data-id="${r.id}"><td data-label="الطالب" dir="auto"><b>${esc(i.name)}</b></td><td data-label="الصف">${esc(i.cname)}</td><td data-label="الاختبار" dir="auto">${esc(i.qt)}</td><td data-label="الدرجة">${r.score}/${r.total}</td><td data-label="النسبة">${i.p}%<span class="pbar ${i.p < 50 ? 'low' : ''}"><i style="width:${i.p}%"></i></span></td><td data-label="التقدير"><span class="rband" style="background:${b[1]}">${b[0]}</span></td><td data-label="التاريخ">${esc(fmtDT(r.created_at))}</td></tr>`; };
+  const body = !all ? emptyBox('quiz', 'c-green', 'لا توجد نتائج بعد', 'ستظهر هنا نتائج الطلاب عند حلّهم الاختبارات.')
+    : !n ? `${emptyBox('search', 'c-blue', 'لا توجد نتائج مطابقة', 'غيّر الفلاتر أو ابحث بكلمة أخرى.')}<div class="actions"><button class="btn sec" data-a="resClear">مسح الفلاتر</button></div>`
+    : (RES.view === 'table' ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التقدير</th><th>التاريخ</th></tr>${shown.map(trow).join('')}</table></div>`
+      : `<div class="rgrid">${shown.map(card).join('')}</div>`)
+      + (n > shown.length ? `<div class="actions"><button class="btn sec" data-a="resMore">عرض المزيد (${n - shown.length})</button></div>` : '');
+  box.innerHTML = `
+    <div class="rfilters"><select class="in" data-res="cls" aria-label="الصف">${opts}</select><select class="in" data-res="quiz" aria-label="الاختبار">${qopts}</select><select class="in" data-res="sort" aria-label="الترتيب">${sopts}</select></div>
+    <div class="rchips"><span class="rcl">الفترة</span>${chip('resPer', 'all', RES.per, 'الكل')}${chip('resPer', 'today', RES.per, 'اليوم')}${chip('resPer', '7', RES.per, '7 أيام')}${chip('resPer', '30', RES.per, '30 يوماً')}
+      <span class="rcl">التقدير</span>${chip('resBand', 'all', RES.band, 'الكل')}${chip('resBand', 'top', RES.band, 'ممتاز')}${chip('resBand', 'mid', RES.band, 'جيد')}${chip('resBand', 'low', RES.band, 'يحتاج دعم')}
+      <span class="rcl">العرض</span>${chip('resView', 'cards', RES.view, 'بطاقات')}${chip('resView', 'table', RES.view, 'جدول')}</div>
+    <div class="tiles rtiles">${tiles.map(([ic, c, x, l]) => `<div class="tile static"><div class="ib ${c}">${I(ic)}</div><div><b>${x}</b><span>${l}</span></div></div>`).join('')}</div>
+    ${n ? `<div class="rins"><div class="card rdist"><h3>توزيع الدرجات</h3><div class="rbars">${dist.map(([l, c], k) => `<div class="rb"><b>${c}</b><i style="height:${Math.round(c / mx * 100)}%;background:${col[k]}"></i><small>${l}</small></div>`).join('')}</div></div>
+      <div class="card rlead"><h3>الأفضل (بالمتوسط)</h3><ul>${mini(topS, '#1e9e5a')}</ul>${lowS.length ? `<h3 style="margin-top:12px">يحتاجون دعماً</h3><ul>${mini(lowS, '#d6334a')}</ul>` : ''}</div></div>` : ''}
+    <div class="rlist">${body}</div>`;
+}
+function resOpen(id){
+  const r = RES.rows.find(x => x.id === id); if(!r) return;
+  const { info } = resCtx(), i = info(r), b = RES_BAND[resBandOf(i.p)];
+  const same = RES.rows.filter(x => x.quiz_id === r.quiz_id && (r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student))).sort((a, c) => new Date(a.created_at) - new Date(c.created_at));
+  const attempt = same.findIndex(x => x.id === r.id) + 1;
+  const mine = RES.rows.filter(x => r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student));
+  const myAvg = mine.length ? Math.round(mine.reduce((s, x) => s + resPct(x), 0) / mine.length) : null;
+  const qa = RES.rows.filter(x => x.quiz_id === r.quiz_id), qAvg = qa.length ? Math.round(qa.reduce((s, x) => s + resPct(x), 0) / qa.length) : null;
+  const bestBy = new Map(); qa.forEach(x => { const k = x.student_id || ('n:' + x.student); bestBy.set(k, Math.max(bestBy.get(k) || 0, resPct(x))); });
+  const rank = [...bestBy.values()].filter(p => p > (bestBy.get(i.key) || 0)).length + 1;
+  const diff = qAvg == null ? '' : (i.p - qAvg >= 0 ? '+' : '') + (i.p - qAvg);
+  openModal(`<h3>تفاصيل النتيجة</h3>
+    <div class="rdet"><span class="rring big" style="--p:${i.p};--c:${b[1]}"><b>${i.p}%</b></span>
+      <div><h4 dir="auto">${esc(i.name)}</h4><p dir="auto" class="cap">${esc(i.qt)}${i.lv ? ' · ' + esc(i.lv) : ''}</p>
+      <div class="tags"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><span class="rband" style="background:${b[1]}">${b[0]}</span></div></div></div>
+    <div class="tiles rdt" style="margin-top:14px"><div class="tile static"><div><b>${r.score}/${r.total}</b><span>الدرجة</span></div></div>
+      <div class="tile static"><div><b>${attempt} من ${same.length}</b><span>رقم المحاولة لهذا الاختبار</span></div></div>
+      <div class="tile static"><div><b>${qAvg == null ? '—' : qAvg + '%'}</b><span>متوسط الاختبار${diff ? ' (الفرق ' + diff + ')' : ''}</span></div></div>
+      <div class="tile static"><div><b>${myAvg == null ? '—' : myAvg + '%'}</b><span>متوسط الطالب في كل اختباراته</span></div></div>
+      <div class="tile static"><div><b>${rank} من ${bestBy.size}</b><span>ترتيبه في هذا الاختبار</span></div></div></div>
+    <p class="cap" style="margin-top:10px">${esc(fmtDT(r.created_at))}</p>
+    <div class="actions"><button class="btn sec" data-a="resStudent" data-id="${r.id}">كل نتائج هذا الطالب</button><button class="btn sec" data-a="resQuizF" data-id="${r.id}">نتائج هذا الاختبار</button><button class="btn del" data-a="resDel" data-id="${r.id}">${I('trash','s')} حذف النتيجة</button><button class="btn" data-a="close">إغلاق</button></div>`);
+}
+function resCsv(){
+  const rows = resFiltered();
+  if(!rows.length){ toast('لا توجد نتائج للتصدير', 'err'); return; }
+  const cell = v => { if(typeof v === 'number') return String(v); let s = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const p2 = n => String(n).padStart(2, '0');
+  const lines = [['الطالب', 'اسم الدخول', 'الصف', 'الاختبار', 'المستوى', 'الدرجة', 'الإجمالي', 'النسبة %', 'التقدير', 'التاريخ', 'الوقت'].map(cell).join(',')];
+  rows.forEach(({ r, i }) => { const d = new Date(r.created_at);
+    lines.push([i.name, i.login, i.cname, i.qt, i.lv, r.score, r.total, i.p, RES_BAND[resBandOf(i.p)][0], d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), p2(d.getHours()) + ':' + p2(d.getMinutes())].map(cell).join(',')); });
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'), t = new Date();
+  a.href = URL.createObjectURL(blob); a.download = 'results-' + t.getFullYear() + '-' + p2(t.getMonth() + 1) + '-' + p2(t.getDate()) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('تم تجهيز الملف (' + rows.length + ' نتيجة) — افتحه بـ Excel أو Google Sheets', 'ok');
+}
+const RESH = {
+  resRefresh:() => { RES.ok = false; RES.err = ''; return resLoad(); },
+  resCsv:() => resCsv(),
+  resPrint:() => { const old = RES.limit; RES.limit = 1e9; resUpdate(); document.body.classList.add('resprint'); setTimeout(() => { try{ window.print(); }finally{ document.body.classList.remove('resprint'); RES.limit = old; resUpdate(); } }, 200); },
+  resPer:id => { RES.per = id; RES.limit = 30; resUpdate(); },
+  resBand:id => { RES.band = id; RES.limit = 30; resUpdate(); },
+  resView:id => { RES.view = id; resUpdate(); },
+  resMore:() => { RES.limit += 30; resUpdate(); },
+  resClear:() => { RES.q = ''; RES.cls = 'all'; RES.quiz = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); },
+  resOpen:id => resOpen(id),
+  resStudent:id => { const r = RES.rows.find(x => x.id === id); if(!r) return; closeModal(); RES.q = resCtx().info(r).name; RES.quiz = 'all'; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resQuizF:id => { const r = RES.rows.find(x => x.id === id); if(!r) return; closeModal(); RES.quiz = r.quiz_id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resDel:async id => {
+    if(!confirm('حذف هذه النتيجة نهائياً؟ لا يمكن التراجع.')) return;
+    const { error } = await sb.from('results').delete().eq('id', id);
+    if(error){ toast('تعذر الحذف: ' + errMsg(error), 'err'); return; }
+    RES.rows = RES.rows.filter(x => x.id !== id); closeModal(); resUpdate(); toast('تم حذف النتيجة', 'ok');
+    try{ refreshCounts(); }catch(e){}
+  },
+  resFromQuiz:id => { closeModal(); RES.quiz = id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; state.tab = 'results'; render(); window.scrollTo(0, 0); }
+};
+document.addEventListener('input', e => { const el = e.target; if(el && el.dataset && el.dataset.res === 'q'){ RES.q = el.value; RES.limit = 30; resUpdate(); } });
+document.addEventListener('change', e => { const el = e.target, k = el && el.dataset && el.dataset.res; if(k && k !== 'q'){ RES[k] = el.value; RES.limit = 30; resUpdate(); } });
+
 const H = {
-  ...GH, ...VH, ...GRH,
+  ...GH, ...VH, ...GRH, ...RESH,
   moreMenu:()=>{
     const m = TABS.filter(t => !BNAV_MAIN.includes(t[0]));   // الفيديوهات، الواجبات، الروابط، المفردات، القواعد
-    if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
+    if(state.teacher){ m.push(['results','list','النتائج']); m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
     else if(state.me && state.me.student) m.push(['mine','list','نتائجي']);
     openModal(`<h3>المزيد</h3><div class="moregrid">${m.map(([k,ic,l])=>`<button data-a="moreGo" data-id="${k}">${I(ic)}<span>${l}</span></button>`).join('')}</div>`);
   },
