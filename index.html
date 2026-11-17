@@ -241,6 +241,10 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .rdt{grid-template-columns:repeat(2,1fr)!important;gap:10px!important}.rdt .tile{padding:12px;min-width:0}.rdt .tile b{font-size:1.05rem}.rdt .tile span{font-size:.75rem}
 .rb small{unicode-bidi:plaintext}
 
+.rsrc{display:inline-flex;gap:4px;background:#e9e4d6;border-radius:999px;padding:4px;margin:10px 0 2px}.rsrc button{background:transparent;color:var(--muted);font-weight:700;padding:8px 20px;border-radius:999px;transition:.2s}.rsrc button.on{background:var(--navy,#0B1F3A);color:#fff;box-shadow:0 2px 8px rgba(11,31,58,.25)}
+.rav{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#0B1F3A,#2F6DB5);color:#fff;font-weight:800;font-size:1.2rem}
+.rspark{margin-top:14px}.rspark small{color:var(--muted)}.rspark svg{display:block;width:100%;height:70px;margin-top:4px;background:rgba(11,31,58,.03);border-radius:10px}.rsp{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);direction:ltr}
+
 .pbar{display:inline-block;vertical-align:middle;width:84px;height:8px;border-radius:6px;background:#e8e2d4;overflow:hidden;margin-inline-start:8px}
 .pbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0B1F3A,#B8893B)}
 .pbar.low i{background:#c0392b}
@@ -4152,7 +4156,9 @@ async function trkProgress(id){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', upd); else upd();
 })();
 /* ---------- صفحة النتائج (للمعلم): كل نتائج الاختبارات مع فلاتر وتصدير ---------- */
-const RES = { rows:[], ok:false, loading:false, err:'', q:'', cls:'all', quiz:'all', per:'all', band:'all', sort:'new', view:'cards', limit:30 };
+const RES = { src:'quiz', rows:[], games:[], subs:[], gOk:true, ok:false, loading:false, err:'', q:'', cls:'all', quiz:'all', per:'all', band:'all', hst:'all', sort:'new', view:'cards', limit:30 };
+const RES_SRC = { quiz:'الاختبارات', game:'الألعاب', hw:'الواجبات' };
+function resRowsSrc(){ return RES.src === 'game' ? RES.games.map(g => ({ id:g.id, quiz_id:'g:' + g.game, student_id:g.student_id, student:null, score:g.correct, total:g.total, created_at:g.created_at, _lv:g.level, _g:g.game })) : RES.rows; }
 const resPct = r => r.total ? Math.round(r.score / r.total * 100) : 0;
 const resBandOf = p => p >= 85 ? 'top' : p >= 60 ? 'mid' : 'low';
 const RES_BAND = { top:['ممتاز', '#1e9e5a'], mid:['جيد', '#e8890c'], low:['يحتاج دعم', '#d6334a'] };
@@ -4162,14 +4168,20 @@ async function resLoad(){
   RES.loading = true; RES.err = '';
   if(state.tab === 'results') resDraw();
   try{
-    let all = [], from = 0;
-    for(let i = 0; i < 30; i++){
-      const r = await sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at', { ascending:false }).range(from, from + 999);
-      if(r.error) throw r.error;
-      const d = r.data || []; all = all.concat(d);
-      if(d.length < 1000) break; from += 1000;
-    }
-    RES.rows = all; RES.ok = true;
+    const pageAll = async (table, cols, must) => {
+      let all = [], from = 0;
+      for(let i = 0; i < 30; i++){
+        const r = await sb.from(table).select(cols).order('created_at', { ascending:false }).range(from, from + 999);
+        if(r.error){ if(must) throw r.error; return null; }
+        const d = r.data || []; all = all.concat(d);
+        if(d.length < 1000) break; from += 1000;
+      }
+      return all;
+    };
+    RES.rows = await pageAll('results', 'id,quiz_id,student,student_id,score,total,created_at', true);
+    const sb2 = await pageAll('submissions', 'id,assignment_id,student,student_id,grade,note,created_at', false);
+    const gs = await pageAll('game_scores', 'id,student_id,game,level,correct,total,created_at', false);
+    RES.subs = sb2 || []; RES.games = gs || []; RES.gOk = gs !== null; RES.ok = true;
   }catch(e){ RES.err = errMsg(e); logErr('resLoad', e); }
   RES.loading = false;
   if(state.tab === 'results') resDraw();
@@ -4183,7 +4195,7 @@ function resCtx(){
   const info = r => {
     const s = sMap.get(r.student_id), z = qMap.get(r.quiz_id);
     return { name: s ? s.full_name : (r.student || '—'), login: s ? (s.login_id || '') : '', reg: !!s, cid: s ? s.class_id : null,
-      cname: s ? ((cMap.get(s.class_id) || {}).name || 'بدون صف') : 'غير مسجّل', qt: z ? z.title : 'اختبار محذوف', lv: z ? (z.level || '') : '', p: resPct(r), key: r.student_id || ('n:' + r.student) };
+      cname: s ? ((cMap.get(s.class_id) || {}).name || 'بدون صف') : 'غير مسجّل', qt: r._g ? ((GAME_DATA[r._g] || {}).title || r._g) : (z ? z.title : 'اختبار محذوف'), lv: r._g ? (r._lv || '') : (z ? (z.level || '') : ''), p: resPct(r), key: r.student_id || ('n:' + r.student) };
   };
   return { info };
 }
@@ -4191,7 +4203,7 @@ function resFiltered(){
   const { info } = resCtx(), q = RES.q.trim().toLowerCase(), now = Date.now();
   const since = RES.per === 'today' ? new Date().setHours(0, 0, 0, 0) : RES.per === '7' ? now - 7 * 864e5 : RES.per === '30' ? now - 30 * 864e5 : 0;
   const out = [];
-  RES.rows.forEach(r => {
+  resRowsSrc().forEach(r => {
     const i = info(r);
     if(RES.cls === 'none' ? i.cid : RES.cls !== 'all' && i.cid !== RES.cls) return;
     if(RES.quiz !== 'all' && r.quiz_id !== RES.quiz) return;
@@ -4207,8 +4219,9 @@ function resFiltered(){
 function resDraw(v, err){
   v = v || document.getElementById('view'); if(!v || state.tab !== 'results') return;
   v.innerHTML = (err || '') + `
-    <div class="rhead"><h2 class="st"><span>${I('list')} نتائج الاختبارات</span><small id="rcount"></small></h2>
+    <div class="rhead"><h2 class="st"><span>${I('list')} نتائج ${RES_SRC[RES.src]}</span><small id="rcount"></small></h2>
       <div class="racts"><button class="btn sec" data-a="resRefresh">تحديث</button><button class="btn" data-a="resCsv">${I('download','s')} تصدير Excel / CSV</button><button class="btn sec" data-a="resPrint">${I('print','s')} طباعة / PDF</button></div></div>
+    <div class="rsrc">${Object.keys(RES_SRC).map(k => `<button class="${RES.src === k ? 'on' : ''}" data-a="resSrc" data-id="${k}">${RES_SRC[k]}</button>`).join('')}</div>
     <div class="rsearch">${I('search','s')}<input class="in" data-res="q" value="${esc(RES.q)}" placeholder="ابحث باسم الطالب أو الاختبار…" aria-label="بحث" dir="auto"></div>
     <div id="resBody"></div>`;
   resUpdate();
@@ -4217,11 +4230,13 @@ function resUpdate(){
   const box = document.getElementById('resBody'); if(!box || state.tab !== 'results') return;
   if(RES.loading && !RES.ok){ box.innerHTML = skel(); return; }
   if(RES.err && !RES.ok){ box.innerHTML = `<div class="errbox">تعذر تحميل النتائج: ${esc(RES.err)}<br><button class="btn sec" data-a="resRefresh" style="margin-top:8px">إعادة المحاولة</button></div>`; return; }
-  const list = resFiltered(), all = RES.rows.length;
+  if(RES.src === 'hw') return resHwUpdate(box);
+  if(RES.src === 'game' && !RES.gOk){ box.innerHTML = emptyBox('sparkle', 'c-orange', 'نتائج الألعاب غير مفعّلة بعد', 'لم يتم تفعيل جدول نتائج الألعاب في قاعدة البيانات.'); return; }
+  const list = resFiltered(), all = resRowsSrc().length;
   const cnt = document.getElementById('rcount'); if(cnt) cnt.textContent = list.length === all ? all + ' نتيجة' : list.length + ' من ' + all;
   const n = list.length, avg = n ? Math.round(list.reduce((s, x) => s + x.i.p, 0) / n) : null;
   const studs = new Set(list.map(x => x.i.key)).size, pass = n ? Math.round(list.filter(x => x.i.p >= 50).length / n * 100) : null, best = n ? Math.max(...list.map(x => x.i.p)) : null;
-  const tiles = [['quiz','c-blue',n,'محاولة'], ['users','c-teal',studs,'طالب'], ['chart','c-purple',avg == null ? '—' : avg + '%','متوسط الدرجات'], ['check','c-green',pass == null ? '—' : pass + '%','نسبة النجاح (50%+)'], ['sparkle','c-orange',best == null ? '—' : best + '%','أعلى نتيجة']];
+  const tiles = [['quiz','c-blue',n,RES.src === 'game' ? 'جولة' : 'محاولة'], ['users','c-teal',studs,'طالب'], ['chart','c-purple',avg == null ? '—' : avg + '%','متوسط الدرجات'], ['check','c-green',pass == null ? '—' : pass + '%','نسبة النجاح (50%+)'], ['sparkle','c-orange',best == null ? '—' : best + '%','أعلى نتيجة']];
   // التوزيع
   const B = [['أقل من 50', 0, 49], ['50–59', 50, 59], ['60–74', 60, 74], ['75–89', 75, 89], ['90–100', 90, 100]];
   const dist = B.map(([l, a, b]) => [l, list.filter(x => x.i.p >= a && x.i.p <= b).length]), mx = Math.max(1, ...dist.map(d => d[1]));
@@ -4232,7 +4247,8 @@ function resUpdate(){
   const mini = (arr, c) => arr.map(s => `<li><span dir="auto">${esc(s.name)}</span><b style="color:${c}">${s.avg}%</b><small>${s.n} محاولة</small></li>`).join('');
   const topS = stu.slice(0, 3), lowS = stu.length > 3 ? stu.slice(-3).reverse() : [];
   const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${RES.cls === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${RES.cls === 'none' ? 'selected' : ''}>بدون صف / غير مسجّل</option>`;
-  const qopts = `<option value="all">كل الاختبارات</option>` + quizzes.map(z => `<option value="${z.id}" ${RES.quiz === z.id ? 'selected' : ''}>${esc(z.title)}</option>`).join('');
+  const qopts = RES.src === 'game' ? `<option value="all">كل الألعاب</option>` + Object.keys(GAME_DATA).filter(k => !GAME_DATA[k].from).map(k => `<option value="g:${k}" ${RES.quiz === 'g:' + k ? 'selected' : ''}>${esc(GAME_DATA[k].title)}</option>`).join('')
+    : `<option value="all">كل الاختبارات</option>` + quizzes.map(z => `<option value="${z.id}" ${RES.quiz === z.id ? 'selected' : ''}>${esc(z.title)}</option>`).join('');
   const sopts = [['new','الأحدث'], ['old','الأقدم'], ['high','الأعلى درجة'], ['low','الأقل درجة'], ['name','الاسم']].map(([k, l]) => `<option value="${k}" ${RES.sort === k ? 'selected' : ''}>${l}</option>`).join('');
   const chip = (act, id, cur, l) => `<button class="chip ${cur === id ? 'on' : ''}" data-a="${act}" data-id="${id}">${l}</button>`;
   const shown = list.slice(0, RES.limit);
@@ -4242,7 +4258,7 @@ function resUpdate(){
       <span class="rscore"><b>${r.score}/${r.total}</b><i class="rband" style="background:${b[1]}">${b[0]}</i></span></button>`; };
   const trow = ({ r, i }) => { const b = RES_BAND[resBandOf(i.p)];
     return `<tr class="rowopen" data-a="resOpen" data-id="${r.id}"><td data-label="الطالب" dir="auto"><b>${esc(i.name)}</b></td><td data-label="الصف">${esc(i.cname)}</td><td data-label="الاختبار" dir="auto">${esc(i.qt)}</td><td data-label="الدرجة">${r.score}/${r.total}</td><td data-label="النسبة">${i.p}%<span class="pbar ${i.p < 50 ? 'low' : ''}"><i style="width:${i.p}%"></i></span></td><td data-label="التقدير"><span class="rband" style="background:${b[1]}">${b[0]}</span></td><td data-label="التاريخ">${esc(fmtDT(r.created_at))}</td></tr>`; };
-  const body = !all ? emptyBox('quiz', 'c-green', 'لا توجد نتائج بعد', 'ستظهر هنا نتائج الطلاب عند حلّهم الاختبارات.')
+  const body = !all ? emptyBox('quiz', 'c-green', 'لا توجد نتائج بعد', RES.src === 'game' ? 'ستظهر هنا نتائج الطلاب عندما يلعبون.' : 'ستظهر هنا نتائج الطلاب عند حلّهم الاختبارات.')
     : !n ? `${emptyBox('search', 'c-blue', 'لا توجد نتائج مطابقة', 'غيّر الفلاتر أو ابحث بكلمة أخرى.')}<div class="actions"><button class="btn sec" data-a="resClear">مسح الفلاتر</button></div>`
     : (RES.view === 'table' ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التقدير</th><th>التاريخ</th></tr>${shown.map(trow).join('')}</table></div>`
       : `<div class="rgrid">${shown.map(card).join('')}</div>`)
@@ -4258,13 +4274,16 @@ function resUpdate(){
     <div class="rlist">${body}</div>`;
 }
 function resOpen(id){
-  const r = RES.rows.find(x => x.id === id); if(!r) return;
+  const ROWS = resRowsSrc(), r = ROWS.find(x => x.id === id); if(!r) return;
   const { info } = resCtx(), i = info(r), b = RES_BAND[resBandOf(i.p)];
-  const same = RES.rows.filter(x => x.quiz_id === r.quiz_id && (r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student))).sort((a, c) => new Date(a.created_at) - new Date(c.created_at));
+  const same = ROWS.filter(x => x.quiz_id === r.quiz_id && (r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student))).sort((a, c) => new Date(a.created_at) - new Date(c.created_at));
   const attempt = same.findIndex(x => x.id === r.id) + 1;
-  const mine = RES.rows.filter(x => r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student));
+  const mine = ROWS.filter(x => r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student));
+  const tl = mine.slice().sort((a, c) => new Date(a.created_at) - new Date(c.created_at)).slice(-12).map(resPct);
+  const spark = tl.length >= 2 ? (() => { const W = 300, H = 70, st = W / (tl.length - 1), pts = tl.map((p, k) => (k * st).toFixed(1) + ',' + (H - 6 - p / 100 * (H - 12)).toFixed(1));
+    return `<div class="rspark"><small>تطوّر الطالب (آخر ${tl.length} ${RES.src === 'game' ? 'جولة' : 'محاولة'})</small><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="منحنى التقدّم"><line x1="0" x2="${W}" y1="${H - 6 - 50 / 100 * (H - 12)}" y2="${H - 6 - 50 / 100 * (H - 12)}" stroke="#d9d3c3" stroke-dasharray="4 4"/><polyline points="${pts.join(' ')}" fill="none" stroke="#2F6DB5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${pts.map(q => `<circle cx="${q.split(',')[0]}" cy="${q.split(',')[1]}" r="3.5" fill="#B8893B"/>`).join('')}</svg><div class="rsp"><span>${tl[0]}%</span><span>${tl[tl.length - 1]}%</span></div></div>`; })() : '';
   const myAvg = mine.length ? Math.round(mine.reduce((s, x) => s + resPct(x), 0) / mine.length) : null;
-  const qa = RES.rows.filter(x => x.quiz_id === r.quiz_id), qAvg = qa.length ? Math.round(qa.reduce((s, x) => s + resPct(x), 0) / qa.length) : null;
+  const qa = ROWS.filter(x => x.quiz_id === r.quiz_id), qAvg = qa.length ? Math.round(qa.reduce((s, x) => s + resPct(x), 0) / qa.length) : null;
   const bestBy = new Map(); qa.forEach(x => { const k = x.student_id || ('n:' + x.student); bestBy.set(k, Math.max(bestBy.get(k) || 0, resPct(x))); });
   const rank = [...bestBy.values()].filter(p => p > (bestBy.get(i.key) || 0)).length + 1;
   const diff = qAvg == null ? '' : (i.p - qAvg >= 0 ? '+' : '') + (i.p - qAvg);
@@ -4277,15 +4296,17 @@ function resOpen(id){
       <div class="tile static"><div><b>${qAvg == null ? '—' : qAvg + '%'}</b><span>متوسط الاختبار${diff ? ' (الفرق ' + diff + ')' : ''}</span></div></div>
       <div class="tile static"><div><b>${myAvg == null ? '—' : myAvg + '%'}</b><span>متوسط الطالب في كل اختباراته</span></div></div>
       <div class="tile static"><div><b>${rank} من ${bestBy.size}</b><span>ترتيبه في هذا الاختبار</span></div></div></div>
+    ${spark}
     <p class="cap" style="margin-top:10px">${esc(fmtDT(r.created_at))}</p>
-    <div class="actions"><button class="btn sec" data-a="resStudent" data-id="${r.id}">كل نتائج هذا الطالب</button><button class="btn sec" data-a="resQuizF" data-id="${r.id}">نتائج هذا الاختبار</button><button class="btn del" data-a="resDel" data-id="${r.id}">${I('trash','s')} حذف النتيجة</button><button class="btn" data-a="close">إغلاق</button></div>`);
+    <div class="actions"><button class="btn sec" data-a="resStudent" data-id="${r.id}">كل نتائج هذا الطالب</button><button class="btn sec" data-a="resQuizF" data-id="${r.id}">${RES.src === 'game' ? 'نتائج هذه اللعبة' : 'نتائج هذا الاختبار'}</button>${RES.src === 'quiz' ? `<button class="btn del" data-a="resDel" data-id="${r.id}">${I('trash','s')} حذف النتيجة</button>` : ''}<button class="btn" data-a="close">إغلاق</button></div>`);
 }
 function resCsv(){
+  if(RES.src === 'hw') return resCsvHw();
   const rows = resFiltered();
   if(!rows.length){ toast('لا توجد نتائج للتصدير', 'err'); return; }
   const cell = v => { if(typeof v === 'number') return String(v); let s = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
   const p2 = n => String(n).padStart(2, '0');
-  const lines = [['الطالب', 'اسم الدخول', 'الصف', 'الاختبار', 'المستوى', 'الدرجة', 'الإجمالي', 'النسبة %', 'التقدير', 'التاريخ', 'الوقت'].map(cell).join(',')];
+  const lines = [['الطالب', 'اسم الدخول', 'الصف', RES.src === 'game' ? 'اللعبة' : 'الاختبار', 'المستوى', 'الدرجة', 'الإجمالي', 'النسبة %', 'التقدير', 'التاريخ', 'الوقت'].map(cell).join(',')];
   rows.forEach(({ r, i }) => { const d = new Date(r.created_at);
     lines.push([i.name, i.login, i.cname, i.qt, i.lv, r.score, r.total, i.p, RES_BAND[resBandOf(i.p)][0], d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), p2(d.getHours()) + ':' + p2(d.getMinutes())].map(cell).join(',')); });
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
@@ -4294,7 +4315,65 @@ function resCsv(){
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   toast('تم تجهيز الملف (' + rows.length + ' نتيجة) — افتحه بـ Excel أو Google Sheets', 'ok');
 }
+/* ---------- الواجبات (التسليمات) ---------- */
+function resHwList(){
+  const sMap = new Map(students.map(s => [s.id, s])), cMap = new Map(classes.map(c => [c.id, c])), aMap = new Map(assignments.map(a => [a.id, a]));
+  const q = RES.q.trim().toLowerCase(), now = Date.now();
+  const since = RES.per === 'today' ? new Date().setHours(0, 0, 0, 0) : RES.per === '7' ? now - 7 * 864e5 : RES.per === '30' ? now - 30 * 864e5 : 0;
+  const out = [];
+  RES.subs.forEach(x => {
+    const s = sMap.get(x.student_id), a = aMap.get(x.assignment_id), cid = s ? s.class_id : null;
+    const i = { name: s ? s.full_name : (x.student || '—'), login: s ? (s.login_id || '') : '', cid, cname: s ? ((cMap.get(cid) || {}).name || 'بدون صف') : 'غير مسجّل', at: a ? a.title : 'واجب محذوف', reg: !!s, done: !!x.grade };
+    if(RES.cls === 'none' ? cid : RES.cls !== 'all' && cid !== RES.cls) return;
+    if(RES.quiz !== 'all' && x.assignment_id !== RES.quiz) return;
+    if(since && new Date(x.created_at).getTime() < since) return;
+    if(RES.hst === 'wait' && i.done) return; if(RES.hst === 'done' && !i.done) return;
+    if(q && !(i.name + ' ' + i.login + ' ' + i.at + ' ' + (x.grade || '')).toLowerCase().includes(q)) return;
+    out.push({ x, i });
+  });
+  const cmp = { old:(a, b) => new Date(a.x.created_at) - new Date(b.x.created_at), name:(a, b) => a.i.name.localeCompare(b.i.name, 'ar') }[RES.sort] || ((a, b) => new Date(b.x.created_at) - new Date(a.x.created_at));
+  return out.sort(cmp);
+}
+function resHwUpdate(box){
+  const list = resHwList(), all = RES.subs.length, n = list.length;
+  const cnt = document.getElementById('rcount'); if(cnt) cnt.textContent = n === all ? all + ' تسليم' : n + ' من ' + all;
+  const wait = list.filter(y => !y.i.done).length, studs = new Set(list.map(y => y.x.student_id || ('n:' + y.x.student))).size;
+  const tiles = [['assign','c-blue',n,'تسليم'], ['users','c-teal',studs,'طالب'], ['clock','c-orange',wait,'بانتظار التصحيح'], ['check','c-green',n - wait,'تم تصحيحه']];
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${RES.cls === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${RES.cls === 'none' ? 'selected' : ''}>بدون صف / غير مسجّل</option>`;
+  const aopts = `<option value="all">كل الواجبات</option>` + assignments.map(a => `<option value="${a.id}" ${RES.quiz === a.id ? 'selected' : ''}>${esc(a.title)}</option>`).join('');
+  const sopts = [['new','الأحدث'], ['old','الأقدم'], ['name','الاسم']].map(([k, l]) => `<option value="${k}" ${RES.sort === k ? 'selected' : ''}>${l}</option>`).join('');
+  const chip = (act, id, cur, l) => `<button class="chip ${cur === id ? 'on' : ''}" data-a="${act}" data-id="${id}">${l}</button>`;
+  const shown = list.slice(0, RES.limit);
+  const card = ({ x, i }) => `<button class="rcard" data-a="subs" data-id="${x.assignment_id}"><span class="rav">${esc((i.name || '?').trim().charAt(0).toUpperCase())}</span>
+    <span class="rmain"><b dir="auto">${esc(i.name)}</b><small dir="auto">${esc(i.at)}</small><span class="rmeta"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><time>${esc(fmtDT(x.created_at))}</time></span></span>
+    <span class="rscore">${i.done ? `<b>${esc(x.grade)}</b><i class="rband" style="background:#1e9e5a">مصحّح</i>` : `<i class="rband" style="background:#e8890c">بانتظار التصحيح</i>`}</span></button>`;
+  const body = !all ? emptyBox('assign', 'c-orange', 'لا توجد تسليمات بعد', 'ستظهر هنا تسليمات الطلاب للواجبات.')
+    : !n ? `${emptyBox('search', 'c-blue', 'لا توجد تسليمات مطابقة', 'غيّر الفلاتر أو ابحث بكلمة أخرى.')}<div class="actions"><button class="btn sec" data-a="resClear">مسح الفلاتر</button></div>`
+    : `<div class="rgrid">${shown.map(card).join('')}</div>` + (n > shown.length ? `<div class="actions"><button class="btn sec" data-a="resMore">عرض المزيد (${n - shown.length})</button></div>` : '');
+  box.innerHTML = `
+    <div class="rfilters"><select class="in" data-res="cls" aria-label="الصف">${opts}</select><select class="in" data-res="quiz" aria-label="الواجب">${aopts}</select><select class="in" data-res="sort" aria-label="الترتيب">${sopts}</select></div>
+    <div class="rchips"><span class="rcl">الفترة</span>${chip('resPer', 'all', RES.per, 'الكل')}${chip('resPer', 'today', RES.per, 'اليوم')}${chip('resPer', '7', RES.per, '7 أيام')}${chip('resPer', '30', RES.per, '30 يوماً')}
+      <span class="rcl">الحالة</span>${chip('resHst', 'all', RES.hst, 'الكل')}${chip('resHst', 'wait', RES.hst, 'بانتظار التصحيح')}${chip('resHst', 'done', RES.hst, 'مصحّح')}</div>
+    <div class="tiles rtiles">${tiles.map(([ic, c, x, l]) => `<div class="tile static"><div class="ib ${c}">${I(ic)}</div><div><b>${x}</b><span>${l}</span></div></div>`).join('')}</div>
+    <div class="rlist">${body}</div><p class="cap" style="margin-top:12px">اضغط على أي تسليم لفتح الملفات وتصحيحه.</p>`;
+}
+function resCsvHw(){
+  const rows = resHwList();
+  if(!rows.length){ toast('لا توجد تسليمات للتصدير', 'err'); return; }
+  const cell = v => { let s = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const p2 = n => String(n).padStart(2, '0');
+  const lines = [['الطالب', 'اسم الدخول', 'الصف', 'الواجب', 'الحالة', 'الدرجة', 'ملاحظة المدرس', 'التاريخ', 'الوقت'].map(cell).join(',')];
+  rows.forEach(({ x, i }) => { const d = new Date(x.created_at);
+    lines.push([i.name, i.login, i.cname, i.at, i.done ? 'مصحّح' : 'بانتظار التصحيح', x.grade || '', x.note || '', d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), p2(d.getHours()) + ':' + p2(d.getMinutes())].map(cell).join(',')); });
+  const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'), t = new Date();
+  a.href = URL.createObjectURL(blob); a.download = 'submissions-' + t.getFullYear() + '-' + p2(t.getMonth() + 1) + '-' + p2(t.getDate()) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('تم تجهيز الملف (' + rows.length + ' تسليم)', 'ok');
+}
 const RESH = {
+  resSrc:id => { if(!RES_SRC[id]) return; RES.src = id; RES.quiz = 'all'; RES.band = 'all'; RES.hst = 'all'; RES.sort = 'new'; RES.limit = 30; resDraw(); },
+  resHst:id => { RES.hst = id; RES.limit = 30; resUpdate(); },
   resRefresh:() => { RES.ok = false; RES.err = ''; return resLoad(); },
   resCsv:() => resCsv(),
   resPrint:() => { const old = RES.limit; RES.limit = 1e9; resUpdate(); document.body.classList.add('resprint'); setTimeout(() => { try{ window.print(); }finally{ document.body.classList.remove('resprint'); RES.limit = old; resUpdate(); } }, 200); },
@@ -4302,10 +4381,10 @@ const RESH = {
   resBand:id => { RES.band = id; RES.limit = 30; resUpdate(); },
   resView:id => { RES.view = id; resUpdate(); },
   resMore:() => { RES.limit += 30; resUpdate(); },
-  resClear:() => { RES.q = ''; RES.cls = 'all'; RES.quiz = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); },
+  resClear:() => { RES.q = ''; RES.cls = 'all'; RES.quiz = 'all'; RES.per = 'all'; RES.band = 'all'; RES.hst = 'all'; RES.limit = 30; resDraw(); },
   resOpen:id => resOpen(id),
-  resStudent:id => { const r = RES.rows.find(x => x.id === id); if(!r) return; closeModal(); RES.q = resCtx().info(r).name; RES.quiz = 'all'; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
-  resQuizF:id => { const r = RES.rows.find(x => x.id === id); if(!r) return; closeModal(); RES.quiz = r.quiz_id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resStudent:id => { const r = resRowsSrc().find(x => x.id === id); if(!r) return; closeModal(); RES.q = resCtx().info(r).name; RES.quiz = 'all'; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resQuizF:id => { const r = resRowsSrc().find(x => x.id === id); if(!r) return; closeModal(); RES.quiz = r.quiz_id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
   resDel:async id => {
     if(!confirm('حذف هذه النتيجة نهائياً؟ لا يمكن التراجع.')) return;
     const { error } = await sb.from('results').delete().eq('id', id);
@@ -4313,7 +4392,7 @@ const RESH = {
     RES.rows = RES.rows.filter(x => x.id !== id); closeModal(); resUpdate(); toast('تم حذف النتيجة', 'ok');
     try{ refreshCounts(); }catch(e){}
   },
-  resFromQuiz:id => { closeModal(); RES.quiz = id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; state.tab = 'results'; render(); window.scrollTo(0, 0); }
+  resFromQuiz:id => { closeModal(); RES.src = 'quiz'; RES.quiz = id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; state.tab = 'results'; render(); window.scrollTo(0, 0); }
 };
 document.addEventListener('input', e => { const el = e.target; if(el && el.dataset && el.dataset.res === 'q'){ RES.q = el.value; RES.limit = 30; resUpdate(); } });
 document.addEventListener('change', e => { const el = e.target, k = el && el.dataset && el.dataset.res; if(k && k !== 'q'){ RES[k] = el.value; RES.limit = 30; resUpdate(); } });
