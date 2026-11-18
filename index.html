@@ -829,7 +829,8 @@ function fileCard(it){
       ${canPrev?`<button class="btn" data-a="preview" data-id="${it.id}">${I('eye','s')} عرض</button>`:''}
       ${it.file_path?`<a class="btn sec" href="${esc(pubUrl(it.file_path, it.file_name))}">${I('download','s')} تحميل</a>`:''}
       ${it.url?`<button class="btn" data-a="preview" data-id="${it.id}">${I('eye','s')} عرض</button><a class="btn sec" href="${esc(safeHref(it.url))}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح الرابط</a>`:''}
-      ${state.teacher?`<button class="btn del" data-a="delItem" data-id="${it.id}">${I('trash','s')} حذف</button>`:''}
+      ${lgItems(it.id).length ? `<button class="btn" data-a="lgPlay" data-id="${it.id}">${I('sparkle','s')} العب</button>` : ''}
+      ${state.teacher?`<button class="btn sec" data-a="lgManage" data-id="${it.id}">${I('sparkle','s')} أسئلة اللعبة (${lgItems(it.id).length})</button><button class="btn del" data-a="delItem" data-id="${it.id}">${I('trash','s')} حذف</button>`:''}
     </div></div>`;
 }
 function ytEmbed(u){
@@ -2632,6 +2633,10 @@ function trDom(root){
 
 /* ============ أسئلة الألعاب التي يضيفها المدرس (جدول game_items) ============ */
 let gameItems = [];
+let GI_ITEM = null;   // معرّف الدرس عند إضافة أسئلة مرتبطة بدرس
+const giItemRec = () => GI_ITEM ? items.find(x => x.id === GI_ITEM) : null;
+const giClsOpts = () => { const dc = (giItemRec() || {}).class_id || ''; return classes.map(c => `<option value="${c.id}" ${c.id === dc ? 'selected' : ''}>${esc(c.name)}</option>`).join(''); };
+const giItemNote = () => { const it = giItemRec(); return it ? `<div class="infobox">هذه الأسئلة مرتبطة بالدرس: <b dir="auto">${esc(it.title)}</b>، وتظهر للطلاب في زر «العب» على بطاقة الدرس فقط.</div>` : ''; };
 const GI_TYPES = [['mcq','اختر الإجابة الصحيحة'],['tf','صح أم خطأ'],['scramble','رتّب الحروف (وتُستعمل في المشنقة أيضاً)'],['match','طابِق الكلمات (وتُستعمل في الذاكرة أيضاً)'],['fill','أكمل الفراغ'],['odd','الكلمة الدخيلة'],['order','رتّب الجملة'],['listen','استمع واختر']];
 const GI_EN_KEYS = { mcq:['q','o','e'], odd:['o','e'], tf:['q','e'], scramble:['h'], order:['h'], match:['m'], fill:['e'], listen:[] };
 const giLines = s => String(s||'').split('\n').map(x=>x.trim()).filter(Boolean);
@@ -2728,7 +2733,7 @@ function gClean(src, arr){
 function gPool(game, level){
   if(G.lessonPool && G.lessonId && G.game === game) return gClean(game, G.lessonPool);
   const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
-  return gClean(src, base.concat(gameItems.filter(x=>x.game===src && x.level===level).map(giToEngine).filter(Boolean)));
+  return gClean(src, base.concat(gameItems.filter(x=>x.game===src && x.level===level && !x.item_id).map(giToEngine).filter(Boolean)));
 }
 const gMin = game => (game === 'match' || game === 'memory') ? 3 : 1;
 async function loadGameItems(){
@@ -2776,11 +2781,11 @@ function giRead(game){
   d.en = en; return d;
 }
 function giForm(fresh){
-  openModal(`<h3>إضافة سؤال للألعاب</h3>
+  openModal(`<h3>${GI_ITEM ? 'إضافة سؤال لعبة للدرس' : 'إضافة سؤال للألعاب'}</h3>${giItemNote()}
     <div class="infobox">الأسئلة تُضاف إلى الأسئلة الجاهزة وتظهر للطلاب في اللعبة نفسها. الإجابات الصحيحة تُخزَّن مع السؤال، فاستعملها للتدريب وليس للتقييم الرسمي.</div>
     <label class="f" for="gi_game">نوع اللعبة</label><select class="in" id="gi_game">${GI_TYPES.map(([k,t])=>`<option value="${k}">${t}</option>`).join('')}</select>
     <div class="gi2"><div><label class="f" for="gi_level">المستوى</label><select class="in" id="gi_level">${GAME_LEVELS.map(([c,n])=>`<option value="${c}">${c} — ${n}</option>`).join('')}</select></div>
-    <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div></div>
+    <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${giClsOpts()}</select></div></div>
     <div id="gi_fields">${giFields('mcq')}</div>
     <div class="actions"><button class="btn" data-a="giSave">${I('check','s')} حفظ السؤال</button><button class="btn sec" data-a="close">إلغاء</button></div>`, true, true);
   drStart('gi', giForm, fresh);
@@ -2794,7 +2799,7 @@ async function giInsert(rows){
 async function giSave(){
   const game = document.getElementById('gi_game').value;
   let data; try{ data = giValidate(game, giRead(game)); }catch(e){ toast(e.message, 'err'); return; }
-  const ok = await giInsert([{ game, level:document.getElementById('gi_level').value, class_id:document.getElementById('gi_cls').value || null, data }]);
+  const ok = await giInsert([{ game, level:document.getElementById('gi_level').value, class_id:document.getElementById('gi_cls').value || null, data, item_id:GI_ITEM || null }]);
   if(ok){ closeModal(); toast('تمت إضافة السؤال', 'ok'); render(); }
 }
 /* ---- استيراد JSON ---- */
@@ -2809,10 +2814,10 @@ const GI_SAMPLE = { items:[
   { game:'listen', level:'A1', data:{ w:'merci', o:['merci','mercredi','marché','mercure'] } }
 ] };
 function giImportForm(){
-  openModal(`<h3>إضافة عدة أسئلة من ملف JSON</h3>
+  openModal(`<h3>إضافة عدة أسئلة من ملف JSON</h3>${giItemNote()}
     <div class="infobox">حمّل الملف النموذجي، وعدّل أسئلته أو اطلب مني (في المحادثة) أن أحوّل لك أسئلتك إلى هذا الشكل. سيُراجَع كل سؤال قبل الحفظ، ولن يُحفظ شيء إذا كان فيه خطأ.</div>
     <button class="btn sec" data-a="giSampleDl">${I('download','s')} تحميل ملف نموذجي</button>
-    <label class="f" for="gi_cls2">يظهر لـ</label><select class="in" id="gi_cls2"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+    <label class="f" for="gi_cls2">يظهر لـ</label><select class="in" id="gi_cls2"><option value="">كل الطلاب</option>${giClsOpts()}</select>
     <label class="f" for="gi_json">ملف JSON</label><input class="in" type="file" id="gi_json" accept=".json,application/json">
     <div id="gi_msg" class="cap" style="margin-top:10px"></div>`, true);
 }
@@ -2828,7 +2833,7 @@ document.addEventListener('change', async e => {
       try{
         if(!x || !GI_TYPES.some(t=>t[0]===x.game)) throw new Error('نوع لعبة غير معروف');
         if(!GAME_LEVELS.some(l=>l[0]===x.level)) throw new Error('المستوى يجب أن يكون A1 أو A2 أو B1');
-        return { game:x.game, level:x.level, class_id:cls, data:giValidate(x.game, x.data) };
+        return { game:x.game, level:x.level, class_id:cls, data:giValidate(x.game, x.data), item_id:GI_ITEM || null };
       }catch(err){ throw new Error('السؤال رقم ' + (i+1) + ': ' + err.message); }
     });
     msg.textContent = 'جارٍ الحفظ...';
@@ -2843,15 +2848,45 @@ function giSampleDl(){
 function giSummary(it){ const d = it.data||{}; return it.game==='match' ? d.f+' = '+d.m : it.game==='odd' ? (d.o||[]).join(' / ') : (d.q || d.w || ''); }
 function giManage(){
   const name = k => (GI_TYPES.find(t=>t[0]===k)||[k,k])[1].replace(/\s*\(.*$/,'');
-  openModal(`<h3>أسئلتي (${gameItems.length})</h3>` + (gameItems.length ? `<div class="gilist">${gameItems.map(it=>`<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(it))}</b><small>${esc(name(it.game))} · ${esc(it.level)} · ${it.class_id ? esc((classes.find(c=>c.id===it.class_id)||{}).name||'صف') : 'كل الطلاب'}</small></div><button class="btn del" data-a="giDel" data-id="${it.id}" aria-label="حذف">${I('trash','s')}</button></div>`).join('')}</div>` : '<p class="cap">لم تضف أي أسئلة بعد.</p>'), true);
+  openModal(`<h3>أسئلتي (${gameItems.length})</h3>` + (gameItems.length ? `<div class="gilist">${gameItems.map(it=>`<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(it))}</b><small>${it.item_id ? 'لعبة درس · ' : ''}${esc(name(it.game))} · ${esc(it.level)} · ${it.class_id ? esc((classes.find(c=>c.id===it.class_id)||{}).name||'صف') : 'كل الطلاب'}</small></div><button class="btn del" data-a="giDel" data-id="${it.id}" aria-label="حذف">${I('trash','s')}</button></div>`).join('')}</div>` : '<p class="cap">لم تضف أي أسئلة بعد.</p>'), true);
 }
 async function giDel(id){
   if(!confirm('حذف هذا السؤال نهائياً؟')) return;
   const r = await sb.from('game_items').delete().eq('id', id);
   if(r.error){ toast('تعذر الحذف: ' + errMsg(r.error), 'err'); return; }
-  await loadGameItems(); giManage(); render();
+  await loadGameItems(); if(GI_ITEM) lgManage(GI_ITEM); else giManage(); render();
 }
-const GIH = { giAdd:giForm, giImport:giImportForm, giSave, giSampleDl, giManage, giDel };
+/* ---- ألعاب الدروس (مرتبطة بملف درس) ---- */
+const lgItems = id => gameItems.filter(x => x.item_id === id);
+function lgManage(id){
+  GI_ITEM = id; const it = items.find(x => x.id === id); if(!it) return;
+  const name = k => (GI_TYPES.find(t => t[0] === k) || [k, k])[1].replace(/\s*\(.*$/, '');
+  const list = lgItems(id);
+  openModal(`<h3>أسئلة لعبة الدرس</h3><p class="cap" dir="auto">${esc(it.title)}</p>
+    <div class="actions" style="margin-top:6px"><button class="btn" data-a="lgAdd" data-id="${id}">${I('plus','s')} إضافة سؤال</button><button class="btn sec" data-a="lgImport" data-id="${id}">${I('upload','s')} استيراد JSON</button></div>
+    ${list.length ? `<div class="gilist">${list.map(x => `<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(x))}</b><small>${esc(name(x.game))} · ${esc(x.level)}</small></div><button class="btn del" data-a="giDel" data-id="${x.id}">${I('trash','s')}</button></div>`).join('')}</div>` : emptyBox('sparkle', 'c-purple', 'لا توجد أسئلة لهذا الدرس بعد', 'أضف أسئلة ليظهر للطلاب زر «العب» على بطاقة الدرس.')}
+    <div class="actions"><button class="btn sec" data-a="close">إغلاق</button></div>`, true);
+}
+function lgPlay(id){
+  const it = items.find(x => x.id === id), list = lgItems(id); if(!it || !list.length) return;
+  const base = ['mcq','tf','odd','listen','scramble','order','match','fill'], by = {};
+  list.forEach(x => { if(base.includes(x.game)) (by[x.game] = by[x.game] || []).push(x); });
+  const ks = Object.keys(by); if(!ks.length) return;
+  if(ks.length === 1) return lgStart(id + '|' + ks[0]);
+  openModal(`<h3>العب: <span dir="auto">${esc(it.title)}</span></h3><p class="cap">اختر نوع اللعبة</p>
+    <div class="gacts" style="display:grid;gap:10px;margin-top:10px">${ks.map(k => `<button class="btn" data-a="lgStart" data-id="${id}|${k}">${esc(((GAME_DATA[k] || {}).title) || k)} · ${by[k].length}</button>`).join('')}</div>`);
+}
+function lgStart(arg){
+  const [id, game] = String(arg).split('|'), it = items.find(x => x.id === id); if(!it || !GAME_DATA[game]) return;
+  const rows = lgItems(id).filter(x => x.game === game); if(!rows.length) return;
+  const pool = gClean(game, rows.map(giToEngine).filter(Boolean));
+  if(pool.length < gMin(game)){ toast('أسئلة هذه اللعبة غير كافية بعد.', 'err'); return; }
+  closeModal(); state.tab = 'games';
+  G.game = game; G.lessonId = 'item:' + id; G.lessonPool = rows.map(giToEngine).filter(Boolean); G.lessonTitle = it.title;
+  gameStart(rows[0].level || 'A1');
+}
+const GIH = { giAdd:() => { GI_ITEM = null; giForm(); }, giImport:() => { GI_ITEM = null; giImportForm(); }, giSave, giSampleDl, giManage:() => { GI_ITEM = null; giManage(); }, giDel,
+  lgManage, lgAdd:id => { GI_ITEM = id; giForm(); }, lgImport:id => { GI_ITEM = id; giImportForm(); }, lgPlay, lgStart };
 
 /* ============ محرك الألعاب (منطق عام، البيانات في GAME_DATA) ============ */
 const G = { view:'menu', game:null, level:null, qs:[], i:0, ok:0, pts:0, streak:0, maxStreak:0, pick:null, t0:0, t:0, snd:true, tot:0 };
@@ -3097,6 +3132,7 @@ function lessonGame(kind){
 }
 function lessonBack(){
   const id = G.lessonId; G.lessonId = null; G.lessonPool = null; G.view = 'menu'; G.game = null;
+  if(id && String(id).startsWith('item:')){ state.tab = 'files'; render(); window.scrollTo(0, 0); return; }
   if(id && grLesson(id)){ state.tab = 'grammar'; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; try{ grNewOrder(grLesson(id)); }catch(e){} }
   render(); window.scrollTo(0, 0);
 }
