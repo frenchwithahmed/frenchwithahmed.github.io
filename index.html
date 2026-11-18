@@ -357,7 +357,7 @@ footer{background:var(--ink);color:#9aa1b3;text-align:center;font-size:13px;padd
 footer b{color:#fff}
 @media(max-width:640px){.row2{grid-template-columns:1fr}.modal{padding:22px 18px}.qhead{margin:-22px -18px 14px;padding:12px 18px;top:-22px}main{padding:22px 16px 70px}}
 /* ===== الألعاب ===== */
-.gcard{cursor:pointer;text-align:right;font:inherit}.gcard .ib{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:10px}.gcard:hover{transform:translateY(-3px)}
+.gcard{cursor:pointer;text-align:right;font:inherit}.mgl{padding:4px 16px}.mgr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.mgr:last-child{border-bottom:0}.mgn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.mgn b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mgn small{color:var(--muted)}.mgc{font-weight:700;direction:ltr}.gcard .ib{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:10px}.gcard:hover{transform:translateY(-3px)}
 .gsnd{font-size:20px;background:#fff;border:1px solid var(--line);border-radius:12px;width:42px;height:38px}
 .gsub{color:var(--muted);margin:6px 0 14px;font-weight:700}
 .glv{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
@@ -2417,12 +2417,18 @@ document.addEventListener('change', e => { const el = e.target; if(el && el.data
 async function renderMine(v, err){
   const s = state.me.student;
   v.innerHTML = err + skel();
-  const [r, a] = await Promise.all([
+  const uid = state.uid;
+  const [r, a, g] = await Promise.all([
     sb.from('results').select('*').order('created_at',{ascending:false}),
-    sb.from('submissions').select('*').order('created_at',{ascending:false})
+    sb.from('submissions').select('*').order('created_at',{ascending:false}),
+    uid ? sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').eq('student_id', uid).order('created_at',{ascending:false}).limit(1000) : Promise.resolve({ data:[], error:null })
   ]);
   if(state.tab !== 'mine') return;
   const rs = r.data || [], sb_ = a.data || [];
+  // أمان إضافي: نتجاهل أي سجل لا يخص هذا الطالب حتى لو أعاده الخادم
+  const gAll = (g.data || []), gs = gAll.filter(x => x.student_id === uid);
+  if(gs.length !== gAll.length) logErr('mineGames', new Error('تم تجاهل ' + (gAll.length - gs.length) + ' سجل لا يخص الطالب'));
+  MINEG.rows = gs; MINEG.err = g.error ? errMsg(g.error) : '';
   const qTitle = id => { const z = quizzes.find(x=>x.id===id); return z ? z.title : 'اختبار محذوف'; };
   const aTitle = id => { const z = assignments.find(x=>x.id===id); return z ? z.title : 'واجب محذوف'; };
   v.innerHTML = err + `
@@ -2440,7 +2446,30 @@ async function renderMine(v, err){
     ${sb_.length ? `<div class="grid">${sb_.map(x=>`<div class="card"><h3 dir="auto">${esc(aTitle(x.assignment_id))}</h3>
         <div class="tags"><span class="tag">${I('calendar','s')} ${fmtDT(x.created_at)}</span>${x.grade?`<span class="tag ok">الدرجة: ${esc(x.grade)}</span>`:`<span class="tag warn">بانتظار التصحيح</span>`}</div>
         ${x.note?`<div class="infobox" style="margin:4px 0 0" dir="auto">ملاحظة المدرس: ${esc(x.note)}</div>`:''}</div>`).join('')}</div>`
-      : emptyBox('assign','c-orange','لم تسلّم أي واجب بعد','ستظهر هنا واجباتك ودرجاتك وملاحظات المدرس.')}`;
+      : emptyBox('assign','c-orange','لم تسلّم أي واجب بعد','ستظهر هنا واجباتك ودرجاتك وملاحظات المدرس.')}
+
+    <div id="mineGames">${mineGamesHtml()}</div>`;
+}
+/* ---- نتائج ألعابي ---- */
+const MINEG = { rows:[], err:'', limit:20 };
+function mineGamesHtml(){
+  const rows = MINEG.rows;
+  const head = `<h2 class="st"><span>${I('sparkle')} نتائج ألعابي</span><small>${MINEG.err ? '' : rows.length}</small></h2>`;
+  if(MINEG.err) return head + `<div class="infobox">تعذر تحميل نتائج الألعاب الآن. تأكد من الاتصال ثم أعد فتح الصفحة.</div>`;
+  if(!rows.length) return head + emptyBox('sparkle', 'c-purple', 'لم تلعب أي لعبة بعد', 'ستظهر هنا نتائج ألعابك بعد أن تلعب.');
+  const pct = x => x.total ? Math.round(x.correct / x.total * 100) : 0;
+  const gName = k => (GAME_DATA[k] && GAME_DATA[k].title) || k;
+  const best = rows.reduce((b, x) => (!b || pct(x) > pct(b) || (pct(x) === pct(b) && x.total > b.total)) ? x : b, null);
+  const avg = Math.round(rows.reduce((s, x) => s + pct(x), 0) / rows.length);
+  const shown = rows.slice(0, MINEG.limit);
+  return head + `
+    <div class="tiles">
+      <div class="tile static"><div class="ib c-purple">${I('sparkle')}</div><div><b>${rows.length}</b><span>عدد الألعاب التي لعبتها</span></div></div>
+      <div class="tile static"><div class="ib c-green">${I('check')}</div><div><b>${pct(best)}%</b><span>أفضل نتيجة · <bdi>${esc(gName(best.game))}</bdi> · ${esc(best.level)}</span></div></div>
+      <div class="tile static"><div class="ib c-blue">${I('chart')}</div><div><b>${avg}%</b><span>متوسط نتائجك</span></div></div>
+    </div>
+    <div class="card mgl">${shown.map(x => `<div class="mgr"><div class="mgn"><b dir="auto">${esc(gName(x.game))}</b><small>${esc(x.level)} · ${fmtDT(x.created_at)}</small></div><span class="mgc">${x.correct}/${x.total}</span><span class="tag ${pct(x) >= 50 ? 'ok' : 'bad'}">${pct(x)}%</span></div>`).join('')}</div>
+    ${rows.length > shown.length ? `<div class="actions"><button class="btn sec" data-a="mineGMore">عرض المزيد (${rows.length - shown.length})</button></div>` : ''}`;
 }
 function changeMyPw(){
   openModal(`<h3>تغيير كلمة المرور</h3>
@@ -4372,6 +4401,7 @@ function resCsvHw(){
   toast('تم تجهيز الملف (' + rows.length + ' تسليم)', 'ok');
 }
 const RESH = {
+  mineGMore:() => { MINEG.limit += 20; const b = document.getElementById('mineGames'); if(b) b.innerHTML = mineGamesHtml(); },
   resSrc:id => { if(!RES_SRC[id]) return; RES.src = id; RES.quiz = 'all'; RES.band = 'all'; RES.hst = 'all'; RES.sort = 'new'; RES.limit = 30; resDraw(); },
   resHst:id => { RES.hst = id; RES.limit = 30; resUpdate(); },
   resRefresh:() => { RES.ok = false; RES.err = ''; return resLoad(); },
