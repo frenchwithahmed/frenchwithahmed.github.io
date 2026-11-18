@@ -79,7 +79,7 @@ main{max-width:1240px;margin:auto;padding:30px 24px 80px}
 h2.st{font-size:22px;margin:38px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:800}
 h2.st small{font-size:14px;color:var(--muted);font-weight:600}
 h2.st .i{color:var(--blue2);margin-left:8px}
-.more{background:none;color:var(--blue2);font-weight:700;font-size:14px}
+.more{background:none;color:var(--blue2);font-weight:700;font-size:14px;min-height:40px;padding:8px 12px}
 
 /* upcoming */
 .up{display:grid;gap:10px}
@@ -214,6 +214,37 @@ h2.st .i{color:var(--blue2);margin-left:8px}
 .bitem .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.bitem .row .btn{padding:6px 12px;font-size:13px}
 .trk-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 4px}
 .trk-bar select{max-width:260px}
+.rhead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.rhead .st{margin:0}
+.racts{display:flex;gap:8px;flex-wrap:wrap}
+.rsearch{position:relative;margin:12px 0 8px}.rsearch .i{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px}.rsearch input{padding-inline-start:42px;border-radius:999px}
+.rfilters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:6px 0}
+.rchips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px}.rcl{font-size:.8rem;color:var(--muted);font-weight:700;margin-inline-start:8px}.rcl:first-child{margin-inline-start:0}
+.rtiles{margin-top:14px}
+.rins{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
+.rins h3{font-size:.95rem;margin-bottom:10px}
+.rbars{display:flex;align-items:flex-end;gap:10px;height:150px}.rb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}.rb i{display:block;width:100%;max-width:46px;border-radius:8px 8px 0 0;min-height:3px;transition:height .4s}.rb b{font-size:.85rem}.rb small{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.rlead ul{list-style:none;display:grid;gap:8px}.rlead li{display:flex;align-items:center;gap:10px}.rlead li span{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rlead li small{color:var(--muted);font-size:.75rem}
+.rlist{margin-top:16px}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.rcard{display:flex;align-items:center;gap:14px;text-align:right;width:100%;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow);transition:.2s}
+.rcard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,31,58,.12)}
+.rring{flex:none;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#e8e2d4 0);display:grid;place-items:center;position:relative}
+.rring::before{content:'';position:absolute;inset:6px;border-radius:50%;background:var(--card)}
+.rring b{position:relative;font-size:.8rem}.rring.big{width:92px;height:92px}.rring.big::before{inset:9px}.rring.big b{font-size:1.2rem}
+.rmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.rmain b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rmain small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.75rem;color:var(--muted);margin-top:4px}
+.rscore{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.rband{display:inline-block;color:#fff;font-style:normal;font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:999px}
+.rdet{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.rdet h4{font-size:1.1rem}
+.resprint .rfilters,.resprint .rchips,.resprint .rsearch,.resprint .racts,.resprint .rins,.resprint .actions{display:none!important}
+@media print{header,#nav,#bnav,.toast,#toast,#offbar,#progchip,.rfilters,.rchips,.rsearch,.racts,.actions{display:none!important}body{background:#fff!important}.rcard{break-inside:avoid;box-shadow:none}.rring{-webkit-print-color-adjust:exact;print-color-adjust:exact}.rband{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.rdt{grid-template-columns:repeat(2,1fr)!important;gap:10px!important}.rdt .tile{padding:12px;min-width:0}.rdt .tile b{font-size:1.05rem}.rdt .tile span{font-size:.75rem}
+.rb small{unicode-bidi:plaintext}
+
+.rsrc{display:inline-flex;gap:4px;background:#e9e4d6;border-radius:999px;padding:4px;margin:10px 0 2px}.rsrc button{background:transparent;color:var(--muted);font-weight:700;padding:8px 20px;border-radius:999px;transition:.2s}.rsrc button.on{background:var(--navy,#0B1F3A);color:#fff;box-shadow:0 2px 8px rgba(11,31,58,.25)}
+.rav{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#0B1F3A,#2F6DB5);color:#fff;font-weight:800;font-size:1.2rem}
+.rspark{margin-top:14px}.rspark small{color:var(--muted)}.rspark svg{display:block;width:100%;height:70px;margin-top:4px;background:rgba(11,31,58,.03);border-radius:10px}.rsp{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);direction:ltr}
+
 .pbar{display:inline-block;vertical-align:middle;width:84px;height:8px;border-radius:6px;background:#e8e2d4;overflow:hidden;margin-inline-start:8px}
 .pbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0B1F3A,#B8893B)}
 .pbar.low i{background:#c0392b}
@@ -304,6 +335,10 @@ footer::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;backgrou
 .stats3 b{display:block;font-size:22px;color:var(--text)}
 .score .verdict{font-weight:800;margin-top:6px}
 .jsonbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.jsonmsg{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;font-size:14px;line-height:1.8;text-align:right}
+.jsonmsg p{margin:6px 0 0}.jsonmsg ul{margin:4px 0 0;padding:0 18px 0 0}
+.jsonmsg.ok{background:#e3f7ec;color:#17623a}.jsonmsg.warn{background:#fff4dc;color:#7a5200}.jsonmsg.err{background:#fde8ea;color:#a3202f}.jsonmsg.info{background:#eef2fb;color:#1d4e9e}
+.note.qwarn{color:#a3202f;font-weight:700}
 .tag.cls{background:#dff6f6;color:#0c6f75}
 .who{color:#fff;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;margin-left:10px}
 .who .i{color:#8fb0ff}
@@ -322,7 +357,7 @@ footer{background:var(--ink);color:#9aa1b3;text-align:center;font-size:13px;padd
 footer b{color:#fff}
 @media(max-width:640px){.row2{grid-template-columns:1fr}.modal{padding:22px 18px}.qhead{margin:-22px -18px 14px;padding:12px 18px;top:-22px}main{padding:22px 16px 70px}}
 /* ===== الألعاب ===== */
-.gcard{cursor:pointer;text-align:right;font:inherit}.gcard:hover{transform:translateY(-3px)}
+.gcard{cursor:pointer;text-align:right;font:inherit}.mgl{padding:4px 16px}.mgr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.mgr:last-child{border-bottom:0}.mgn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.mgn b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mgn small{color:var(--muted)}.mgc{font-weight:700;direction:ltr}.gcard .ib{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:10px}.gcard:hover{transform:translateY(-3px)}
 .gsnd{font-size:20px;background:#fff;border:1px solid var(--line);border-radius:12px;width:42px;height:38px}
 .gsub{color:var(--muted);margin:6px 0 14px;font-weight:700}
 .glv{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
@@ -490,6 +525,75 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
   .chips .chip{padding:7px 10px;font-size:12.5px}                  /* مرشحات المستوى في صف واحد قدر الإمكان */
   .chips{gap:5px}
 }
+/* ===== لوحة الطالب (v8a) ===== */
+.dwel{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px 26px;box-shadow:var(--shadow);margin-bottom:20px}
+.dwel .av{width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;flex:none}
+.dwel .tx{flex:1;min-width:200px}
+.dwel h1{font-size:26px;line-height:1.3;color:var(--navy);direction:ltr;text-align:right;font-weight:800}
+.dwel p{color:var(--muted);margin-top:2px;font-size:15px}
+.dwel .chips{display:flex;gap:8px;flex-wrap:wrap}
+.dchip{display:inline-flex;align-items:center;gap:6px;background:#E6EEF8;color:var(--navy);font-weight:800;font-size:13px;padding:7px 14px;border-radius:999px}
+.dash{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+.dmain,.dside{display:flex;flex-direction:column;gap:22px;min-width:0}
+.dpanel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.dpanel>h2{font-size:19px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:800}
+.dpanel>h2 small{margin-inline-start:auto;font-size:13px;color:var(--muted);font-weight:600}
+.dstats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dst{background:#EEF3FA;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px;min-height:104px}
+.dst .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#fff;color:var(--blue2)}
+.dst b{font-size:26px;line-height:1.1;color:var(--navy);direction:ltr;text-align:right;margin-top:auto}
+.dst span{font-size:12.5px;color:var(--muted);font-weight:600}
+.dcont{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.dcont .ico{width:60px;height:60px;border-radius:18px;background:#E6EEF8;color:var(--blue2);display:grid;place-items:center;flex:none}
+.dcont .ico .i{width:28px;height:28px}
+.dcont .tt{flex:1;min-width:180px}
+.dcont .tt small{color:var(--muted);font-weight:700;font-size:12.5px}
+.dcont .tt b{display:block;font-size:19px;color:var(--navy);margin:2px 0 6px}
+.dcont .tt .fr{direction:ltr;text-align:right;color:var(--muted);font-size:14px}
+.dpill{display:inline-block;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;background:#E6EEF8;color:var(--blue2)}
+.dpill.ok{background:#E3F4EA;color:#1E7B54}
+.dpill.idle{background:#EEEAE0;color:var(--muted)}
+.dbtn{background:var(--navy);color:#fff;padding:12px 22px;border-radius:14px;font-weight:800;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;min-height:44px;transition:.2s}
+.dbtn:hover{background:var(--navy2)}
+.dcourses{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.dcc{position:relative;overflow:hidden;border-radius:22px;padding:18px;color:#fff;display:flex;flex-direction:column;gap:12px;min-height:200px;text-align:right}
+.dcc.c1{background:#2F6DB5}.dcc.c2{background:#C2570C}.dcc.c3{background:#1E7B54}
+.dcc .art{position:absolute;left:-6px;bottom:-6px;width:110px;height:110px;opacity:.22;pointer-events:none}
+.dcc h3{font-size:20px;font-weight:800;direction:ltr;text-align:right}
+.dcc h3 small{display:block;font-size:13px;font-weight:600;opacity:.9;direction:rtl}
+.dcc .meta{font-size:13.5px;color:#fff;line-height:1.7;font-weight:600}.dcc h3,.dcc h3 small{color:#fff}
+.dcc .row{display:flex;align-items:center;gap:12px;margin-top:auto}
+.ring{width:58px;height:58px;position:relative;flex:none}
+.ring svg{width:58px;height:58px;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;direction:ltr}
+.dcc .go{background:#fff;color:var(--navy);font-weight:800;font-size:13.5px;padding:10px 16px;border-radius:12px;min-height:42px;margin-inline-start:auto}
+.dweek{display:flex;gap:8px;align-items:flex-end;height:150px;direction:ltr}
+.dweek .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
+.dweek .dbar{width:100%;max-width:34px;border-radius:10px;overflow:hidden;display:flex;flex-direction:column-reverse;background:#E6EEF8}
+.dweek .dbar i{display:block;width:100%;min-height:0;flex-basis:0}
+.dweek .dbar .bq{background:var(--navy)}.dweek .dbar .bg{background:#6FA5E3}
+.dweek .col span{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;direction:rtl}
+.dleg{display:flex;gap:16px;margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:600}
+.dleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px}
+.drec{display:grid;gap:10px}
+.dri{display:flex;align-items:center;gap:12px;background:#F7F4EC;border-radius:14px;padding:10px 12px}
+.dri .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
+.dri .t{flex:1;min-width:0}
+.dri .t b{display:block;font-size:14px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dri .t small{color:var(--muted);font-size:12px}
+.dri .r{font-weight:800;font-size:13px;direction:ltr;color:var(--navy)}
+.dmuted{color:var(--muted);font-size:14px;padding:10px 4px}
+@media(max-width:1000px){
+  .dash{grid-template-columns:1fr}
+  .dmain,.dside{display:contents}
+  .dash .p-stats{order:1}.dash .p-cont{order:2}.dash .p-courses{order:3}.dash .p-week{order:4}.dash .p-rec{order:5}
+}
+@media(max-width:560px){
+  .dwel{padding:16px}.dwel h1{font-size:22px}
+  .dcc{min-height:0}
+  .dstats{gap:10px}.dst b{font-size:22px}
+}
+
 </style>
 </head>
 <body>
@@ -611,7 +715,11 @@ function logErr(where, e){
   if(ERR_LOG.length > 50) ERR_LOG.shift();
 }
 window.addEventListener('unhandledrejection', ev => { logErr('unhandledrejection', ev.reason); });
-const errMsg = e => (e && e.message) ? e.message : 'حدث خطأ غير متوقع';
+const errMsg = e => {
+  const m = (e && e.message) ? String(e.message) : '';
+  if(/failed to fetch|networkerror|load failed|network request failed|timeout|timed out|aborted/i.test(m)) return 'تعذر الاتصال بالإنترنت أو الخادم. تحقق من الاتصال ثم أعد المحاولة.';
+  return m || 'حدث خطأ غير متوقع';
+};
 const extOf = n => ((n||'').split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'') || 'bin';
 
 const configured = !SUPABASE_URL.includes('PASTE') && !SUPABASE_KEY.includes('PASTE');
@@ -631,7 +739,17 @@ const pubUrl = (path, dl) => {
   }
   return sb.storage.from(BUCKET).getPublicUrl(path, dl ? { download: dl } : undefined).data.publicUrl;
 };
+const UP_EXT = ['pdf','doc','docx','ppt','pptx','xls','xlsx','png','jpg','jpeg','gif','webp','mp3','wav','m4a','ogg','txt','mp4','webm','mov','m4v'];
+const MAX_UP = 50 * 1024 * 1024;   // حد الرفع في الخطة المجانية لـ Supabase
+function upCheck(file){
+  if(!file) throw new Error('لم يتم اختيار ملف');
+  const ext = ((file.name || '').split('.').length > 1) ? extOf(file.name) : '';
+  if(!ext || !UP_EXT.includes(ext)) throw new Error('نوع الملف غير مسموح' + (ext ? ' (.' + ext + ')' : '') + '. الأنواع المسموحة: PDF, Word, PowerPoint, Excel, صور, صوت, فيديو mp4/webm.');
+  if(!file.size) throw new Error('الملف فارغ.');
+  if(file.size > MAX_UP) throw new Error('حجم الملف ' + (file.size / 1048576).toFixed(1) + ' ميجابايت، والحد الأقصى 50 ميجابايت. اضغط الملف أو قلّل حجمه.');
+}
 async function upMedia(file, folder, classId){
+  upCheck(file);
   const path = (classId ? classId + '/' : '') + `${folder}/${uid()}.${extOf(file.name)}`;
   const r = await sb.storage.from(classId ? PRIV_BUCKET : BUCKET).upload(path, file, { contentType: file.type || undefined, cacheControl:'3600' });
   if(r.error) throw r.error;
@@ -678,6 +796,11 @@ async function refreshCounts(){
 }
 async function loadAll(){
   state.loading = true; render();
+  try{ await loadAll0(); }
+  catch(ex){ state.err = 'تعذر تحميل البيانات: ' + errMsg(ex); try{ logErr('loadAll', ex); }catch(_){} }
+  finally{ state.loading = false; try{ render(); }catch(_){} }
+}
+async function loadAll0(){
   const o = { ascending:false };
   const [a,b,c,d,e,f] = await Promise.all([
     sb.from('items').select('*').order('created_at',o),
@@ -705,7 +828,7 @@ const TABS = [['home','home','الرئيسية'],['files','book','الدروس']
 const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
 function renderShell(){
   const tabs = TABS.slice();
-  if(state.teacher){ tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
+  if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
@@ -765,7 +888,7 @@ function icoFor(it){
 }
 function fileCard(it){
   const [c,ic] = icoFor(it);
-  const canPrev = /\.(pdf|png|jpe?g|gif|webp|mp3|wav|m4a|ogg)$/i.test(it.file_name||'');
+  const canPrev = /\.(pdf|png|jpe?g|gif|webp|mp3|wav|m4a|ogg|pptx?|docx?|xlsx?)$/i.test(it.file_name||'');
   return `<div class="card">
     <div class="top"><div class="ico ${c}">${I(ic)}</div><span class="lv">${esc(it.level)}</span></div>
     <h3 dir="auto">${esc(it.title)}</h3>
@@ -775,7 +898,8 @@ function fileCard(it){
       ${canPrev?`<button class="btn" data-a="preview" data-id="${it.id}">${I('eye','s')} عرض</button>`:''}
       ${it.file_path?`<a class="btn sec" href="${esc(pubUrl(it.file_path, it.file_name))}">${I('download','s')} تحميل</a>`:''}
       ${it.url?`<button class="btn" data-a="preview" data-id="${it.id}">${I('eye','s')} عرض</button><a class="btn sec" href="${esc(safeHref(it.url))}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح الرابط</a>`:''}
-      ${state.teacher?`<button class="btn del" data-a="delItem" data-id="${it.id}">${I('trash','s')} حذف</button>`:''}
+      ${lgItems(it.id).length ? `<button class="btn" data-a="lgPlay" data-id="${it.id}">${I('sparkle','s')} العب</button>` : ''}
+      ${state.teacher?`<button class="btn sec" data-a="lgManage" data-id="${it.id}">${I('sparkle','s')} أسئلة اللعبة (${lgItems(it.id).length})</button><button class="btn del" data-a="delItem" data-id="${it.id}">${I('trash','s')} حذف</button>`:''}
     </div></div>`;
 }
 function ytEmbed(u){
@@ -869,13 +993,14 @@ function render(){
   if(state.teacher){ bellStart(); bellBadge(); }
   const v = $('#view');
   if(state.loading){ v.innerHTML = skel(); return; }
-  const err = (state.authErr ? `<div class="errbox">${esc(state.authErr)}<br>${retryAuthBtn()}</div>` : '') + (state.err ? `<div class="errbox">${esc(state.err)}</div>` : '');
+  const err = (state.authErr ? `<div class="errbox">${esc(state.authErr)}<br>${retryAuthBtn()}</div>` : '') + (state.err ? `<div class="errbox">${esc(state.err)}<br><button class="btn sec" data-a="retryLoad" style="margin-top:8px">إعادة المحاولة</button></div>` : '');
   const files = items.filter(i=>i.kind==='file'), vids = items.filter(i=>i.kind==='video');
-  if(((state.tab==='people' || state.tab==='track') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
+  if(((state.tab==='people' || state.tab==='track' || state.tab==='results') && !state.teacher) || (state.tab==='mine' && !(state.me && state.me.student))) state.tab = 'home';
   if(state.tab==='games') return renderGames(v);
   if(state.tab==='vocab') return renderVocab(v);
   if(state.tab==='grammar') return renderGrammar(v);
   if(state.tab==='track') return renderTrack(v, err);
+  if(state.tab==='results') return renderResults(v, err);
   if(state.tab==='people') return renderPeople(v, err);
   if(state.tab==='mine') return renderMine(v, err);
 
@@ -918,6 +1043,7 @@ function render(){
     <h2 class="st"><span>${I('quiz')} أحدث الاختبارات</span><button class="more" data-a="tab" data-id="quizzes">عرض الكل</button></h2>
     ${quizzes.length ? `<div class="grid">${quizzes.slice(0,3).map(quizCard).join('')}</div>`
       : emptyBox('quiz','c-green','لا توجد اختبارات بعد', state.teacher?'أنشئ اختباراً بوقت محدد أو بدون وقت.':'ستظهر الاختبارات هنا.', addHint('إنشاء اختبار','addQuiz'))}`;
+    if(stu){ const hh = v.querySelector('.hero'), tt = v.querySelector('.tiles'); if(hh && tt){ const d = document.createElement('div'); d.id = 'dashbody'; d.innerHTML = dashBody(); hh.replaceWith(d); tt.remove(); dashLoad(); } }
   }
 
   if(state.tab==='files'){
@@ -1088,7 +1214,8 @@ function addQBlock(d){
   if(d){
     div.querySelector('.qtxt').value = d.q;
     div.querySelectorAll('.otxt').forEach((el, i) => { el.value = d.options[i] || ''; });
-    const r = div.querySelectorAll('input[type=radio]')[d.correct]; if(r) r.checked = true;
+    if(d.correct >= 0){ const r = div.querySelectorAll('input[type=radio]')[d.correct]; if(r) r.checked = true; }
+    else{ div.querySelectorAll('input[type=radio]').forEach(r => { r.checked = false; }); const nt = div.querySelector('p.note'); if(nt){ nt.textContent = '⚠ لم تُحدَّد الإجابة الصحيحة لهذا السؤال — حدّد الدائرة بجانبها قبل الحفظ'; nt.classList.add('qwarn'); } }
     div.querySelector('.qexp').value = d.explain || '';
     div.querySelector('.qimgurl').value = d.image || '';
   }
@@ -1106,7 +1233,8 @@ function quizForm(fresh){
     <div class="infobox">
       <b>استيراد الأسئلة من ملف JSON</b>
       <div class="jsonbox"><input type="file" id="z_json" accept=".json,application/json"><button type="button" class="btn sec" data-a="jsonSample">${I('download','s')} تحميل نموذج JSON</button></div>
-      <p class="note">اختر ملف JSON فتُملأ الأسئلة تلقائياً لتراجعها قبل الحفظ. يمكنك أيضاً إرسال ملف PDF للأسئلة إلى Claude في المحادثة ليحوّله لك إلى JSON.</p>
+      <p class="note">اختر ملف JSON فتُملأ الأسئلة تلقائياً لتراجعها وتعدّلها قبل الحفظ. يقبل الاستيراد صيغاً متعددة (question / q، options / choices، answer / correct بالرقم أو الحرف أو نص الإجابة). يمكنك أيضاً إرسال ملف PDF للأسئلة إلى Claude في المحادثة ليحوّله لك إلى JSON.</p>
+      <div id="z_jsonmsg" class="jsonmsg" role="status" aria-live="polite"></div>
     </div>
     ${clsSelect('z_cls')}
     <div class="infobox">
@@ -1307,7 +1435,8 @@ async function showResults(id){
   openModal(`<h3>نتائج: <span dir="auto">${esc(z.title)}</span></h3>
     ${data.length?`<div style="overflow-x:auto"><table><tr><th>الطالب</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
     ${data.map(r=>`<tr><td>${esc(r.student)}</td><td>${r.score}/${r.total}</td><td>${Math.round(r.score/r.total*100)}%</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>`
-    : emptyBox('list','c-green','لا توجد محاولات بعد','')}`, true);
+    : emptyBox('list','c-green','لا توجد محاولات بعد','')}
+    <div class="actions"><button class="btn" data-a="resFromQuiz" data-id="${id}">${I('list','s')} فتح في صفحة النتائج (فلاتر وتصدير)</button></div>`, true);
 }
 
 /* ---------- الواجبات ---------- */
@@ -1428,7 +1557,10 @@ async function showSubs(id){
 }
 async function saveGrade(id, el){
   const row = el.closest('.sub');
-  const { error } = await sb.from('submissions').update({ grade:row.querySelector('.g-grade').value.trim() || null, note:row.querySelector('.g-note').value.trim() || null }).eq('id', id);
+  if(el.disabled) return; el.disabled = true;
+  let error;
+  try{ ({ error } = await sb.from('submissions').update({ grade:row.querySelector('.g-grade').value.trim() || null, note:row.querySelector('.g-note').value.trim() || null }).eq('id', id)); }catch(ex){ error = ex; }
+  el.disabled = false;
   toast(error ? 'تعذر الحفظ: '+errMsg(error) : 'تم الحفظ', error?'err':'ok');
 }
 async function delSub(id, el){
@@ -1469,18 +1601,22 @@ function linkForm(){
 }
 
 /* ============ المعاينة ============ */
+const OFFICE_RE = /\.(pptx?|docx?|xlsx?)(\?|#|$)/i;
+const officeView = u => `<div class="vwrap" style="border-radius:14px;overflow:hidden;min-height:60vh"><iframe src="${esc('https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(u))}" allowfullscreen loading="lazy"></iframe></div><p class="cap" style="margin-top:8px">إن لم يظهر العرض، استخدم زر «تنزيل / فتح» بالأسفل.</p>`;
 function preview(id){
   const it = items.find(i=>i.id===id); if(!it||(!it.file_path && !it.url)) return;
   if(!it.file_path){
     openModal(`<h3 dir="auto">${esc(it.title)}</h3>${mediaHtml(embedInfo(it.url))}<div class="actions"><a class="btn sec" href="${esc(safeHref(it.url))}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح في نافذة جديدة</a></div>`, true);
     return;
   }
-  const u = esc(pubUrl(it.file_path)); const n = (it.file_name||'').toLowerCase();
-  let body;
+  const raw = pubUrl(it.file_path), u = esc(raw); const n = (it.file_name||'').toLowerCase();
+  let body, dl = '';
   if(n.endsWith('.pdf')) body = `<iframe class="pv" src="${u}"></iframe>`;
   else if(/\.(png|jpe?g|gif|webp)$/.test(n)) body = `<img class="pv" src="${u}">`;
-  else body = `<audio controls src="${u}" style="width:100%"></audio>`;
-  openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}`, true);
+  else if(OFFICE_RE.test(n)){ body = officeView(raw); dl = `<div class="actions"><a class="btn sec" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
+  else if(/\.(mp3|wav|m4a|ogg)$/.test(n)) body = `<audio controls src="${u}" style="width:100%"></audio>`;
+  else { body = `<p class="cap">لا توجد معاينة لهذا النوع من الملفات.</p>`; dl = `<div class="actions"><a class="btn" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
+  openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}${dl}`, true);
 }
 
 /* ============ دخول المدرس ============ */
@@ -1508,7 +1644,7 @@ async function doLogin(){
 }
 async function logout(){
   try{ await sb.auth.signOut(); }catch(e){ logErr('signOut', e); }
-  state.me = null; state.teacher = false; state.uid = null; state.authErr = ''; state.tab = 'home';   // مسح الصلاحيات محلياً حتى لو فشل الاتصال
+  state.me = null; state.teacher = false; state.uid = null; state.authErr = ''; state.tab = 'home'; progStatus(null);   // مسح الصلاحيات محلياً حتى لو فشل الاتصال
   await afterAuth();
 }
 
@@ -1613,6 +1749,7 @@ function embedInfo(u){
     return { type:'drive', embed:'https://docs.google.com/' + m[1] + '/d/' + m[2] + (m[1]==='presentation' ? '/embed' : '/preview'), url:u };
   if(u.startsWith('data:image/') || /\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(u)) return { type:'image', embed:u, url:u };
   if(/\.pdf(\?|#|$)/i.test(u)) return { type:'pdf', embed:u, url:u };
+  if(/^https?:\/\//i.test(u) && OFFICE_RE.test(u)) return { type:'office', url:u };
   if(/\.(mp4|webm|ogg)(\?|#|$)/i.test(u)) return { type:'video', embed:u, url:u };
   return { type:'link', url:u };
 }
@@ -1623,6 +1760,7 @@ function mediaHtml(info){
     return `<div class="vwrap" style="border-radius:14px;overflow:hidden"><iframe src="${esc(info.embed)}" allowfullscreen loading="lazy" allow="autoplay; fullscreen"></iframe></div>`;
   if(info.type==='pdf')
     return `<iframe class="pv" src="${esc('https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(info.url))}"></iframe>`;
+  if(info.type==='office') return officeView(info.url);
   if(info.type==='pdfown') return `<iframe class="pv" src="${esc(info.embed)}"></iframe>`;
   if(info.type==='image') return `<img class="pv" src="${esc(info.embed)}" alt="">`;
   if(info.type==='video') return `<video controls preload="metadata" src="${esc(info.embed)}" style="width:100%;border-radius:14px"></video>`;
@@ -1649,43 +1787,208 @@ function resBlock(x){
   return out.join('');
 }
 
-/* ---- استيراد أسئلة من ملف JSON ---- */
-function parseQuizJson(txt){
-  let j = JSON.parse(txt);
-  if(Array.isArray(j)) j = { questions:j };
-  if(!j || !Array.isArray(j.questions)) throw new Error('لا توجد قائمة questions');
-  const qs = j.questions.map((x, i) => {
-    const q = String(x.q ?? x.question ?? '').trim();
-    const options = (x.options ?? x.choices ?? []).map(o => String(o).trim()).filter(Boolean).slice(0, 6);
-    const c = x.correct ?? x.answer;
-    let idx = -1;
-    if(typeof c === 'number') idx = c - 1;
-    else if(typeof c === 'string'){
-      const s = c.trim(), k = options.findIndex(o => o === s);
-      if(k >= 0) idx = k;
-      else if(/^\d+$/.test(s)) idx = parseInt(s, 10) - 1;
-      else if(/^[A-Fa-f]$/.test(s)) idx = s.toUpperCase().charCodeAt(0) - 65;
+/* ---- استيراد أسئلة من ملف JSON (مستورد مرن) ---- */
+/* قراءة JSON بتسامح: BOM، أسوار ```، تعليقات، فواصل زائدة، نص قبل/بعد الـ JSON */
+function jsonLoose(txt){
+  let s = String(txt).replace(/^﻿/, '').trim();
+  s = s.replace(/^```[a-zA-Z]*\s*/, '').replace(/\s*```\s*$/, '').trim();
+  try{ return JSON.parse(s); }catch(e0){
+    const a = s.search(/[\[{]/); if(a > 0) s = s.slice(a);
+    const b = Math.max(s.lastIndexOf('}'), s.lastIndexOf(']')); if(b >= 0) s = s.slice(0, b + 1);
+    let out = '', inStr = false, i = 0;
+    while(i < s.length){
+      const ch = s[i], nx = s[i + 1];
+      if(inStr){ out += ch; if(ch === '\\'){ out += (nx ?? ''); i += 2; continue; } if(ch === '"') inStr = false; i++; continue; }
+      if(ch === '"'){ inStr = true; out += ch; i++; continue; }
+      if(ch === '/' && nx === '/'){ while(i < s.length && s[i] !== '\n') i++; continue; }
+      if(ch === '/' && nx === '*'){ i += 2; while(i < s.length && !(s[i] === '*' && s[i + 1] === '/')) i++; i += 2; continue; }
+      if(ch === ','){ let k = i + 1; while(k < s.length && /\s/.test(s[k])) k++; if(s[k] === '}' || s[k] === ']'){ i++; continue; } }
+      out += ch; i++;
     }
-    if(!q) throw new Error('السؤال ' + (i+1) + ': نص السؤال فارغ');
-    if(options.length < 2) throw new Error('السؤال ' + (i+1) + ': يحتاج خيارين على الأقل');
-    if(idx < 0 || idx >= options.length) throw new Error('السؤال ' + (i+1) + ': الإجابة الصحيحة غير محددة');
-    return { q, options, correct:idx, explain:String(x.explain ?? x.explanation ?? '').trim(), image:String(x.image ?? x.img ?? '').trim() };
-  });
-  if(!qs.length) throw new Error('لا توجد أسئلة في الملف');
-  return { title:String(j.title || ''), level:String(j.level || ''), description:String(j.description || ''), time:parseInt(j.time_limit_min ?? j.time, 10) || 0, questions:qs };
+    try{ return JSON.parse(out); }catch(e1){
+      const m = /position (\d+)/.exec(e1.message || ''); let where = '';
+      if(m){ const pos = Math.min(+m[1], out.length), before = out.slice(0, pos); where = ' (قرب السطر ' + (before.split('\n').length) + ')'; }
+      const err = new Error('الملف ليس بصيغة JSON صحيحة' + where + '. غالباً ينقص فاصلة أو علامة اقتباس أو قوس.'); err.code = 'syntax'; throw err;
+    }
+  }
 }
-async function importQuizJson(file){
-  if(!file) return;
+const qjNorm = s => String(s ?? '').normalize('NFD').replace(/[̀-ًͯ-ٟ]/g, '').toLowerCase().replace(/[\s ]+/g, ' ').replace(/[«»"'“”‘’.,;:!?()\[\]]/g, '').trim();
+const qjKey = k => String(k).toLowerCase().replace(/[\s_\-]/g, '');
+function qjPick(o, keys, ok){
+  if(!o || typeof o !== 'object' || Array.isArray(o)) return null;
+  const idx = {}; Object.keys(o).forEach(k => { idx[qjKey(k)] = k; });
+  for(const k of keys){ const real = idx[qjKey(k)]; if(real === undefined) continue; const v = o[real]; if(v === null || v === undefined || v === '') continue; if(ok && !ok(v)) continue; return { k:real, v }; }
+  return null;
+}
+const QJ = {
+  text:['q','question','questionText','text','prompt','statement','enonce','énoncé','intitule','سؤال','السؤال','نص_السؤال'],
+  opts:['options','choices','answers','propositions','reponses','réponses','alternatives','choix','الخيارات','الاختيارات','خيارات'],
+  ans:['correct','answer','correct_answer','correctAnswer','correct_option','correctOption','correct_index','correctIndex','answer_index','answerIndex','right','right_answer','solution','reponse','réponse','key','الإجابة','الاجابة','الإجابة_الصحيحة','الاجابة_الصحيحة'],
+  exp:['explain','explanation','explanations','rationale','feedback','explication','note','شرح','الشرح','تفسير'],
+  img:['image','img','image_url','imageUrl','picture','photo','media','صورة','الصورة'],
+  title:['title','quiz_title','quizTitle','name','titre','عنوان','العنوان'],
+  level:['level','niveau','cefr','المستوى'],
+  desc:['description','desc','details','subtitle','وصف','الوصف'],
+  time:['time_limit_min','time_limit','timeLimit','time','duration','duration_min','minutes','durée','duree']
+};
+const qjIsQ = o => o && typeof o === 'object' && !Array.isArray(o) && !!qjPick(o, QJ.text);
+function qjFind(root, depth){
+  if(Array.isArray(root)){ if(root.length && root.every(x => x && typeof x === 'object' && !Array.isArray(x)) && root.some(qjIsQ)) return { arr:root, parent:null }; return null; }
+  if(!root || typeof root !== 'object' || depth > 3) return null;
+  const first = ['questions','items','quiz','data','exercises','qcm','quiz_questions','الأسئلة','أسئلة'];
+  const keys = Object.keys(root), order = [...first.filter(k => k in root), ...keys.filter(k => !first.includes(k))];
+  for(const k of order){ const r = qjFind(root[k], depth + 1); if(r){ if(!r.parent) r.parent = root; return r; } }
+  return null;
+}
+const QJ_AR = { 'أ':0, 'ا':0, 'ب':1, 'ج':2, 'د':3, 'ه':4, 'هـ':4, 'و':5 };
+function qjOptText(x){
+  if(x === null || x === undefined) return '';
+  if(typeof x === 'string' || typeof x === 'number') return String(x).trim();
+  if(typeof x === 'object'){ const p = qjPick(x, ['text','label','value','option','answer','content','title','name','texte','نص'], v => typeof v !== 'object'); return p ? String(p.v).trim() : ''; }
+  return '';
+}
+/* تحويل الخيارات إلى [{id,text,flag}] بأي صيغة: مصفوفة نصوص / كائنات / خريطة حروف / حقول منفصلة */
+function qjOptions(x){
+  const v = qjPick(x, QJ.opts, o => (Array.isArray(o) && o.length >= 2) || (o && typeof o === 'object' && !Array.isArray(o) && Object.keys(o).length >= 2));
+  let list = [];
+  if(v && Array.isArray(v.v)){
+    list = v.v.map((o, i) => {
+      const flag = (o && typeof o === 'object') ? !!(qjPick(o, ['correct','isCorrect','is_correct','right','isRight','is_right'], z => z === true || z === 'true' || z === 1 || z === '1')) : false;
+      const idp = (o && typeof o === 'object') ? qjPick(o, ['id','key','letter','index'], z => typeof z !== 'object') : null;
+      return { id: idp ? String(idp.v).trim() : '', text: qjOptText(o), flag };
+    });
+  }else if(v){
+    list = Object.keys(v.v).map(k => { const o = v.v[k]; const flag = (o && typeof o === 'object') ? !!qjPick(o, ['correct','isCorrect','is_correct','right'], z => z === true || z === 'true') : false; return { id:String(k).trim(), text:qjOptText(o), flag }; });
+  }else{
+    const found = [];
+    Object.keys(x).forEach(k => {
+      let m = /^(?:option|opt|choice|choix|answer|reponse|réponse|proposition)?[\s_\-]?([a-fA-F])$/.exec(k);
+      if(m && k.length > 1 || (m && /^[A-F]$/.test(k))) found.push({ n:m[1].toUpperCase().charCodeAt(0) - 64, id:m[1].toUpperCase(), text:qjOptText(x[k]) });
+      else if((m = /^(?:option|opt|choice|choix|proposition)[\s_\-]?([1-6])$/i.exec(k))) found.push({ n:+m[1], id:m[1], text:qjOptText(x[k]) });
+    });
+    found.sort((a, b) => a.n - b.n); list = found.map(f => ({ id:f.id, text:f.text, flag:false }));
+  }
+  /* إزالة ترقيم «A) » إذا كانت كل الخيارات تبدأ به */
+  const re = /^\(?[A-Fa-f][\)\.\:\-]\s+/;
+  if(list.length >= 2 && list.every(o => re.test(o.text))) list.forEach(o => { if(!o.id) o.id = o.text.trim()[0].toUpperCase().replace('(', ''); o.text = o.text.replace(re, '').trim(); });
+  return list;
+}
+function qjResolve(x, opts, numMode){
+  const flagged = opts.findIndex(o => o.flag); if(flagged >= 0) return { idx:flagged };
+  const p = qjPick(x, QJ.ans, v => typeof v !== 'object' || Array.isArray(v)); if(!p) return { idx:-1, why:'لم يُذكر حقل الإجابة الصحيحة' };
+  let val = Array.isArray(p.v) ? p.v[0] : p.v;
+  const isIdxKey = /index|idx/i.test(p.k);
+  const n = opts.length;
+  if(typeof val === 'number' || (typeof val === 'string' && /^\s*\d+\s*$/.test(val))){
+    const num = Number(val);
+    const idx = isIdxKey ? num : (numMode === 'zero' ? num : num - 1);
+    return idx >= 0 && idx < n ? { idx, numeric:!isIdxKey } : { idx:-1, why:'رقم الإجابة (' + num + ') خارج عدد الخيارات' };
+  }
+  if(typeof val === 'boolean') return { idx:-1, why:'قيمة الإجابة صح/خطأ بدون خيارات' };
+  const s = String(val).trim(), ns = qjNorm(s);
+  let k = opts.findIndex(o => qjNorm(o.text) === ns && ns !== ''); if(k >= 0) return { idx:k };
+  k = opts.findIndex(o => o.id && qjNorm(o.id) === ns && ns !== ''); if(k >= 0) return { idx:k };
+  let m = /^\(?([A-Fa-f])\)?(?:[\.\):\-]|\s|$)/.exec(s);
+  if(m){ const i = m[1].toUpperCase().charCodeAt(0) - 65; if(i < n) return { idx:i }; }
+  m = /^\(?([أبجدهو])\)?(?:[\.\):\-]|\s|$)/.exec(s); if(m && QJ_AR[m[1]] < n) return { idx:QJ_AR[m[1]] };
+  m = /^(?:option|choice|choix|proposition|الخيار)?\s*(\d)[\.\)]?$/i.exec(s); if(m){ const i = +m[1] - 1; if(i >= 0 && i < n) return { idx:i, numeric:true }; }
+  /* احتواء: الإجابة مكتوبة مع ترقيم أو زيادة مثل «B) Merci» */
+  const hits = opts.map((o, i) => ({ o, i })).filter(h => qjNorm(h.o.text) && (ns.includes(qjNorm(h.o.text)) || qjNorm(h.o.text).includes(ns)) && ns.length >= 2);
+  if(hits.length === 1) return { idx:hits[0].i };
+  return { idx:-1, why:'تعذّر مطابقة الإجابة «' + s.slice(0, 40) + '» مع أحد الخيارات' };
+}
+function qjImage(v, warns, i){
+  let s = v; if(s && typeof s === 'object'){ const p = qjPick(s, ['url','src','link']); s = p ? p.v : ''; }
+  s = String(s ?? '').trim(); if(!s) return '';
+  if(/^data:image\//i.test(s) || /^https?:\/\//i.test(s)) return s;
+  if(/^(www\.|drive\.google\.|docs\.google\.|youtu)/i.test(s)) return 'https://' + s;
+  warns.push('السؤال ' + i + ': الصورة «' + s.slice(0, 40) + '» ليست رابطاً (http) فلم تُستورد. ضع رابط الصورة أو ارفعها يدوياً.');
+  return '';
+}
+function parseQuizJson(txt){
+  const head = String(txt).replace(/^﻿/, '').trimStart();
+  if(head.startsWith('%PDF')) throw new Error('هذا ملف PDF وليس JSON. أرسل الـ PDF إلى Claude ليحوّله لك إلى ملف JSON ثم اختره هنا.');
+  if(/^<(!doctype|html|\?xml)/i.test(head)) throw new Error('هذا الملف صفحة ويب وليس JSON.');
+  const j = jsonLoose(txt);
+  const found = qjFind(j, 0);
+  if(!found) throw new Error('لم أجد قائمة أسئلة داخل الملف. المطلوب مصفوفة questions، كل عنصر فيه نص السؤال (q أو question) وخياراته (options) والإجابة الصحيحة (correct أو answer).');
+  const meta = (k) => { const a = qjPick(Array.isArray(j) ? null : j, QJ[k]); if(a && typeof a.v !== 'object') return a.v; const b = found.parent ? qjPick(found.parent, QJ[k]) : null; return b && typeof b.v !== 'object' ? b.v : ''; };
+  /* نمط ترقيم الإجابات الرقمية: من 1 أو من 0 */
+  let hasZero = false, hasEdge = false;
+  found.arr.forEach(x => { const p = qjPick(x, QJ.ans); if(p && !/index|idx/i.test(p.k) && (typeof p.v === 'number' || (typeof p.v === 'string' && /^\s*\d+\s*$/.test(p.v)))){ const num = Number(p.v); const len = qjOptions(x).length; if(num === 0) hasZero = true; if(len && num === len) hasEdge = true; } });
+  const numMode = (hasZero && !hasEdge) ? 'zero' : 'one';
+  const questions = [], warns = [], skipped = []; let usedNum = false;
+  found.arr.forEach((x, ix) => {
+    const i = ix + 1;
+    const tq = qjPick(x, QJ.text, v => typeof v !== 'object'); const q = tq ? String(tq.v).trim() : '';
+    if(!q){ skipped.push('السؤال ' + i + ': نص السؤال فارغ'); return; }
+    let opts = qjOptions(x), res;
+    if(opts.length < 2){
+      const pa = qjPick(x, QJ.ans); const sv = pa ? qjNorm(pa.v) : '';
+      if(pa && (typeof pa.v === 'boolean' || ['true','false','vrai','faux','صح','خطا','صحيح','خطأ'].includes(sv))){
+        const yes = pa.v === true || ['true','vrai','صح','صحيح'].includes(sv);
+        opts = [{ id:'', text:'Vrai', flag:false }, { id:'', text:'Faux', flag:false }]; res = { idx: yes ? 0 : 1 };
+        warns.push('السؤال ' + i + ': سؤال صح/خطأ — أُنشئ له الخياران Vrai / Faux.');
+      }else{ skipped.push('السؤال ' + i + ': يحتاج خيارين على الأقل'); return; }
+    }
+    if(!res) res = qjResolve(x, opts, numMode);
+    if(res.numeric) usedNum = true;
+    let idx = res.idx;
+    /* حذف الخيارات الفارغة مع إعادة حساب موضع الإجابة */
+    const keep = []; opts.forEach((o, k) => { if(o.text) keep.push(k); });
+    if(keep.length < 2){ skipped.push('السؤال ' + i + ': الخيارات فارغة'); return; }
+    if(idx >= 0 && !keep.includes(idx)) idx = -1;
+    let options = keep.map(k => opts[k].text); if(idx >= 0) idx = keep.indexOf(idx);
+    if(options.length > 6){ warns.push('السؤال ' + i + ': أكثر من 6 خيارات، استُورد أول 6 فقط.'); if(idx >= 6) idx = -1; options = options.slice(0, 6); }
+    const ep = qjPick(x, QJ.exp, v => typeof v !== 'object'), ip = qjPick(x, QJ.img);
+    const item = { q, options, correct:idx, explain: ep ? String(ep.v).trim() : '', image: ip ? qjImage(ip.v, warns, i) : '' };
+    if(idx < 0){ item.warn = res.why || 'لم تُحدَّد الإجابة الصحيحة'; warns.push('السؤال ' + i + ': ' + item.warn + ' — حدّدها يدوياً قبل الحفظ.'); }
+    questions.push(item);
+  });
+  if(!questions.length) throw new Error('لا توجد أسئلة صالحة. ' + (skipped.slice(0, 3).join('، ') || ''));
+  const tv = parseInt(meta('time'), 10);
+  return { title:String(meta('title') || '').trim(), level:String(meta('level') || '').trim(), description:String(meta('desc') || '').trim(), time:isNaN(tv) ? 0 : tv, questions, warns, skipped, numNote: usedNum ? (numMode === 'zero' ? 'أرقام الإجابات في الملف اعتُبرت تبدأ من 0 (الخيار الأول = 0).' : 'أرقام الإجابات في الملف اعتُبرت تبدأ من 1 (الخيار الأول = 1).') : '' };
+}
+function qjMsg(type, html){
+  const box = $('#z_jsonmsg'); if(!box) return;
+  box.className = 'jsonmsg ' + type; box.innerHTML = html; box.style.display = 'block';
+  try{ box.scrollIntoView({ block:'nearest' }); }catch(e){}
+}
+async function importQuizJson(inp){
+  const file = inp && inp.files && inp.files[0]; if(!file) return;
+  qjMsg('info', 'جارٍ قراءة الملف «' + esc(file.name) + '» ...');
   try{
-    const d = parseQuizJson(await file.text());
-    if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
-    if(LEVELS.includes(d.level)) $('#z_level').value = d.level;
-    if(d.description && !$('#z_desc').value.trim()) $('#z_desc').value = d.description;
-    if(d.time > 0 && !$('#z_time').value) $('#z_time').value = d.time;
-    $('#qlist').innerHTML = '';
+    if(file.size > 5 * 1024 * 1024) throw new Error('حجم الملف كبير جداً (' + (file.size / 1048576).toFixed(1) + ' ميجابايت). الحد 5 ميجابايت.');
+    let txt;
+    try{ txt = await file.text(); }catch(e){ throw new Error('تعذّرت قراءة الملف من الجهاز. انسخه إلى مجلد التنزيلات (Downloads) ثم اختره مرة أخرى.'); }
+    if(!String(txt).trim()) throw new Error('الملف فارغ.');
+    const d = parseQuizJson(txt);
+    /* أبقِ الأسئلة التي كتبها المدرس يدوياً، واحذف الفارغة فقط */
+    let kept = 0;
+    document.querySelectorAll('#qlist .qb').forEach(b => {
+      const has = b.querySelector('.qtxt').value.trim() || [...b.querySelectorAll('.otxt')].some(o => o.value.trim()) || b.querySelector('.qimgurl').value.trim() || b.querySelector('.qimg').files[0];
+      if(has) kept++; else b.remove();
+    });
     d.questions.forEach(q => addQBlock(q));
-    toast('تم استيراد ' + d.questions.length + ' سؤال. راجعها ثم اضغط حفظ الاختبار', 'ok');
-  }catch(err){ toast('ملف JSON غير صالح: ' + (err.message || ''), 'err'); }
+    numberQs();
+    if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
+    const lv = (/\b(A1|A2|B1|B2|C1)\b/i.exec(d.level) || [])[1]; if(lv && LEVELS.includes(lv.toUpperCase())) $('#z_level').value = lv.toUpperCase();
+    if(d.description && !$('#z_desc').value.trim()) $('#z_desc').value = d.description;
+    if(d.time > 0 && d.time <= 300 && !$('#z_time').value) $('#z_time').value = d.time;
+    const li = a => a.map(x => '<li>' + esc(x) + '</li>').join('');
+    const bad = d.warns.length || d.skipped.length;
+    qjMsg(bad ? 'warn' : 'ok', '<b>' + (bad ? '⚠ ' : '✓ ') + 'تم استيراد ' + d.questions.length + ' سؤال' + (kept ? ' (أُبقي ' + kept + ' سؤال كتبتَه يدوياً قبلها)' : '') + '. راجعها ثم اضغط «حفظ الاختبار».</b>'
+      + (d.numNote ? '<p>' + esc(d.numNote) + ' تأكد من الإجابات المحددة.</p>' : '')
+      + (d.skipped.length ? '<p>أسئلة لم تُستورد:</p><ul>' + li(d.skipped.slice(0, 8)) + '</ul>' : '')
+      + (d.warns.length ? '<p>ملاحظات:</p><ul>' + li(d.warns.slice(0, 10)) + (d.warns.length > 10 ? '<li>… و' + (d.warns.length - 10) + ' ملاحظة أخرى</li>' : '') + '</ul>' : ''));
+    toast('تم استيراد ' + d.questions.length + ' سؤال' + (bad ? ' (مع ملاحظات)' : ''), bad ? '' : 'ok');
+    clearTimeout(drT); drT = setTimeout(drSave, 400);
+    const first = document.querySelector('#qlist .qb.qimp'); if(first && kept === 0) { /* يبقى التمرير عند الرسالة */ }
+  }catch(err){
+    const m = (err && err.message) ? err.message : 'سبب غير معروف';
+    qjMsg('err', '<b>✗ تعذّر استيراد الملف</b><p>' + esc(m) + '</p><p>حمّل «نموذج JSON» من الزر المجاور لترى الصيغة الصحيحة، أو أرسل ملفك إلى Claude ليصحّحه لك.</p>');
+    toast('تعذّر الاستيراد: ' + m, 'err');
+  }finally{ try{ inp.value = ''; }catch(e){} }
 }
 function downloadSample(){
   const sample = {
@@ -1700,7 +2003,7 @@ function downloadSample(){
   a.download = 'quiz-sample.json'; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
-document.addEventListener('change', e => { if(e.target && e.target.id === 'z_json') importQuizJson(e.target.files[0]); });
+document.addEventListener('change', e => { if(e.target && e.target.id === 'z_json') importQuizJson(e.target); });
 function setRv(wrongOnly){
   const rv = $('#rv'); if(!rv) return;
   rv.classList.toggle('only-wrong', wrongOnly);
@@ -1729,7 +2032,7 @@ const clsChips = noneLabel => `<div class="chips" style="margin:-6px 0 18px">
 
 let authP = null;
 function afterAuth(){
-  if(!authP) authP = (async () => { try{ await loadMe(); await loadAll(); } finally { authP = null; } })();
+  if(!authP) authP = (async () => { try{ await loadMe(); await loadAll(); try{ progPull(); }catch(e){} } finally { authP = null; } })();
   return authP;
 }
 /* Fail Closed: لا صلاحيات (مدرس/طالب) إلا بعد نجاح whoami على الخادم. أي فشل = زائر بلا صلاحيات + رسالة وزر إعادة المحاولة. */
@@ -2080,8 +2383,8 @@ async function bellDel(id){
 let trk = { cls:'all', data:null };
 async function loadTrack(){
   const [r, s, g] = await Promise.all([
-    sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}),
-    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false}),
+    sb.from('results').select('id,quiz_id,student,student_id,score,total,created_at').order('created_at',{ascending:false}).limit(5000),
+    sb.from('submissions').select('id,assignment_id,student,student_id,grade,note,created_at').order('created_at',{ascending:false}).limit(5000),
     sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').order('created_at',{ascending:false}).limit(5000)
   ]);
   const bad = r.error || s.error;
@@ -2098,13 +2401,21 @@ async function renderTrack(v, err){
 function trkStats(){
   const { results, subs, games } = trk.data;
   const list = students.filter(s => trk.cls==='all' || (trk.cls==='none' ? !s.class_id : s.class_id===trk.cls));
+  const known = new Set(students.map(s=>s.id));
+  const okey = x => known.has(x.student_id) ? x.student_id : 'x:' + (x.student_id || x.student || '؟');
+  if(trk.cls === 'all'){
+    const seen = new Map();
+    [...results, ...subs, ...games].forEach(x => { if(!known.has(x.student_id)){ const k = okey(x); if(!seen.has(k)) seen.set(k, { id:k, full_name:(x.student || 'حساب غير معروف') + ' (غير مسجّل)', class_id:null, login_id:'—', orphan:true }); else if(x.student && /^حساب غير معروف/.test(seen.get(k).full_name)) seen.get(k).full_name = x.student + ' (غير مسجّل)'; } });
+    seen.forEach(s => list.push(s));
+  }
   const ids = new Set(list.map(s=>s.id));
-  const rs = results.filter(r => ids.has(r.student_id)), ss = subs.filter(x => ids.has(x.student_id)), gs = games.filter(x => ids.has(x.student_id));
+  const keyOf = x => okey(x);
+  const rs = results.filter(r => ids.has(keyOf(r))), ss = subs.filter(x => ids.has(keyOf(x))), gs = games.filter(x => ids.has(keyOf(x)));
   const pct = r => r.total ? r.score/r.total*100 : 0;
   const rows = list.map(s => {
-    const a = rs.filter(r=>r.student_id===s.id), b = ss.filter(x=>x.student_id===s.id);
+    const a = rs.filter(r=>keyOf(r)===s.id), b = ss.filter(x=>keyOf(x)===s.id);
     const avg = a.length ? a.reduce((n,r)=>n+pct(r),0)/a.length : null;
-    const g = gs.filter(x=>x.student_id===s.id);
+    const g = gs.filter(x=>keyOf(x)===s.id);
     const gavg = g.length ? g.reduce((n,x)=>n+x.correct/x.total*100,0)/g.length : null;
     const last = [...a.map(r=>r.created_at), ...b.map(x=>x.created_at), ...g.map(x=>x.created_at)].sort().pop() || null;
     return { s, a, b, g, gavg, avg, last, ungraded:b.filter(x=>!x.grade).length };
@@ -2167,7 +2478,9 @@ function trkOpen(id){
     ${x.b.length ? `<div style="overflow-x:auto"><table><tr><th>الواجب</th><th>التاريخ</th><th>الحالة</th></tr>${x.b.map(r=>`<tr><td dir="auto">${esc(aT(r.assignment_id))}</td><td>${fmtDT(r.created_at)}</td><td>${r.grade?`<span class="tag ok">${esc(r.grade)}</span>`:'<span class="tag warn">بانتظار التصحيح</span>'}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يسلّم أي واجب بعد.</p>'}
     <h2 class="st"><span>الألعاب</span><small>${x.g.length}</small></h2>
     ${x.g.length ? `<div style="overflow-x:auto"><table><tr><th>اللعبة</th><th>المستوى</th><th>النتيجة</th><th>التاريخ</th></tr>${x.g.slice(0,30).map(r=>`<tr><td>${esc((GAME_DATA[r.game]||{}).title||r.game)}</td><td>${esc(r.level)}</td><td>${r.correct}/${r.total}</td><td>${fmtDT(r.created_at)}</td></tr>`).join('')}</table></div>` : '<p class="cap">لم يلعب بعد.</p>'}
+    <div id="trkprog"></div>
     <div class="actions"><button class="btn lg" data-a="close">إغلاق</button></div>`, true);
+  if(!x.s.orphan) trkProgress(id);
 }
 document.addEventListener('change', e => { const el = e.target; if(el && el.dataset && el.dataset.a === 'trkCls'){ trk.cls = el.value; drawTrack($('#view'), ''); } });
 
@@ -2175,12 +2488,18 @@ document.addEventListener('change', e => { const el = e.target; if(el && el.data
 async function renderMine(v, err){
   const s = state.me.student;
   v.innerHTML = err + skel();
-  const [r, a] = await Promise.all([
+  const uid = state.uid;
+  const [r, a, g] = await Promise.all([
     sb.from('results').select('*').order('created_at',{ascending:false}),
-    sb.from('submissions').select('*').order('created_at',{ascending:false})
+    sb.from('submissions').select('*').order('created_at',{ascending:false}),
+    uid ? sb.from('game_scores').select('id,student_id,game,level,correct,total,created_at').eq('student_id', uid).order('created_at',{ascending:false}).limit(1000) : Promise.resolve({ data:[], error:null })
   ]);
   if(state.tab !== 'mine') return;
   const rs = r.data || [], sb_ = a.data || [];
+  // أمان إضافي: نتجاهل أي سجل لا يخص هذا الطالب حتى لو أعاده الخادم
+  const gAll = (g.data || []), gs = gAll.filter(x => x.student_id === uid);
+  if(gs.length !== gAll.length) logErr('mineGames', new Error('تم تجاهل ' + (gAll.length - gs.length) + ' سجل لا يخص الطالب'));
+  MINEG.rows = gs; MINEG.err = g.error ? errMsg(g.error) : '';
   const qTitle = id => { const z = quizzes.find(x=>x.id===id); return z ? z.title : 'اختبار محذوف'; };
   const aTitle = id => { const z = assignments.find(x=>x.id===id); return z ? z.title : 'واجب محذوف'; };
   v.innerHTML = err + `
@@ -2198,7 +2517,30 @@ async function renderMine(v, err){
     ${sb_.length ? `<div class="grid">${sb_.map(x=>`<div class="card"><h3 dir="auto">${esc(aTitle(x.assignment_id))}</h3>
         <div class="tags"><span class="tag">${I('calendar','s')} ${fmtDT(x.created_at)}</span>${x.grade?`<span class="tag ok">الدرجة: ${esc(x.grade)}</span>`:`<span class="tag warn">بانتظار التصحيح</span>`}</div>
         ${x.note?`<div class="infobox" style="margin:4px 0 0" dir="auto">ملاحظة المدرس: ${esc(x.note)}</div>`:''}</div>`).join('')}</div>`
-      : emptyBox('assign','c-orange','لم تسلّم أي واجب بعد','ستظهر هنا واجباتك ودرجاتك وملاحظات المدرس.')}`;
+      : emptyBox('assign','c-orange','لم تسلّم أي واجب بعد','ستظهر هنا واجباتك ودرجاتك وملاحظات المدرس.')}
+
+    <div id="mineGames">${mineGamesHtml()}</div>`;
+}
+/* ---- نتائج ألعابي ---- */
+const MINEG = { rows:[], err:'', limit:20 };
+function mineGamesHtml(){
+  const rows = MINEG.rows;
+  const head = `<h2 class="st"><span>${I('sparkle')} نتائج ألعابي</span><small>${MINEG.err ? '' : rows.length}</small></h2>`;
+  if(MINEG.err) return head + `<div class="infobox">تعذر تحميل نتائج الألعاب الآن. تأكد من الاتصال ثم أعد فتح الصفحة.</div>`;
+  if(!rows.length) return head + emptyBox('sparkle', 'c-purple', 'لم تلعب أي لعبة بعد', 'ستظهر هنا نتائج ألعابك بعد أن تلعب.');
+  const pct = x => x.total ? Math.round(x.correct / x.total * 100) : 0;
+  const gName = k => (GAME_DATA[k] && GAME_DATA[k].title) || k;
+  const best = rows.reduce((b, x) => (!b || pct(x) > pct(b) || (pct(x) === pct(b) && x.total > b.total)) ? x : b, null);
+  const avg = Math.round(rows.reduce((s, x) => s + pct(x), 0) / rows.length);
+  const shown = rows.slice(0, MINEG.limit);
+  return head + `
+    <div class="tiles">
+      <div class="tile static"><div class="ib c-purple">${I('sparkle')}</div><div><b>${rows.length}</b><span>عدد الألعاب التي لعبتها</span></div></div>
+      <div class="tile static"><div class="ib c-green">${I('check')}</div><div><b>${pct(best)}%</b><span>أفضل نتيجة · <bdi>${esc(gName(best.game))}</bdi> · ${esc(best.level)}</span></div></div>
+      <div class="tile static"><div class="ib c-blue">${I('chart')}</div><div><b>${avg}%</b><span>متوسط نتائجك</span></div></div>
+    </div>
+    <div class="card mgl">${shown.map(x => `<div class="mgr"><div class="mgn"><b dir="auto">${esc(gName(x.game))}</b><small>${esc(x.level)} · ${fmtDT(x.created_at)}</small></div><span class="mgc">${x.correct}/${x.total}</span><span class="tag ${pct(x) >= 50 ? 'ok' : 'bad'}">${pct(x)}%</span></div>`).join('')}</div>
+    ${rows.length > shown.length ? `<div class="actions"><button class="btn sec" data-a="mineGMore">عرض المزيد (${rows.length - shown.length})</button></div>` : ''}`;
 }
 function changeMyPw(){
   openModal(`<h3>تغيير كلمة المرور</h3>
@@ -2361,6 +2703,10 @@ function trDom(root){
 
 /* ============ أسئلة الألعاب التي يضيفها المدرس (جدول game_items) ============ */
 let gameItems = [];
+let GI_ITEM = null;   // معرّف الدرس عند إضافة أسئلة مرتبطة بدرس
+const giItemRec = () => GI_ITEM ? items.find(x => x.id === GI_ITEM) : null;
+const giClsOpts = () => { const dc = (giItemRec() || {}).class_id || ''; return classes.map(c => `<option value="${c.id}" ${c.id === dc ? 'selected' : ''}>${esc(c.name)}</option>`).join(''); };
+const giItemNote = () => { const it = giItemRec(); return it ? `<div class="infobox">هذه الأسئلة مرتبطة بالدرس: <b dir="auto">${esc(it.title)}</b>، وتظهر للطلاب في زر «العب» على بطاقة الدرس فقط.</div>` : ''; };
 const GI_TYPES = [['mcq','اختر الإجابة الصحيحة'],['tf','صح أم خطأ'],['scramble','رتّب الحروف (وتُستعمل في المشنقة أيضاً)'],['match','طابِق الكلمات (وتُستعمل في الذاكرة أيضاً)'],['fill','أكمل الفراغ'],['odd','الكلمة الدخيلة'],['order','رتّب الجملة'],['listen','استمع واختر']];
 const GI_EN_KEYS = { mcq:['q','o','e'], odd:['o','e'], tf:['q','e'], scramble:['h'], order:['h'], match:['m'], fill:['e'], listen:[] };
 const giLines = s => String(s||'').split('\n').map(x=>x.trim()).filter(Boolean);
@@ -2417,10 +2763,49 @@ function giReg(){
     else if(it.game==='match') reg(d.m, en.m);
   });
 }
-function gPool(game, level){
-  const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
-  return base.concat(gameItems.filter(x=>x.game===src && x.level===level).map(giToEngine).filter(Boolean));
+/* ---- تنظيف الأسئلة: حذف الناقص والمكرر ---- */
+const gS = x => typeof x === 'string' && x.trim().length > 0;
+function gValid(src, q){
+  if(!q || typeof q !== 'object') return false;
+  const opts = (min) => Array.isArray(q.o) && q.o.length >= min && q.o.every(gS) && new Set(q.o.map(x => x.trim().toLowerCase())).size === q.o.length && Number.isInteger(q.a) && q.a >= 0 && q.a < q.o.length;
+  switch(src){
+    case 'mcq': return gS(q.q) && opts(2);
+    case 'odd': return opts(3);
+    case 'listen': return gS(q.w) && Array.isArray(q.o) && q.o.length >= 3 && q.o.every(gS) && q.o[0] === q.w && new Set(q.o.map(x => x.toLowerCase())).size === q.o.length;
+    case 'tf': return gS(q.q) && typeof q.a === 'boolean';
+    case 'scramble': return gS(q.w) && q.w.trim().length >= 3 && !/\s/.test(q.w.trim());
+    case 'order': { if(!gS(q.w)) return false; const n = q.w.trim().split(/\s+/).length; return n >= 3 && n <= 9; }
+    case 'match': return gS(q.f) && gS(q.m);
+    case 'fill': return gS(q.q) && q.q.includes('___') && Array.isArray(q.a) && q.a.length > 0 && q.a.every(gS);
+  }
+  return false;
 }
+function gKey(src, q){
+  switch(src){
+    case 'mcq': case 'tf': case 'fill': return String(q.q).trim().toLowerCase();
+    case 'odd': return [...q.o].map(x => x.trim().toLowerCase()).sort().join('|');
+    case 'scramble': case 'listen': return String(q.w).trim().toLowerCase();
+    case 'order': return String(q.w).trim().replace(/\s+/g, ' ').toLowerCase();
+    case 'match': return String(q.f).trim().toLowerCase();
+  }
+  return JSON.stringify(q);
+}
+function gClean(src, arr){
+  const seen = new Set(), seenM = new Set(), out = [];
+  (arr || []).forEach(q => {
+    if(!gValid(src, q)) return;
+    const k = gKey(src, q); if(seen.has(k)) return;
+    if(src === 'match'){ const m = q.m.trim().toLowerCase(); if(seenM.has(m)) return; seenM.add(m); }
+    seen.add(k); out.push(q);
+  });
+  return out;
+}
+function gPool(game, level){
+  if(G.lessonPool && G.lessonId && G.game === game) return gClean(game, G.lessonPool);
+  const gd = GAME_DATA[game], src = gd.from || game, base = (GAME_DATA[src] || {})[level] || [];
+  return gClean(src, base.concat(gameItems.filter(x=>x.game===src && x.level===level && !x.item_id).map(giToEngine).filter(Boolean)));
+}
+const gMin = game => (game === 'match' || game === 'memory') ? 3 : 1;
 async function loadGameItems(){
   try{ const r = await sb.from('game_items').select('*').order('created_at',{ascending:false}); gameItems = r.error ? [] : (r.data||[]); }
   catch(e){ gameItems = []; }
@@ -2466,11 +2851,11 @@ function giRead(game){
   d.en = en; return d;
 }
 function giForm(fresh){
-  openModal(`<h3>إضافة سؤال للألعاب</h3>
+  openModal(`<h3>${GI_ITEM ? 'إضافة سؤال لعبة للدرس' : 'إضافة سؤال للألعاب'}</h3>${giItemNote()}
     <div class="infobox">الأسئلة تُضاف إلى الأسئلة الجاهزة وتظهر للطلاب في اللعبة نفسها. الإجابات الصحيحة تُخزَّن مع السؤال، فاستعملها للتدريب وليس للتقييم الرسمي.</div>
     <label class="f" for="gi_game">نوع اللعبة</label><select class="in" id="gi_game">${GI_TYPES.map(([k,t])=>`<option value="${k}">${t}</option>`).join('')}</select>
     <div class="gi2"><div><label class="f" for="gi_level">المستوى</label><select class="in" id="gi_level">${GAME_LEVELS.map(([c,n])=>`<option value="${c}">${c} — ${n}</option>`).join('')}</select></div>
-    <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div></div>
+    <div><label class="f" for="gi_cls">يظهر لـ</label><select class="in" id="gi_cls"><option value="">كل الطلاب</option>${giClsOpts()}</select></div></div>
     <div id="gi_fields">${giFields('mcq')}</div>
     <div class="actions"><button class="btn" data-a="giSave">${I('check','s')} حفظ السؤال</button><button class="btn sec" data-a="close">إلغاء</button></div>`, true, true);
   drStart('gi', giForm, fresh);
@@ -2484,7 +2869,7 @@ async function giInsert(rows){
 async function giSave(){
   const game = document.getElementById('gi_game').value;
   let data; try{ data = giValidate(game, giRead(game)); }catch(e){ toast(e.message, 'err'); return; }
-  const ok = await giInsert([{ game, level:document.getElementById('gi_level').value, class_id:document.getElementById('gi_cls').value || null, data }]);
+  const ok = await giInsert([{ game, level:document.getElementById('gi_level').value, class_id:document.getElementById('gi_cls').value || null, data, item_id:GI_ITEM || null }]);
   if(ok){ closeModal(); toast('تمت إضافة السؤال', 'ok'); render(); }
 }
 /* ---- استيراد JSON ---- */
@@ -2499,10 +2884,10 @@ const GI_SAMPLE = { items:[
   { game:'listen', level:'A1', data:{ w:'merci', o:['merci','mercredi','marché','mercure'] } }
 ] };
 function giImportForm(){
-  openModal(`<h3>إضافة عدة أسئلة من ملف JSON</h3>
+  openModal(`<h3>إضافة عدة أسئلة من ملف JSON</h3>${giItemNote()}
     <div class="infobox">حمّل الملف النموذجي، وعدّل أسئلته أو اطلب مني (في المحادثة) أن أحوّل لك أسئلتك إلى هذا الشكل. سيُراجَع كل سؤال قبل الحفظ، ولن يُحفظ شيء إذا كان فيه خطأ.</div>
     <button class="btn sec" data-a="giSampleDl">${I('download','s')} تحميل ملف نموذجي</button>
-    <label class="f" for="gi_cls2">يظهر لـ</label><select class="in" id="gi_cls2"><option value="">كل الطلاب</option>${classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+    <label class="f" for="gi_cls2">يظهر لـ</label><select class="in" id="gi_cls2"><option value="">كل الطلاب</option>${giClsOpts()}</select>
     <label class="f" for="gi_json">ملف JSON</label><input class="in" type="file" id="gi_json" accept=".json,application/json">
     <div id="gi_msg" class="cap" style="margin-top:10px"></div>`, true);
 }
@@ -2518,7 +2903,7 @@ document.addEventListener('change', async e => {
       try{
         if(!x || !GI_TYPES.some(t=>t[0]===x.game)) throw new Error('نوع لعبة غير معروف');
         if(!GAME_LEVELS.some(l=>l[0]===x.level)) throw new Error('المستوى يجب أن يكون A1 أو A2 أو B1');
-        return { game:x.game, level:x.level, class_id:cls, data:giValidate(x.game, x.data) };
+        return { game:x.game, level:x.level, class_id:cls, data:giValidate(x.game, x.data), item_id:GI_ITEM || null };
       }catch(err){ throw new Error('السؤال رقم ' + (i+1) + ': ' + err.message); }
     });
     msg.textContent = 'جارٍ الحفظ...';
@@ -2533,15 +2918,45 @@ function giSampleDl(){
 function giSummary(it){ const d = it.data||{}; return it.game==='match' ? d.f+' = '+d.m : it.game==='odd' ? (d.o||[]).join(' / ') : (d.q || d.w || ''); }
 function giManage(){
   const name = k => (GI_TYPES.find(t=>t[0]===k)||[k,k])[1].replace(/\s*\(.*$/,'');
-  openModal(`<h3>أسئلتي (${gameItems.length})</h3>` + (gameItems.length ? `<div class="gilist">${gameItems.map(it=>`<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(it))}</b><small>${esc(name(it.game))} · ${esc(it.level)} · ${it.class_id ? esc((classes.find(c=>c.id===it.class_id)||{}).name||'صف') : 'كل الطلاب'}</small></div><button class="btn del" data-a="giDel" data-id="${it.id}" aria-label="حذف">${I('trash','s')}</button></div>`).join('')}</div>` : '<p class="cap">لم تضف أي أسئلة بعد.</p>'), true);
+  openModal(`<h3>أسئلتي (${gameItems.length})</h3>` + (gameItems.length ? `<div class="gilist">${gameItems.map(it=>`<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(it))}</b><small>${it.item_id ? 'لعبة درس · ' : ''}${esc(name(it.game))} · ${esc(it.level)} · ${it.class_id ? esc((classes.find(c=>c.id===it.class_id)||{}).name||'صف') : 'كل الطلاب'}</small></div><button class="btn del" data-a="giDel" data-id="${it.id}" aria-label="حذف">${I('trash','s')}</button></div>`).join('')}</div>` : '<p class="cap">لم تضف أي أسئلة بعد.</p>'), true);
 }
 async function giDel(id){
   if(!confirm('حذف هذا السؤال نهائياً؟')) return;
   const r = await sb.from('game_items').delete().eq('id', id);
   if(r.error){ toast('تعذر الحذف: ' + errMsg(r.error), 'err'); return; }
-  await loadGameItems(); giManage(); render();
+  await loadGameItems(); if(GI_ITEM) lgManage(GI_ITEM); else giManage(); render();
 }
-const GIH = { giAdd:giForm, giImport:giImportForm, giSave, giSampleDl, giManage, giDel };
+/* ---- ألعاب الدروس (مرتبطة بملف درس) ---- */
+const lgItems = id => gameItems.filter(x => x.item_id === id);
+function lgManage(id){
+  GI_ITEM = id; const it = items.find(x => x.id === id); if(!it) return;
+  const name = k => (GI_TYPES.find(t => t[0] === k) || [k, k])[1].replace(/\s*\(.*$/, '');
+  const list = lgItems(id);
+  openModal(`<h3>أسئلة لعبة الدرس</h3><p class="cap" dir="auto">${esc(it.title)}</p>
+    <div class="actions" style="margin-top:6px"><button class="btn" data-a="lgAdd" data-id="${id}">${I('plus','s')} إضافة سؤال</button><button class="btn sec" data-a="lgImport" data-id="${id}">${I('upload','s')} استيراد JSON</button></div>
+    ${list.length ? `<div class="gilist">${list.map(x => `<div class="giitem"><div class="gitx"><b dir="auto">${esc(giSummary(x))}</b><small>${esc(name(x.game))} · ${esc(x.level)}</small></div><button class="btn del" data-a="giDel" data-id="${x.id}">${I('trash','s')}</button></div>`).join('')}</div>` : emptyBox('sparkle', 'c-purple', 'لا توجد أسئلة لهذا الدرس بعد', 'أضف أسئلة ليظهر للطلاب زر «العب» على بطاقة الدرس.')}
+    <div class="actions"><button class="btn sec" data-a="close">إغلاق</button></div>`, true);
+}
+function lgPlay(id){
+  const it = items.find(x => x.id === id), list = lgItems(id); if(!it || !list.length) return;
+  const base = ['mcq','tf','odd','listen','scramble','order','match','fill'], by = {};
+  list.forEach(x => { if(base.includes(x.game)) (by[x.game] = by[x.game] || []).push(x); });
+  const ks = Object.keys(by); if(!ks.length) return;
+  if(ks.length === 1) return lgStart(id + '|' + ks[0]);
+  openModal(`<h3>العب: <span dir="auto">${esc(it.title)}</span></h3><p class="cap">اختر نوع اللعبة</p>
+    <div class="gacts" style="display:grid;gap:10px;margin-top:10px">${ks.map(k => `<button class="btn" data-a="lgStart" data-id="${id}|${k}">${esc(((GAME_DATA[k] || {}).title) || k)} · ${by[k].length}</button>`).join('')}</div>`);
+}
+function lgStart(arg){
+  const [id, game] = String(arg).split('|'), it = items.find(x => x.id === id); if(!it || !GAME_DATA[game]) return;
+  const rows = lgItems(id).filter(x => x.game === game); if(!rows.length) return;
+  const pool = gClean(game, rows.map(giToEngine).filter(Boolean));
+  if(pool.length < gMin(game)){ toast('أسئلة هذه اللعبة غير كافية بعد.', 'err'); return; }
+  closeModal(); state.tab = 'games';
+  G.game = game; G.lessonId = 'item:' + id; G.lessonPool = rows.map(giToEngine).filter(Boolean); G.lessonTitle = it.title;
+  gameStart(rows[0].level || 'A1');
+}
+const GIH = { giAdd:() => { GI_ITEM = null; giForm(); }, giImport:() => { GI_ITEM = null; giImportForm(); }, giSave, giSampleDl, giManage:() => { GI_ITEM = null; giManage(); }, giDel,
+  lgManage, lgAdd:id => { GI_ITEM = id; giForm(); }, lgImport:id => { GI_ITEM = id; giImportForm(); }, lgPlay, lgStart };
 
 /* ============ محرك الألعاب (منطق عام، البيانات في GAME_DATA) ============ */
 const G = { view:'menu', game:null, level:null, qs:[], i:0, ok:0, pts:0, streak:0, maxStreak:0, pick:null, t0:0, t:0, snd:true, tot:0 };
@@ -2558,13 +2973,13 @@ function beep(kind){
     seq.forEach(([f,d]) => { const o = _ac.createOscillator(), g = _ac.createGain(); o.type = kind==='bad'?'sawtooth':'sine'; o.frequency.value = f; g.gain.value = .08; o.connect(g); g.connect(_ac.destination); const s = _ac.currentTime + d; o.start(s); g.gain.exponentialRampToValueAtTime(.0001, s+.2); o.stop(s+.22); });
   }catch(e){}
 }
-const bestKey = () => 'fo_best_' + G.game + '_' + G.level;
+const bestKey = () => 'fo_best_' + G.game + '_' + (G.lessonId ? 'L_' + G.lessonId : G.level);
 const getBest = () => { try{ return +localStorage.getItem(bestKey()) || 0; }catch(e){ return 0; } };
 const setBest = n => { try{ localStorage.setItem(bestKey(), String(n)); }catch(e){} };
 
 function gameStart(level){
   const d = GAME_DATA[G.game], pool = gPool(G.game, level);
-  if(!pool.length) return;
+  if(pool.length < gMin(G.game)){ toast('لا توجد أسئلة كافية في هذا المستوى بعد. جرّب مستوى آخر أو لعبة أخرى.', 'err'); return; }
   const isM = G.game==='match' || G.game==='memory';
   const qs = shuf(pool).slice(0, isM ? 6 : GAME_ROUND).map(q => {
     if(G.game==='scramble'){ let l, tries = 0; do{ l = shuf(Array.from(q.w)); }while(l.join('')===q.w && ++tries<9); return { w:q.w, h:q.h, a:1, e:'الكلمة الصحيحة: '+q.w, tiles:l.map((c,k)=>({c,k})) }; }
@@ -2755,7 +3170,7 @@ function renderGames0(v){
     else if(G.game==='mcq' || G.game==='odd' || G.game==='listen') body = `<div class="gopts">${q.o.map((t,k)=>`<button class="gopt ${ans?(k===q.a?'ok':k===G.pick?'bad':'dim'):''}" data-a="gAns" data-id="${k}" ${ans?'disabled':''}><i>${k+1}</i><span dir="auto">${esc(t)}</span></button>`).join('')}</div>`;
     else body = `<div class="gtf">${['صح ✓ Vrai','خطأ ✗ Faux'].map((t,k)=>`<button class="gopt ${ans?(k===q.a?'ok':k===G.pick?'bad':'dim'):''}" data-a="gAns" data-id="${k}" ${ans?'disabled':''}><i>${k+1}</i><span>${t}</span></button>`).join('')}</div>`;
     const fb = ans ? `<div class="gfb ${G.pick===q.a?'ok':'bad'}"><b>${G.pick===q.a?'أحسنت! 🎉':'ليست الإجابة الصحيحة'}</b><span>${esc(q.e||'')}${G.close&&G.game==='fill'?' — '+esc(G.close):''}</span></div><button class="gnext" data-a="gNext" autofocus>${G.i+1>=n?'عرض النتيجة':'السؤال التالي'} ←</button>` : '';
-    v.innerHTML = `<div class="ghead"><span>${esc(d.title)} · ${G.level}</span><span>⭐ ${G.pts}</span>${G.streak>=2?`<span>🔥 ${G.streak}</span>`:''}${snd}</div>
+    v.innerHTML = `<div class="ghead"><span>${esc(d.title)} · ${G.lessonId ? esc(G.lessonTitle||'') : G.level}</span><span>⭐ ${G.pts}</span>${G.streak>=2?`<span>🔥 ${G.streak}</span>`:''}${snd}</div>
       <div class="gbar"><i style="width:${(G.i+(ans?1:0))/n*100}%"></i></div>
       <div class="gq"><small>السؤال ${G.i+1} من ${n}</small><h3 dir="auto">${esc(G.game==='listen'?'استمع ثم اختر الكلمة التي سمعتها':(G.game==='scramble'||G.game==='order'||G.game==='hangman')?q.h:q.q)}</h3>${G.game==='odd'?'<small dir="ltr" style="display:block;text-align:right">Quel est l\'intrus ?</small>':G.game==='scramble'?'<small>رتّب الحروف لتكوين الكلمة الفرنسية</small>':G.game==='order'?'<small>رتّب الكلمات لتكوين الجملة الفرنسية</small>':''}</div>${G.game==='listen'?'<div class="gacts" style="margin-bottom:14px"><button class="gnext" data-a="gSpeak">🔊 استمع</button><button class="chip" data-a="gSlow">🐢 ببطء</button></div>':''}${body}${fb}
       <button class="chip" data-a="gMenu" style="margin-top:18px">إنهاء اللعبة</button>`;
@@ -2767,16 +3182,38 @@ function renderGames0(v){
       <h2>${pc===1?'ممتاز! علامة كاملة':pc>=.7?'أحسنت!':pc>=.4?'جيد، حاول مرة أخرى':'لا بأس، التدريب يصنع الإتقان'}</h2>
       <div class="gstats"><div><b>${G.ok}/${n}</b><span>إجابات صحيحة</span></div><div><b>${G.pts}</b><span>النقاط</span></div><div><b>${G.stat3?G.stat3[0]:G.maxStreak}</b><span>${G.stat3?G.stat3[1]:'أطول سلسلة'}</span></div><div><b>${G.tot}ث</b><span>الوقت</span></div></div>
       ${G.newBest?`<p class="gnb">🏆 رقم قياسي جديد على هذا الجهاز!</p>`:G.prevBest?`<p class="gsub">أفضل نتيجة سابقة: ${G.prevBest}</p>`:''}
-      <div class="gacts"><button class="gnext" data-a="gAgain">العب مرة أخرى</button><button class="chip" data-a="gLevels">تغيير المستوى</button><button class="chip" data-a="gMenu">كل الألعاب</button></div></div>`;
+      <div class="gacts"><button class="gnext" data-a="gAgain">العب مرة أخرى</button><button class="chip" data-a="gLevels">${G.lessonId?'العودة للدرس':'تغيير المستوى'}</button>${G.lessonId?'':'<button class="chip" data-a="gMenu">كل الألعاب</button>'}</div></div>`;
   }
+}
+/* ---- ألعاب دروس القواعد: تُبنى من تمرين وأمثلة الدرس نفسه ---- */
+function grLessonPool(l, kind){
+  const t0 = s => grT(s), txt = s => { const t = t0(s); return GRS.lang === 'en' ? t.en : (GRS.lang === 'both' && t.two) ? t.ar + ' · ' + t.en : t.ar; }, opt = s => { const t = t0(s); return GRS.lang === 'en' ? t.en : t.ar; };
+  if(kind === 'mcq') return l.quiz.map(q => ({ q:txt(q[0]), o:q[1].map(opt), a:q[2], e:txt(q[3]) }));
+  if(kind === 'order') return l.ex.map(e => ({ w:String(e[0]).trim().replace(/\s+/g, ' '), h:txt(e[1]) }));
+  return [];
+}
+function lessonGame(kind){
+  const l = grLesson(GRS.id); if(!l || (kind !== 'mcq' && kind !== 'order')) return;
+  const pool = gClean(kind, grLessonPool(l, kind));
+  if(!pool.length){ toast('لا توجد أسئلة كافية لهذه اللعبة في هذا الدرس.', 'err'); return; }
+  state.tab = 'games';
+  G.game = kind; G.lessonId = l.id; G.lessonPool = grLessonPool(l, kind); G.lessonTitle = l.fr;
+  gameStart(GRS.level);
+}
+function lessonBack(){
+  const id = G.lessonId; G.lessonId = null; G.lessonPool = null; G.view = 'menu'; G.game = null;
+  if(id && String(id).startsWith('item:')){ state.tab = 'files'; render(); window.scrollTo(0, 0); return; }
+  if(id && grLesson(id)){ state.tab = 'grammar'; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; try{ grNewOrder(grLesson(id)); }catch(e){} }
+  render(); window.scrollTo(0, 0);
 }
 const GH = {
   ...GIH,
-  gPick:id=>{ if(!GAME_DATA[id]) return; if(id==='listen' && !window.speechSynthesis){ toast(trText('جهازك أو متصفحك لا يدعم النطق الصوتي'),'err'); return; } G.game = id; G.view = 'level'; render(); },
+  lessonGame:(id)=>lessonGame(id), lessonBack:()=>lessonBack(),
+  gPick:id=>{ if(!GAME_DATA[id]) return; G.lessonId = null; G.lessonPool = null; if(id==='listen' && !window.speechSynthesis){ toast(trText('جهازك أو متصفحك لا يدعم النطق الصوتي'),'err'); return; } G.game = id; G.view = 'level'; render(); },
   gLvl:id=>gameStart(id), gAns:id=>gameAnswer(id), gNext:gameNext,
   gAgain:()=>gameStart(G.level), gLang:()=>{ G.lang = G.lang==='en'?'ar':'en'; try{ localStorage.setItem('fo_lang', G.lang); }catch(e){} render(); }, gTile:id=>scrTile(id), gKey:id=>hgKey(id), gSpeak:()=>speak(G.qs[G.i].w,.9), gSlow:()=>speak(G.qs[G.i].w,.55), gMem:id=>memPick(id), gBack:scrBack, gClear:scrClear, gFill:fillCheck, gML:id=>matchPick('l',id), gMR:id=>matchPick('r',id),
-  gLevels:()=>{ G.view='level'; render(); },
-  gMenu:()=>{ G.view='menu'; G.game=null; render(); },
+  gLevels:()=>{ if(G.lessonId) return lessonBack(); G.view='level'; render(); },
+  gMenu:()=>{ if(G.lessonId) return lessonBack(); G.view='menu'; G.game=null; render(); },
   gSound:()=>{ G.snd = !G.snd; try{ localStorage.setItem('fo_snd', G.snd?'1':'0'); }catch(e){} render(); }
 };
 document.addEventListener('keydown', e => {
@@ -3118,6 +3555,7 @@ const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, fl
 })();
 function vSave(){
   try{ localStorage.setItem('fo_voc_pref', JSON.stringify({ level:V.level, mean:V.mean })); localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){}
+  try{ progSchedule(); }catch(e){}
 }
 const vCats = () => VOC[V.level] || [];
 const vCat = id => vCats().find(c => c.id === id);
@@ -3722,12 +4160,13 @@ function renderGrLesson(v){
     <div class="card grbox"><p class="grp">${grBi(l.intro)}</p>${tb}
       <h4 class="grh">القاعدة · Rules</h4><ul class="grul">${l.rules.map(r => `<li>${grBi(r)}</li>`).join('')}</ul>
       <h4 class="grh">أمثلة · Examples</h4>${l.ex.map((e, i) => `<div class="vrow"><button class="vsp" data-a="grSay" data-id="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx"><span class="vfr" lang="fr">${esc(e[0])}</span><span class="grtr">${grBi(e[1])}</span></div></div>`).join('')}</div>
-    <h3 class="grh2">تمرين · Exercise</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div></div>`;
+    <h3 class="grh2">تمرين · Exercise</h3><div class="card grbox" id="grq">${grQuizHtml(l)}</div>
+    <h3 class="grh2">العب · Play</h3><div class="card grbox"><p class="cap" style="margin:0 0 10px">ألعاب من هذا الدرس نفسه · Games from this lesson</p><div class="gacts"><button class="btn" data-a="lessonGame" data-id="mcq">${I('quiz','s')} اختر الإجابة · Quiz</button><button class="btn sec" data-a="lessonGame" data-id="order">${I('list','s')} رتّب الجملة · Order</button></div></div></div>`;
 }
 const GRH = {
   grLevel:(id) => { GRS.level = id; grSave(); render(); },
   grLang:(id) => { GRS.lang = id; grSave(); render(); },
-  grOpen:(id) => { const l = grLesson(id); if(!l) return; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; grNewOrder(l); render(); window.scrollTo(0, 0); },
+  grOpen:(id) => { const l = grLesson(id); if(!l) return; try{ if(state.uid) localStorage.setItem('fo_last_gr_' + state.uid, GRS.level + '|' + id); }catch(e){} GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; grNewOrder(l); render(); window.scrollTo(0, 0); },
   grBack:() => { GRS.view = 'menu'; render(); },
   grSay:(id) => { const l = grLesson(GRS.id); if(l && l.ex[+id]) speak(l.ex[+id][0], .85); },
   grAns:(id, el) => {
@@ -3737,7 +4176,7 @@ const GRH = {
     if(l.quiz.every((q, i) => GRS.ans[i] !== undefined && GRS.ans[i] !== null)){
       const right = l.quiz.reduce((n, q, i) => n + (GRS.ans[i] === q[2] ? 1 : 0), 0);
       if(grDone(l.id) === undefined || right > grDone(l.id)) GRS.done[l.id] = right;
-      grSave();
+      grSave(); try{ progSchedule(); }catch(e){}
     }
     const box = document.getElementById('grq'); if(box) box.innerHTML = grQuizHtml(l);
   },
@@ -3745,11 +4184,465 @@ const GRH = {
 };
 
 const INFLIGHT = new Set();
+/* ---------- حفظ تقدّم الطالب على الخادم (student_progress) ---------- */
+/* المفردات: صف لكل كلمة عرفها. القواعد: صف لكل درس بأعلى درجة. للطلاب فقط. أي فشل لا يزعج الطالب: يبقى التقدّم محلياً ويُعاد الرفع لاحقاً. */
+let progSrvVoc = null, progSrvGr = null, progT = null, progBusy = false;
+const PROG_OWNER = 'fo_prog_owner', PROG_DIRTY = 'fo_prog_dirty';
+const progOn = () => typeof sb !== 'undefined' && !!sb && !!state.uid && !state.teacher && !!(state.me && state.me.student);
+const progWordLevel = (() => { let m = null; return w => { if(!m){ m = {}; for(const L in VOC) VOC[L].forEach(c => c.w.forEach(x => { m[x[0]] = L; })); } return m[w] || null; }; })();
+const progLesson = (() => { let m = null; return id => { if(!m){ m = {}; for(const L in GR) GR[L].forEach(l => { m[l.id] = { level:L, total:l.quiz.length, title:l.ar, fr:l.fr }; }); } return m[id] || null; }; })();
+/* مؤشر حالة حفظ التقدّم (للطالب فقط): جارٍ الحفظ / تم الحفظ / تعذّر (يبقى على الجهاز ويُعاد الرفع) */
+let progChipT = null;
+function progStatus(s){
+  try{
+    let c = document.getElementById('progchip');
+    if(!c){ c = document.createElement('div'); c.id = 'progchip'; c.setAttribute('role', 'status'); c.setAttribute('aria-live', 'polite');
+      c.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9000;padding:8px 14px;border-radius:999px;font:600 13px sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.25);display:none;max-width:calc(100vw - 24px)';
+      document.body.appendChild(c); }
+    clearTimeout(progChipT);
+    if(!s || !progOn()){ c.style.display = 'none'; return; }
+    const m = { saving:['⏳ جارٍ حفظ تقدّمك…', '#1e3a5f', '#fff'], saved:['✓ تم حفظ تقدّمك', '#166534', '#fff'], err:['⚠ لم يُحفظ تقدّمك على الخادم الآن — هو محفوظ على جهازك وسنعيد المحاولة', '#b45309', '#fff'] }[s];
+    c.textContent = m[0]; c.style.background = m[1]; c.style.color = m[2]; c.style.display = 'block';
+    if(s === 'saved') progChipT = setTimeout(() => { c.style.display = 'none'; }, 2500);
+  }catch(e){}
+}
+function progSchedule(){
+  if(!progOn()) return;
+  lsSet(PROG_DIRTY, '1');                 // توجد تغييرات لم تُرفع بعد
+  if(progSrvVoc === null) return;          // قبل أول مزامنة: تُرفع بعد السحب
+  clearTimeout(progT); progT = setTimeout(progFlush, 900);
+}
+async function progFlush(){
+  if(progBusy){ progSchedule(); return; }
+  if(!progOn() || progSrvVoc === null) return;
+  progBusy = true; let quiet = true;
+  try{
+    const now = new Date().toISOString(), uid = state.uid;
+    const adds = [...V.known].filter(w => !progSrvVoc.has(w) && progWordLevel(w)).map(w => ({ student_id:uid, kind:'vocab', item:w, level:progWordLevel(w), updated_at:now }));
+    const dels = [...progSrvVoc].filter(w => !V.known.has(w));
+    const grs = [];
+    Object.keys(GRS.done).forEach(id => { const L = progLesson(id), sc = GRS.done[id]; if(L && Number.isInteger(sc) && sc >= 0 && sc <= L.total && (!(id in progSrvGr) || sc > progSrvGr[id])) grs.push({ student_id:uid, kind:'grammar', item:id, level:L.level, score:sc, total:L.total, updated_at:now }); });
+    const rows = adds.concat(grs);
+    quiet = !rows.length && !dels.length; if(!quiet) progStatus('saving');
+    for(let i = 0; i < rows.length; i += 200){ const r = await sb.from('student_progress').upsert(rows.slice(i, i + 200), { onConflict:'student_id,kind,item' }); if(r.error) throw r.error; }
+    for(let i = 0; i < dels.length; i += 100){ const r = await sb.from('student_progress').delete().eq('student_id', uid).eq('kind', 'vocab').in('item', dels.slice(i, i + 100)); if(r.error) throw r.error; }
+    adds.forEach(a => progSrvVoc.add(a.item)); dels.forEach(w => progSrvVoc.delete(w)); grs.forEach(g => { progSrvGr[g.item] = g.score; });
+    lsSet(PROG_DIRTY, '');
+    if(!quiet) progStatus('saved');
+  }catch(e){
+    logErr('progFlush', e); progStatus('err');
+    clearTimeout(progT); progT = setTimeout(progFlush, 30000);   // إعادة المحاولة لاحقاً (يبقى التقدّم محفوظاً على الجهاز)
+  }finally{ progBusy = false; }
+}
+window.addEventListener('online', () => { if(progOn() && progSrvVoc !== null) progSchedule(); });
+async function progPull(){
+  progSrvVoc = null; progSrvGr = null; progStatus(null);
+  if(!progOn()) return;
+  const uid = state.uid;
+  try{
+    const owner = lsGet(PROG_OWNER);
+    if(owner && owner !== uid){ V.known = new Set(); GRS.done = {}; vSave(); grSave(); lsSet(PROG_DIRTY, ''); }   // جهاز استعمله طالب آخر: لا نخلط التقدّمين
+    const r = await sb.from('student_progress').select('kind,item,level,score,total').eq('student_id', uid).limit(1000);
+    if(r.error) throw r.error;
+    if(state.uid !== uid) return;
+    const voc = new Set(), gr = {};
+    (r.data || []).forEach(x => { if(x.kind === 'vocab' && progWordLevel(x.item)) voc.add(x.item); else if(x.kind === 'grammar' && progLesson(x.item) && Number.isInteger(x.score)) gr[x.item] = x.score; });
+    const merge = !owner || lsGet(PROG_DIRTY) === '1';   // أول مرة أو توجد تغييرات محلية لم تُرفع: ندمج. غير ذلك الخادم هو المرجع.
+    let changed = false;
+    if(merge){
+      voc.forEach(w => { if(!V.known.has(w)){ V.known.add(w); changed = true; } });
+      Object.keys(gr).forEach(id => { if(GRS.done[id] === undefined || gr[id] > GRS.done[id]){ GRS.done[id] = gr[id]; changed = true; } });
+    }else{
+      const nk = new Set(voc); if(nk.size !== V.known.size || [...nk].some(w => !V.known.has(w))){ V.known = nk; changed = true; }
+      const nd = {}; Object.keys(gr).forEach(id => { nd[id] = Math.max(gr[id], GRS.done[id] || 0); });
+      if(JSON.stringify(nd) !== JSON.stringify(GRS.done)){ GRS.done = nd; changed = true; }
+    }
+    progSrvVoc = voc; progSrvGr = gr;
+    lsSet(PROG_OWNER, uid);
+    if(changed){ try{ localStorage.setItem('fo_voc_known', JSON.stringify([...V.known])); }catch(e){} grSave(); }
+    progSchedule();   // يرفع ما هو على الجهاز فقط (ترحيل تقدّم ما قبل التحديث)
+    if(changed && (state.tab === 'vocab' || state.tab === 'grammar') && !document.querySelector('#modal .ov')) render();
+  }catch(e){ logErr('progPull', e); progStatus('err'); }
+}
+/* عرض تقدّم طالب للمدرس داخل نافذة التفاصيل */
+async function trkProgress(id){
+  const box = document.getElementById('trkprog'); if(!box) return;
+  box.innerHTML = '<p class="cap">جارٍ تحميل تقدّم المفردات والقواعد…</p>';
+  let r; try{ r = await sb.from('student_progress').select('kind,item,level,score,total,updated_at').eq('student_id', id).limit(1000); }catch(e){ r = { error:e }; }
+  if(!document.getElementById('trkprog')) return;
+  if(r.error){ logErr('trkProgress', r.error); box.innerHTML = '<p class="cap">تعذر تحميل تقدّم المفردات والقواعد.</p>'; return; }
+  const rows = r.data || [], voc = rows.filter(x => x.kind === 'vocab' && progWordLevel(x.item)), gr = rows.filter(x => x.kind === 'grammar' && progLesson(x.item));
+  const tot = {}; for(const L in VOC) tot[L] = VOC[L].reduce((n, c) => n + c.w.length, 0);
+  const bar = p => `<span class="pbar ${p < 50 ? 'low' : ''}"><i style="width:${Math.round(p)}%"></i></span>`;
+  const vrow = ['A1','A2','B1'].map(L => { const k = voc.filter(x => progWordLevel(x.item) === L).length; return `<tr><td>${L}</td><td>${k} / ${tot[L]}</td><td>${bar(k / tot[L] * 100)}</td></tr>`; }).join('');
+  const last = rows.map(x => x.updated_at).filter(Boolean).sort().pop();
+  const gsorted = gr.slice().sort((a, b) => (progLesson(a.item).level + a.item).localeCompare(progLesson(b.item).level + b.item));
+  box.innerHTML = `<h2 class="st"><span>المفردات</span><small>${voc.length} كلمة معروفة</small></h2>
+    ${voc.length ? `<div style="overflow-x:auto"><table><tr><th>المستوى</th><th>الكلمات المعروفة</th><th>النسبة</th></tr>${vrow}</table></div>` : '<p class="cap">لم يحدّد أي كلمة كمعروفة بعد.</p>'}
+    <h2 class="st"><span>القواعد</span><small>${gr.length} درس</small></h2>
+    ${gr.length ? `<div style="overflow-x:auto"><table><tr><th>الدرس</th><th>المستوى</th><th>أعلى درجة</th></tr>${gsorted.map(x => { const L = progLesson(x.item), p = x.total ? x.score / x.total * 100 : 0; return `<tr><td dir="auto">${esc(L.title)} <small dir="ltr">${esc(L.fr)}</small></td><td>${esc(x.level)}</td><td><span class="tag ${p >= 50 ? 'ok' : 'bad'}">${x.score}/${x.total}</span></td></tr>`; }).join('')}</table></div>` : '<p class="cap">لم يحلّ أي تمرين قواعد بعد.</p>'}
+    ${last ? `<p class="cap">آخر تحديث للتقدّم: ${esc(fmtDT(last))}</p>` : ''}`;
+}
+
+(function(){
+  function bar(){ let b = document.getElementById('offbar'); if(!b){ b = document.createElement('div'); b.id='offbar'; b.setAttribute('role','status'); b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#b45309;color:#fff;text-align:center;padding:6px 10px;font:600 14px sans-serif;display:none'; b.textContent='لا يوجد اتصال بالإنترنت — بعض الميزات لن تعمل حتى يعود الاتصال'; document.body.appendChild(b); } return b; }
+  function upd(){ try{ bar().style.display = navigator.onLine===false ? 'block' : 'none'; }catch(e){} }
+  window.addEventListener('offline', upd); window.addEventListener('online', upd);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', upd); else upd();
+})();
+/* ---------- صفحة النتائج (للمعلم): كل نتائج الاختبارات مع فلاتر وتصدير ---------- */
+const RES = { src:'quiz', rows:[], games:[], subs:[], gOk:true, ok:false, loading:false, err:'', q:'', cls:'all', quiz:'all', per:'all', band:'all', hst:'all', sort:'new', view:'cards', limit:30 };
+const RES_SRC = { quiz:'الاختبارات', game:'الألعاب', hw:'الواجبات' };
+function resRowsSrc(){ return RES.src === 'game' ? RES.games.map(g => ({ id:g.id, quiz_id:'g:' + g.game, student_id:g.student_id, student:null, score:g.correct, total:g.total, created_at:g.created_at, _lv:g.level, _g:g.game })) : RES.rows; }
+const resPct = r => r.total ? Math.round(r.score / r.total * 100) : 0;
+const resBandOf = p => p >= 85 ? 'top' : p >= 60 ? 'mid' : 'low';
+const RES_BAND = { top:['ممتاز', '#1e9e5a'], mid:['جيد', '#e8890c'], low:['يحتاج دعم', '#d6334a'] };
+const resName = r => { const s = students.find(x => x.id === r.student_id); return s ? s.full_name : (r.student || '—'); };
+async function resLoad(){
+  if(RES.loading) return;
+  RES.loading = true; RES.err = '';
+  if(state.tab === 'results') resDraw();
+  try{
+    const pageAll = async (table, cols, must) => {
+      let all = [], from = 0;
+      for(let i = 0; i < 30; i++){
+        const r = await sb.from(table).select(cols).order('created_at', { ascending:false }).range(from, from + 999);
+        if(r.error){ if(must) throw r.error; return null; }
+        const d = r.data || []; all = all.concat(d);
+        if(d.length < 1000) break; from += 1000;
+      }
+      return all;
+    };
+    RES.rows = await pageAll('results', 'id,quiz_id,student,student_id,score,total,created_at', true);
+    const sb2 = await pageAll('submissions', 'id,assignment_id,student,student_id,grade,note,created_at', false);
+    const gs = await pageAll('game_scores', 'id,student_id,game,level,correct,total,created_at', false);
+    RES.subs = sb2 || []; RES.games = gs || []; RES.gOk = gs !== null; RES.ok = true;
+  }catch(e){ RES.err = errMsg(e); logErr('resLoad', e); }
+  RES.loading = false;
+  if(state.tab === 'results') resDraw();
+}
+function renderResults(v, err){
+  if(!RES.ok && !RES.loading && !RES.err) resLoad();
+  resDraw(v, err);
+}
+function resCtx(){
+  const sMap = new Map(students.map(s => [s.id, s])), qMap = new Map(quizzes.map(z => [z.id, z])), cMap = new Map(classes.map(c => [c.id, c]));
+  const info = r => {
+    const s = sMap.get(r.student_id), z = qMap.get(r.quiz_id);
+    return { name: s ? s.full_name : (r.student || '—'), login: s ? (s.login_id || '') : '', reg: !!s, cid: s ? s.class_id : null,
+      cname: s ? ((cMap.get(s.class_id) || {}).name || 'بدون صف') : 'غير مسجّل', qt: r._g ? ((GAME_DATA[r._g] || {}).title || r._g) : (z ? z.title : 'اختبار محذوف'), lv: r._g ? (r._lv || '') : (z ? (z.level || '') : ''), p: resPct(r), key: r.student_id || ('n:' + r.student) };
+  };
+  return { info };
+}
+function resFiltered(){
+  const { info } = resCtx(), q = RES.q.trim().toLowerCase(), now = Date.now();
+  const since = RES.per === 'today' ? new Date().setHours(0, 0, 0, 0) : RES.per === '7' ? now - 7 * 864e5 : RES.per === '30' ? now - 30 * 864e5 : 0;
+  const out = [];
+  resRowsSrc().forEach(r => {
+    const i = info(r);
+    if(RES.cls === 'none' ? i.cid : RES.cls !== 'all' && i.cid !== RES.cls) return;
+    if(RES.quiz !== 'all' && r.quiz_id !== RES.quiz) return;
+    if(since && new Date(r.created_at).getTime() < since) return;
+    if(RES.band !== 'all' && resBandOf(i.p) !== RES.band) return;
+    if(q && !(i.name + ' ' + i.login + ' ' + i.qt).toLowerCase().includes(q)) return;
+    out.push({ r, i });
+  });
+  const cmp = { new:(a, b) => new Date(b.r.created_at) - new Date(a.r.created_at), old:(a, b) => new Date(a.r.created_at) - new Date(b.r.created_at),
+    high:(a, b) => b.i.p - a.i.p, low:(a, b) => a.i.p - b.i.p, name:(a, b) => a.i.name.localeCompare(b.i.name, 'ar') }[RES.sort] || (() => 0);
+  return out.sort(cmp);
+}
+function resDraw(v, err){
+  v = v || document.getElementById('view'); if(!v || state.tab !== 'results') return;
+  v.innerHTML = (err || '') + `
+    <div class="rhead"><h2 class="st"><span>${I('list')} نتائج ${RES_SRC[RES.src]}</span><small id="rcount"></small></h2>
+      <div class="racts"><button class="btn sec" data-a="resRefresh">تحديث</button><button class="btn" data-a="resCsv">${I('download','s')} تصدير Excel / CSV</button><button class="btn sec" data-a="resPrint">${I('print','s')} طباعة / PDF</button></div></div>
+    <div class="rsrc">${Object.keys(RES_SRC).map(k => `<button class="${RES.src === k ? 'on' : ''}" data-a="resSrc" data-id="${k}">${RES_SRC[k]}</button>`).join('')}</div>
+    <div class="rsearch">${I('search','s')}<input class="in" data-res="q" value="${esc(RES.q)}" placeholder="ابحث باسم الطالب أو الاختبار…" aria-label="بحث" dir="auto"></div>
+    <div id="resBody"></div>`;
+  resUpdate();
+}
+function resUpdate(){
+  const box = document.getElementById('resBody'); if(!box || state.tab !== 'results') return;
+  if(RES.loading && !RES.ok){ box.innerHTML = skel(); return; }
+  if(RES.err && !RES.ok){ box.innerHTML = `<div class="errbox">تعذر تحميل النتائج: ${esc(RES.err)}<br><button class="btn sec" data-a="resRefresh" style="margin-top:8px">إعادة المحاولة</button></div>`; return; }
+  if(RES.src === 'hw') return resHwUpdate(box);
+  if(RES.src === 'game' && !RES.gOk){ box.innerHTML = emptyBox('sparkle', 'c-orange', 'نتائج الألعاب غير مفعّلة بعد', 'لم يتم تفعيل جدول نتائج الألعاب في قاعدة البيانات.'); return; }
+  const list = resFiltered(), all = resRowsSrc().length;
+  const cnt = document.getElementById('rcount'); if(cnt) cnt.textContent = list.length === all ? all + ' نتيجة' : list.length + ' من ' + all;
+  const n = list.length, avg = n ? Math.round(list.reduce((s, x) => s + x.i.p, 0) / n) : null;
+  const studs = new Set(list.map(x => x.i.key)).size, pass = n ? Math.round(list.filter(x => x.i.p >= 50).length / n * 100) : null, best = n ? Math.max(...list.map(x => x.i.p)) : null;
+  const tiles = [['quiz','c-blue',n,RES.src === 'game' ? 'جولة' : 'محاولة'], ['users','c-teal',studs,'طالب'], ['chart','c-purple',avg == null ? '—' : avg + '%','متوسط الدرجات'], ['check','c-green',pass == null ? '—' : pass + '%','نسبة النجاح (50%+)'], ['sparkle','c-orange',best == null ? '—' : best + '%','أعلى نتيجة']];
+  // التوزيع
+  const B = [['أقل من 50', 0, 49], ['50–59', 50, 59], ['60–74', 60, 74], ['75–89', 75, 89], ['90–100', 90, 100]];
+  const dist = B.map(([l, a, b]) => [l, list.filter(x => x.i.p >= a && x.i.p <= b).length]), mx = Math.max(1, ...dist.map(d => d[1]));
+  const col = ['#d6334a', '#e8890c', '#d4a017', '#2F6DB5', '#1e9e5a'];
+  // أفضل / أحوج الطلاب (بالمتوسط)
+  const by = new Map(); list.forEach(x => { const k = x.i.key; if(!by.has(k)) by.set(k, { name:x.i.name, s:0, n:0 }); const o = by.get(k); o.s += x.i.p; o.n++; });
+  const stu = [...by.values()].map(o => ({ name:o.name, avg:Math.round(o.s / o.n), n:o.n })).sort((a, b) => b.avg - a.avg);
+  const mini = (arr, c) => arr.map(s => `<li><span dir="auto">${esc(s.name)}</span><b style="color:${c}">${s.avg}%</b><small>${s.n} محاولة</small></li>`).join('');
+  const topS = stu.slice(0, 3), lowS = stu.length > 3 ? stu.slice(-3).reverse() : [];
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${RES.cls === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${RES.cls === 'none' ? 'selected' : ''}>بدون صف / غير مسجّل</option>`;
+  const qopts = RES.src === 'game' ? `<option value="all">كل الألعاب</option>` + Object.keys(GAME_DATA).filter(k => !GAME_DATA[k].from).map(k => `<option value="g:${k}" ${RES.quiz === 'g:' + k ? 'selected' : ''}>${esc(GAME_DATA[k].title)}</option>`).join('')
+    : `<option value="all">كل الاختبارات</option>` + quizzes.map(z => `<option value="${z.id}" ${RES.quiz === z.id ? 'selected' : ''}>${esc(z.title)}</option>`).join('');
+  const sopts = [['new','الأحدث'], ['old','الأقدم'], ['high','الأعلى درجة'], ['low','الأقل درجة'], ['name','الاسم']].map(([k, l]) => `<option value="${k}" ${RES.sort === k ? 'selected' : ''}>${l}</option>`).join('');
+  const chip = (act, id, cur, l) => `<button class="chip ${cur === id ? 'on' : ''}" data-a="${act}" data-id="${id}">${l}</button>`;
+  const shown = list.slice(0, RES.limit);
+  const card = ({ r, i }) => { const b = RES_BAND[resBandOf(i.p)];
+    return `<button class="rcard" data-a="resOpen" data-id="${r.id}"><span class="rring" style="--p:${i.p};--c:${b[1]}"><b>${i.p}%</b></span>
+      <span class="rmain"><b dir="auto">${esc(i.name)}</b><small dir="auto">${esc(i.qt)}</small><span class="rmeta"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><time>${esc(fmtDT(r.created_at))}</time></span></span>
+      <span class="rscore"><b>${r.score}/${r.total}</b><i class="rband" style="background:${b[1]}">${b[0]}</i></span></button>`; };
+  const trow = ({ r, i }) => { const b = RES_BAND[resBandOf(i.p)];
+    return `<tr class="rowopen" data-a="resOpen" data-id="${r.id}"><td data-label="الطالب" dir="auto"><b>${esc(i.name)}</b></td><td data-label="الصف">${esc(i.cname)}</td><td data-label="الاختبار" dir="auto">${esc(i.qt)}</td><td data-label="الدرجة">${r.score}/${r.total}</td><td data-label="النسبة">${i.p}%<span class="pbar ${i.p < 50 ? 'low' : ''}"><i style="width:${i.p}%"></i></span></td><td data-label="التقدير"><span class="rband" style="background:${b[1]}">${b[0]}</span></td><td data-label="التاريخ">${esc(fmtDT(r.created_at))}</td></tr>`; };
+  const body = !all ? emptyBox('quiz', 'c-green', 'لا توجد نتائج بعد', RES.src === 'game' ? 'ستظهر هنا نتائج الطلاب عندما يلعبون.' : 'ستظهر هنا نتائج الطلاب عند حلّهم الاختبارات.')
+    : !n ? `${emptyBox('search', 'c-blue', 'لا توجد نتائج مطابقة', 'غيّر الفلاتر أو ابحث بكلمة أخرى.')}<div class="actions"><button class="btn sec" data-a="resClear">مسح الفلاتر</button></div>`
+    : (RES.view === 'table' ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الطالب</th><th>الصف</th><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التقدير</th><th>التاريخ</th></tr>${shown.map(trow).join('')}</table></div>`
+      : `<div class="rgrid">${shown.map(card).join('')}</div>`)
+      + (n > shown.length ? `<div class="actions"><button class="btn sec" data-a="resMore">عرض المزيد (${n - shown.length})</button></div>` : '');
+  box.innerHTML = `
+    <div class="rfilters"><select class="in" data-res="cls" aria-label="الصف">${opts}</select><select class="in" data-res="quiz" aria-label="الاختبار">${qopts}</select><select class="in" data-res="sort" aria-label="الترتيب">${sopts}</select></div>
+    <div class="rchips"><span class="rcl">الفترة</span>${chip('resPer', 'all', RES.per, 'الكل')}${chip('resPer', 'today', RES.per, 'اليوم')}${chip('resPer', '7', RES.per, '7 أيام')}${chip('resPer', '30', RES.per, '30 يوماً')}
+      <span class="rcl">التقدير</span>${chip('resBand', 'all', RES.band, 'الكل')}${chip('resBand', 'top', RES.band, 'ممتاز')}${chip('resBand', 'mid', RES.band, 'جيد')}${chip('resBand', 'low', RES.band, 'يحتاج دعم')}
+      <span class="rcl">العرض</span>${chip('resView', 'cards', RES.view, 'بطاقات')}${chip('resView', 'table', RES.view, 'جدول')}</div>
+    <div class="tiles rtiles">${tiles.map(([ic, c, x, l]) => `<div class="tile static"><div class="ib ${c}">${I(ic)}</div><div><b>${x}</b><span>${l}</span></div></div>`).join('')}</div>
+    ${n ? `<div class="rins"><div class="card rdist"><h3>توزيع الدرجات</h3><div class="rbars">${dist.map(([l, c], k) => `<div class="rb"><b>${c}</b><i style="height:${Math.round(c / mx * 100)}%;background:${col[k]}"></i><small>${l}</small></div>`).join('')}</div></div>
+      <div class="card rlead"><h3>الأفضل (بالمتوسط)</h3><ul>${mini(topS, '#1e9e5a')}</ul>${lowS.length ? `<h3 style="margin-top:12px">يحتاجون دعماً</h3><ul>${mini(lowS, '#d6334a')}</ul>` : ''}</div></div>` : ''}
+    <div class="rlist">${body}</div>`;
+}
+function resOpen(id){
+  const ROWS = resRowsSrc(), r = ROWS.find(x => x.id === id); if(!r) return;
+  const { info } = resCtx(), i = info(r), b = RES_BAND[resBandOf(i.p)];
+  const same = ROWS.filter(x => x.quiz_id === r.quiz_id && (r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student))).sort((a, c) => new Date(a.created_at) - new Date(c.created_at));
+  const attempt = same.findIndex(x => x.id === r.id) + 1;
+  const mine = ROWS.filter(x => r.student_id ? x.student_id === r.student_id : (!x.student_id && x.student === r.student));
+  const tl = mine.slice().sort((a, c) => new Date(a.created_at) - new Date(c.created_at)).slice(-12).map(resPct);
+  const spark = tl.length >= 2 ? (() => { const W = 300, H = 70, st = W / (tl.length - 1), pts = tl.map((p, k) => (k * st).toFixed(1) + ',' + (H - 6 - p / 100 * (H - 12)).toFixed(1));
+    return `<div class="rspark"><small>تطوّر الطالب (آخر ${tl.length} ${RES.src === 'game' ? 'جولة' : 'محاولة'})</small><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="منحنى التقدّم"><line x1="0" x2="${W}" y1="${H - 6 - 50 / 100 * (H - 12)}" y2="${H - 6 - 50 / 100 * (H - 12)}" stroke="#d9d3c3" stroke-dasharray="4 4"/><polyline points="${pts.join(' ')}" fill="none" stroke="#2F6DB5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${pts.map(q => `<circle cx="${q.split(',')[0]}" cy="${q.split(',')[1]}" r="3.5" fill="#B8893B"/>`).join('')}</svg><div class="rsp"><span>${tl[0]}%</span><span>${tl[tl.length - 1]}%</span></div></div>`; })() : '';
+  const myAvg = mine.length ? Math.round(mine.reduce((s, x) => s + resPct(x), 0) / mine.length) : null;
+  const qa = ROWS.filter(x => x.quiz_id === r.quiz_id), qAvg = qa.length ? Math.round(qa.reduce((s, x) => s + resPct(x), 0) / qa.length) : null;
+  const bestBy = new Map(); qa.forEach(x => { const k = x.student_id || ('n:' + x.student); bestBy.set(k, Math.max(bestBy.get(k) || 0, resPct(x))); });
+  const rank = [...bestBy.values()].filter(p => p > (bestBy.get(i.key) || 0)).length + 1;
+  const diff = qAvg == null ? '' : (i.p - qAvg >= 0 ? '+' : '') + (i.p - qAvg);
+  openModal(`<h3>تفاصيل النتيجة</h3>
+    <div class="rdet"><span class="rring big" style="--p:${i.p};--c:${b[1]}"><b>${i.p}%</b></span>
+      <div><h4 dir="auto">${esc(i.name)}</h4><p dir="auto" class="cap">${esc(i.qt)}${i.lv ? ' · ' + esc(i.lv) : ''}</p>
+      <div class="tags"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><span class="rband" style="background:${b[1]}">${b[0]}</span></div></div></div>
+    <div class="tiles rdt" style="margin-top:14px"><div class="tile static"><div><b>${r.score}/${r.total}</b><span>الدرجة</span></div></div>
+      <div class="tile static"><div><b>${attempt} من ${same.length}</b><span>رقم المحاولة لهذا الاختبار</span></div></div>
+      <div class="tile static"><div><b>${qAvg == null ? '—' : qAvg + '%'}</b><span>متوسط الاختبار${diff ? ' (الفرق ' + diff + ')' : ''}</span></div></div>
+      <div class="tile static"><div><b>${myAvg == null ? '—' : myAvg + '%'}</b><span>متوسط الطالب في كل اختباراته</span></div></div>
+      <div class="tile static"><div><b>${rank} من ${bestBy.size}</b><span>ترتيبه في هذا الاختبار</span></div></div></div>
+    ${spark}
+    <p class="cap" style="margin-top:10px">${esc(fmtDT(r.created_at))}</p>
+    <div class="actions"><button class="btn sec" data-a="resStudent" data-id="${r.id}">كل نتائج هذا الطالب</button><button class="btn sec" data-a="resQuizF" data-id="${r.id}">${RES.src === 'game' ? 'نتائج هذه اللعبة' : 'نتائج هذا الاختبار'}</button>${RES.src === 'quiz' ? `<button class="btn del" data-a="resDel" data-id="${r.id}">${I('trash','s')} حذف النتيجة</button>` : ''}<button class="btn" data-a="close">إغلاق</button></div>`);
+}
+function resCsv(){
+  if(RES.src === 'hw') return resCsvHw();
+  const rows = resFiltered();
+  if(!rows.length){ toast('لا توجد نتائج للتصدير', 'err'); return; }
+  const cell = v => { if(typeof v === 'number') return String(v); let s = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const p2 = n => String(n).padStart(2, '0');
+  const lines = [['الطالب', 'اسم الدخول', 'الصف', RES.src === 'game' ? 'اللعبة' : 'الاختبار', 'المستوى', 'الدرجة', 'الإجمالي', 'النسبة %', 'التقدير', 'التاريخ', 'الوقت'].map(cell).join(',')];
+  rows.forEach(({ r, i }) => { const d = new Date(r.created_at);
+    lines.push([i.name, i.login, i.cname, i.qt, i.lv, r.score, r.total, i.p, RES_BAND[resBandOf(i.p)][0], d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), p2(d.getHours()) + ':' + p2(d.getMinutes())].map(cell).join(',')); });
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'), t = new Date();
+  a.href = URL.createObjectURL(blob); a.download = 'results-' + t.getFullYear() + '-' + p2(t.getMonth() + 1) + '-' + p2(t.getDate()) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('تم تجهيز الملف (' + rows.length + ' نتيجة) — افتحه بـ Excel أو Google Sheets', 'ok');
+}
+/* ---------- الواجبات (التسليمات) ---------- */
+function resHwList(){
+  const sMap = new Map(students.map(s => [s.id, s])), cMap = new Map(classes.map(c => [c.id, c])), aMap = new Map(assignments.map(a => [a.id, a]));
+  const q = RES.q.trim().toLowerCase(), now = Date.now();
+  const since = RES.per === 'today' ? new Date().setHours(0, 0, 0, 0) : RES.per === '7' ? now - 7 * 864e5 : RES.per === '30' ? now - 30 * 864e5 : 0;
+  const out = [];
+  RES.subs.forEach(x => {
+    const s = sMap.get(x.student_id), a = aMap.get(x.assignment_id), cid = s ? s.class_id : null;
+    const i = { name: s ? s.full_name : (x.student || '—'), login: s ? (s.login_id || '') : '', cid, cname: s ? ((cMap.get(cid) || {}).name || 'بدون صف') : 'غير مسجّل', at: a ? a.title : 'واجب محذوف', reg: !!s, done: !!x.grade };
+    if(RES.cls === 'none' ? cid : RES.cls !== 'all' && cid !== RES.cls) return;
+    if(RES.quiz !== 'all' && x.assignment_id !== RES.quiz) return;
+    if(since && new Date(x.created_at).getTime() < since) return;
+    if(RES.hst === 'wait' && i.done) return; if(RES.hst === 'done' && !i.done) return;
+    if(q && !(i.name + ' ' + i.login + ' ' + i.at + ' ' + (x.grade || '')).toLowerCase().includes(q)) return;
+    out.push({ x, i });
+  });
+  const cmp = { old:(a, b) => new Date(a.x.created_at) - new Date(b.x.created_at), name:(a, b) => a.i.name.localeCompare(b.i.name, 'ar') }[RES.sort] || ((a, b) => new Date(b.x.created_at) - new Date(a.x.created_at));
+  return out.sort(cmp);
+}
+function resHwUpdate(box){
+  const list = resHwList(), all = RES.subs.length, n = list.length;
+  const cnt = document.getElementById('rcount'); if(cnt) cnt.textContent = n === all ? all + ' تسليم' : n + ' من ' + all;
+  const wait = list.filter(y => !y.i.done).length, studs = new Set(list.map(y => y.x.student_id || ('n:' + y.x.student))).size;
+  const tiles = [['assign','c-blue',n,'تسليم'], ['users','c-teal',studs,'طالب'], ['clock','c-orange',wait,'بانتظار التصحيح'], ['check','c-green',n - wait,'تم تصحيحه']];
+  const opts = `<option value="all">كل الصفوف</option>` + classes.map(c => `<option value="${c.id}" ${RES.cls === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + `<option value="none" ${RES.cls === 'none' ? 'selected' : ''}>بدون صف / غير مسجّل</option>`;
+  const aopts = `<option value="all">كل الواجبات</option>` + assignments.map(a => `<option value="${a.id}" ${RES.quiz === a.id ? 'selected' : ''}>${esc(a.title)}</option>`).join('');
+  const sopts = [['new','الأحدث'], ['old','الأقدم'], ['name','الاسم']].map(([k, l]) => `<option value="${k}" ${RES.sort === k ? 'selected' : ''}>${l}</option>`).join('');
+  const chip = (act, id, cur, l) => `<button class="chip ${cur === id ? 'on' : ''}" data-a="${act}" data-id="${id}">${l}</button>`;
+  const shown = list.slice(0, RES.limit);
+  const card = ({ x, i }) => `<button class="rcard" data-a="subs" data-id="${x.assignment_id}"><span class="rav">${esc((i.name || '?').trim().charAt(0).toUpperCase())}</span>
+    <span class="rmain"><b dir="auto">${esc(i.name)}</b><small dir="auto">${esc(i.at)}</small><span class="rmeta"><span class="tag ${i.reg ? 'cls' : 'warn'}">${esc(i.cname)}</span><time>${esc(fmtDT(x.created_at))}</time></span></span>
+    <span class="rscore">${i.done ? `<b>${esc(x.grade)}</b><i class="rband" style="background:#1e9e5a">مصحّح</i>` : `<i class="rband" style="background:#e8890c">بانتظار التصحيح</i>`}</span></button>`;
+  const body = !all ? emptyBox('assign', 'c-orange', 'لا توجد تسليمات بعد', 'ستظهر هنا تسليمات الطلاب للواجبات.')
+    : !n ? `${emptyBox('search', 'c-blue', 'لا توجد تسليمات مطابقة', 'غيّر الفلاتر أو ابحث بكلمة أخرى.')}<div class="actions"><button class="btn sec" data-a="resClear">مسح الفلاتر</button></div>`
+    : `<div class="rgrid">${shown.map(card).join('')}</div>` + (n > shown.length ? `<div class="actions"><button class="btn sec" data-a="resMore">عرض المزيد (${n - shown.length})</button></div>` : '');
+  box.innerHTML = `
+    <div class="rfilters"><select class="in" data-res="cls" aria-label="الصف">${opts}</select><select class="in" data-res="quiz" aria-label="الواجب">${aopts}</select><select class="in" data-res="sort" aria-label="الترتيب">${sopts}</select></div>
+    <div class="rchips"><span class="rcl">الفترة</span>${chip('resPer', 'all', RES.per, 'الكل')}${chip('resPer', 'today', RES.per, 'اليوم')}${chip('resPer', '7', RES.per, '7 أيام')}${chip('resPer', '30', RES.per, '30 يوماً')}
+      <span class="rcl">الحالة</span>${chip('resHst', 'all', RES.hst, 'الكل')}${chip('resHst', 'wait', RES.hst, 'بانتظار التصحيح')}${chip('resHst', 'done', RES.hst, 'مصحّح')}</div>
+    <div class="tiles rtiles">${tiles.map(([ic, c, x, l]) => `<div class="tile static"><div class="ib ${c}">${I(ic)}</div><div><b>${x}</b><span>${l}</span></div></div>`).join('')}</div>
+    <div class="rlist">${body}</div><p class="cap" style="margin-top:12px">اضغط على أي تسليم لفتح الملفات وتصحيحه.</p>`;
+}
+function resCsvHw(){
+  const rows = resHwList();
+  if(!rows.length){ toast('لا توجد تسليمات للتصدير', 'err'); return; }
+  const cell = v => { let s = String(v == null ? '' : v); if(/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const p2 = n => String(n).padStart(2, '0');
+  const lines = [['الطالب', 'اسم الدخول', 'الصف', 'الواجب', 'الحالة', 'الدرجة', 'ملاحظة المدرس', 'التاريخ', 'الوقت'].map(cell).join(',')];
+  rows.forEach(({ x, i }) => { const d = new Date(x.created_at);
+    lines.push([i.name, i.login, i.cname, i.at, i.done ? 'مصحّح' : 'بانتظار التصحيح', x.grade || '', x.note || '', d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), p2(d.getHours()) + ':' + p2(d.getMinutes())].map(cell).join(',')); });
+  const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'), t = new Date();
+  a.href = URL.createObjectURL(blob); a.download = 'submissions-' + t.getFullYear() + '-' + p2(t.getMonth() + 1) + '-' + p2(t.getDate()) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('تم تجهيز الملف (' + rows.length + ' تسليم)', 'ok');
+}
+const RESH = {
+  mineGMore:() => { MINEG.limit += 20; const b = document.getElementById('mineGames'); if(b) b.innerHTML = mineGamesHtml(); },
+  resSrc:id => { if(!RES_SRC[id]) return; RES.src = id; RES.quiz = 'all'; RES.band = 'all'; RES.hst = 'all'; RES.sort = 'new'; RES.limit = 30; resDraw(); },
+  resHst:id => { RES.hst = id; RES.limit = 30; resUpdate(); },
+  resRefresh:() => { RES.ok = false; RES.err = ''; return resLoad(); },
+  resCsv:() => resCsv(),
+  resPrint:() => { const old = RES.limit; RES.limit = 1e9; resUpdate(); document.body.classList.add('resprint'); setTimeout(() => { try{ window.print(); }finally{ document.body.classList.remove('resprint'); RES.limit = old; resUpdate(); } }, 200); },
+  resPer:id => { RES.per = id; RES.limit = 30; resUpdate(); },
+  resBand:id => { RES.band = id; RES.limit = 30; resUpdate(); },
+  resView:id => { RES.view = id; resUpdate(); },
+  resMore:() => { RES.limit += 30; resUpdate(); },
+  resClear:() => { RES.q = ''; RES.cls = 'all'; RES.quiz = 'all'; RES.per = 'all'; RES.band = 'all'; RES.hst = 'all'; RES.limit = 30; resDraw(); },
+  resOpen:id => resOpen(id),
+  resStudent:id => { const r = resRowsSrc().find(x => x.id === id); if(!r) return; closeModal(); RES.q = resCtx().info(r).name; RES.quiz = 'all'; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resQuizF:id => { const r = resRowsSrc().find(x => x.id === id); if(!r) return; closeModal(); RES.quiz = r.quiz_id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; resDraw(); window.scrollTo(0, 0); },
+  resDel:async id => {
+    if(!confirm('حذف هذه النتيجة نهائياً؟ لا يمكن التراجع.')) return;
+    const { error } = await sb.from('results').delete().eq('id', id);
+    if(error){ toast('تعذر الحذف: ' + errMsg(error), 'err'); return; }
+    RES.rows = RES.rows.filter(x => x.id !== id); closeModal(); resUpdate(); toast('تم حذف النتيجة', 'ok');
+    try{ refreshCounts(); }catch(e){}
+  },
+  resFromQuiz:id => { closeModal(); RES.src = 'quiz'; RES.quiz = id; RES.q = ''; RES.cls = 'all'; RES.per = 'all'; RES.band = 'all'; RES.limit = 30; state.tab = 'results'; render(); window.scrollTo(0, 0); }
+};
+document.addEventListener('input', e => { const el = e.target; if(el && el.dataset && el.dataset.res === 'q'){ RES.q = el.value; RES.limit = 30; resUpdate(); } });
+document.addEventListener('change', e => { const el = e.target, k = el && el.dataset && el.dataset.res; if(k && k !== 'q'){ RES[k] = el.value; RES.limit = 30; resUpdate(); } });
+
+/* ---- لوحة الطالب (v8a): بيانات حقيقية فقط ---- */
+const DASH = { rows:null, uid:null, err:false };
+const DASH_DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const DASH_LV = [['A1','مبتدئ','c1'],['A2','أساسي','c2'],['B1','متوسط','c3']];
+const DASH_ART = {
+  c1:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M50 4l4 16h-8zM44 24h12l4 22H40zM38 50h24l8 30H30zM26 84h48v8H26z"/></svg>',
+  c2:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M14 90V30h72v60H64V56a14 14 0 00-28 0v34zM8 22h84v8H8z"/></svg>',
+  c3:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M44 52h12v40H44zM50 50L22 22l6-6 22 22 22-22 6 6zM50 50l28 28-6 6-22-22-22 22-6-6z"/></svg>' };
+function dashLvStats(L){
+  const ls = GR[L] || [];
+  const done = ls.filter(l => GRS.done[l.id] !== undefined).length;
+  let words = 0, known = 0;
+  (VOC[L] || []).forEach(c => c.w.forEach(x => { words++; if(V.known.has(x[0])) known++; }));
+  return { L, lessons:ls.length, done, pct: ls.length ? Math.round(done / ls.length * 100) : 0, words, known };
+}
+function dashLastKey(){ return 'fo_last_gr_' + (state.uid || ''); }
+function dashContinue(){
+  let rec = null;
+  try{ const p = (localStorage.getItem(dashLastKey()) || '').split('|'); if(p[0] && p[1] && (GR[p[0]] || []).some(l => l.id === p[1])) rec = { L:p[0], l:GR[p[0]].find(l => l.id === p[1]), resume:true }; }catch(e){}
+  if(!rec){ for(const [L] of DASH_LV){ const l = (GR[L] || []).find(x => GRS.done[x.id] === undefined); if(l){ rec = { L, l, resume:false }; break; } } }
+  return rec;
+}
+function dashRing(p){ const c = 2 * Math.PI * 24; return `<div class="ring"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="6"/><circle cx="29" cy="29" r="24" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-dasharray="${(c * p / 100).toFixed(1)} ${c.toFixed(1)}"/></svg><b>${p}%</b></div>`; }
+function dashWeekHtml(R){
+  const now = new Date(), days = [], map = {};
+  for(let i = 6; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i); const o = { n:DASH_DAYS[d.getDay()], q:0, g:0 }; days.push(o); map[d.toDateString()] = o; }
+  (R.q || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.q++; });
+  (R.g || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.g++; });
+  const tot = days.reduce((s, d) => s + d.q + d.g, 0);
+  if(!tot) return `<div class="dmuted">لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.</div>`;
+  const mx = Math.max(...days.map(d => d.q + d.g));
+  return `<div class="dweek">${days.map(d => { const t = d.q + d.g, h = t ? Math.max(8, Math.round(t / mx * 100)) : 0;
+    return `<div class="col" title="${d.n}: ${d.q} اختبار، ${d.g} لعبة"><div class="dbar" style="height:${h}%;${t ? '' : 'background:transparent'}"><i class="bg" style="flex-grow:${d.g}"></i><i class="bq" style="flex-grow:${d.q}"></i></div><span>${d.n}</span></div>`; }).join('')}</div>
+    <div class="dleg"><span><i style="background:var(--navy)"></i>اختبارات</span><span><i style="background:#6FA5E3"></i>ألعاب</span></div>`;
+}
+function dashRecentHtml(R){
+  const qT = id => { const z = quizzes.find(x => x.id === id); return z ? z.title : 'اختبار'; };
+  const aT = id => { const z = assignments.find(x => x.id === id); return z ? z.title : 'واجب'; };
+  const gN = k => (GAME_DATA[k] && GAME_DATA[k].title) || k;
+  const all = [
+    ...(R.q || []).map(x => ({ at:x.created_at, ic:'quiz', col:'c-green', t:'اختبار: ' + qT(x.quiz_id), r:x.score + '/' + x.total })),
+    ...(R.g || []).map(x => ({ at:x.created_at, ic:'sparkle', col:'c-purple', t:'لعبة: ' + gN(x.game) + ' · ' + x.level, r:x.correct + '/' + x.total })),
+    ...(R.a || []).map(x => ({ at:x.created_at, ic:'assign', col:'c-orange', t:'تسليم واجب: ' + aT(x.assignment_id), r:'' })) ]
+    .filter(x => x.at).sort((a, b) => new Date(b.at) - new Date(a.at)).slice(0, 6);
+  if(!all.length) return `<div class="dmuted">لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.</div>`;
+  return `<div class="drec">${all.map(x => `<div class="dri"><div class="ic ${x.col}">${I(x.ic)}</div><div class="t"><b dir="auto">${esc(x.t)}</b><small>${fmtDT(x.at)}</small></div><span class="r">${esc(x.r)}</span></div>`).join('')}</div>`;
+}
+function dashBody(){
+  const stu = state.me && state.me.student; if(!stu) return '';
+  const R = DASH.uid === state.uid ? DASH.rows : null;
+  const lv = DASH_LV.map(([L]) => dashLvStats(L));
+  const tl = lv.reduce((s, x) => s + x.lessons, 0), td = lv.reduce((s, x) => s + x.done, 0);
+  const cur = (lv.find(x => x.pct < 100) || lv[lv.length - 1]).L;
+  const nm = String(stu.full_name || '').trim(), first = nm.split(' ')[0] || nm;
+  const dot = '<span aria-hidden="true">…</span>';
+  const qn = R ? R.q.length : null, gn = R ? R.g.length : null;
+  const qavg = R && R.q.length ? Math.round(R.q.reduce((s, x) => s + (x.total ? x.score / x.total * 100 : 0), 0) / R.q.length) : null;
+  const stats = [
+    ['gram', td + '/' + tl, 'دروس قواعد أنهيتها'], ['vocab', V.known.size, 'كلمات تعرفها'],
+    ['sparkle', gn === null ? dot : gn, 'ألعاب لعبتها'], ['quiz', qn === null ? dot : qn, qavg === null ? 'اختبارات حللتها' : 'اختبارات · المتوسط ' + qavg + '%'] ];
+  const c = dashContinue();
+  const contH = c ? `<div class="dcont"><div class="ico">${I('gram')}</div>
+      <div class="tt"><small>${c.resume ? 'آخر درس فتحته' : 'الدرس التالي المقترح'} · ${c.L}</small><b dir="auto">${esc(grT(c.l.ar).ar)}</b><div class="fr">${esc(c.l.fr)}</div>
+      <span class="dpill ${GRS.done[c.l.id] !== undefined ? 'ok' : 'idle'}">${GRS.done[c.l.id] !== undefined ? 'أنهيت اختباره: ' + GRS.done[c.l.id] + '/' + c.l.quiz.length : 'لم تنهِ اختباره بعد'}</span></div>
+      <button class="dbtn" data-a="dashLesson" data-id="${c.L}|${c.l.id}">${I('play', 's')} تابع الدرس</button></div>`
+    : `<div class="dmuted">أنهيت اختبارات جميع دروس القواعد. أحسنت!</div>`;
+  return `<section class="dwel"><div class="av" aria-hidden="true">${esc(first.charAt(0) || '؟')}</div>
+      <div class="tx"><h1 dir="auto">Bonjour, ${esc(first)} !</h1><p>Continue ton apprentissage du français.</p></div>
+      <div class="chips">${stu.class_name ? `<span class="dchip">${I('class', 's')} ${esc(stu.class_name)}</span>` : ''}<span class="dchip">${I('chart', 's')} مستواك الحالي: ${cur}</span></div></section>
+    <div class="dash">
+      <div class="dmain">
+        <section class="dpanel p-cont"><h2>${I('play')} متابعة التعلّم</h2>${contH}</section>
+        <section class="dpanel p-courses"><h2>${I('book')} مستوياتي <small>تقدّم دروس القواعد والمفردات</small></h2>
+          <div class="dcourses">${lv.map((x, i) => `<div class="dcc ${DASH_LV[i][2]}">${DASH_ART[DASH_LV[i][2]]}
+            <h3>${x.L}<small>${DASH_LV[i][1]}</small></h3>
+            <div class="meta"><bdi dir="ltr">${x.done} / ${x.lessons}</bdi> درس قواعد<br><bdi dir="ltr">${x.known} / ${x.words}</bdi> كلمة</div>
+            <div class="row">${dashRing(x.pct)}<button class="go" data-a="dashLevel" data-id="${x.L}">${x.done ? 'تابع التعلّم' : 'ابدأ'}</button></div></div>`).join('')}</div></section>
+        <section class="dpanel p-rec"><h2>${I('calendar')} آخر أنشطتي</h2><div id="dashrec">${R ? dashRecentHtml(R) : '<div class="dmuted">جارٍ التحميل…</div>'}</div></section>
+      </div>
+      <div class="dside">
+        <section class="dpanel p-stats"><h2>${I('chart')} إحصائياتي</h2>
+          <div class="dstats">${stats.map(([ic, n, l]) => `<div class="dst"><div class="ic">${I(ic)}</div><b>${n}</b><span>${l}</span></div>`).join('')}</div></section>
+        <section class="dpanel p-week"><h2>${I('sparkle')} نشاط الأسبوع</h2><div id="dashweek">${R ? dashWeekHtml(R) : '<div class="dmuted">جارٍ التحميل…</div>'}</div></section>
+      </div>
+    </div>`;
+}
+async function dashLoad(){
+  const uid = state.uid, stu = state.me && state.me.student;
+  if(!uid || !stu || typeof sb === 'undefined' || !sb) return;
+  try{
+    const [r, g, a] = await Promise.all([
+      sb.from('results').select('quiz_id,score,total,created_at').eq('student_id', uid).order('created_at', { ascending:false }).limit(300),
+      sb.from('game_scores').select('game,level,correct,total,created_at').eq('student_id', uid).order('created_at', { ascending:false }).limit(300),
+      sb.from('submissions').select('assignment_id,created_at').order('created_at', { ascending:false }).limit(100) ]);
+    if(state.uid !== uid) return;
+    if(r.error && g.error) throw (r.error || g.error);
+    DASH.rows = { q:r.data || [], g:g.data || [], a:a.data || [] }; DASH.uid = uid; DASH.err = false;
+  }catch(e){ logErr('dashLoad', e); DASH.err = true; DASH.rows = { q:[], g:[], a:[] }; DASH.uid = uid; }
+  if(state.tab === 'home' && state.uid === uid){ const b = document.getElementById('dashbody'); if(b) b.innerHTML = dashBody(); }
+}
+const DASHH = {
+  dashLevel:id => { if(!GR[id]) return; GRS.level = id; GRS.view = 'menu'; grSave(); state.tab = 'grammar'; render(); window.scrollTo(0, 0); },
+  dashLesson:id => { const [L, lid] = String(id).split('|'); if(!GR[L]) return; GRS.level = L; grSave(); state.tab = 'grammar'; GRH.grOpen(lid); }
+};
+
 const H = {
-  ...GH, ...VH, ...GRH,
+  ...GH, ...VH, ...GRH, ...RESH, ...DASHH,
   moreMenu:()=>{
     const m = TABS.filter(t => !BNAV_MAIN.includes(t[0]));   // الفيديوهات، الواجبات، الروابط، المفردات، القواعد
-    if(state.teacher){ m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
+    if(state.teacher){ m.push(['results','list','النتائج']); m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
     else if(state.me && state.me.student) m.push(['mine','list','نتائجي']);
     openModal(`<h3>المزيد</h3><div class="moregrid">${m.map(([k,ic,l])=>`<button data-a="moreGo" data-id="${k}">${I(ic)}<span>${l}</span></button>`).join('')}</div>`);
   },
@@ -3758,7 +4651,7 @@ const H = {
   clsf:id=>{ state.cls=id; render(); },
   level:id=>{ state.level=id; render(); },
   cat:id=>{ state.cat=id; render(); },
-  login, doLogin, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); },
+  login, doLogin, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); }, retryLoad: () => { state.err=''; return loadAll(); },
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
   bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
