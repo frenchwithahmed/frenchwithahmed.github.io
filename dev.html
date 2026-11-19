@@ -583,7 +583,7 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
 .dri .t small{color:var(--muted);font-size:12px}
 .dri .r{font-weight:800;font-size:13px;direction:ltr;color:var(--navy)}
 .dmuted{color:var(--muted);font-size:14px;padding:10px 4px}
-@media(max-width:1000px){
+@media(max-width:1180px){
   .dash{grid-template-columns:1fr}
   .dmain,.dside{display:contents}
   .dash .p-stats{order:1}.dash .p-cont{order:2}.dash .p-courses{order:3}.dash .p-week{order:4}.dash .p-rec{order:5}
@@ -649,6 +649,37 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
 /* في الفرنسية/الإنجليزية: المحتوى العربي يبقى محاذياً لليمين داخل صفحة من اليسار إلى اليمين */
 #view[dir=ltr] :is(p,li,td,th,h3,h4,.vtx,.cap,.infobox,.gsub,.tx b,.tx .fr){unicode-bidi:plaintext;text-align:start}
 #view[dir=ltr] :is(.card,.gli,.vcat,.vrow,.fcard,.qcard,.gmh){text-align:start}
+
+/* ===== القائمة الجانبية (v8e): شاشات 900px فأكثر ===== */
+.ngrp{display:none}
+@media(min-width:900px){
+  body{padding-inline-start:244px}
+  header{position:fixed;top:0;bottom:0;inset-inline-start:0;width:244px;border-bottom:0;border-inline-end:3px solid var(--gold);z-index:60;overflow:hidden}
+  header .bar,header.navwrap .bar{max-width:none;margin:0;height:100%;padding:16px 12px 14px;flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:10px}
+  .brand{gap:10px;padding:2px 6px 10px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .brand img{height:46px}
+  .brand .by{padding-inline-start:10px}.brand .by b{font-size:16px}
+  header nav#nav,header.navwrap .bar nav#nav{order:0;flex:1 1 auto;min-height:0;flex-direction:column;overflow-x:hidden;overflow-y:auto;gap:2px;margin:0;padding:0 0 4px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent}
+  nav#nav::-webkit-scrollbar{display:block;width:5px}nav#nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:5px}
+  .ngrp{display:block;color:#8995ae;font-size:11.5px;font-weight:800;letter-spacing:.05em;padding:12px 14px 4px}
+  nav#nav button{width:100%;justify-content:flex-start;padding:10px 14px;font-size:14.5px;border-radius:12px;border-inline-start:3px solid transparent;background-image:none}
+  nav#nav button.on{background:rgba(255,255,255,.12);border-inline-start-color:var(--gold);color:#fff}
+  nav#nav button .i{width:18px;height:18px;flex:none}
+  header #auth{flex-direction:column;align-items:stretch;gap:8px;flex-wrap:nowrap;border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+  header #auth .who{margin:0;display:flex;padding:2px 6px;word-break:break-word}
+  header #auth .tbtn{width:100%;justify-content:center}
+  header #auth .ulang{justify-content:space-between}header #auth .ulang button{flex:1}
+  .tbar{padding-inline:16px}
+  #bnav{display:none}
+}
+@media(min-width:900px) and (max-height:900px){
+  header .bar,header.navwrap .bar{padding:12px 10px 10px;gap:8px}.brand img{height:38px}.brand{padding-bottom:8px}
+  nav#nav button{padding:7px 12px;font-size:14px}.ngrp{padding:7px 14px 2px;font-size:11px}
+  header #auth{gap:6px;padding-top:8px}header #auth .tbtn{padding:7px 12px}header #auth .ulang button{min-height:28px;padding:4px 8px}
+}
+@media print{body{padding-inline-start:0!important}}
+.dwel p{direction:ltr;text-align:right}
+#view[dir=ltr] .dwel p{text-align:left}
 
 </style>
 </head>
@@ -888,7 +919,9 @@ function renderShell0(){
   if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
-  $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
+  const _ord = ['home','files','videos','vocab','grammar','links','games','quizzes','assignments','mine','results','track','people']; const _grp = { files:'التعلّم', games:'التدريب', mine:'متابعتي', results:'الإدارة' };
+  tabs.sort((a, b) => _ord.indexOf(a[0]) - _ord.indexOf(b[0]));
+  $('#nav').innerHTML = tabs.map(([k,ic,l]) => (_grp[k] ? `<span class="ngrp">${_grp[k]}</span>` : '') + `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
   fitNav();
   try{ const on = _nv.querySelector('.on'); if(on && _nv.scrollWidth > _nv.clientWidth) on.scrollIntoView({ inline:'center', block:'nearest' }); }catch(e){}
   const main5 = BNAV_MAIN.map(k => TABS.find(t => t[0] === k));
@@ -4672,7 +4705,7 @@ function dashBody(){
       <button class="dbtn" data-a="dashLesson" data-id="${c.L}|${c.l.id}">${I('play', 's')} تابع الدرس</button></div>`
     : `<div class="dmuted">أنهيت اختبارات جميع دروس القواعد. أحسنت!</div>`;
   return `<section class="dwel"><div class="av" aria-hidden="true">${esc(first.charAt(0) || '؟')}</div>
-      <div class="tx"><h1 dir="auto">Bonjour, ${esc(first)} !</h1><p>Continue ton apprentissage du français.</p></div>
+      <div class="tx"><h1 dir="auto">Bonjour, ${esc(first)} !</h1><p>Prêt à continuer ton aventure en français ?</p></div>
       <div class="chips">${stu.class_name ? `<span class="dchip">${I('class', 's')} ${esc(stu.class_name)}</span>` : ''}<span class="dchip">${I('chart', 's')} مستواك الحالي: ${cur}</span></div></section>
     <div class="dash">
       <div class="dmain">
@@ -4726,7 +4759,7 @@ const UI_D = {
  en: {'الرئيسية':'Home','الدروس':'Lessons','الفيديوهات':'Videos','الاختبارات':'Quizzes','الواجبات':'Homework','الروابط':'Links','الألعاب':'Games','المفردات':'Vocabulary','القواعد':'Grammar','نتائجي':'My results','النتائج':'Results','المتابعة':'Tracking','الصفوف والطلاب':'Classes & students','المزيد':'More','خروج':'Log out','تسجيل الدخول':'Log in',
   'ألعاب تفاعلية':'Interactive games','العب':'Play','لعبتها':'Played','متابعة التعلّم':'Continue learning','مستوياتي':'My levels','تقدّم دروس القواعد والمفردات':'Grammar and vocabulary progress','آخر أنشطتي':'Recent activity','إحصائياتي':'My statistics','نشاط الأسبوع':'This week’s activity',
   'تابع الدرس':'Resume lesson','ابدأ':'Start','تابع التعلّم':'Continue','دروس قواعد أنهيتها':'Grammar lessons completed','كلمات تعرفها':'Words you know','ألعاب لعبتها':'Games played','اختبارات حللتها':'Quizzes taken','الدرس التالي المقترح':'Suggested next lesson','آخر درس فتحته':'Last lesson opened','لم تنهِ اختباره بعد':'Quiz not finished yet','مستواك الحالي':'Your current level','مبتدئ':'Beginner','أساسي':'Elementary','متوسط':'Intermediate','اختبارات':'Quizzes','ألعاب':'Games','درس قواعد':'grammar lessons','كلمة':'words',
-  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'No activity in the last 7 days. Take a quiz or play a game.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'No activity yet. Your results will appear here.','جارٍ التحميل…':'Loading…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'You finished all grammar quizzes. Well done!','Continue ton apprentissage du français.':'Keep learning French.'}
+  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'No activity in the last 7 days. Take a quiz or play a game.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'No activity yet. Your results will appear here.','جارٍ التحميل…':'Loading…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'You finished all grammar quizzes. Well done!','Prêt à continuer ton aventure en français ?':'Ready to continue your French adventure?'}
 };
 const UI_R = {
  fr: [[/^Bonjour, (.*) !$/,'Bonjour, $1 !'],[/^اختبارات · المتوسط (\d+)%$/,'Quiz · moyenne $1 %'],[/^أنهيت اختباره: (.+)$/,'Quiz terminé : $1'],[/^(الدرس التالي المقترح|آخر درس فتحته) · (.+)$/,(m,a,b)=>UI_D.fr[a]+' · '+b],[/^جرّبت (\d+) منها على هذا الجهاز$/,'$1 essayés sur cet appareil'],[/^(\d+) ألعاب$/,'$1 jeux'],[/^اختبار: (.*)$/,'Quiz : $1'],[/^لعبة: (.*)$/,'Jeu : $1'],[/^تسليم واجب: (.*)$/,'Devoir rendu : $1'],[/^مستواك الحالي: (.+)$/,'Ton niveau actuel : $1']],
@@ -4788,6 +4821,8 @@ Object.assign(UI_D.en, {'الدروس والملفات':'Lessons & files','نت�
   new MutationObserver(() => { if(UL === 'ar') return; clearTimeout(tm); tm = setTimeout(() => uiTr(vw), 40); }).observe(vw, { childList:true, subtree:true }); })();
 Object.assign(UI_D.fr, {'مواقع تعلم':'Sites d’apprentissage','قواميس وتصريف':'Dictionnaires et conjugaison','استماع وأخبار':'Écoute et actualités','تمارين تفاعلية':'Exercices interactifs','قنوات ومنصات':'Chaînes et plateformes','اختبار PDF':'Quiz PDF'});
 Object.assign(UI_D.en, {'مواقع تعلم':'Learning sites','قواميس وتصريف':'Dictionaries & conjugation','استماع وأخبار':'Listening & news','تمارين تفاعلية':'Interactive exercises','قنوات ومنصات':'Channels & platforms','اختبار PDF':'Quiz PDF'});
+Object.assign(UI_D.fr, {'التعلّم':'Apprendre','التدريب':'S’entraîner','متابعتي':'Mon suivi','الإدارة':'Gestion'});
+Object.assign(UI_D.en, {'التعلّم':'Learn','التدريب':'Practice','متابعتي':'My progress','الإدارة':'Management'});
 
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
