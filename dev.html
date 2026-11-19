@@ -646,6 +646,9 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
 @media(max-width:560px){.ulang button{padding:5px 8px;min-width:32px;font-size:12px}}
 #view[dir=ltr] :is(.dwel h1,.dcc,.dcc h3,.dst b,.dcont .tt .fr,.gc2,.gc2 .gfr){text-align:left}
 #view[dir=ltr] .dcc .art{left:auto;right:-6px}
+/* في الفرنسية/الإنجليزية: المحتوى العربي يبقى محاذياً لليمين داخل صفحة من اليسار إلى اليمين */
+#view[dir=ltr] :is(p,li,td,th,h3,h4,.vtx,.cap,.infobox,.gsub,.tx b,.tx .fr){unicode-bidi:plaintext;text-align:start}
+#view[dir=ltr] :is(.card,.gli,.vcat,.vrow,.fcard,.qcard,.gmh){text-align:start}
 
 </style>
 </head>
@@ -1042,7 +1045,7 @@ function renderSetup(){
   $('#view').innerHTML = `<div class="setup"><h2>المنصة تحتاج إلى ربط قاعدة البيانات</h2><p style="color:var(--muted);margin-top:8px">ضع قيم <code>SUPABASE_URL</code> و <code>SUPABASE_KEY</code> في أعلى قسم السكربت.</p></div>`;
 }
 function render(){ const _v = document.getElementById('view'); if(_v) _v.dir = ''; const _r = render0(); uiPost(); return _r; }
-function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(state.tab === 'home' && UL !== 'ar') v.dir = 'ltr'; uiTr(v); }
+function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab !== 'games' && !(state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en')) v.dir = 'ltr'; uiTr(v); }
 function render0(){
   if(!configured || !sb) return renderSetup();
   renderShell();
@@ -4776,6 +4779,15 @@ Object.assign(UI_D.fr, {'أظهر المعنى':'Voir le sens','أعيدها':'�
 Object.assign(UI_D.en, {'أظهر المعنى':'Show meaning','أعيدها':'Again','عرفتها ✓':'Known ✓'});
 UI_R.fr.push([/^(Beginner|Elementary|Intermediate) · .+$/,(m,a)=>({Beginner:'Débutant',Elementary:'Élémentaire',Intermediate:'Intermédiaire'})[a]]);
 UI_R.en.push([/^(Beginner|Elementary|Intermediate) · .+$/,'$1']);
+Object.assign(UI_D.fr, {'القواعد · Grammar':'Grammaire','← القواعد · Grammar':'← Grammaire'});
+Object.assign(UI_D.en, {'القواعد · Grammar':'Grammar','← القواعد · Grammar':'← Grammar'});
+Object.assign(UI_D.fr, {'الدروس والملفات':'Cours et fichiers','نتائج اختباراتي':'Mes résultats de quiz','واجباتي':'Mes devoirs','ابحث بالعنوان...':'Rechercher par titre…','ابحث بالعنوان…':'Rechercher par titre…','تغيير كلمة المرور':'Changer le mot de passe','الطالب':'Élève'});
+Object.assign(UI_D.en, {'الدروس والملفات':'Lessons & files','نتائج اختباراتي':'My quiz results','واجباتي':'My homework','ابحث بالعنوان...':'Search by title…','ابحث بالعنوان…':'Search by title…','تغيير كلمة المرور':'Change password','الطالب':'Student'});
+/* ترجمة ما يُحمَّل متأخراً (نتائجي وغيرها) */
+(function(){ const vw = document.getElementById('view'); if(!vw || typeof MutationObserver === 'undefined') return; let tm = 0;
+  new MutationObserver(() => { if(UL === 'ar') return; clearTimeout(tm); tm = setTimeout(() => uiTr(vw), 40); }).observe(vw, { childList:true, subtree:true }); })();
+Object.assign(UI_D.fr, {'مواقع تعلم':'Sites d’apprentissage','قواميس وتصريف':'Dictionnaires et conjugaison','استماع وأخبار':'Écoute et actualités','تمارين تفاعلية':'Exercices interactifs','قنوات ومنصات':'Chaînes et plateformes','اختبار PDF':'Quiz PDF'});
+Object.assign(UI_D.en, {'مواقع تعلم':'Learning sites','قواميس وتصريف':'Dictionaries & conjugation','استماع وأخبار':'Listening & news','تمارين تفاعلية':'Interactive exercises','قنوات ومنصات':'Channels & platforms','اختبار PDF':'Quiz PDF'});
 
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
