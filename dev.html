@@ -618,6 +618,25 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
 .gli.cur .st2{background:#E6EEF8;color:#2F6DB5}
 @media(max-width:560px){.gli{gap:12px;padding:10px 12px}.gli .no{width:44px;height:44px;font-size:16px}.gli .st2{display:none}.gli.done .tx .fr:after{content:" · ✓"}}
 
+/* ===== واجهة الألعاب (v8c) ===== */
+.gsum{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 18px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.gc2{display:flex;flex-direction:column;gap:8px;text-align:right;font:inherit;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:.2s;min-height:230px}
+.gc2:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,31,58,.12);border-color:#c9d6e8}
+.gc2 .gtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gc2 .ib{width:54px;height:54px;border-radius:16px;display:grid;place-items:center}
+.gc2 .ib .i{width:26px;height:26px}
+.gc2 .gdone{font-size:12px;font-weight:800;color:#1E7B54;background:#E3F4EA;border-radius:999px;padding:4px 11px}
+.gc2 h3{font-size:18px;color:var(--navy);font-weight:800;line-height:1.35}
+.gc2 .gfr{direction:ltr;text-align:right;color:var(--muted);font-size:13px;font-weight:600}
+.gc2 p{color:var(--text);font-size:14px;line-height:1.6;flex:1}
+.gc2 .glvs{display:flex;gap:6px;flex-wrap:wrap}
+.gc2 .glvs span{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:#EEF3FA;color:var(--muted);direction:ltr}
+.gc2 .glvs span.on{background:var(--navy);color:#fff}
+.gc2 .gplay{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;font-weight:800;font-size:14.5px;border-radius:14px;padding:11px 16px;min-height:44px;margin-top:4px}
+.gc2:hover .gplay{background:var(--navy2)}
+@media(max-width:560px){.ggrid{grid-template-columns:1fr}.gc2{min-height:0}}
+
 </style>
 </head>
 <body>
@@ -3133,6 +3152,12 @@ function gameNext(){
   } else { G.i++; G.pick = null; G.t0 = Date.now(); G.sel = []; G.val = ''; G.close = ''; G.hg = { g:[], wrong:0 }; }
   render(); window.scrollTo(0,0);
 }
+/* أفضل نتيجة محفوظة على هذا الجهاز لكل مستوى (نفس مفاتيح اللعبة الحالية) */
+function gameBestLv(k){ return GAME_LEVELS.map(([L]) => { let b = 0; try{ b = +localStorage.getItem('fo_best_' + k + '_' + L) || 0; }catch(e){} return [L, b]; }); }
+function gamesSummary(){
+  const ks = Object.keys(GAME_DATA), played = ks.filter(k => gameBestLv(k).some(x => x[1])).length;
+  return `<div class="gsum"><span class="dchip">${I('sparkle','s')} ${ks.length} ألعاب</span>${played ? `<span class="dchip">${I('check','s')} جرّبت ${played} منها على هذا الجهاز</span>` : ''}</div>`;
+}
 function renderGames(v){
   v.dir = G.lang==='en' ? 'ltr' : '';
   renderGames0(v);
@@ -3143,7 +3168,8 @@ function renderGames0(v){
   if(G.view==='menu'){
     v.innerHTML = `<h2 class="st"><span>${I('sparkle')} ألعاب تفاعلية <small>Jeux interactifs</small></span>${snd}</h2>
       ${state.teacher ? `<div class="gtbar"><button class="add" data-a="giAdd">${I('plus','s')} إضافة سؤال</button><button class="add" style="background:var(--blue)" data-a="giImport">${I('upload','s')} رفع ملف JSON</button><button class="btn sec" data-a="giManage">${I('list','s')} أسئلتي (${gameItems.length})</button></div>` : ''}
-      <div class="grid">${Object.keys(GAME_DATA).map(k=>{ const d = GAME_DATA[k]; return `<button class="card gcard" data-a="gPick" data-id="${k}"><div class="ib ${d.col}">${I(d.ic)}</div><h3>${esc(d.title)}</h3><div class="meta" style="direction:ltr;text-align:right">${esc(d.fr)}</div><p>${esc(d.desc)}</p><span class="tag">${I('play','s')} ابدأ اللعب</span></button>`; }).join('')}</div>`;
+      ${gamesSummary()}<div class="ggrid">${Object.keys(GAME_DATA).map(k=>{ const d = GAME_DATA[k], bl = gameBestLv(k), n = bl.filter(x=>x[1]).length;
+        return `<button class="gc2" data-a="gPick" data-id="${k}"><div class="gtop"><div class="ib ${d.col}">${I(d.ic)}</div>${n ? `<span class="gdone">${I('check','s')} لعبتها</span>` : ''}</div><h3>${esc(d.title)}</h3><div class="gfr">${esc(d.fr)}</div><p>${esc(d.desc)}</p><div class="glvs" title="المستويات">${bl.map(([L,b])=>`<span class="${b?'on':''}">${L}${b?' · '+b:''}</span>`).join('')}</div><span class="gplay">${I('play','s')} العب</span></button>`; }).join('')}</div>`;
     return;
   }
   const d = GAME_DATA[G.game];
