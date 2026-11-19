@@ -649,6 +649,9 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
 /* في الفرنسية/الإنجليزية: المحتوى العربي يبقى محاذياً لليمين داخل صفحة من اليسار إلى اليمين */
 #view[dir=ltr] :is(p,li,td,th,h3,h4,.vtx,.cap,.infobox,.gsub,.tx b,.tx .fr){unicode-bidi:plaintext;text-align:start}
 #view[dir=ltr] :is(.card,.gli,.vcat,.vrow,.fcard,.qcard,.gmh){text-align:start}
+.ulang .ls{display:none}
+@media(max-width:899px){.ulang .lf{display:none}.ulang .ls{display:inline}}
+@media(min-width:900px){header .ulang button{font-size:12.5px;padding:6px 6px}}
 
 /* ===== القائمة الجانبية (v8e): شاشات 900px فأكثر ===== */
 .ngrp{display:none}
@@ -4782,7 +4785,7 @@ function uiTr(root){
   root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(el => ['aria-label','title','placeholder'].forEach(a => { const x = el.getAttribute(a); if(x){ const y = uiT(x); if(y !== x) el.setAttribute(a, y); } }));
 }
 function uiSwitch(){
-  return `<span class="ulang" data-notr role="group" aria-label="Language">${[['ar','عربي'],['fr','FR'],['en','EN']].map(([k,l]) => `<button class="${UL === k ? 'on' : ''}" data-a="uiLang" data-id="${k}" ${UL === k ? 'aria-pressed="true"' : 'aria-pressed="false"'}>${l}</button>`).join('')}</span>`;
+  return `<span class="ulang" data-notr role="group" aria-label="Language">${[['fr','Français','FR'],['en','English','EN'],['ar','عربي','عربي']].map(([k,l,sh]) => `<button class="${UL === k ? 'on' : ''}" data-a="uiLang" data-id="${k}" ${UL === k ? 'aria-pressed="true"' : 'aria-pressed="false"'}><span class="lf">${l}</span><span class="ls">${sh}</span></button>`).join('')}</span>`;
 }
 function uiShell(){
   const a = document.getElementById('auth'); if(a) a.insertAdjacentHTML('afterbegin', uiSwitch());
