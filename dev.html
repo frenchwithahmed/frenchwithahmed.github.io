@@ -1081,7 +1081,7 @@ function renderSetup(){
   $('#view').innerHTML = `<div class="setup"><h2>المنصة تحتاج إلى ربط قاعدة البيانات</h2><p style="color:var(--muted);margin-top:8px">ضع قيم <code>SUPABASE_URL</code> و <code>SUPABASE_KEY</code> في أعلى قسم السكربت.</p></div>`;
 }
 function render(){ const _v = document.getElementById('view'); if(_v) _v.dir = ''; const _r = render0(); uiPost(); return _r; }
-function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab !== 'games' && !(state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en')) v.dir = 'ltr'; uiTr(v); }
+function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en') v.dir = 'rtl'; else if(UL !== 'ar' && state.tab !== 'games') v.dir = 'ltr'; uiTr(v); }
 function render0(){
   if(!configured || !sb) return renderSetup();
   renderShell();
@@ -3212,7 +3212,7 @@ function gamesSummary(){
   return `<div class="gsum"><span class="dchip">${I('sparkle','s')} ${ks.length} ألعاب</span>${played ? `<span class="dchip">${I('check','s')} جرّبت ${played} منها على هذا الجهاز</span>` : ''}</div>`;
 }
 function renderGames(v){
-  v.dir = (G.lang==='en' || (UL!=='ar' && G.view==='menu')) ? 'ltr' : '';
+  v.dir = (G.lang==='en' || (UL!=='ar' && G.view==='menu')) ? 'ltr' : (UL!=='ar' ? 'rtl' : '');
   renderGames0(v);
   if(G.lang==='en') trDom(v);
 }
@@ -4752,6 +4752,7 @@ const UI_LOC = { ar:'ar-u-ca-gregory-nu-latn', fr:'fr-u-ca-gregory-nu-latn', en:
 const UI_DAYS = { ar:DASH_DAYS, fr:['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] };
 function uiDays(){ return UI_DAYS[UL] || DASH_DAYS; }
 LOC = UI_LOC[UL];
+try{ document.documentElement.setAttribute('dir', UL === 'ar' ? 'rtl' : 'ltr'); document.documentElement.setAttribute('lang', UL); }catch(e){}
 const UI_D = {
  fr: {'الرئيسية':'Accueil','الدروس':'Cours','الفيديوهات':'Vidéos','الاختبارات':'Quiz','الواجبات':'Devoirs','الروابط':'Liens','الألعاب':'Jeux','المفردات':'Vocabulaire','القواعد':'Grammaire','نتائجي':'Mes résultats','النتائج':'Résultats','المتابعة':'Suivi','الصفوف والطلاب':'Classes et élèves','المزيد':'Plus','خروج':'Déconnexion','تسجيل الدخول':'Connexion',
   'ألعاب تفاعلية':'Jeux interactifs','العب':'Jouer','لعبتها':'Déjà joué','متابعة التعلّم':'Continuer à apprendre','مستوياتي':'Mes niveaux','تقدّم دروس القواعد والمفردات':'Progression en grammaire et vocabulaire','آخر أنشطتي':'Mes dernières activités','إحصائياتي':'Mes statistiques','نشاط الأسبوع':'Activité de la semaine',
@@ -4789,7 +4790,7 @@ function uiSwitch(){
 }
 function uiShell(){
   const a = document.getElementById('auth'); if(a) a.insertAdjacentHTML('afterbegin', uiSwitch());
-  document.documentElement.setAttribute('lang', UL);
+  document.documentElement.setAttribute('lang', UL); document.documentElement.setAttribute('dir', UL === 'ar' ? 'rtl' : 'ltr');
   ['nav','bnav','auth'].forEach(id => { const e = document.getElementById(id); if(e){ uiTr(e); } });
   const nv = document.getElementById('nav'); if(nv) nv.dir = UL === 'ar' ? '' : 'ltr';
 }
