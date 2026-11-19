@@ -637,6 +637,16 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
 .gc2:hover .gplay{background:var(--navy2)}
 @media(max-width:560px){.ggrid{grid-template-columns:1fr}.gc2{min-height:0}}
 
+/* ===== زر اللغة ===== */
+.ulang{direction:ltr;display:inline-flex;gap:2px;background:rgba(255,255,255,.12);border-radius:11px;padding:3px;align-items:center}
+.ulang button{background:transparent;color:#d6deea;font-weight:800;font-size:12.5px;padding:6px 10px;border-radius:8px;min-width:36px;min-height:32px;transition:.15s}
+header .ulang button.on{background:#fff;color:var(--navy)}
+header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}header .ulang button:hover:not(.on){background:rgba(255,255,255,.18)}
+#auth{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){.ulang button{padding:5px 8px;min-width:32px;font-size:12px}}
+#view[dir=ltr] :is(.dwel h1,.dcc,.dcc h3,.dst b,.dcont .tt .fr,.gc2,.gc2 .gfr){text-align:left}
+#view[dir=ltr] .dcc .art{left:auto;right:-6px}
+
 </style>
 </head>
 <body>
@@ -711,7 +721,7 @@ function fitNav(){
 window.addEventListener('resize', fitNav);
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
 const I = (n, c='') => `<svg class="i ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-const LOC = 'ar-u-ca-gregory-nu-latn';
+var LOC = 'ar-u-ca-gregory-nu-latn';
 const fmtDate = t => { try{ return new Date(t).toLocaleDateString(LOC,{year:'numeric',month:'short',day:'numeric'}); }catch{ return new Date(t).toLocaleDateString(); } };
 const fmtDT = t => { try{ return new Date(t).toLocaleString(LOC,{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }catch{ return new Date(t).toLocaleString(); } };
 const fmtSize = b => b > 1048576 ? (b/1048576).toFixed(1)+' MB' : Math.max(1,Math.round((b||0)/1024))+' KB';
@@ -869,7 +879,8 @@ setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(
 const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
 
 const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
-function renderShell(){
+function renderShell(){ renderShell0(); uiShell(); }
+function renderShell0(){
   const tabs = TABS.slice();
   if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
@@ -1030,7 +1041,9 @@ function renderSetup(){
   $('#nav').innerHTML = ''; $('#auth').innerHTML = ''; $('#tbar').innerHTML = '';
   $('#view').innerHTML = `<div class="setup"><h2>المنصة تحتاج إلى ربط قاعدة البيانات</h2><p style="color:var(--muted);margin-top:8px">ضع قيم <code>SUPABASE_URL</code> و <code>SUPABASE_KEY</code> في أعلى قسم السكربت.</p></div>`;
 }
-function render(){
+function render(){ const _v = document.getElementById('view'); if(_v) _v.dir = ''; const _r = render0(); uiPost(); return _r; }
+function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(state.tab === 'home' && UL !== 'ar') v.dir = 'ltr'; uiTr(v); }
+function render0(){
   if(!configured || !sb) return renderSetup();
   renderShell();
   if(state.teacher){ bellStart(); bellBadge(); }
@@ -1125,6 +1138,7 @@ function render(){
 function openModal(html, wide, full){
   dr = null;
   $('#modal').innerHTML = `<div class="ov ${full?'full':''}" data-a="ovclose"><div class="modal ${wide?'wide':''} ${full?'full':''}"><button class="x" data-a="close" aria-label="إغلاق">${I('x','s')}</button>${html}</div></div>`;
+  uiTr($('#modal'));
 }
 function closeModal(){ drDrop(); $('#modal').innerHTML = ''; }
 /* ---- مسودات النماذج: حفظ تلقائي واسترجاع ---- */
@@ -3159,7 +3173,7 @@ function gamesSummary(){
   return `<div class="gsum"><span class="dchip">${I('sparkle','s')} ${ks.length} ألعاب</span>${played ? `<span class="dchip">${I('check','s')} جرّبت ${played} منها على هذا الجهاز</span>` : ''}</div>`;
 }
 function renderGames(v){
-  v.dir = G.lang==='en' ? 'ltr' : '';
+  v.dir = (G.lang==='en' || (UL!=='ar' && G.view==='menu')) ? 'ltr' : '';
   renderGames0(v);
   if(G.lang==='en') trDom(v);
 }
@@ -4613,7 +4627,7 @@ function dashContinue(){
 function dashRing(p){ const c = 2 * Math.PI * 24; return `<div class="ring"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="6"/><circle cx="29" cy="29" r="24" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-dasharray="${(c * p / 100).toFixed(1)} ${c.toFixed(1)}"/></svg><b>${p}%</b></div>`; }
 function dashWeekHtml(R){
   const now = new Date(), days = [], map = {};
-  for(let i = 6; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i); const o = { n:DASH_DAYS[d.getDay()], q:0, g:0 }; days.push(o); map[d.toDateString()] = o; }
+  for(let i = 6; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i); const o = { n:uiDays()[d.getDay()], q:0, g:0 }; days.push(o); map[d.toDateString()] = o; }
   (R.q || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.q++; });
   (R.g || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.g++; });
   const tot = days.reduce((s, d) => s + d.q + d.g, 0);
@@ -4650,7 +4664,7 @@ function dashBody(){
     ['sparkle', gn === null ? dot : gn, 'ألعاب لعبتها'], ['quiz', qn === null ? dot : qn, qavg === null ? 'اختبارات حللتها' : 'اختبارات · المتوسط ' + qavg + '%'] ];
   const c = dashContinue();
   const contH = c ? `<div class="dcont"><div class="ico">${I('gram')}</div>
-      <div class="tt"><small>${c.resume ? 'آخر درس فتحته' : 'الدرس التالي المقترح'} · ${c.L}</small><b dir="auto">${esc(grT(c.l.ar).ar)}</b><div class="fr">${esc(c.l.fr)}</div>
+      <div class="tt"><small>${c.resume ? 'آخر درس فتحته' : 'الدرس التالي المقترح'} · ${c.L}</small><b dir="auto">${esc(UL === "ar" ? grT(c.l.ar).ar : (UL === "en" ? c.l.en : c.l.fr))}</b><div class="fr">${UL === "fr" ? "" : esc(c.l.fr)}</div>
       <span class="dpill ${GRS.done[c.l.id] !== undefined ? 'ok' : 'idle'}">${GRS.done[c.l.id] !== undefined ? 'أنهيت اختباره: ' + GRS.done[c.l.id] + '/' + c.l.quiz.length : 'لم تنهِ اختباره بعد'}</span></div>
       <button class="dbtn" data-a="dashLesson" data-id="${c.L}|${c.l.id}">${I('play', 's')} تابع الدرس</button></div>`
     : `<div class="dmuted">أنهيت اختبارات جميع دروس القواعد. أحسنت!</div>`;
@@ -4686,15 +4700,74 @@ async function dashLoad(){
     if(r.error && g.error) throw (r.error || g.error);
     DASH.rows = { q:r.data || [], g:g.data || [], a:a.data || [] }; DASH.uid = uid; DASH.err = false;
   }catch(e){ logErr('dashLoad', e); DASH.err = true; DASH.rows = { q:[], g:[], a:[] }; DASH.uid = uid; }
-  if(state.tab === 'home' && state.uid === uid){ const b = document.getElementById('dashbody'); if(b) b.innerHTML = dashBody(); }
+  if(state.tab === 'home' && state.uid === uid){ const b = document.getElementById('dashbody'); if(b){ b.innerHTML = dashBody(); uiTr(b); } }
 }
 const DASHH = {
   dashLevel:id => { if(!GR[id]) return; GRS.level = id; GRS.view = 'menu'; grSave(); state.tab = 'grammar'; render(); window.scrollTo(0, 0); },
   dashLesson:id => { const [L, lid] = String(id).split('|'); if(!GR[L]) return; GRS.level = L; grSave(); state.tab = 'grammar'; GRH.grOpen(lid); }
 };
 
+/* ===== لغة الواجهة: عربي / Français / English (الواجهة فقط، لا تمس البيانات) ===== */
+var UL = 'ar'; try{ const _u = localStorage.getItem('fo_ui'); if(_u === 'fr' || _u === 'en') UL = _u; }catch(e){}
+const UI_LOC = { ar:'ar-u-ca-gregory-nu-latn', fr:'fr-u-ca-gregory-nu-latn', en:'en-GB-u-ca-gregory-nu-latn' };
+const UI_DAYS = { ar:DASH_DAYS, fr:['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] };
+function uiDays(){ return UI_DAYS[UL] || DASH_DAYS; }
+LOC = UI_LOC[UL];
+const UI_D = {
+ fr: {'الرئيسية':'Accueil','الدروس':'Cours','الفيديوهات':'Vidéos','الاختبارات':'Quiz','الواجبات':'Devoirs','الروابط':'Liens','الألعاب':'Jeux','المفردات':'Vocabulaire','القواعد':'Grammaire','نتائجي':'Mes résultats','النتائج':'Résultats','المتابعة':'Suivi','الصفوف والطلاب':'Classes et élèves','المزيد':'Plus','خروج':'Déconnexion','تسجيل الدخول':'Connexion',
+  'ألعاب تفاعلية':'Jeux interactifs','العب':'Jouer','لعبتها':'Déjà joué','متابعة التعلّم':'Continuer à apprendre','مستوياتي':'Mes niveaux','تقدّم دروس القواعد والمفردات':'Progression en grammaire et vocabulaire','آخر أنشطتي':'Mes dernières activités','إحصائياتي':'Mes statistiques','نشاط الأسبوع':'Activité de la semaine',
+  'تابع الدرس':'Reprendre la leçon','ابدأ':'Commencer','تابع التعلّم':'Continuer','دروس قواعد أنهيتها':'Leçons de grammaire terminées','كلمات تعرفها':'Mots connus','ألعاب لعبتها':'Jeux joués','اختبارات حللتها':'Quiz réalisés','الدرس التالي المقترح':'Prochaine leçon conseillée','آخر درس فتحته':'Dernière leçon ouverte','لم تنهِ اختباره بعد':'Quiz non terminé','مستواك الحالي':'Ton niveau actuel','مبتدئ':'Débutant','أساسي':'Élémentaire','متوسط':'Intermédiaire','اختبارات':'Quiz','ألعاب':'Jeux','درس قواعد':'leçons de grammaire','كلمة':'mots',
+  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'Aucune activité ces 7 derniers jours. Fais un quiz ou joue à un jeu.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'Pas encore d’activité. Tes résultats apparaîtront ici.','جارٍ التحميل…':'Chargement…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'Tu as terminé tous les quiz de grammaire. Bravo !',
+  'اختر الإجابة الصحيحة':'Choisis la bonne réponse','صح أم خطأ':'Vrai ou faux','رتّب الحروف':'Mots mélangés','طابِق الكلمات':'Associer','أكمل الفراغ':'Complète la phrase','الكلمة الدخيلة':'L’intrus','رتّب الجملة':'Remets la phrase en ordre','لعبة الذاكرة':'Memory','استمع واختر':'Écoute et choisis','المشنقة':'Le pendu',
+  'سؤال وأربع إجابات، اختر الصحيحة.':'Une question, quatre réponses : choisis la bonne.','عبارة واحدة: هل هي صحيحة أم خاطئة؟':'Une phrase : vraie ou fausse ?','رتّب الحروف المبعثرة لتكوّن الكلمة.':'Remets les lettres dans l’ordre pour former le mot.','صِل الكلمة الفرنسية بمعناها العربي.':'Associe le mot français à son sens en arabe.','اكتب الكلمة الناقصة في الجملة.':'Écris le mot manquant dans la phrase.','أي كلمة لا تنتمي إلى المجموعة؟':'Quel mot n’appartient pas au groupe ?','رتّب الكلمات لتكوّن جملة صحيحة.':'Remets les mots dans l’ordre pour former une phrase.','اقلب البطاقات وطابِق الكلمة بمعناها.':'Retourne les cartes et associe chaque mot à son sens.','استمع للكلمة بالفرنسية ثم اختر ما سمعته.':'Écoute le mot en français puis choisis ce que tu as entendu.','خمّن الكلمة الفرنسية حرفاً حرفاً قبل نفاد المحاولات.':'Devine le mot lettre par lettre avant la fin des essais.'},
+ en: {'الرئيسية':'Home','الدروس':'Lessons','الفيديوهات':'Videos','الاختبارات':'Quizzes','الواجبات':'Homework','الروابط':'Links','الألعاب':'Games','المفردات':'Vocabulary','القواعد':'Grammar','نتائجي':'My results','النتائج':'Results','المتابعة':'Tracking','الصفوف والطلاب':'Classes & students','المزيد':'More','خروج':'Log out','تسجيل الدخول':'Log in',
+  'ألعاب تفاعلية':'Interactive games','العب':'Play','لعبتها':'Played','متابعة التعلّم':'Continue learning','مستوياتي':'My levels','تقدّم دروس القواعد والمفردات':'Grammar and vocabulary progress','آخر أنشطتي':'Recent activity','إحصائياتي':'My statistics','نشاط الأسبوع':'This week’s activity',
+  'تابع الدرس':'Resume lesson','ابدأ':'Start','تابع التعلّم':'Continue','دروس قواعد أنهيتها':'Grammar lessons completed','كلمات تعرفها':'Words you know','ألعاب لعبتها':'Games played','اختبارات حللتها':'Quizzes taken','الدرس التالي المقترح':'Suggested next lesson','آخر درس فتحته':'Last lesson opened','لم تنهِ اختباره بعد':'Quiz not finished yet','مستواك الحالي':'Your current level','مبتدئ':'Beginner','أساسي':'Elementary','متوسط':'Intermediate','اختبارات':'Quizzes','ألعاب':'Games','درس قواعد':'grammar lessons','كلمة':'words',
+  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'No activity in the last 7 days. Take a quiz or play a game.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'No activity yet. Your results will appear here.','جارٍ التحميل…':'Loading…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'You finished all grammar quizzes. Well done!','Continue ton apprentissage du français.':'Keep learning French.'}
+};
+const UI_R = {
+ fr: [[/^Bonjour, (.*) !$/,'Bonjour, $1 !'],[/^اختبارات · المتوسط (\d+)%$/,'Quiz · moyenne $1 %'],[/^أنهيت اختباره: (.+)$/,'Quiz terminé : $1'],[/^(الدرس التالي المقترح|آخر درس فتحته) · (.+)$/,(m,a,b)=>UI_D.fr[a]+' · '+b],[/^جرّبت (\d+) منها على هذا الجهاز$/,'$1 essayés sur cet appareil'],[/^(\d+) ألعاب$/,'$1 jeux'],[/^اختبار: (.*)$/,'Quiz : $1'],[/^لعبة: (.*)$/,'Jeu : $1'],[/^تسليم واجب: (.*)$/,'Devoir rendu : $1'],[/^مستواك الحالي: (.+)$/,'Ton niveau actuel : $1']],
+ en: [[/^Bonjour, (.*) !$/,'Hello, $1!'],[/^اختبارات · المتوسط (\d+)%$/,'Quizzes · average $1%'],[/^أنهيت اختباره: (.+)$/,'Quiz finished: $1'],[/^(الدرس التالي المقترح|آخر درس فتحته) · (.+)$/,(m,a,b)=>UI_D.en[a]+' · '+b],[/^جرّبت (\d+) منها على هذا الجهاز$/,'$1 tried on this device'],[/^(\d+) ألعاب$/,'$1 games'],[/^اختبار: (.*)$/,'Quiz: $1'],[/^لعبة: (.*)$/,'Game: $1'],[/^تسليم واجب: (.*)$/,'Homework submitted: $1'],[/^مستواك الحالي: (.+)$/,'Your current level: $1']]
+};
+function uiT(s){
+  if(UL === 'ar') return s;
+  const lead = s.match(/^\s*/)[0], trail = s.match(/\s*$/)[0], t = s.trim();
+  if(!t) return s;
+  const d = UI_D[UL];
+  if(d[t] !== undefined) return lead + d[t] + trail;
+  for(const [re, r] of UI_R[UL]) if(re.test(t)) return lead + t.replace(re, r) + trail;
+  return s;
+}
+function uiTr(root){
+  if(UL === 'ar' || !root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), ns = [];
+  while(w.nextNode()) ns.push(w.currentNode);
+  ns.forEach(n => { const p = n.parentElement; if(p && p.closest('[data-notr]')) return; const v = uiT(n.nodeValue); if(v !== n.nodeValue) n.nodeValue = v; });
+  root.querySelectorAll('[aria-label],[title]').forEach(el => ['aria-label','title'].forEach(a => { const x = el.getAttribute(a); if(x){ const y = uiT(x); if(y !== x) el.setAttribute(a, y); } }));
+}
+function uiSwitch(){
+  return `<span class="ulang" data-notr role="group" aria-label="Language">${[['ar','عربي'],['fr','FR'],['en','EN']].map(([k,l]) => `<button class="${UL === k ? 'on' : ''}" data-a="uiLang" data-id="${k}" ${UL === k ? 'aria-pressed="true"' : 'aria-pressed="false"'}>${l}</button>`).join('')}</span>`;
+}
+function uiShell(){
+  const a = document.getElementById('auth'); if(a) a.insertAdjacentHTML('afterbegin', uiSwitch());
+  document.documentElement.setAttribute('lang', UL);
+  ['nav','bnav','auth'].forEach(id => { const e = document.getElementById(id); if(e){ uiTr(e); } });
+  const nv = document.getElementById('nav'); if(nv) nv.dir = UL === 'ar' ? '' : 'ltr';
+}
+const DASHH_UI = { uiLang:id => {
+  if(!['ar','fr','en'].includes(id) || id === UL) return;
+  UL = id; LOC = UI_LOC[UL]; try{ localStorage.setItem('fo_ui', id); }catch(e){}
+  try{ if(id === 'en'){ G.lang = 'en'; localStorage.setItem('fo_lang', 'en'); } else if(G.lang === 'en'){ G.lang = 'ar'; localStorage.setItem('fo_lang', 'ar'); } }catch(e){}
+  render();
+} };
+/* ---- مفردات إضافية للصفحات العامة ---- */
+Object.assign(UI_D.fr, {'عرض الكل':'Tout voir','كل المستويات':'Tous les niveaux','كل التصنيفات':'Toutes les catégories','الكل':'Tout','انتهى':'Terminé','لم يبدأ':'Pas commencé','قيد التعلّم':'En cours','أنهيت':'Terminé','الاختبار':'Quiz','الدرجة':'Note','النسبة':'Pourcentage','التاريخ':'Date','لا توجد فيديوهات مطابقة':'Aucune vidéo correspondante','نتائج ألعابي':'Résultats de mes jeux','لم تلعب أي لعبة بعد':'Tu n’as encore joué à aucun jeu','ستظهر هنا نتائج ألعابك بعد أن تلعب.':'Tes résultats de jeux apparaîtront ici.','شرح ودرس':'Explication et cours','تمارين':'Exercices','ملخص':'Résumé','أخرى':'Autres','تحميل':'Télécharger','عرض':'Voir','حذف':'Supprimer','إغلاق':'Fermer','إلغاء':'Annuler','حفظ':'Enregistrer','بحث':'Rechercher'});
+Object.assign(UI_D.en, {'عرض الكل':'View all','كل المستويات':'All levels','كل التصنيفات':'All categories','الكل':'All','انتهى':'Ended','لم يبدأ':'Not started','قيد التعلّم':'In progress','أنهيت':'Done','الاختبار':'Quiz','الدرجة':'Score','النسبة':'Percentage','التاريخ':'Date','لا توجد فيديوهات مطابقة':'No matching videos','نتائج ألعابي':'My game results','لم تلعب أي لعبة بعد':'You haven’t played any game yet','ستظهر هنا نتائج ألعابك بعد أن تلعب.':'Your game results will appear here.','شرح ودرس':'Explanation & lesson','تمارين':'Exercises','ملخص':'Summary','أخرى':'Other','تحميل':'Download','عرض':'View','حذف':'Delete','إغلاق':'Close','إلغاء':'Cancel','حفظ':'Save','بحث':'Search'});
+UI_R.fr.push([/^متبقي (\d+) يوم$/,'Il reste $1 j'],[/^متبقي (\d+) ساعة$/,'Il reste $1 h'],[/^متبقي (\d+) دقيقة$/,'Il reste $1 min'],[/^آخر موعد للتسليم: (.*)$/,'À rendre avant : $1'],[/^(\d+) ملف$/,'$1 fichier(s)'],[/^(\d+) فيديو$/,'$1 vidéo(s)'],[/^(\d+) اختبار$/,'$1 quiz'],[/^(\d+) واجب$/,'$1 devoir(s)'],[/^(\d+) رابط$/,'$1 lien(s)'],[/^أنهيت (\d+) من (\d+) درساً في هذا المستوى\.$/,'$1 leçons terminées sur $2 dans ce niveau.'],[/^أنهيت · (.+)$/,'Terminé · $1'],[/^الدرجة: (.+)$/,'Note : $1'],[/^ملاحظة المدرس: (.*)$/,'Remarque du professeur : $1']);
+UI_R.en.push([/^متبقي (\d+) يوم$/,'$1 day(s) left'],[/^متبقي (\d+) ساعة$/,'$1 hour(s) left'],[/^متبقي (\d+) دقيقة$/,'$1 min left'],[/^آخر موعد للتسليم: (.*)$/,'Due: $1'],[/^(\d+) ملف$/,'$1 file(s)'],[/^(\d+) فيديو$/,'$1 video(s)'],[/^(\d+) اختبار$/,'$1 quiz(zes)'],[/^(\d+) واجب$/,'$1 assignment(s)'],[/^(\d+) رابط$/,'$1 link(s)'],[/^أنهيت (\d+) من (\d+) درساً في هذا المستوى\.$/,'$1 of $2 lessons completed in this level.'],[/^أنهيت · (.+)$/,'Done · $1'],[/^الدرجة: (.+)$/,'Score: $1'],[/^ملاحظة المدرس: (.*)$/,'Teacher’s note: $1']);
+
 const H = {
-  ...GH, ...VH, ...GRH, ...RESH, ...DASHH,
+  ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
   moreMenu:()=>{
     const m = TABS.filter(t => !BNAV_MAIN.includes(t[0]));   // الفيديوهات، الواجبات، الروابط، المفردات، القواعد
     if(state.teacher){ m.push(['results','list','النتائج']); m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
