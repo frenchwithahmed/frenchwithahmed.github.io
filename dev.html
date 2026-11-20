@@ -739,6 +739,22 @@ html[dir=ltr] .sbox input{padding:11px 16px 11px 42px}
 html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
 @media(max-width:560px){.qsum{grid-template-columns:repeat(2,1fr)}.rrow{padding:12px}}
 
+/* ===== v9: أمثلة المفردات + التسجيل الصوتي ===== */
+.vnote{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#eef4ff,#fff8ea);border:1px solid #d7e2f7;border-radius:18px;padding:14px 16px;margin:0 0 14px;font-size:14.5px;line-height:1.8;color:#27324a}
+.vnote .ni{flex:none;width:34px;height:34px;border-radius:11px;background:#0055A4;color:#fff;display:grid;place-items:center;font-size:17px}
+.vex{display:block;border:0;background:none;padding:0;font:inherit;font-size:13.5px;color:#5a6479;cursor:pointer;text-align:start;direction:ltr;font-style:italic}
+.vex:hover{color:#0055A4}
+.vrow{flex-wrap:wrap}
+.vact{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.vmic,.vplay,.vdelr{width:40px;height:40px;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;font-size:18px;line-height:1}
+.vmic{background:#fde8ea;color:#c0283c}
+.vmic.on{background:#d6334a;color:#fff;animation:vpulse 1s infinite}
+.vplay{background:#e3f7ec;color:#157a45}
+.vdelr{background:#eef0f5;color:#6b7385;font-size:15px}
+@keyframes vpulse{0%{box-shadow:0 0 0 0 rgba(214,51,74,.5)}100%{box-shadow:0 0 0 12px rgba(214,51,74,0)}}
+.vpriv{font-size:12.5px;color:#6b7385;margin:6px 2px 14px;display:flex;gap:6px;align-items:center}
+@media(max-width:560px){.vact{width:100%;justify-content:flex-end}}
+
 </style>
 </head>
 <body>
@@ -3747,6 +3763,333 @@ const VOC = {
  ]
 };
 
+/* مواضيع مفردات جديدة (v9): [الفرنسية, العربية, English, جملة مثال] */
+(function(){
+ const N = {
+ A1: [
+  { id:"a1-polite", ar:"آداب اللباقة", fr:"Politesse et savoir-vivre",
+    note:{ ar:"الفرنسيون يبدؤون أي لقاء بـ Bonjour حتى مع البائع أو عند دخول المصعد؛ وترك التحية يُعدّ وقاحة. ويستعملون vous مع الغرباء والكبار، و tu مع الأصدقاء والعائلة والأطفال.", fr:"En France, on dit toujours « Bonjour » en entrant quelque part, même chez le boulanger. On vouvoie les inconnus et les personnes âgées ; on tutoie les amis, la famille et les enfants.", en:"In France you always say “Bonjour” when you enter a shop or a lift. Use vous with strangers and elders, tu with friends, family and children." },
+    w:[
+   ["Bonjour Madame","صباح الخير يا سيدتي","Good morning, Madam","Bonjour Madame, je voudrais un croissant."],
+   ["Bonne journée","يوماً سعيداً","Have a nice day","Merci, bonne journée !"],
+   ["Bonne soirée","أمسية سعيدة","Have a nice evening","Bonne soirée et à demain !"],
+   ["Bon appétit","بالهناء والشفاء (قبل الأكل)","Enjoy your meal","Bon appétit, tout le monde !"],
+   ["Santé !","في صحتك!","Cheers!","Santé ! À notre amitié !"],
+   ["À tes souhaits","يرحمك الله (عند العطاس)","Bless you","Atchoum ! — À tes souhaits !"],
+   ["Bon courage","بالتوفيق / تحلَّ بالصبر","Good luck / hang in there","Bon courage pour ton examen !"],
+   ["Bonne continuation","استمرار موفق","All the best","Merci, bonne continuation !"],
+   ["Félicitations","مبروك","Congratulations","Félicitations pour ton diplôme !"],
+   ["Bon anniversaire","عيد ميلاد سعيد","Happy birthday","Bon anniversaire, Léa !"],
+   ["Bonne année","سنة سعيدة","Happy New Year","Bonne année et bonne santé !"],
+   ["Avec plaisir","بكل سرور","With pleasure","Tu m'aides ? — Avec plaisir !"],
+   ["Je vous en prie","تفضّل / عفواً (رسمي)","You're welcome (formal)","Merci beaucoup. — Je vous en prie."],
+   ["Après vous","تفضّل أنت أولاً","After you","Après vous, je vous en prie."],
+   ["tutoyer","يخاطب بـ tu","to use “tu”","On peut se tutoyer ?"],
+   ["vouvoyer","يخاطب بـ vous","to use “vous”","Je vouvoie mon directeur."],
+   ["Ça ne fait rien","لا يهم","It doesn't matter","Ça ne fait rien, ce n'est pas grave."]
+  ]},
+  { id:"a1-cafe", ar:"في المقهى والمطعم", fr:"Au café et au restaurant",
+    note:{ ar:"الماء العادي مجاني في المطاعم الفرنسية: اطلب «une carafe d'eau». والفاتورة لا تأتي من تلقاء نفسها، تطلبها بقولك «L'addition, s'il vous plaît». وتُنادى النادل بـ «Monsieur / Madame, s'il vous plaît».", fr:"L'eau du robinet est gratuite : demandez « une carafe d'eau ». L'addition n'arrive pas toute seule : il faut la demander.", en:"Tap water is free: ask for “une carafe d'eau”. The bill never comes by itself — you ask for it." },
+    w:[
+   ["la carte","قائمة الطعام","the menu (à la carte)","Je peux avoir la carte, s'il vous plaît ?"],
+   ["le menu","وجبة بسعر ثابت","set menu","Je prends le menu du jour."],
+   ["un café","قهوة صغيرة (إسبريسو)","an espresso","Un café, s'il vous plaît."],
+   ["un crème","قهوة بالحليب","a coffee with milk","Je prends un crème."],
+   ["une carafe d'eau","إبريق ماء (مجاني)","a jug of tap water","Une carafe d'eau, s'il vous plaît."],
+   ["Je voudrais…","أودّ…","I would like…","Je voudrais une table pour deux."],
+   ["une table pour deux","طاولة لشخصين","a table for two","Avez-vous une table pour deux ?"],
+   ["l'entrée","المقبلات","the starter","En entrée, je prends une soupe."],
+   ["le plat principal","الطبق الرئيسي","the main course","Comme plat principal, du poulet."],
+   ["le dessert","الحلوى","the dessert","Et comme dessert ?"],
+   ["l'addition","الفاتورة","the bill","L'addition, s'il vous plaît."],
+   ["le pourboire","البقشيش","the tip","Le pourboire est facultatif."],
+   ["à emporter","للأخذ معك","to take away","Un sandwich à emporter, s'il vous plaît."],
+   ["sur place","للأكل هنا","eat in","C'est sur place ou à emporter ?"],
+   ["réserver","يحجز","to book","Je voudrais réserver une table."],
+   ["végétarien","نباتي","vegetarian","Avez-vous un plat végétarien ?"],
+   ["l'allergie","الحساسية","allergy","J'ai une allergie aux noix."],
+   ["bien cuit","مطهو جيداً","well done","Le steak, bien cuit, s'il vous plaît."]
+  ]},
+  { id:"a1-class", ar:"عبارات الصف", fr:"En classe de français",
+    note:{ ar:"هذه العبارات تسمعها كل يوم في الصف. إذا لم تفهم فلا تصمت: قل «Je ne comprends pas» أو «Pouvez-vous répéter ?».", fr:"Ces phrases reviennent à chaque cours. Si vous ne comprenez pas, dites-le !", en:"You will hear these phrases in every lesson. If you don't understand, say so!" },
+    w:[
+   ["Écoutez","استمعوا","Listen","Écoutez bien l'audio."],
+   ["Répétez","كرّروا","Repeat","Répétez après moi."],
+   ["Levez la main","ارفعوا أيديكم","Raise your hand","Levez la main pour répondre."],
+   ["Ouvrez votre livre","افتحوا كتابكم","Open your book","Ouvrez votre livre page dix."],
+   ["Fermez le cahier","أغلقوا الدفتر","Close the notebook","Fermez le cahier, s'il vous plaît."],
+   ["Lisez le texte","اقرؤوا النص","Read the text","Lisez le texte à voix haute."],
+   ["Écrivez","اكتبوا","Write","Écrivez votre nom au tableau."],
+   ["Comment ça s'écrit ?","كيف تُكتب؟","How do you spell it?","Comment ça s'écrit, « bonjour » ?"],
+   ["Comment dit-on… ?","كيف نقول…؟","How do you say…?","Comment dit-on « book » en français ?"],
+   ["Qu'est-ce que ça veut dire ?","ماذا يعني هذا؟","What does that mean?","Qu'est-ce que ça veut dire, « bof » ?"],
+   ["Pouvez-vous répéter ?","هل يمكنك أن تعيد؟","Can you repeat?","Pardon, pouvez-vous répéter ?"],
+   ["Plus lentement, s'il vous plaît","أبطأ من فضلك","More slowly, please","Plus lentement, s'il vous plaît."],
+   ["Je ne sais pas","لا أعرف","I don't know","Je ne sais pas la réponse."],
+   ["C'est correct","هذا صحيح","That's correct","Oui, c'est correct !"],
+   ["C'est faux","هذا خطأ","That's wrong","Non, c'est faux."],
+   ["les devoirs","الواجبات المنزلية","homework","N'oubliez pas les devoirs !"],
+   ["la réponse","الإجابة","the answer","Quelle est la bonne réponse ?"],
+   ["l'exercice","التمرين","the exercise","Faites l'exercice trois."]
+  ]}
+ ],
+ A2: [
+  { id:"a2-phone", ar:"الهاتف والرسائل", fr:"Au téléphone et par message",
+    note:{ ar:"عند الرد على الهاتف يقول الفرنسي «Allô ?»، وفي العمل يعرّف نفسه: «Société X, bonjour». وتنتهي الرسائل غالباً بـ «À plus» (للأصدقاء) أو «Cordialement» (رسمي).", fr:"Au téléphone on dit « Allô ? ». Au travail : « Société X, bonjour ». On termine un message par « À plus » (amis) ou « Cordialement » (formel).", en:"On the phone people say “Allô?”. At work: “Société X, bonjour”. Messages end with “À plus” (friends) or “Cordialement” (formal)." },
+    w:[
+   ["Allô","ألو","Hello (phone)","Allô ? Qui est à l'appareil ?"],
+   ["C'est de la part de qui ?","من المتصل؟ (رسمي)","Who is calling?","Un instant. C'est de la part de qui ?"],
+   ["Ne quittez pas","ابقَ على الخط","Hold the line","Ne quittez pas, je vous le passe."],
+   ["rappeler","يعاود الاتصال","to call back","Je vous rappelle demain."],
+   ["laisser un message","يترك رسالة","to leave a message","Je peux laisser un message ?"],
+   ["la messagerie vocale","البريد الصوتي","voicemail","Il est sur messagerie vocale."],
+   ["un SMS","رسالة نصية","a text message","Je t'envoie un SMS."],
+   ["un mail","بريد إلكتروني","an email","Je t'envoie un mail ce soir."],
+   ["la pièce jointe","المرفق","the attachment","Voir la pièce jointe."],
+   ["la batterie","البطارية","the battery","Je n'ai plus de batterie."],
+   ["le réseau","الشبكة","the network","Je n'ai pas de réseau ici."],
+   ["raccrocher","يُنهي المكالمة","to hang up","Il a raccroché trop vite."],
+   ["décrocher","يردّ على الهاتف","to pick up","Elle n'a pas décroché."],
+   ["la ligne est occupée","الخط مشغول","the line is busy","La ligne est occupée, je réessaie."],
+   ["Cordialement","مع خالص التحية (رسمي)","Kind regards","Bien cordialement, Marc Durand."],
+   ["À tout à l'heure","أراك بعد قليل","See you later","Je rentre à six heures, à tout à l'heure !"],
+   ["À plus","أراك لاحقاً (عامي)","See you","Bon, à plus !"]
+  ]},
+  { id:"a2-transport", ar:"المواصلات", fr:"Les transports",
+    note:{ ar:"في باريس المترو سريع ومكتظ، ويُقال «Je prends le métro». اقرأ اللافتات جيداً: ببعض القطارات الإقليمية قد تحتاج إلى تفعيل تذكرتك (composter) قبل الركوب.", fr:"À Paris, on prend surtout le métro. Lisez bien les panneaux : sur certains trains régionaux, il faut composter son billet avant de monter.", en:"In Paris most people take the métro. Read the signs: on some regional trains you must validate (“composter”) your ticket before boarding." },
+    w:[
+   ["le métro","المترو","the metro","Je prends le métro tous les matins."],
+   ["le bus","الحافلة","the bus","Le bus est en retard."],
+   ["le tramway","الترام","the tram","Le tramway passe toutes les dix minutes."],
+   ["le train","القطار","the train","Le train part à huit heures."],
+   ["la gare","محطة القطار","the train station","On se retrouve à la gare."],
+   ["l'arrêt de bus","موقف الحافلة","the bus stop","L'arrêt de bus est en face."],
+   ["la station","محطة (مترو)","the (metro) station","Quelle est la prochaine station ?"],
+   ["le quai","الرصيف","the platform","Le train est sur le quai trois."],
+   ["le billet","التذكرة","the ticket","Je voudrais un billet pour Lyon."],
+   ["l'abonnement","الاشتراك","the pass","J'ai un abonnement mensuel."],
+   ["un aller simple","ذهاب فقط","a one-way ticket","Un aller simple pour Paris, s'il vous plaît."],
+   ["un aller-retour","ذهاب وإياب","a return ticket","Un aller-retour pour Nice."],
+   ["composter","يُفعّل التذكرة","to validate (a ticket)","N'oubliez pas de composter votre billet."],
+   ["la correspondance","التحويل بين خطين","the connection","J'ai une correspondance à Châtelet."],
+   ["le retard","التأخير","the delay","Le train a vingt minutes de retard."],
+   ["la sortie","المخرج","the exit","La sortie est à gauche."],
+   ["le trajet","الرحلة / المسافة","the journey","Le trajet dure une heure."],
+   ["descendre","ينزل","to get off","Je descends à la prochaine."],
+   ["monter","يصعد / يركب","to get on","Montez dans le bus."],
+   ["le vélo","الدراجة","the bike","Je vais au travail à vélo."]
+  ]},
+  { id:"a2-daily", ar:"عبارات يومية طبيعية", fr:"Expressions du quotidien",
+    note:{ ar:"هذه عبارات لا تجدها غالباً في الكتب لكن الفرنسيين يقولونها في كل جملة تقريباً. استعمالها يجعل كلامك طبيعياً وغير «مدرسي». لاحظ أنهم في الكلام يحذفون ne: يقولون «C'est pas grave».", fr:"Ces petits mots remplissent la conversation. À l'oral on supprime souvent le « ne » : « C'est pas grave ».", en:"These little words fill everyday French. In speech the “ne” is often dropped: “C'est pas grave”." },
+    w:[
+   ["Ça marche","اتفقنا / حسناً","Deal / OK","On se voit à huit heures ? — Ça marche !"],
+   ["Tant pis","ما باليد حيلة","Too bad","Tant pis, on ira demain."],
+   ["Tant mieux","أفضل هكذا","So much the better","Il fait beau ? Tant mieux !"],
+   ["Du coup","لذلك / وعليه","So / as a result","Il pleut, du coup on reste ici."],
+   ["En fait","في الحقيقة","Actually","En fait, je n'ai pas faim."],
+   ["Bof","عادي (دون حماس)","Meh","Le film ? Bof."],
+   ["Ça dépend","يعتمد","It depends","Tu viens ? — Ça dépend."],
+   ["Pas de souci","لا مشكلة","No worries","Pas de souci, je m'en occupe."],
+   ["Ça m'est égal","سيّان عندي","I don't mind","Thé ou café ? Ça m'est égal."],
+   ["Je n'en sais rien","لا علم لي","I have no idea","Où est-il ? Je n'en sais rien."],
+   ["Tu rigoles ?","هل تمزح؟","Are you kidding?","Quarante euros ? Tu rigoles !"],
+   ["Ça te dit ?","هل يناسبك / ترغب؟","Do you fancy it?","Un ciné ce soir, ça te dit ?"],
+   ["Allez !","هيا!","Come on!","Allez, on y va !"],
+   ["Voilà","تفضّل / ها هو","Here you go","Voilà votre café."],
+   ["Bref","باختصار","In short","Bref, je suis en retard."],
+   ["Franchement","بصراحة","Frankly","Franchement, c'est trop cher."],
+   ["Au fait","بالمناسبة","By the way","Au fait, tu viens samedi ?"],
+   ["Peu importe","لا يهم","Never mind","Peu importe, on verra."],
+   ["C'est pas grave","ليست مشكلة","It's no big deal","Tu es en retard ? C'est pas grave."],
+   ["Ça va aller","سيكون كل شيء بخير","It'll be fine","Ne t'inquiète pas, ça va aller."],
+   ["Je t'en prie","تفضّل (غير رسمي)","You're welcome (informal)","Merci ! — Je t'en prie."]
+  ]},
+  { id:"a2-sport", ar:"الرياضة والهوايات", fr:"Sport et loisirs",
+    w:[
+   ["le football","كرة القدم","football","Mon fils joue au football le mercredi."],
+   ["le basket","كرة السلة","basketball","Il joue au basket avec ses amis."],
+   ["la natation","السباحة","swimming","Je fais de la natation deux fois par semaine."],
+   ["la course","الجري","running","La course à pied me détend."],
+   ["courir","يجري","to run","Je cours le matin avant le travail."],
+   ["nager","يسبح","to swim","Elle nage très bien."],
+   ["s'entraîner","يتدرّب","to train","Nous nous entraînons le samedi."],
+   ["la salle de sport","النادي الرياضي","the gym","Je vais à la salle de sport."],
+   ["gagner","يفوز / يربح","to win","Notre équipe a gagné !"],
+   ["perdre","يخسر","to lose","On a perdu deux à un."],
+   ["le but","الهدف","the goal","Quel beau but !"],
+   ["un match nul","تعادل","a draw","Le match s'est terminé par un match nul."],
+   ["l'entraîneur","المدرّب","the coach","L'entraîneur est très exigeant."],
+   ["le joueur","اللاعب","the player","C'est mon joueur préféré."],
+   ["le stade","الملعب","the stadium","On va au stade ce soir."],
+   ["le supporter","المشجّع","the fan","Les supporters chantent."],
+   ["la randonnée","المشي الجبلي","hiking","Dimanche, on fait une randonnée."],
+   ["le jeu vidéo","لعبة الفيديو","video game","Il passe trop de temps sur les jeux vidéo."],
+   ["la peinture","الرسم / التلوين","painting","J'aime la peinture."],
+   ["le jardinage","البستنة","gardening","Mon père adore le jardinage."]
+  ]}
+ ],
+ B1: [
+  { id:"b1-opinion", ar:"إبداء الرأي والمناقشة", fr:"Donner son avis et argumenter",
+    note:{ ar:"الفرنسيون يحبون النقاش المنظّم: فكرة ثم ما يقابلها ثم خلاصة. لا يقولون رأيهم بصيغة قاطعة، بل يخففونها: «À mon avis…», «Il me semble que…».", fr:"Les Français aiment débattre avec méthode : une idée, une nuance, une conclusion. On adoucit son opinion : « Il me semble que… ».", en:"The French love structured debate: an idea, a counter-point, a conclusion. Opinions are softened: “Il me semble que…”." },
+    w:[
+   ["À mon avis","في رأيي","In my opinion","À mon avis, c'est une bonne idée."],
+   ["Selon moi","بحسب رأيي","According to me","Selon moi, il a raison."],
+   ["Il me semble que","يبدو لي أنّ","It seems to me that","Il me semble que tu te trompes."],
+   ["Je suis d'accord","أنا موافق","I agree","Je suis tout à fait d'accord."],
+   ["Je ne suis pas d'accord","لست موافقاً","I disagree","Désolé, je ne suis pas d'accord."],
+   ["Certes… mais","صحيح… لكن","True… but","Certes, c'est cher, mais c'est de qualité."],
+   ["Pourtant","ومع ذلك","Yet","Il est fatigué, pourtant il travaille."],
+   ["En revanche","في المقابل","On the other hand","Il est lent ; en revanche, il est précis."],
+   ["D'ailleurs","علاوة على ذلك / بالمناسبة","Besides","D'ailleurs, il n'a jamais appelé."],
+   ["Tout d'abord","أولاً","First of all","Tout d'abord, merci d'être venus."],
+   ["D'une part… d'autre part","من جهة… ومن جهة أخرى","On the one hand… on the other","D'une part c'est utile, d'autre part c'est cher."],
+   ["Par conséquent","وبالتالي","Consequently","Par conséquent, nous avons décidé d'attendre."],
+   ["À vrai dire","في الحقيقة","To tell the truth","À vrai dire, je préfère rester."],
+   ["Quant à","أما بالنسبة لـ","As for","Quant à moi, je reste."],
+   ["En conclusion","في الخلاصة","In conclusion","En conclusion, le projet est réalisable."],
+   ["c'est-à-dire","أي / يعني","that is to say","Il est bilingue, c'est-à-dire qu'il parle deux langues."],
+   ["Je trouve que","أرى أنّ","I find that","Je trouve que ce film est trop long."]
+  ]},
+  { id:"b1-idiom", ar:"تعابير مجازية", fr:"Expressions imagées",
+    note:{ ar:"هذه التعابير تُفهم كوحدة كاملة ولا تُترجم حرفياً! مثلاً «poser un lapin» ليست «يضع أرنباً» بل «يخلف الموعد». تعلّمها كجملة واحدة، وستفاجئ بها الفرنسيين.", fr:"Ces expressions ne se traduisent pas mot à mot ! « Poser un lapin » = ne pas venir à un rendez-vous.", en:"These expressions can't be translated word for word! “Poser un lapin” = to stand someone up." },
+    w:[
+   ["avoir le cafard","يشعر بالكآبة","to feel down","Aujourd'hui, j'ai le cafard."],
+   ["coûter les yeux de la tête","غالٍ جداً","to cost a fortune","Ce sac coûte les yeux de la tête."],
+   ["poser un lapin","يخلف الموعد","to stand someone up","Il m'a posé un lapin hier soir."],
+   ["être dans la lune","شارد الذهن","to have one's head in the clouds","Réveille-toi, tu es dans la lune !"],
+   ["avoir un chat dans la gorge","بحّة في الصوت","to have a frog in one's throat","Excusez-moi, j'ai un chat dans la gorge."],
+   ["il pleut des cordes","المطر ينهمر بغزارة","it's pouring","Prends un parapluie, il pleut des cordes."],
+   ["mettre son grain de sel","يتدخل فيما لا يعنيه","to butt in","Il met toujours son grain de sel."],
+   ["avoir la pêche","في قمة النشاط","to be full of energy","Ce matin, j'ai la pêche !"],
+   ["casser les pieds à quelqu'un","يزعج شخصاً","to annoy someone","Arrête de me casser les pieds !"],
+   ["le coup de foudre","حب من أول نظرة","love at first sight","Pour eux, ce fut le coup de foudre."],
+   ["avoir le cœur sur la main","كريم القلب","to be generous","Marie a le cœur sur la main."],
+   ["tomber dans les pommes","يُغمى عليه","to faint","Elle est tombée dans les pommes."],
+   ["avoir du pain sur la planche","لديه عمل كثير","to have a lot to do","J'ai du pain sur la planche cette semaine."],
+   ["ce n'est pas la mer à boire","ليس بالأمر الصعب","it's not that hard","Allez, ce n'est pas la mer à boire !"],
+   ["avoir les yeux plus gros que le ventre","عينه أكبر من بطنه","to bite off more than one can chew","Tu as pris trois desserts ? Tu as les yeux plus gros que le ventre !"],
+   ["quand les poules auront des dents","حين يبيض الغراب (مستحيل)","when pigs fly","Il rangera sa chambre quand les poules auront des dents."]
+  ]},
+  { id:"b1-admin", ar:"الإجراءات الإدارية", fr:"Démarches et administration",
+    note:{ ar:"الإدارة الفرنسية تحب الأوراق: لا تذهب بدون «rendez-vous» ونسخ من مستنداتك. كلمة «dossier» تعني الملف الذي تجمع فيه كل الأوراق.", fr:"L'administration française aime les papiers : prenez rendez-vous et apportez des photocopies de votre dossier.", en:"French administration loves paperwork: book an appointment and bring copies of your “dossier”." },
+    w:[
+   ["la pièce d'identité","وثيقة الهوية","ID document","Apportez une pièce d'identité."],
+   ["le passeport","جواز السفر","the passport","Mon passeport expire en mars."],
+   ["le formulaire","الاستمارة","the form","Remplissez ce formulaire."],
+   ["remplir","يملأ","to fill in","Je dois remplir plusieurs papiers."],
+   ["le rendez-vous","الموعد","the appointment","J'ai rendez-vous à la mairie."],
+   ["la mairie","البلدية","the town hall","La mairie ouvre à neuf heures."],
+   ["la préfecture","المحافظة","the prefecture","Je vais à la préfecture lundi."],
+   ["le justificatif de domicile","إثبات السكن","proof of address","Il faut un justificatif de domicile."],
+   ["le dossier","الملف","the file","Mon dossier est complet."],
+   ["la signature","التوقيع","the signature","Votre signature, ici."],
+   ["signer","يوقّع","to sign","Vous devez signer en bas."],
+   ["la demande","الطلب","the request","J'ai fait une demande en ligne."],
+   ["le délai","المهلة","the deadline / time frame","Le délai est de deux semaines."],
+   ["le loyer","الإيجار","the rent","Le loyer est de sept cents euros."],
+   ["le contrat","العقد","the contract","J'ai lu le contrat."],
+   ["déménager","ينتقل إلى سكن آخر","to move house","Nous déménageons en juin."],
+   ["s'inscrire","يسجّل نفسه","to register / enrol","Je veux m'inscrire à l'université."],
+   ["l'assurance","التأمين","insurance","Il faut une assurance habitation."],
+   ["la facture","الفاتورة","the invoice / bill","Gardez bien la facture."]
+  ]},
+  { id:"b1-media", ar:"الإعلام والأخبار", fr:"Médias et actualité",
+    w:[
+   ["les actualités","الأخبار","the news","Je regarde les actualités le soir."],
+   ["le journal","الصحيفة / نشرة الأخبار","the newspaper / the news","J'ai lu ça dans le journal."],
+   ["le reportage","التقرير","the report","Ce reportage est très intéressant."],
+   ["l'article","المقال","the article","Cet article est trop long."],
+   ["le journaliste","الصحفي","the journalist","La journaliste pose des questions."],
+   ["la chaîne","القناة","the channel","Quelle chaîne regardes-tu ?"],
+   ["l'émission","البرنامج","the programme","Mon émission préférée commence à vingt heures."],
+   ["le podcast","البودكاست","the podcast","J'écoute un podcast dans le train."],
+   ["les réseaux sociaux","وسائل التواصل الاجتماعي","social media","Il passe du temps sur les réseaux sociaux."],
+   ["la fausse information","الخبر الكاذب","fake news","Attention aux fausses informations !"],
+   ["la source","المصدر","the source","Vérifiez toujours la source."],
+   ["l'interview","المقابلة","the interview","L'interview dure dix minutes."],
+   ["la une","الصفحة الأولى","the front page","L'accident est à la une."],
+   ["le titre","العنوان","the headline","Le titre est trompeur."],
+   ["partager","يشارك","to share","Je partage ta publication."],
+   ["publier","ينشر","to publish","Il publie une photo chaque jour."],
+   ["le commentaire","التعليق","the comment","J'ai lu les commentaires."],
+   ["informer","يُعلِم","to inform","La presse doit informer."]
+  ]},
+  { id:"b1-fam", ar:"الفرنسية العامية المحكية", fr:"Le français familier",
+    note:{ ar:"الفرنسيون يتحدثون بغير ما يكتبون. افهم هذه الكلمات لتفهمهم، لكن استعملها مع الأصدقاء فقط، وليس في رسالة رسمية أو مع المدير.", fr:"À l'oral on parle autrement qu'à l'écrit. Comprenez ces mots, mais utilisez-les seulement entre amis.", en:"The French speak differently from how they write. Understand these words, but use them only with friends." },
+    w:[
+   ["le boulot","الشغل (عامي)","work (informal)","Je dois aller au boulot."],
+   ["bosser","يشتغل بجد (عامي)","to work (informal)","J'ai bossé toute la journée."],
+   ["le bouquin","الكتاب (عامي)","book (informal)","Ce bouquin est génial."],
+   ["la bagnole","السيارة (عامي)","car (informal)","Sa bagnole est en panne."],
+   ["le fric","المال (عامي)","money (informal)","Je n'ai plus de fric."],
+   ["un mec","شخص / رجل (عامي)","a guy (informal)","C'est un mec sympa."],
+   ["bouffer","يأكل (عامي)","to eat (informal)","On va bouffer ensemble ?"],
+   ["kiffer","يُحب كثيراً (عامي)","to love (informal)","Je kiffe cette chanson."],
+   ["un truc","شيء (عامي)","a thing (informal)","Passe-moi ce truc."],
+   ["nul","سيئ جداً / فاشل","rubbish","Ce film est nul."],
+   ["sympa","لطيف","nice","Ton voisin est très sympa."],
+   ["crevé","منهك (عامي)","exhausted (informal)","Je suis crevé ce soir."],
+   ["la galère","ورطة / متاعب (عامي)","a hassle (informal)","Quelle galère, le train est annulé !"],
+   ["j'en ai marre","لقد مللت / سئمت","I'm fed up","J'en ai marre de ce bruit."],
+   ["ras-le-bol","طفح الكيل","I've had enough","Ras-le-bol de la pluie !"],
+   ["Je sais pas","لا أعرف (محكية)","I dunno","Je sais pas, moi."],
+   ["Y a pas de quoi","لا شكر على واجب (محكية)","Don't mention it","Merci ! — Y a pas de quoi."]
+  ]}
+ ]
+ };
+ // نمنع تكرار الكلمات الموجودة (لأن علامة «عرفتها» تُحفظ حسب الكلمة)
+ const seen = new Set(); Object.keys(VOC).forEach(L => VOC[L].forEach(c => c.w.forEach(w => seen.add(w[0].toLowerCase()))));
+ Object.keys(N).forEach(L => N[L].forEach(c => { c.w = c.w.filter(w => { const k = w[0].toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; }); VOC[L].push(c); }));
+})();
+
+/* ---------- تسجيل صوت الطالب (على جهازه فقط، IndexedDB) ---------- */
+const REC = { keys:new Set(), loaded:false, mr:null, stream:null, chunks:[], timer:null, word:null, audio:null };
+function recDB(){ return new Promise((res, rej) => { const r = indexedDB.open('fo_rec', 1); r.onupgradeneeded = () => r.result.createObjectStore('r'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+async function recOp(mode, fn){ const db = await recDB(); return new Promise((res, rej) => { const tx = db.transaction('r', mode); const rq = fn(tx.objectStore('r')); tx.oncomplete = () => { db.close(); res(rq && rq.result); }; tx.onerror = () => rej(tx.error); }); }
+const recKey = w => (state.uid || 'x') + '|' + w[0];
+const recHas = w => REC.keys.has(recKey(w));
+function recLoad(){
+  if(REC.loaded) return; REC.loaded = true;
+  recOp('readonly', st => st.getAllKeys()).then(k => { REC.keys = new Set(k); if(state.tab === 'vocab') render(); }).catch(() => {});
+}
+function recStop(){ try{ if(REC.mr && REC.mr.state !== 'inactive') REC.mr.stop(); }catch(e){} }
+async function recStart(w){
+  if(REC.mr){ const same = REC.word && REC.word[0] === w[0]; recStop(); if(same) return; return; }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ toast(uiT('جهازك أو متصفحك لا يدعم التسجيل الصوتي'), 'err'); return; }
+  try{ REC.stream = await navigator.mediaDevices.getUserMedia({ audio:true }); }
+  catch(e){ toast(uiT('لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة'), 'err'); return; }
+  try{ if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  REC.chunks = []; REC.word = w;
+  const mr = new MediaRecorder(REC.stream); REC.mr = mr;
+  mr.ondataavailable = e => { if(e.data && e.data.size) REC.chunks.push(e.data); };
+  mr.onstop = async () => {
+    clearTimeout(REC.timer); try{ REC.stream.getTracks().forEach(x => x.stop()); }catch(e){}
+    const blob = new Blob(REC.chunks, { type: mr.mimeType || 'audio/webm' }), ww = REC.word; REC.mr = null;
+    if(blob.size > 0){
+      try{ await recOp('readwrite', st => st.put(blob, recKey(ww))); REC.keys.add(recKey(ww)); toast(uiT('تم حفظ تسجيلك على جهازك'), 'ok'); }
+      catch(e){ toast(uiT('تعذر حفظ التسجيل على هذا الجهاز'), 'err'); }
+    }
+    render();
+  };
+  mr.start(); REC.timer = setTimeout(recStop, 8000); render();
+}
+async function recPlay(w){
+  try{
+    const blob = await recOp('readonly', st => st.get(recKey(w)));
+    if(!blob) return;
+    if(REC.audio){ REC.audio.pause(); }
+    REC.audio = new Audio(URL.createObjectURL(blob)); REC.audio.play();
+  }catch(e){ toast(uiT('تعذر تشغيل التسجيل'), 'err'); }
+}
+async function recDel(w){
+  try{ await recOp('readwrite', st => st.delete(recKey(w))); REC.keys.delete(recKey(w)); render(); }catch(e){}
+}
+function recBtns(w, id, i){
+  const on = REC.mr && REC.word && REC.word[0] === w[0];
+  return `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
+    + (recHas(w) ? `<button class="vplay" data-a="vMine" data-id="${id}" data-i="${i}" aria-label="استمع لتسجيلك">▶</button><button class="vdelr" data-a="vRecDel" data-id="${id}" data-i="${i}" aria-label="احذف تسجيلك">✕</button>` : '');
+}
+
 /* ---------- المفردات ---------- */
 const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, flip:false, total:0, again:0, known:new Set() };
 (function(){
@@ -3790,12 +4133,15 @@ function renderVocab(v){
     <div id="vres">${vSearchHtml()}</div>`;
 }
 function renderVCat(v){
+  recLoad();
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
   const p = vProg(c), means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
   v.innerHTML = `<button class="btn sec" data-a="vBack" style="margin-bottom:12px">← المفردات</button>
     <h2 class="st"><span>${esc(c.ar)} <small dir="ltr">${esc(c.fr)}</small></span><small dir="ltr">${p.k} / ${p.n}</small></h2>
     <div class="vbar2"><div class="vpills">${means}</div><button class="btn" data-a="vCards">${I('play','s')} بطاقات المراجعة</button></div>
-    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}</div><button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div>`).join('')}</div>`;
+    ${c.note ? `<div class="vnote"><span class="ni">💡</span><div dir="auto">${esc(c.note[UL] || c.note.ar)}</div></div>` : ''}
+    <p class="vpriv">🔒 <span>التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.</span></p>
+    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
 }
 function renderVCards(v){
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
@@ -3809,9 +4155,9 @@ function renderVCards(v){
   v.innerHTML = `<button class="btn sec" data-a="vCatBack" style="margin-bottom:12px">← ${esc(c.ar)}</button>
     <div class="vprog"><span dir="ltr">${done} / ${V.total}</span><span class="vbar"><i style="width:${Math.round(done / V.total * 100)}%"></i></span></div>
     <button class="vcard ${V.flip ? 'flip' : ''}" data-a="vFlip" aria-label="اقلب البطاقة">
-      ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
+      ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>${w[3] ? `<span class="vhint" dir="ltr" lang="fr" style="font-style:italic">${esc(w[3])}</span>` : ''}` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
     </button>
-    <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>
+    <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>${recBtns(w, c.id, V.deck.length ? c.w.indexOf(w) : 0)}
       ${V.flip ? `<button class="btn del lg" data-a="vNo">أعيدها</button><button class="btn lg" data-a="vYes">عرفتها ✓</button>` : `<button class="btn lg" data-a="vFlip">أظهر المعنى</button>`}</div>`;
 }
 function vStartCards(){
@@ -3827,6 +4173,10 @@ const VH = {
   vBack:() => { V.view = 'menu'; render(); },
   vCatBack:() => { V.view = 'cat'; render(); },
   vSayW:(id, el) => { const c = vCat(id); if(c) vSay(c.w[+el.dataset.i]); },
+  vSayX:(id, el) => { const c = vCat(id); if(c){ const w = c.w[+el.dataset.i]; if(w && w[3]) speak(w[3], .85); } },
+  vRec:(id, el) => { const c = vCat(id); if(c) recStart(c.w[+el.dataset.i]); },
+  vMine:(id, el) => { const c = vCat(id); if(c) recPlay(c.w[+el.dataset.i]); },
+  vRecDel:(id, el) => { const c = vCat(id); if(c) recDel(c.w[+el.dataset.i]); },
   vKnow:(id, el) => { const c = vCat(V.cat); if(!c) return; const w = c.w[+el.dataset.i]; V.known.has(w[0]) ? V.known.delete(w[0]) : V.known.add(w[0]); vSave(); render(); },
   vCards:() => vStartCards(),
   vFlip:() => { V.flip = !V.flip; render(); },
@@ -4904,6 +5254,7 @@ UI_R.fr.push([/^متبقي (\d+) يوم$/,'Il reste $1 j'],[/^متبقي (\d+) �
 UI_R.en.push([/^متبقي (\d+) يوم$/,'$1 day(s) left'],[/^متبقي (\d+) ساعة$/,'$1 hour(s) left'],[/^متبقي (\d+) دقيقة$/,'$1 min left'],[/^آخر موعد للتسليم: (.*)$/,'Due: $1'],[/^(\d+) ملف$/,'$1 file(s)'],[/^(\d+) فيديو$/,'$1 video(s)'],[/^(\d+) اختبار$/,'$1 quiz(zes)'],[/^(\d+) واجب$/,'$1 assignment(s)'],[/^(\d+) رابط$/,'$1 link(s)'],[/^أنهيت (\d+) من (\d+) درساً في هذا المستوى\.$/,'$1 of $2 lessons completed in this level.'],[/^أنهيت · (.+)$/,'Done · $1'],[/^الدرجة: (.+)$/,'Score: $1'],[/^ملاحظة المدرس: (.*)$/,'Teacher’s note: $1']);
 /* ---- مفردات المفردات والقواعد (أسماء الأقسام والدروس من البيانات نفسها) ---- */
 const UI_EN_CAT = {'a1-greet':'Greetings & introductions','a1-pron':'Pronouns','a1-q':'Question words','a1-num':'Numbers','a1-qty':'Order & quantity','a1-col':'Colors','a1-fam':'Family','a1-food':'Food & drink','a1-days':'Days & time','a1-months':'Months','a1-school':'At school','a1-animals':'Animals','a1-home':'The home','a1-verbs':'Basic verbs','a2-clothes':'Clothes','a2-city':'City & directions','a2-weather':'Weather & seasons','a2-time':'Time & routine','a2-shop':'Shopping','a2-adj':'Common adjectives','a2-jobs':'Jobs','a2-travel':'Travel','a2-health':'Body & health','a2-verbs':'Common verbs','b1-work':'Work & careers','b1-emo':'Emotions','b1-env':'Environment','b1-tech':'Technology','b1-link':'Connectors & expressions','b1-soc':'Society & citizenship','b1-edu':'Studies & education','b1-culture':'Culture & leisure','b1-verbs':'Advanced verbs'};
+Object.assign(UI_EN_CAT,{'a1-polite':'Politeness & etiquette','a1-cafe':'At the café & restaurant','a1-class':'In the classroom','a2-phone':'Phone & messages','a2-transport':'Transport','a2-daily':'Everyday expressions','a2-sport':'Sport & hobbies','b1-opinion':'Giving opinions & arguing','b1-idiom':'Idioms','b1-admin':'Admin & paperwork','b1-media':'Media & news','b1-fam':'Colloquial French'});
 try{ Object.keys(VOC).forEach(L => VOC[L].forEach(c => { UI_D.fr[c.ar] = c.fr; UI_D.en[c.ar] = UI_EN_CAT[c.id] || c.fr; })); Object.keys(GR).forEach(L => GR[L].forEach(l => { UI_D.fr[l.ar] = l.fr; UI_D.en[l.ar] = l.en; })); }catch(e){}
 Object.assign(UI_D.fr, {'ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية':'Cherche un mot en français, arabe ou anglais','عرفتها؟':'Je le connais ?','✓ عرفتها':'✓ Connu','بطاقات المراجعة':'Cartes de révision','أحسنت! أنهيت المراجعة':'Bravo ! Révision terminée','راجع مرة أخرى':'Réviser encore','رجوع للقائمة':'Retour à la liste','اضغط لإظهار المعنى':'Appuie pour voir le sens','عربي':'Arabe','الاثنان':'Les deux','استمع':'Écouter','اقلب البطاقة':'Retourner la carte','المفردات':'Vocabulaire','القواعد':'Grammaire'});
 Object.assign(UI_D.en, {'ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية':'Search a word in French, Arabic or English','عرفتها؟':'Know it?','✓ عرفتها':'✓ Known','بطاقات المراجعة':'Review cards','أحسنت! أنهيت المراجعة':'Well done! Review finished','راجع مرة أخرى':'Review again','رجوع للقائمة':'Back to list','اضغط لإظهار المعنى':'Tap to show the meaning','عربي':'Arabic','الاثنان':'Both','استمع':'Listen','اقلب البطاقة':'Flip the card'});
@@ -4942,6 +5293,8 @@ Object.assign(UI_D.en, {'متاح':'Available','ينتهي قريباً':'Closin
 UI_R.fr.push([/^سُلّم (.+)$/,'Rendu $1'],[/^(\d+) محاولة$/,'$1 tentative(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 remise(s)'],[/^يغلق (.+)$/,'Ferme $1'],[/^آخر موعد (.+)$/,'À rendre avant $1'],[/^أفضل نتيجة$/,'Meilleur score']);
 UI_R.en.push([/^سُلّم (.+)$/,'Submitted $1'],[/^(\d+) محاولة$/,'$1 attempt(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 submission(s)'],[/^يغلق (.+)$/,'Closes $1'],[/^آخر موعد (.+)$/,'Due $1']);
 
+Object.assign(UI_D.fr, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Ton enregistrement reste sur ton appareil et n’est envoyé à personne. Appuie sur 🔈 pour écouter, puis sur 🎙 pour t’enregistrer.','سجّل صوتك':'Enregistre ta voix','إيقاف التسجيل':'Arrêter l’enregistrement','استمع لتسجيلك':'Écouter ton enregistrement','احذف تسجيلك':'Supprimer ton enregistrement','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Ton appareil ne prend pas en charge l’enregistrement','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone refusé. Autorise-le dans les réglages du navigateur et réessaie.','تم حفظ تسجيلك على جهازك':'Enregistrement sauvegardé sur ton appareil','تعذر حفظ التسجيل على هذا الجهاز':'Impossible de sauvegarder l’enregistrement','تعذر تشغيل التسجيل':'Impossible de lire l’enregistrement'});
+Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
   moreMenu:()=>{
