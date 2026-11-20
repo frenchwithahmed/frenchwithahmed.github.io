@@ -684,6 +684,27 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
 .dwel p{direction:ltr;text-align:right}
 #view[dir=ltr] .dwel p{text-align:left}
 
+/* ===== ترويسات الصفحات وشريط الأدوات (v8h): للطالب والمعلم ===== */
+h2.st{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px 22px 16px;margin:26px 0 16px;box-shadow:var(--shadow);align-items:center;gap:14px}
+h2.st::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#0055A4 0 33.34%,#DCE4F0 33.34% 66.67%,#EF4135 66.67% 100%)}
+h2.st>span:first-child{display:inline-flex;align-items:center;gap:14px;padding-bottom:0;font-size:21px;color:var(--navy)}
+h2.st>span:first-child::after{display:none}
+h2.st>span:first-child>.i:first-child{box-sizing:border-box;width:46px;height:46px;padding:12px;flex:none;margin:0;border-radius:15px;background:linear-gradient(135deg,#EAF1FB,#D4E3F8);color:var(--blue2);box-shadow:inset 0 0 0 1px rgba(47,109,181,.12)}
+h2.st small{background:#EEF3FA;color:var(--navy);padding:7px 16px;border-radius:999px;font-weight:800;font-size:13px}
+.tools{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:10px;box-shadow:var(--shadow);margin-bottom:22px}
+.tools .add{box-shadow:0 6px 14px rgba(11,31,58,.16);transition:.2s}
+.tools .add:hover{transform:translateY(-1px)}
+html[dir=ltr] .sbox .i{right:auto;left:14px}
+html[dir=ltr] .sbox input{padding:11px 16px 11px 42px}
+/* شريط وضع المدرس */
+#tbar:not(:empty){max-width:1240px;margin:0 auto;padding:14px 24px 0}
+.tbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(90deg,#FFF7E0,#FBF0D2);border:1px solid #EBD79B;border-radius:18px;padding:8px 10px 8px 14px;color:#5b4512;font-size:13.5px;justify-content:flex-start}
+.tbar .tbadge{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12.5px;white-space:nowrap}
+.tbar .ttx{flex:1;min-width:200px;line-height:1.5}
+.tbar button{background:#fff;border:1px solid #E3C97A;color:#7a5200;font-weight:800;border-radius:12px;padding:8px 14px;min-height:38px;display:inline-flex;align-items:center;gap:6px}
+@media(max-width:560px){h2.st{padding:14px 14px 12px;border-radius:18px}h2.st>span:first-child{font-size:18px;gap:10px}h2.st>span:first-child>.i:first-child{width:40px;height:40px;padding:10px}#tbar:not(:empty){padding:10px 14px 0}.tbar .ttx{display:none}}
+@media print{h2.st,.tools{box-shadow:none}}
+
 </style>
 </head>
 <body>
@@ -939,7 +960,7 @@ function renderShell0(){
         ? `<button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
         : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
   $('#tbar').innerHTML = state.teacher
-    ? `<div class="tbar">${I('check','s')} وضع المدرس مفعّل — يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات <button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
+    ? `<div class="tbar"><span class="tbadge">${I('check','s')} وضع المدرس</span><span class="ttx">يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات</span><button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
 }
 function filterBar(addBtn, withCat){
   return `<div class="tools">
@@ -1081,7 +1102,7 @@ function renderSetup(){
   $('#view').innerHTML = `<div class="setup"><h2>المنصة تحتاج إلى ربط قاعدة البيانات</h2><p style="color:var(--muted);margin-top:8px">ضع قيم <code>SUPABASE_URL</code> و <code>SUPABASE_KEY</code> في أعلى قسم السكربت.</p></div>`;
 }
 function render(){ const _v = document.getElementById('view'); if(_v) _v.dir = ''; const _r = render0(); uiPost(); return _r; }
-function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en') v.dir = 'rtl'; else if(UL !== 'ar' && state.tab !== 'games') v.dir = 'ltr'; uiTr(v); }
+function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en') v.dir = 'rtl'; else if(UL !== 'ar' && state.tab !== 'games') v.dir = 'ltr'; uiTr(v); const _tb = document.getElementById('tbar'); if(_tb) uiTr(_tb); }
 function render0(){
   if(!configured || !sb) return renderSetup();
   renderShell();
@@ -4833,6 +4854,13 @@ Object.assign(UI_D.en, {'تعلّم الفرنسية':'Learn French','خطوة �
 Object.assign(UI_D.fr, {'إضافة سؤال':'Ajouter une question','رفع ملف JSON':'Importer un fichier JSON'});
 Object.assign(UI_D.en, {'إضافة سؤال':'Add a question','رفع ملف JSON':'Upload JSON file'});
 UI_R.fr.push([/^أسئلتي \((\d+)\)$/,'Mes questions ($1)']);UI_R.en.push([/^أسئلتي \((\d+)\)$/,'My questions ($1)']);
+Object.assign(UI_D.fr, {'وضع المدرس':'Mode professeur','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Ajoute, supprime et suis les résultats et les remises.'});
+Object.assign(UI_D.en, {'وضع المدرس':'Teacher mode','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Add, delete and follow results and submissions.'});
+Object.assign(UI_D.fr, {'الصفوف':'Classes','الطلاب':'Élèves','إضافة صف':'Ajouter une classe','إضافة طالب':'Ajouter un élève','إضافة عدة طلاب':'Ajouter plusieurs élèves','ابحث بالاسم أو اسم الدخول...':'Rechercher par nom ou identifiant…','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Ajoute, supprime et suis les résultats et les remises'});
+Object.assign(UI_D.en, {'الصفوف':'Classes','الطلاب':'Students','إضافة صف':'Add class','إضافة طالب':'Add student','إضافة عدة طلاب':'Add several students','ابحث بالاسم أو اسم الدخول...':'Search by name or username…','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Add, delete and follow results and submissions'});
+UI_R.fr.push([/^(\d+) صف$/,'$1 classe(s)'],[/^(\d+) طالب$/,'$1 élève(s)'],[/^(\d+) عنصر محتوى$/,'$1 contenu(s)']);
+UI_R.en.push([/^(\d+) صف$/,'$1 class(es)'],[/^(\d+) طالب$/,'$1 student(s)'],[/^(\d+) عنصر محتوى$/,'$1 item(s)']);
+Object.assign(UI_D.fr, {'عدة طلاب':'Plusieurs élèves'});Object.assign(UI_D.en, {'عدة طلاب':'Several students'});
 
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
