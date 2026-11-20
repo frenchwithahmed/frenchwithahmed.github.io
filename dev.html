@@ -705,6 +705,40 @@ html[dir=ltr] .sbox input{padding:11px 16px 11px 42px}
 @media(max-width:560px){h2.st{padding:14px 14px 12px;border-radius:18px}h2.st>span:first-child{font-size:18px;gap:10px}h2.st>span:first-child>.i:first-child{width:40px;height:40px;padding:10px}#tbar:not(:empty){padding:10px 14px 0}.tbar .ttx{display:none}}
 @media print{h2.st,.tools{box-shadow:none}}
 
+/* ===== v8i: الاختبارات والواجبات والنتائج ===== */
+.qsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 16px}
+.qsum .qs{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}
+.qsum .qs .ib{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none}
+.qsum .qs b{display:block;font-size:24px;line-height:1.1;font-weight:800;color:var(--navy,#0b1f3a)}
+.qsum .qs span{font-size:12.5px;color:var(--muted);font-weight:700}
+.qa{position:relative;overflow:hidden;border-radius:22px!important;padding:20px 20px 18px!important;gap:12px!important}
+.qa::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--qc,#0055A4)}
+.qa.s-open{--qc:linear-gradient(90deg,#1e9e5a,#5ccf95)}
+.qa.s-soon{--qc:linear-gradient(90deg,#e8890c,#ffc15e)}
+.qa.s-done{--qc:linear-gradient(90deg,#0055A4,#4f93e0)}
+.qa.s-graded{--qc:linear-gradient(90deg,#1e9e5a,#0055A4)}
+.qa.s-closed{--qc:linear-gradient(90deg,#aab1c2,#d6dae4)}
+.qa .qh{display:flex;align-items:center;gap:12px}
+.qa .qh .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none}
+.qa .qh .st{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.st.o{background:#e3f7ec;color:#157a45}.st.w{background:#fff0dc;color:#a45d00}.st.d{background:#e8f0fb;color:#0055A4}.st.x{background:#eef0f5;color:#6b7385}.st.g{background:#dff6ec;color:#0b7a4a}
+.qa .qres{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:14px;padding:10px 14px}
+.qa .qres .pc{font-size:22px;font-weight:800;color:#0055A4}
+.qa .qres .pb{flex:1;height:8px;background:#dfe4ef;border-radius:99px;overflow:hidden}
+.qa .qres .pb i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#0055A4,#1e9e5a)}
+.qa .qres small{font-size:12px;color:var(--muted);font-weight:700}
+.qa .qnote{background:#fff7e6;border:1px solid #f4dfae;border-radius:12px;padding:9px 12px;font-size:13px}
+.qa .qcd{font-size:12.5px;font-weight:800;color:#a45d00}
+.rlist{display:flex;flex-direction:column;gap:10px}
+.rrow{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}
+.rrow .rr{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#0055A4;background:conic-gradient(var(--rc,#0055A4) calc(var(--p)*1%),#e3e7f1 0)}
+.rrow .rr span{width:46px;height:46px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+.rrow.bad{--rc:#d6334a}.rrow.good{--rc:#1e9e5a}
+.rrow .rt{flex:1;min-width:0}.rrow .rt b{display:block;font-size:15px;overflow-wrap:anywhere}.rrow .rt small{color:var(--muted);font-size:12.5px}
+.rrow .rs{font-weight:800;font-size:14px;white-space:nowrap}
+html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
+@media(max-width:560px){.qsum{grid-template-columns:repeat(2,1fr)}.rrow{padding:12px}}
+
 </style>
 </head>
 <body>
@@ -898,9 +932,43 @@ async function resolveSigned(){
 const legacyTag = (cls, path) => (state.teacher && cls && path && isStored(path) && !isPrivPath(path)) ? `<span class="tag bad" title="هذا الملف مخزّن في مكان عام. احذف العنصر وأعد رفعه ليصبح خاصاً بالصف">⚠ ملف عام: أعد رفعه</span>` : '';
 
 /* ============ تحميل البيانات ============ */
+let MYQ = {}, MYA = {};
+async function refreshMy(){
+  try{
+    const [r, s] = await Promise.all([ sb.from('results').select('quiz_id,score,total,created_at').order('created_at',{ascending:false}), sb.from('submissions').select('assignment_id,grade,note,created_at').order('created_at',{ascending:false}) ]);
+    MYQ = {}; MYA = {};
+    (r.data||[]).forEach(x => { const o = MYQ[x.quiz_id] || (MYQ[x.quiz_id] = { n:0, last:x, best:x }); o.n++; if(x.total && x.score/x.total > o.best.score/o.best.total) o.best = x; });
+    (s.data||[]).forEach(x => { if(!MYA[x.assignment_id]) MYA[x.assignment_id] = x; });
+  }catch(e){ try{ logErr('refreshMy', e); }catch(_){} }
+}
+function qaStateQ(z){
+  const my = MYQ[z.id], closed = isPast(z.closes_at);
+  if(my) return 'done';
+  if(closed) return 'closed';
+  if(z.closes_at && new Date(z.closes_at) - new Date() < 48*3600*1000) return 'soon';
+  return 'open';
+}
+function qaStateA(a){
+  const my = MYA[a.id], closed = isPast(a.due_at);
+  if(my) return my.grade ? 'graded' : 'done';
+  if(closed) return 'closed';
+  if(a.due_at && new Date(a.due_at) - new Date() < 48*3600*1000) return 'soon';
+  return 'open';
+}
+const QA_LBL = { open:['o','متاح','check'], soon:['w','ينتهي قريباً','clock'], done:['d','تم الحل','check'], graded:['g','تم التصحيح','check'], closed:['x','مغلق','clock'] };
+const QA_LBL_A = { open:['o','متاح للتسليم','check'], soon:['w','ينتهي قريباً','clock'], done:['d','تم التسليم · بانتظار التصحيح','check'], graded:['g','تم التصحيح','check'], closed:['x','انتهى الموعد','clock'] };
+function qaSummary(kind){
+  const list = kind === 'q' ? quizzes : assignments;
+  const f = kind === 'q' ? qaStateQ : qaStateA;
+  const c = { open:0, soon:0, done:0, graded:0, closed:0 };
+  list.forEach(x => c[f(x)]++);
+  const tile = (n, ic, col, lbl) => `<div class="qs"><div class="ib ${col}">${I(ic)}</div><div><b>${n}</b><span>${lbl}</span></div></div>`;
+  if(kind === 'q') return `<div class="qsum">${tile(c.open + c.soon, 'play', 'c-green', 'متاحة الآن')}${tile(c.done, 'check', 'c-blue', 'تم حلها')}${tile(c.closed, 'clock', 'c-purple', 'مغلقة')}</div>`;
+  return `<div class="qsum">${tile(c.open + c.soon, 'assign', 'c-orange', 'بانتظار تسليمك')}${tile(c.done, 'send', 'c-blue', 'بانتظار التصحيح')}${tile(c.graded, 'check', 'c-green', 'تم تصحيحها')}${tile(c.closed, 'clock', 'c-purple', 'انتهى موعدها')}</div>`;
+}
 async function refreshCounts(){
   counts = { q:{}, a:{} };
-  if(!state.teacher) return;
+  if(!state.teacher){ await refreshMy(); return; }
   const [r, s] = await Promise.all([ sb.from('results').select('quiz_id'), sb.from('submissions').select('assignment_id') ]);
   (r.data||[]).forEach(x => counts.q[x.quiz_id] = (counts.q[x.quiz_id]||0)+1);
   (s.data||[]).forEach(x => counts.a[x.assignment_id] = (counts.a[x.assignment_id]||0)+1);
@@ -1039,32 +1107,40 @@ function videoCard(it){
 }
 function quizCard(z){
   const closed = isPast(z.closes_at);
-  return `<div class="card">
-    <div class="top"><div class="ico c-green">${I('quiz')}</div><span class="lv">${esc(z.level)}</span></div>
+  const sv = state.teacher ? (closed ? 'closed' : 'open') : qaStateQ(z), L = QA_LBL[sv], my = !state.teacher && MYQ[z.id];
+  const pc = my && my.best.total ? Math.round(my.best.score / my.best.total * 100) : 0;
+  return `<div class="card qa s-${sv}">
+    <div class="qh"><div class="ico c-green">${I('quiz')}</div><span class="lv">${esc(z.level)}</span><span class="st ${L[0]}">${I(L[2],'s')} ${L[1]}</span></div>
     <h3 dir="auto">${esc(z.title)}</h3>
     <p>${esc(z.description||'')}</p>
+    ${my ? `<div class="qres"><span class="pc"><bdi dir="ltr">${pc}%</bdi></span><div class="pb"><i style="width:${pc}%"></i></div><small><bdi dir="ltr">${my.best.score}/${my.best.total}</bdi> · أفضل نتيجة</small></div>` : ''}
     <div class="tags">
       ${clsTag(z)}${legacyTag(z.class_id, z.attach_path)}
       <span class="tag">${I('list','s')} ${z.questions.length} سؤال</span>
       ${(z.attach_path||z.ext_url)?`<span class="tag">${I('link','s')} مرفقات</span>`:''}
       ${z.time_limit_min ? `<span class="tag warn">${I('clock','s')} ${z.time_limit_min} دقيقة</span>` : `<span class="tag">${I('clock','s')} بلا وقت محدد</span>`}
       ${z.closes_at ? (closed ? `<span class="tag bad">مغلق</span>` : `<span class="tag">${I('calendar','s')} يغلق ${fmtDT(z.closes_at)}</span>`) : ''}
+      ${my ? `<span class="tag">${I('users','s')} ${my.n} محاولة</span>` : ''}
       ${state.teacher ? `<span class="tag">${I('users','s')} ${counts.q[z.id]||0} محاولة</span>` : ''}
     </div>
     <div class="acts">
-      <button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':'ابدأ الاختبار'}</button>
+      <button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':(my?'حاول مرة أخرى':'ابدأ الاختبار')}</button>
       ${state.teacher?`<button class="btn sec" data-a="results" data-id="${z.id}">${I('list','s')} النتائج</button><button class="btn del" data-a="delQuiz" data-id="${z.id}">${I('trash','s')}</button>`:''}
     </div></div>`;
 }
 function assignCard(a){
   const closed = isPast(a.due_at);
-  return `<div class="card">
-    <div class="top"><div class="ico c-orange">${I('assign')}</div><span class="lv">${esc(a.level)}</span></div>
+  const sv = state.teacher ? (closed ? 'closed' : 'open') : qaStateA(a), L = QA_LBL_A[sv], my = !state.teacher && MYA[a.id];
+  return `<div class="card qa s-${sv}">
+    <div class="qh"><div class="ico c-orange">${I('assign')}</div><span class="lv">${esc(a.level)}</span><span class="st ${L[0]}">${I(L[2],'s')} ${L[1]}</span></div>
     <h3 dir="auto">${esc(a.title)}</h3>
     <p style="white-space:pre-wrap">${esc(a.description||'')}</p>
+    ${my && my.grade ? `<div class="qres"><span class="pc" dir="auto">${esc(my.grade)}</span><div class="pb"><i style="width:100%"></i></div><small>الدرجة</small></div>` : ''}
+    ${my && my.note ? `<div class="qnote" dir="auto">ملاحظة المدرس: ${esc(my.note)}</div>` : ''}
     <div class="tags">
       ${clsTag(a)}${legacyTag(a.class_id, a.attach_path)}
       ${a.due_at ? (closed ? `<span class="tag bad">${I('clock','s')} انتهى الموعد</span>` : `<span class="tag warn">${I('calendar','s')} آخر موعد ${fmtDT(a.due_at)}</span><span class="tag ok">${timeLeft(a.due_at)}</span>`) : `<span class="tag">بدون موعد نهائي</span>`}
+      ${my ? `<span class="tag">${I('send','s')} سُلّم ${fmtDT(my.created_at)}</span>` : ''}
       ${state.teacher ? `<span class="tag">${I('users','s')} ${counts.a[a.id]||0} تسليم</span>` : ''}
     </div>
     <div class="acts">
@@ -1177,13 +1253,13 @@ function render0(){
   if(state.tab==='quizzes'){
     const list = quizzes.filter(match);
     v.innerHTML = err + `<h2 class="st"><span>${I('quiz')} الاختبارات</span><small>${list.length} اختبار</small></h2>
-      ${filterBar(`<button class="add" data-a="addQuiz">${I('plus','s')} إنشاء اختبار</button>`)}
+      ${state.teacher ? '' : qaSummary('q')}${filterBar(`<button class="add" data-a="addQuiz">${I('plus','s')} إنشاء اختبار</button>`)}
       ${list.length?`<div class="grid">${list.map(quizCard).join('')}</div>`:emptyBox('quiz','c-green','لا توجد اختبارات مطابقة','', addHint('إنشاء اختبار','addQuiz'))}`;
   }
   if(state.tab==='assignments'){
     const list = assignments.filter(match);
     v.innerHTML = err + `<h2 class="st"><span>${I('assign')} الواجبات</span><small>${list.length} واجب</small></h2>
-      ${filterBar(`<button class="add" data-a="addAssign">${I('plus','s')} إضافة واجب</button>`)}
+      ${state.teacher ? '' : qaSummary('a')}${filterBar(`<button class="add" data-a="addAssign">${I('plus','s')} إضافة واجب</button>`)}
       ${list.length?`<div class="grid">${list.map(assignCard).join('')}</div>`:emptyBox('assign','c-orange','لا توجد واجبات مطابقة','', addHint('إضافة واجب','addAssign'))}`;
   }
   if(state.tab==='links'){
@@ -1520,6 +1596,7 @@ async function submitQuiz(id){
   }
   qs.active = false;
   const { score, total, answers: correct, explanations } = data;
+  try{ const o = MYQ[id] || (MYQ[id] = { n:0, last:null, best:{score:0,total:1} }); o.n++; o.last = { score, total }; if(total && (!o.best.total || score/total >= o.best.score/o.best.total)) o.best = { score, total }; }catch(_){}
   const ex = Array.isArray(explanations) ? explanations : [];
   const pct = Math.round(score/total*100);
   const wrongN = answers.filter((a,i)=>a!==-1 && a!==correct[i]).length;
@@ -2626,8 +2703,7 @@ async function renderMine(v, err){
       <button class="btn sec" data-a="myPw">${I('key','s')} تغيير كلمة المرور</button></div>
 
     <h2 class="st"><span>${I('quiz')} نتائج اختباراتي</span><small>${rs.length}</small></h2>
-    ${rs.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
-      ${rs.map(x=>`<tr><td dir="auto">${esc(qTitle(x.quiz_id))}</td><td>${x.score}/${x.total}</td><td><span class="tag ${x.score/x.total>=0.5?'ok':'bad'}">${Math.round(x.score/x.total*100)}%</span></td><td>${fmtDT(x.created_at)}</td></tr>`).join('')}</table></div>`
+    ${rs.length ? `<div class="rlist">${rs.map(x=>{ const p = x.total ? Math.round(x.score/x.total*100) : 0; return `<div class="rrow ${p>=50?'good':'bad'}" style="--p:${p}"><div class="rr"><span><bdi dir="ltr">${p}%</bdi></span></div><div class="rt"><b dir="auto">${esc(qTitle(x.quiz_id))}</b><small>${fmtDT(x.created_at)}</small></div><div class="rs"><bdi dir="ltr">${x.score}/${x.total}</bdi></div></div>`; }).join('')}</div>`
       : emptyBox('quiz','c-green','لم تحلّ أي اختبار بعد','ستظهر نتائجك هنا بعد حل الاختبارات.')}
 
     <h2 class="st"><span>${I('assign')} واجباتي</span><small>${sb_.length}</small></h2>
@@ -4861,6 +4937,10 @@ Object.assign(UI_D.en, {'الصفوف':'Classes','الطلاب':'Students','إض
 UI_R.fr.push([/^(\d+) صف$/,'$1 classe(s)'],[/^(\d+) طالب$/,'$1 élève(s)'],[/^(\d+) عنصر محتوى$/,'$1 contenu(s)']);
 UI_R.en.push([/^(\d+) صف$/,'$1 class(es)'],[/^(\d+) طالب$/,'$1 student(s)'],[/^(\d+) عنصر محتوى$/,'$1 item(s)']);
 Object.assign(UI_D.fr, {'عدة طلاب':'Plusieurs élèves'});Object.assign(UI_D.en, {'عدة طلاب':'Several students'});
+Object.assign(UI_D.fr, {'متاح':'Disponible','ينتهي قريباً':'Bientôt fermé','تم الحل':'Terminé','تم التصحيح':'Corrigé','مغلق':'Fermé','متاح للتسليم':'À rendre','تم التسليم · بانتظار التصحيح':'Rendu · en attente de correction','انتهى الموعد':'Délai dépassé','متاحة الآن':'Disponibles','تم حلها':'Terminés','مغلقة':'Fermés','بانتظار تسليمك':'À rendre','بانتظار التصحيح':'En attente de correction','تم تصحيحها':'Corrigés','انتهى موعدها':'Délai dépassé','حاول مرة أخرى':'Réessayer','ابدأ الاختبار':'Commencer le quiz','أفضل نتيجة':'Meilleur score','الدرجة':'Note','تسليم الإجابة':'Rendre ma réponse','ملف الواجب':'Fichier du devoir','رابط الواجب':'Lien du devoir','مرفقات':'Pièces jointes','بلا وقت محدد':'Sans limite de temps','بدون موعد نهائي':'Sans date limite','التسليمات':'Remises','النتائج':'Résultats','إنشاء اختبار':'Créer un quiz','إضافة واجب':'Ajouter un devoir','نتائج اختباراتي':'Mes résultats de quiz','واجباتي':'Mes devoirs','نتائج ألعابي':'Mes résultats de jeux','الاختبارات':'Quiz','الواجبات':'Devoirs'});
+Object.assign(UI_D.en, {'متاح':'Available','ينتهي قريباً':'Closing soon','تم الحل':'Completed','تم التصحيح':'Graded','مغلق':'Closed','متاح للتسليم':'Open for submission','تم التسليم · بانتظار التصحيح':'Submitted · awaiting grading','انتهى الموعد':'Past due','متاحة الآن':'Available now','تم حلها':'Completed','مغلقة':'Closed','بانتظار تسليمك':'To submit','بانتظار التصحيح':'Awaiting grading','تم تصحيحها':'Graded','انتهى موعدها':'Past due','حاول مرة أخرى':'Try again','ابدأ الاختبار':'Start quiz','أفضل نتيجة':'Best score','الدرجة':'Grade','تسليم الإجابة':'Submit answer','ملف الواجب':'Assignment file','رابط الواجب':'Assignment link','مرفقات':'Attachments','بلا وقت محدد':'No time limit','بدون موعد نهائي':'No deadline','التسليمات':'Submissions','النتائج':'Results','إنشاء اختبار':'Create quiz','إضافة واجب':'Add assignment','نتائج اختباراتي':'My quiz results','واجباتي':'My assignments','نتائج ألعابي':'My game results','الاختبارات':'Quizzes','الواجبات':'Assignments'});
+UI_R.fr.push([/^سُلّم (.+)$/,'Rendu $1'],[/^(\d+) محاولة$/,'$1 tentative(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 remise(s)'],[/^يغلق (.+)$/,'Ferme $1'],[/^آخر موعد (.+)$/,'À rendre avant $1'],[/^أفضل نتيجة$/,'Meilleur score']);
+UI_R.en.push([/^سُلّم (.+)$/,'Submitted $1'],[/^(\d+) محاولة$/,'$1 attempt(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 submission(s)'],[/^يغلق (.+)$/,'Closes $1'],[/^آخر موعد (.+)$/,'Due $1']);
 
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
