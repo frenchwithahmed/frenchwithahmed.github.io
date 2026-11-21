@@ -525,6 +525,236 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
   .chips .chip{padding:7px 10px;font-size:12.5px}                  /* مرشحات المستوى في صف واحد قدر الإمكان */
   .chips{gap:5px}
 }
+/* ===== لوحة الطالب (v8a) ===== */
+.dwel{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px 26px;box-shadow:var(--shadow);margin-bottom:20px}
+.dwel .av{width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;flex:none}
+.dwel .tx{flex:1;min-width:200px}
+.dwel h1{font-size:26px;line-height:1.3;color:var(--navy);direction:ltr;text-align:right;font-weight:800}
+.dwel p{color:var(--muted);margin-top:2px;font-size:15px}
+.dwel .chips{display:flex;gap:8px;flex-wrap:wrap}
+.dchip{display:inline-flex;align-items:center;gap:6px;background:#E6EEF8;color:var(--navy);font-weight:800;font-size:13px;padding:7px 14px;border-radius:999px}
+.dash{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+.dmain,.dside{display:flex;flex-direction:column;gap:22px;min-width:0}
+.dpanel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.dpanel>h2{font-size:19px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:800}
+.dpanel>h2 small{margin-inline-start:auto;font-size:13px;color:var(--muted);font-weight:600}
+.dstats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dst{background:#EEF3FA;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px;min-height:104px}
+.dst .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#fff;color:var(--blue2)}
+.dst b{font-size:26px;line-height:1.1;color:var(--navy);direction:ltr;text-align:right;margin-top:auto}
+.dst span{font-size:12.5px;color:var(--muted);font-weight:600}
+.dcont{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.dcont .ico{width:60px;height:60px;border-radius:18px;background:#E6EEF8;color:var(--blue2);display:grid;place-items:center;flex:none}
+.dcont .ico .i{width:28px;height:28px}
+.dcont .tt{flex:1;min-width:180px}
+.dcont .tt small{color:var(--muted);font-weight:700;font-size:12.5px}
+.dcont .tt b{display:block;font-size:19px;color:var(--navy);margin:2px 0 6px}
+.dcont .tt .fr{direction:ltr;text-align:right;color:var(--muted);font-size:14px}
+.dpill{display:inline-block;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;background:#E6EEF8;color:var(--blue2)}
+.dpill.ok{background:#E3F4EA;color:#1E7B54}
+.dpill.idle{background:#EEEAE0;color:var(--muted)}
+.dbtn{background:var(--navy);color:#fff;padding:12px 22px;border-radius:14px;font-weight:800;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;min-height:44px;transition:.2s}
+.dbtn:hover{background:var(--navy2)}
+.dcourses{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.dcc{position:relative;overflow:hidden;border-radius:22px;padding:18px;color:#fff;display:flex;flex-direction:column;gap:12px;min-height:200px;text-align:right}
+.dcc.c1{background:#2F6DB5}.dcc.c2{background:#C2570C}.dcc.c3{background:#1E7B54}
+.dcc .art{position:absolute;left:-6px;bottom:-6px;width:110px;height:110px;opacity:.22;pointer-events:none}
+.dcc h3{font-size:20px;font-weight:800;direction:ltr;text-align:right}
+.dcc h3 small{display:block;font-size:13px;font-weight:600;opacity:.9;direction:rtl}
+.dcc .meta{font-size:13.5px;color:#fff;line-height:1.7;font-weight:600}.dcc h3,.dcc h3 small{color:#fff}
+.dcc .row{display:flex;align-items:center;gap:12px;margin-top:auto}
+.ring{width:58px;height:58px;position:relative;flex:none}
+.ring svg{width:58px;height:58px;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;direction:ltr}
+.dcc .go{background:#fff;color:var(--navy);font-weight:800;font-size:13.5px;padding:10px 16px;border-radius:12px;min-height:42px;margin-inline-start:auto}
+.dweek{display:flex;gap:8px;align-items:flex-end;height:150px;direction:ltr}
+.dweek .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
+.dweek .dbar{width:100%;max-width:34px;border-radius:10px;overflow:hidden;display:flex;flex-direction:column-reverse;background:#E6EEF8}
+.dweek .dbar i{display:block;width:100%;min-height:0;flex-basis:0}
+.dweek .dbar .bq{background:var(--navy)}.dweek .dbar .bg{background:#6FA5E3}
+.dweek .col span{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;direction:rtl}
+.dleg{display:flex;gap:16px;margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:600}
+.dleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px}
+.drec{display:grid;gap:10px}
+.dri{display:flex;align-items:center;gap:12px;background:#F7F4EC;border-radius:14px;padding:10px 12px}
+.dri .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
+.dri .t{flex:1;min-width:0}
+.dri .t b{display:block;font-size:14px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dri .t small{color:var(--muted);font-size:12px}
+.dri .r{font-weight:800;font-size:13px;direction:ltr;color:var(--navy)}
+.dmuted{color:var(--muted);font-size:14px;padding:10px 4px}
+@media(max-width:1180px){
+  .dash{grid-template-columns:1fr}
+  .dmain,.dside{display:contents}
+  .dash .p-stats{order:1}.dash .p-cont{order:2}.dash .p-courses{order:3}.dash .p-week{order:4}.dash .p-rec{order:5}
+}
+@media(max-width:560px){
+  .dwel{padding:16px}.dwel h1{font-size:22px}
+  .dcc{min-height:0}
+  .dstats{gap:10px}.dst b{font-size:22px}
+}
+
+/* ===== قائمة دروس القواعد (v8b) ===== */
+.gmh{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 22px;box-shadow:var(--shadow);margin:6px 0 16px}
+.gmh .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gmh h3{font-size:22px;color:var(--navy);font-weight:800;direction:ltr}
+.gmh h3 small{font-size:14px;color:var(--muted);font-weight:600;margin-inline-start:0;margin-left:10px;direction:rtl;unicode-bidi:isolate}
+.gmh .cnt{margin-inline-start:auto;font-weight:800;color:var(--navy);font-size:14px}
+.gmbar{position:relative;height:14px;background:#E6EEF8;border-radius:99px;margin-top:14px;overflow:visible}
+.gmbar i{display:block;height:100%;background:#1E7B54;border-radius:99px;min-width:0;transition:width .4s}
+.gmbar b{position:absolute;top:50%;transform:translate(50%,-50%);background:#1E7B54;color:#fff;font-size:11px;padding:2px 8px;border-radius:99px;direction:ltr}
+.gml{display:flex;flex-direction:column;gap:0;position:relative}
+.gli{display:flex;align-items:center;gap:16px;text-align:right;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 16px;margin-bottom:12px;box-shadow:var(--shadow);transition:.2s;min-height:76px;width:100%}
+.gli:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(11,31,58,.1)}
+.gli .no{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;flex:none;border:3px solid #CFC9BA;color:var(--muted);background:#fff;position:relative}
+.gli.done .no{border-color:#1E7B54;color:#1E7B54}
+.gli.cur .no{border-color:#2F6DB5;color:#2F6DB5}
+.gli .no em{position:absolute;bottom:-4px;left:-4px;width:20px;height:20px;border-radius:50%;background:#1E7B54;color:#fff;display:grid;place-items:center;font-style:normal;font-size:12px}
+.gli .tx{flex:1;min-width:0}
+.gli .tx b{display:block;font-size:16.5px;color:var(--navy)}
+.gli .tx .fr{display:block;direction:ltr;text-align:right;color:var(--muted);font-size:13.5px;margin-top:2px}
+.gli .st2{font-size:12px;font-weight:800;padding:5px 12px;border-radius:99px;background:#EEEAE0;color:var(--muted);white-space:nowrap;direction:ltr}
+.gli.done .st2{background:#E3F4EA;color:#1E7B54}
+.gli.cur .st2{background:#E6EEF8;color:#2F6DB5}
+@media(max-width:560px){.gli{gap:12px;padding:10px 12px}.gli .no{width:44px;height:44px;font-size:16px}.gli .st2{display:none}.gli.done .tx .fr:after{content:" · ✓"}}
+
+/* ===== واجهة الألعاب (v8c) ===== */
+.gsum{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 18px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.gc2{display:flex;flex-direction:column;gap:8px;text-align:right;font:inherit;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:.2s;min-height:230px}
+.gc2:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,31,58,.12);border-color:#c9d6e8}
+.gc2 .gtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gc2 .ib{width:54px;height:54px;border-radius:16px;display:grid;place-items:center}
+.gc2 .ib .i{width:26px;height:26px}
+.gc2 .gdone{font-size:12px;font-weight:800;color:#1E7B54;background:#E3F4EA;border-radius:999px;padding:4px 11px}
+.gc2 h3{font-size:18px;color:var(--navy);font-weight:800;line-height:1.35}
+.gc2 .gfr{direction:ltr;text-align:right;color:var(--muted);font-size:13px;font-weight:600}
+.gc2 p{color:var(--text);font-size:14px;line-height:1.6;flex:1}
+.gc2 .glvs{display:flex;gap:6px;flex-wrap:wrap}
+.gc2 .glvs span{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:#EEF3FA;color:var(--muted);direction:ltr}
+.gc2 .glvs span.on{background:var(--navy);color:#fff}
+.gc2 .gplay{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;font-weight:800;font-size:14.5px;border-radius:14px;padding:11px 16px;min-height:44px;margin-top:4px}
+.gc2:hover .gplay{background:var(--navy2)}
+@media(max-width:560px){.ggrid{grid-template-columns:1fr}.gc2{min-height:0}}
+
+/* ===== زر اللغة ===== */
+.ulang{direction:ltr;display:inline-flex;gap:2px;background:rgba(255,255,255,.12);border-radius:11px;padding:3px;align-items:center}
+.ulang button{background:transparent;color:#d6deea;font-weight:800;font-size:12.5px;padding:6px 10px;border-radius:8px;min-width:36px;min-height:32px;transition:.15s}
+header .ulang button.on{background:#fff;color:var(--navy)}
+header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}header .ulang button:hover:not(.on){background:rgba(255,255,255,.18)}
+#auth{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){.ulang button{padding:5px 8px;min-width:32px;font-size:12px}}
+#view[dir=ltr] :is(.dwel h1,.dcc,.dcc h3,.dst b,.dcont .tt .fr,.gc2,.gc2 .gfr){text-align:left}
+#view[dir=ltr] .dcc .art{left:auto;right:-6px}
+/* في الفرنسية/الإنجليزية: المحتوى العربي يبقى محاذياً لليمين داخل صفحة من اليسار إلى اليمين */
+#view[dir=ltr] :is(p,li,td,th,h3,h4,.vtx,.cap,.infobox,.gsub,.tx b,.tx .fr){unicode-bidi:plaintext;text-align:start}
+#view[dir=ltr] :is(.card,.gli,.vcat,.vrow,.fcard,.qcard,.gmh){text-align:start}
+.ulang .ls{display:none}
+@media(max-width:899px){.ulang .lf{display:none}.ulang .ls{display:inline}}
+@media(min-width:900px){header .ulang button{font-size:12.5px;padding:6px 6px}}
+
+/* ===== القائمة الجانبية (v8e): شاشات 900px فأكثر ===== */
+.ngrp{display:none}
+@media(min-width:900px){
+  body{padding-inline-start:244px}
+  header{position:fixed;top:0;bottom:0;inset-inline-start:0;width:244px;border-bottom:0;border-inline-end:3px solid var(--gold);z-index:60;overflow:hidden}
+  header .bar,header.navwrap .bar{max-width:none;margin:0;height:100%;padding:16px 12px 14px;flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:10px}
+  .brand{gap:10px;padding:2px 6px 10px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .brand img{height:46px}
+  .brand .by{padding-inline-start:10px}.brand .by b{font-size:16px}
+  header nav#nav,header.navwrap .bar nav#nav{order:0;flex:1 1 auto;min-height:0;flex-direction:column;overflow-x:hidden;overflow-y:auto;gap:2px;margin:0;padding:0 0 4px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent}
+  nav#nav::-webkit-scrollbar{display:block;width:5px}nav#nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:5px}
+  .ngrp{display:block;color:#8995ae;font-size:11.5px;font-weight:800;letter-spacing:.05em;padding:12px 14px 4px}
+  nav#nav button{width:100%;justify-content:flex-start;padding:10px 14px;font-size:14.5px;border-radius:12px;border-inline-start:3px solid transparent;background-image:none}
+  nav#nav button.on{background:rgba(255,255,255,.12);border-inline-start-color:var(--gold);color:#fff}
+  nav#nav button .i{width:18px;height:18px;flex:none}
+  header #auth{flex-direction:column;align-items:stretch;gap:8px;flex-wrap:nowrap;border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+  header #auth .who{margin:0;display:flex;padding:2px 6px;word-break:break-word}
+  header #auth .tbtn{width:100%;justify-content:center}
+  header #auth .ulang{justify-content:space-between}header #auth .ulang button{flex:1}
+  .tbar{padding-inline:16px}
+  #bnav{display:none}
+}
+@media(min-width:900px) and (max-height:900px){
+  header .bar,header.navwrap .bar{padding:12px 10px 10px;gap:8px}.brand img{height:38px}.brand{padding-bottom:8px}
+  nav#nav button{padding:7px 12px;font-size:14px}.ngrp{padding:7px 14px 2px;font-size:11px}
+  header #auth{gap:6px;padding-top:8px}header #auth .tbtn{padding:7px 12px}header #auth .ulang button{min-height:28px;padding:4px 8px}
+}
+@media print{body{padding-inline-start:0!important}}
+.dwel p{direction:ltr;text-align:right}
+#view[dir=ltr] .dwel p{text-align:left}
+
+/* ===== ترويسات الصفحات وشريط الأدوات (v8h): للطالب والمعلم ===== */
+h2.st{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px 22px 16px;margin:26px 0 16px;box-shadow:var(--shadow);align-items:center;gap:14px}
+h2.st::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#0055A4 0 33.34%,#DCE4F0 33.34% 66.67%,#EF4135 66.67% 100%)}
+h2.st>span:first-child{display:inline-flex;align-items:center;gap:14px;padding-bottom:0;font-size:21px;color:var(--navy)}
+h2.st>span:first-child::after{display:none}
+h2.st>span:first-child>.i:first-child{box-sizing:border-box;width:46px;height:46px;padding:12px;flex:none;margin:0;border-radius:15px;background:linear-gradient(135deg,#EAF1FB,#D4E3F8);color:var(--blue2);box-shadow:inset 0 0 0 1px rgba(47,109,181,.12)}
+h2.st small{background:#EEF3FA;color:var(--navy);padding:7px 16px;border-radius:999px;font-weight:800;font-size:13px}
+.tools{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:10px;box-shadow:var(--shadow);margin-bottom:22px}
+.tools .add{box-shadow:0 6px 14px rgba(11,31,58,.16);transition:.2s}
+.tools .add:hover{transform:translateY(-1px)}
+html[dir=ltr] .sbox .i{right:auto;left:14px}
+html[dir=ltr] .sbox input{padding:11px 16px 11px 42px}
+/* شريط وضع المدرس */
+#tbar:not(:empty){max-width:1240px;margin:0 auto;padding:14px 24px 0}
+.tbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(90deg,#FFF7E0,#FBF0D2);border:1px solid #EBD79B;border-radius:18px;padding:8px 10px 8px 14px;color:#5b4512;font-size:13.5px;justify-content:flex-start}
+.tbar .tbadge{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12.5px;white-space:nowrap}
+.tbar .ttx{flex:1;min-width:200px;line-height:1.5}
+.tbar button{background:#fff;border:1px solid #E3C97A;color:#7a5200;font-weight:800;border-radius:12px;padding:8px 14px;min-height:38px;display:inline-flex;align-items:center;gap:6px}
+@media(max-width:560px){h2.st{padding:14px 14px 12px;border-radius:18px}h2.st>span:first-child{font-size:18px;gap:10px}h2.st>span:first-child>.i:first-child{width:40px;height:40px;padding:10px}#tbar:not(:empty){padding:10px 14px 0}.tbar .ttx{display:none}}
+@media print{h2.st,.tools{box-shadow:none}}
+
+/* ===== v8i: الاختبارات والواجبات والنتائج ===== */
+.qsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 16px}
+.qsum .qs{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}
+.qsum .qs .ib{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none}
+.qsum .qs b{display:block;font-size:24px;line-height:1.1;font-weight:800;color:var(--navy,#0b1f3a)}
+.qsum .qs span{font-size:12.5px;color:var(--muted);font-weight:700}
+.qa{position:relative;overflow:hidden;border-radius:22px!important;padding:20px 20px 18px!important;gap:12px!important}
+.qa::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--qc,#0055A4)}
+.qa.s-open{--qc:linear-gradient(90deg,#1e9e5a,#5ccf95)}
+.qa.s-soon{--qc:linear-gradient(90deg,#e8890c,#ffc15e)}
+.qa.s-done{--qc:linear-gradient(90deg,#0055A4,#4f93e0)}
+.qa.s-graded{--qc:linear-gradient(90deg,#1e9e5a,#0055A4)}
+.qa.s-closed{--qc:linear-gradient(90deg,#aab1c2,#d6dae4)}
+.qa .qh{display:flex;align-items:center;gap:12px}
+.qa .qh .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none}
+.qa .qh .st{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.st.o{background:#e3f7ec;color:#157a45}.st.w{background:#fff0dc;color:#a45d00}.st.d{background:#e8f0fb;color:#0055A4}.st.x{background:#eef0f5;color:#6b7385}.st.g{background:#dff6ec;color:#0b7a4a}
+.qa .qres{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:14px;padding:10px 14px}
+.qa .qres .pc{font-size:22px;font-weight:800;color:#0055A4}
+.qa .qres .pb{flex:1;height:8px;background:#dfe4ef;border-radius:99px;overflow:hidden}
+.qa .qres .pb i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#0055A4,#1e9e5a)}
+.qa .qres small{font-size:12px;color:var(--muted);font-weight:700}
+.qa .qnote{background:#fff7e6;border:1px solid #f4dfae;border-radius:12px;padding:9px 12px;font-size:13px}
+.qa .qcd{font-size:12.5px;font-weight:800;color:#a45d00}
+.rlist{display:flex;flex-direction:column;gap:10px}
+.rrow{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}
+.rrow .rr{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#0055A4;background:conic-gradient(var(--rc,#0055A4) calc(var(--p)*1%),#e3e7f1 0)}
+.rrow .rr span{width:46px;height:46px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+.rrow.bad{--rc:#d6334a}.rrow.good{--rc:#1e9e5a}
+.rrow .rt{flex:1;min-width:0}.rrow .rt b{display:block;font-size:15px;overflow-wrap:anywhere}.rrow .rt small{color:var(--muted);font-size:12.5px}
+.rrow .rs{font-weight:800;font-size:14px;white-space:nowrap}
+html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
+@media(max-width:560px){.qsum{grid-template-columns:repeat(2,1fr)}.rrow{padding:12px}}
+
+/* ===== v9: أمثلة المفردات + التسجيل الصوتي ===== */
+.vnote{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#eef4ff,#fff8ea);border:1px solid #d7e2f7;border-radius:18px;padding:14px 16px;margin:0 0 14px;font-size:14.5px;line-height:1.8;color:#27324a}
+.vnote .ni{flex:none;width:34px;height:34px;border-radius:11px;background:#0055A4;color:#fff;display:grid;place-items:center;font-size:17px}
+.vex{display:block;border:0;background:none;padding:0;font:inherit;font-size:13.5px;color:#5a6479;cursor:pointer;text-align:start;direction:ltr;font-style:italic}
+.vex:hover{color:#0055A4}
+.vrow{flex-wrap:wrap}
+.vact{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.vmic,.vplay,.vdelr{width:40px;height:40px;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;font-size:18px;line-height:1}
+.vmic{background:#fde8ea;color:#c0283c}
+.vmic.on{background:#d6334a;color:#fff;animation:vpulse 1s infinite}
+.vplay{background:#e3f7ec;color:#157a45}
+.vdelr{background:#eef0f5;color:#6b7385;font-size:15px}
+@keyframes vpulse{0%{box-shadow:0 0 0 0 rgba(214,51,74,.5)}100%{box-shadow:0 0 0 12px rgba(214,51,74,0)}}
+.vpriv{font-size:12.5px;color:#6b7385;margin:6px 2px 14px;display:flex;gap:6px;align-items:center}
+@media(max-width:560px){.vact{width:100%;justify-content:flex-end}}
+
 </style>
 </head>
 <body>
@@ -599,7 +829,7 @@ function fitNav(){
 window.addEventListener('resize', fitNav);
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
 const I = (n, c='') => `<svg class="i ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-const LOC = 'ar-u-ca-gregory-nu-latn';
+var LOC = 'ar-u-ca-gregory-nu-latn';
 const fmtDate = t => { try{ return new Date(t).toLocaleDateString(LOC,{year:'numeric',month:'short',day:'numeric'}); }catch{ return new Date(t).toLocaleDateString(); } };
 const fmtDT = t => { try{ return new Date(t).toLocaleString(LOC,{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }catch{ return new Date(t).toLocaleString(); } };
 const fmtSize = b => b > 1048576 ? (b/1048576).toFixed(1)+' MB' : Math.max(1,Math.round((b||0)/1024))+' KB';
@@ -718,9 +948,43 @@ async function resolveSigned(){
 const legacyTag = (cls, path) => (state.teacher && cls && path && isStored(path) && !isPrivPath(path)) ? `<span class="tag bad" title="هذا الملف مخزّن في مكان عام. احذف العنصر وأعد رفعه ليصبح خاصاً بالصف">⚠ ملف عام: أعد رفعه</span>` : '';
 
 /* ============ تحميل البيانات ============ */
+let MYQ = {}, MYA = {};
+async function refreshMy(){
+  try{
+    const [r, s] = await Promise.all([ sb.from('results').select('quiz_id,score,total,created_at').order('created_at',{ascending:false}), sb.from('submissions').select('assignment_id,grade,note,created_at').order('created_at',{ascending:false}) ]);
+    MYQ = {}; MYA = {};
+    (r.data||[]).forEach(x => { const o = MYQ[x.quiz_id] || (MYQ[x.quiz_id] = { n:0, last:x, best:x }); o.n++; if(x.total && x.score/x.total > o.best.score/o.best.total) o.best = x; });
+    (s.data||[]).forEach(x => { if(!MYA[x.assignment_id]) MYA[x.assignment_id] = x; });
+  }catch(e){ try{ logErr('refreshMy', e); }catch(_){} }
+}
+function qaStateQ(z){
+  const my = MYQ[z.id], closed = isPast(z.closes_at);
+  if(my) return 'done';
+  if(closed) return 'closed';
+  if(z.closes_at && new Date(z.closes_at) - new Date() < 48*3600*1000) return 'soon';
+  return 'open';
+}
+function qaStateA(a){
+  const my = MYA[a.id], closed = isPast(a.due_at);
+  if(my) return my.grade ? 'graded' : 'done';
+  if(closed) return 'closed';
+  if(a.due_at && new Date(a.due_at) - new Date() < 48*3600*1000) return 'soon';
+  return 'open';
+}
+const QA_LBL = { open:['o','متاح','check'], soon:['w','ينتهي قريباً','clock'], done:['d','تم الحل','check'], graded:['g','تم التصحيح','check'], closed:['x','مغلق','clock'] };
+const QA_LBL_A = { open:['o','متاح للتسليم','check'], soon:['w','ينتهي قريباً','clock'], done:['d','تم التسليم · بانتظار التصحيح','check'], graded:['g','تم التصحيح','check'], closed:['x','انتهى الموعد','clock'] };
+function qaSummary(kind){
+  const list = kind === 'q' ? quizzes : assignments;
+  const f = kind === 'q' ? qaStateQ : qaStateA;
+  const c = { open:0, soon:0, done:0, graded:0, closed:0 };
+  list.forEach(x => c[f(x)]++);
+  const tile = (n, ic, col, lbl) => `<div class="qs"><div class="ib ${col}">${I(ic)}</div><div><b>${n}</b><span>${lbl}</span></div></div>`;
+  if(kind === 'q') return `<div class="qsum">${tile(c.open + c.soon, 'play', 'c-green', 'متاحة الآن')}${tile(c.done, 'check', 'c-blue', 'تم حلها')}${tile(c.closed, 'clock', 'c-purple', 'مغلقة')}</div>`;
+  return `<div class="qsum">${tile(c.open + c.soon, 'assign', 'c-orange', 'بانتظار تسليمك')}${tile(c.done, 'send', 'c-blue', 'بانتظار التصحيح')}${tile(c.graded, 'check', 'c-green', 'تم تصحيحها')}${tile(c.closed, 'clock', 'c-purple', 'انتهى موعدها')}</div>`;
+}
 async function refreshCounts(){
   counts = { q:{}, a:{} };
-  if(!state.teacher) return;
+  if(!state.teacher){ await refreshMy(); return; }
   const [r, s] = await Promise.all([ sb.from('results').select('quiz_id'), sb.from('submissions').select('assignment_id') ]);
   (r.data||[]).forEach(x => counts.q[x.quiz_id] = (counts.q[x.quiz_id]||0)+1);
   (s.data||[]).forEach(x => counts.a[x.assignment_id] = (counts.a[x.assignment_id]||0)+1);
@@ -757,12 +1021,15 @@ setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(
 const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
 
 const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
-function renderShell(){
+function renderShell(){ renderShell0(); uiShell(); }
+function renderShell0(){
   const tabs = TABS.slice();
   if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
-  $('#nav').innerHTML = tabs.map(([k,ic,l]) => `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
+  const _ord = ['home','files','videos','vocab','grammar','links','games','quizzes','assignments','mine','results','track','people']; const _grp = { files:'التعلّم', games:'التدريب', mine:'متابعتي', results:'الإدارة' };
+  tabs.sort((a, b) => _ord.indexOf(a[0]) - _ord.indexOf(b[0]));
+  $('#nav').innerHTML = tabs.map(([k,ic,l]) => (_grp[k] ? `<span class="ngrp">${_grp[k]}</span>` : '') + `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
   fitNav();
   try{ const on = _nv.querySelector('.on'); if(on && _nv.scrollWidth > _nv.clientWidth) on.scrollIntoView({ inline:'center', block:'nearest' }); }catch(e){}
   const main5 = BNAV_MAIN.map(k => TABS.find(t => t[0] === k));
@@ -777,7 +1044,7 @@ function renderShell(){
         ? `<button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
         : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
   $('#tbar').innerHTML = state.teacher
-    ? `<div class="tbar">${I('check','s')} وضع المدرس مفعّل — يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات <button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
+    ? `<div class="tbar"><span class="tbadge">${I('check','s')} وضع المدرس</span><span class="ttx">يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات</span><button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
 }
 function filterBar(addBtn, withCat){
   return `<div class="tools">
@@ -856,32 +1123,40 @@ function videoCard(it){
 }
 function quizCard(z){
   const closed = isPast(z.closes_at);
-  return `<div class="card">
-    <div class="top"><div class="ico c-green">${I('quiz')}</div><span class="lv">${esc(z.level)}</span></div>
+  const sv = state.teacher ? (closed ? 'closed' : 'open') : qaStateQ(z), L = QA_LBL[sv], my = !state.teacher && MYQ[z.id];
+  const pc = my && my.best.total ? Math.round(my.best.score / my.best.total * 100) : 0;
+  return `<div class="card qa s-${sv}">
+    <div class="qh"><div class="ico c-green">${I('quiz')}</div><span class="lv">${esc(z.level)}</span><span class="st ${L[0]}">${I(L[2],'s')} ${L[1]}</span></div>
     <h3 dir="auto">${esc(z.title)}</h3>
     <p>${esc(z.description||'')}</p>
+    ${my ? `<div class="qres"><span class="pc"><bdi dir="ltr">${pc}%</bdi></span><div class="pb"><i style="width:${pc}%"></i></div><small><bdi dir="ltr">${my.best.score}/${my.best.total}</bdi> · أفضل نتيجة</small></div>` : ''}
     <div class="tags">
       ${clsTag(z)}${legacyTag(z.class_id, z.attach_path)}
       <span class="tag">${I('list','s')} ${z.questions.length} سؤال</span>
       ${(z.attach_path||z.ext_url)?`<span class="tag">${I('link','s')} مرفقات</span>`:''}
       ${z.time_limit_min ? `<span class="tag warn">${I('clock','s')} ${z.time_limit_min} دقيقة</span>` : `<span class="tag">${I('clock','s')} بلا وقت محدد</span>`}
       ${z.closes_at ? (closed ? `<span class="tag bad">مغلق</span>` : `<span class="tag">${I('calendar','s')} يغلق ${fmtDT(z.closes_at)}</span>`) : ''}
+      ${my ? `<span class="tag">${I('users','s')} ${my.n} محاولة</span>` : ''}
       ${state.teacher ? `<span class="tag">${I('users','s')} ${counts.q[z.id]||0} محاولة</span>` : ''}
     </div>
     <div class="acts">
-      <button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':'ابدأ الاختبار'}</button>
+      <button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':(my?'حاول مرة أخرى':'ابدأ الاختبار')}</button>
       ${state.teacher?`<button class="btn sec" data-a="results" data-id="${z.id}">${I('list','s')} النتائج</button><button class="btn del" data-a="delQuiz" data-id="${z.id}">${I('trash','s')}</button>`:''}
     </div></div>`;
 }
 function assignCard(a){
   const closed = isPast(a.due_at);
-  return `<div class="card">
-    <div class="top"><div class="ico c-orange">${I('assign')}</div><span class="lv">${esc(a.level)}</span></div>
+  const sv = state.teacher ? (closed ? 'closed' : 'open') : qaStateA(a), L = QA_LBL_A[sv], my = !state.teacher && MYA[a.id];
+  return `<div class="card qa s-${sv}">
+    <div class="qh"><div class="ico c-orange">${I('assign')}</div><span class="lv">${esc(a.level)}</span><span class="st ${L[0]}">${I(L[2],'s')} ${L[1]}</span></div>
     <h3 dir="auto">${esc(a.title)}</h3>
     <p style="white-space:pre-wrap">${esc(a.description||'')}</p>
+    ${my && my.grade ? `<div class="qres"><span class="pc" dir="auto">${esc(my.grade)}</span><div class="pb"><i style="width:100%"></i></div><small>الدرجة</small></div>` : ''}
+    ${my && my.note ? `<div class="qnote" dir="auto">ملاحظة المدرس: ${esc(my.note)}</div>` : ''}
     <div class="tags">
       ${clsTag(a)}${legacyTag(a.class_id, a.attach_path)}
       ${a.due_at ? (closed ? `<span class="tag bad">${I('clock','s')} انتهى الموعد</span>` : `<span class="tag warn">${I('calendar','s')} آخر موعد ${fmtDT(a.due_at)}</span><span class="tag ok">${timeLeft(a.due_at)}</span>`) : `<span class="tag">بدون موعد نهائي</span>`}
+      ${my ? `<span class="tag">${I('send','s')} سُلّم ${fmtDT(my.created_at)}</span>` : ''}
       ${state.teacher ? `<span class="tag">${I('users','s')} ${counts.a[a.id]||0} تسليم</span>` : ''}
     </div>
     <div class="acts">
@@ -918,7 +1193,9 @@ function renderSetup(){
   $('#nav').innerHTML = ''; $('#auth').innerHTML = ''; $('#tbar').innerHTML = '';
   $('#view').innerHTML = `<div class="setup"><h2>المنصة تحتاج إلى ربط قاعدة البيانات</h2><p style="color:var(--muted);margin-top:8px">ضع قيم <code>SUPABASE_URL</code> و <code>SUPABASE_KEY</code> في أعلى قسم السكربت.</p></div>`;
 }
-function render(){
+function render(){ const _v = document.getElementById('view'); if(_v) _v.dir = ''; const _r = render0(); uiPost(); return _r; }
+function uiPost(){ const v = document.getElementById('view'); if(!v) return; if(UL !== 'ar' && state.tab === 'grammar' && GRS.view === 'lesson' && GRS.lang !== 'en') v.dir = 'rtl'; else if(UL !== 'ar' && state.tab !== 'games') v.dir = 'ltr'; uiTr(v); const _tb = document.getElementById('tbar'); if(_tb) uiTr(_tb); }
+function render0(){
   if(!configured || !sb) return renderSetup();
   renderShell();
   if(state.teacher){ bellStart(); bellBadge(); }
@@ -974,6 +1251,7 @@ function render(){
     <h2 class="st"><span>${I('quiz')} أحدث الاختبارات</span><button class="more" data-a="tab" data-id="quizzes">عرض الكل</button></h2>
     ${quizzes.length ? `<div class="grid">${quizzes.slice(0,3).map(quizCard).join('')}</div>`
       : emptyBox('quiz','c-green','لا توجد اختبارات بعد', state.teacher?'أنشئ اختباراً بوقت محدد أو بدون وقت.':'ستظهر الاختبارات هنا.', addHint('إنشاء اختبار','addQuiz'))}`;
+    if(stu){ const hh = v.querySelector('.hero'), tt = v.querySelector('.tiles'); if(hh && tt){ const d = document.createElement('div'); d.id = 'dashbody'; d.innerHTML = dashBody(); hh.replaceWith(d); tt.remove(); dashLoad(); } }
   }
 
   if(state.tab==='files'){
@@ -991,13 +1269,13 @@ function render(){
   if(state.tab==='quizzes'){
     const list = quizzes.filter(match);
     v.innerHTML = err + `<h2 class="st"><span>${I('quiz')} الاختبارات</span><small>${list.length} اختبار</small></h2>
-      ${filterBar(`<button class="add" data-a="addQuiz">${I('plus','s')} إنشاء اختبار</button>`)}
+      ${state.teacher ? '' : qaSummary('q')}${filterBar(`<button class="add" data-a="addQuiz">${I('plus','s')} إنشاء اختبار</button>`)}
       ${list.length?`<div class="grid">${list.map(quizCard).join('')}</div>`:emptyBox('quiz','c-green','لا توجد اختبارات مطابقة','', addHint('إنشاء اختبار','addQuiz'))}`;
   }
   if(state.tab==='assignments'){
     const list = assignments.filter(match);
     v.innerHTML = err + `<h2 class="st"><span>${I('assign')} الواجبات</span><small>${list.length} واجب</small></h2>
-      ${filterBar(`<button class="add" data-a="addAssign">${I('plus','s')} إضافة واجب</button>`)}
+      ${state.teacher ? '' : qaSummary('a')}${filterBar(`<button class="add" data-a="addAssign">${I('plus','s')} إضافة واجب</button>`)}
       ${list.length?`<div class="grid">${list.map(assignCard).join('')}</div>`:emptyBox('assign','c-orange','لا توجد واجبات مطابقة','', addHint('إضافة واجب','addAssign'))}`;
   }
   if(state.tab==='links'){
@@ -1012,6 +1290,7 @@ function render(){
 function openModal(html, wide, full){
   dr = null;
   $('#modal').innerHTML = `<div class="ov ${full?'full':''}" data-a="ovclose"><div class="modal ${wide?'wide':''} ${full?'full':''}"><button class="x" data-a="close" aria-label="إغلاق">${I('x','s')}</button>${html}</div></div>`;
+  uiTr($('#modal'));
 }
 function closeModal(){ drDrop(); $('#modal').innerHTML = ''; }
 /* ---- مسودات النماذج: حفظ تلقائي واسترجاع ---- */
@@ -1333,6 +1612,7 @@ async function submitQuiz(id){
   }
   qs.active = false;
   const { score, total, answers: correct, explanations } = data;
+  try{ const o = MYQ[id] || (MYQ[id] = { n:0, last:null, best:{score:0,total:1} }); o.n++; o.last = { score, total }; if(total && (!o.best.total || score/total >= o.best.score/o.best.total)) o.best = { score, total }; }catch(_){}
   const ex = Array.isArray(explanations) ? explanations : [];
   const pct = Math.round(score/total*100);
   const wrongN = answers.filter((a,i)=>a!==-1 && a!==correct[i]).length;
@@ -2439,8 +2719,7 @@ async function renderMine(v, err){
       <button class="btn sec" data-a="myPw">${I('key','s')} تغيير كلمة المرور</button></div>
 
     <h2 class="st"><span>${I('quiz')} نتائج اختباراتي</span><small>${rs.length}</small></h2>
-    ${rs.length ? `<div class="card" style="padding:6px 14px;overflow-x:auto"><table><tr><th>الاختبار</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
-      ${rs.map(x=>`<tr><td dir="auto">${esc(qTitle(x.quiz_id))}</td><td>${x.score}/${x.total}</td><td><span class="tag ${x.score/x.total>=0.5?'ok':'bad'}">${Math.round(x.score/x.total*100)}%</span></td><td>${fmtDT(x.created_at)}</td></tr>`).join('')}</table></div>`
+    ${rs.length ? `<div class="rlist">${rs.map(x=>{ const p = x.total ? Math.round(x.score/x.total*100) : 0; return `<div class="rrow ${p>=50?'good':'bad'}" style="--p:${p}"><div class="rr"><span><bdi dir="ltr">${p}%</bdi></span></div><div class="rt"><b dir="auto">${esc(qTitle(x.quiz_id))}</b><small>${fmtDT(x.created_at)}</small></div><div class="rs"><bdi dir="ltr">${x.score}/${x.total}</bdi></div></div>`; }).join('')}</div>`
       : emptyBox('quiz','c-green','لم تحلّ أي اختبار بعد','ستظهر نتائجك هنا بعد حل الاختبارات.')}
 
     <h2 class="st"><span>${I('assign')} واجباتي</span><small>${sb_.length}</small></h2>
@@ -3039,8 +3318,14 @@ function gameNext(){
   } else { G.i++; G.pick = null; G.t0 = Date.now(); G.sel = []; G.val = ''; G.close = ''; G.hg = { g:[], wrong:0 }; }
   render(); window.scrollTo(0,0);
 }
+/* أفضل نتيجة محفوظة على هذا الجهاز لكل مستوى (نفس مفاتيح اللعبة الحالية) */
+function gameBestLv(k){ return GAME_LEVELS.map(([L]) => { let b = 0; try{ b = +localStorage.getItem('fo_best_' + k + '_' + L) || 0; }catch(e){} return [L, b]; }); }
+function gamesSummary(){
+  const ks = Object.keys(GAME_DATA), played = ks.filter(k => gameBestLv(k).some(x => x[1])).length;
+  return `<div class="gsum"><span class="dchip">${I('sparkle','s')} ${ks.length} ألعاب</span>${played ? `<span class="dchip">${I('check','s')} جرّبت ${played} منها على هذا الجهاز</span>` : ''}</div>`;
+}
 function renderGames(v){
-  v.dir = G.lang==='en' ? 'ltr' : '';
+  v.dir = (G.lang==='en' || (UL!=='ar' && G.view==='menu')) ? 'ltr' : (UL!=='ar' ? 'rtl' : '');
   renderGames0(v);
   if(G.lang==='en') trDom(v);
 }
@@ -3049,7 +3334,8 @@ function renderGames0(v){
   if(G.view==='menu'){
     v.innerHTML = `<h2 class="st"><span>${I('sparkle')} ألعاب تفاعلية <small>Jeux interactifs</small></span>${snd}</h2>
       ${state.teacher ? `<div class="gtbar"><button class="add" data-a="giAdd">${I('plus','s')} إضافة سؤال</button><button class="add" style="background:var(--blue)" data-a="giImport">${I('upload','s')} رفع ملف JSON</button><button class="btn sec" data-a="giManage">${I('list','s')} أسئلتي (${gameItems.length})</button></div>` : ''}
-      <div class="grid">${Object.keys(GAME_DATA).map(k=>{ const d = GAME_DATA[k]; return `<button class="card gcard" data-a="gPick" data-id="${k}"><div class="ib ${d.col}">${I(d.ic)}</div><h3>${esc(d.title)}</h3><div class="meta" style="direction:ltr;text-align:right">${esc(d.fr)}</div><p>${esc(d.desc)}</p><span class="tag">${I('play','s')} ابدأ اللعب</span></button>`; }).join('')}</div>`;
+      ${gamesSummary()}<div class="ggrid">${Object.keys(GAME_DATA).map(k=>{ const d = GAME_DATA[k], bl = gameBestLv(k), n = bl.filter(x=>x[1]).length;
+        return `<button class="gc2" data-a="gPick" data-id="${k}"><div class="gtop"><div class="ib ${d.col}">${I(d.ic)}</div>${n ? `<span class="gdone">${I('check','s')} لعبتها</span>` : ''}</div><h3>${esc(d.title)}</h3><div class="gfr">${esc(d.fr)}</div><p>${esc(d.desc)}</p><div class="glvs" title="المستويات">${bl.map(([L,b])=>`<span class="${b?'on':''}">${L}${b?' · '+b:''}</span>`).join('')}</div><span class="gplay">${I('play','s')} العب</span></button>`; }).join('')}</div>`;
     return;
   }
   const d = GAME_DATA[G.game];
@@ -3477,6 +3763,333 @@ const VOC = {
  ]
 };
 
+/* مواضيع مفردات جديدة (v9): [الفرنسية, العربية, English, جملة مثال] */
+(function(){
+ const N = {
+ A1: [
+  { id:"a1-polite", ar:"آداب اللباقة", fr:"Politesse et savoir-vivre",
+    note:{ ar:"الفرنسيون يبدؤون أي لقاء بـ Bonjour حتى مع البائع أو عند دخول المصعد؛ وترك التحية يُعدّ وقاحة. ويستعملون vous مع الغرباء والكبار، و tu مع الأصدقاء والعائلة والأطفال.", fr:"En France, on dit toujours « Bonjour » en entrant quelque part, même chez le boulanger. On vouvoie les inconnus et les personnes âgées ; on tutoie les amis, la famille et les enfants.", en:"In France you always say “Bonjour” when you enter a shop or a lift. Use vous with strangers and elders, tu with friends, family and children." },
+    w:[
+   ["Bonjour Madame","صباح الخير يا سيدتي","Good morning, Madam","Bonjour Madame, je voudrais un croissant."],
+   ["Bonne journée","يوماً سعيداً","Have a nice day","Merci, bonne journée !"],
+   ["Bonne soirée","أمسية سعيدة","Have a nice evening","Bonne soirée et à demain !"],
+   ["Bon appétit","بالهناء والشفاء (قبل الأكل)","Enjoy your meal","Bon appétit, tout le monde !"],
+   ["Santé !","في صحتك!","Cheers!","Santé ! À notre amitié !"],
+   ["À tes souhaits","يرحمك الله (عند العطاس)","Bless you","Atchoum ! — À tes souhaits !"],
+   ["Bon courage","بالتوفيق / تحلَّ بالصبر","Good luck / hang in there","Bon courage pour ton examen !"],
+   ["Bonne continuation","استمرار موفق","All the best","Merci, bonne continuation !"],
+   ["Félicitations","مبروك","Congratulations","Félicitations pour ton diplôme !"],
+   ["Bon anniversaire","عيد ميلاد سعيد","Happy birthday","Bon anniversaire, Léa !"],
+   ["Bonne année","سنة سعيدة","Happy New Year","Bonne année et bonne santé !"],
+   ["Avec plaisir","بكل سرور","With pleasure","Tu m'aides ? — Avec plaisir !"],
+   ["Je vous en prie","تفضّل / عفواً (رسمي)","You're welcome (formal)","Merci beaucoup. — Je vous en prie."],
+   ["Après vous","تفضّل أنت أولاً","After you","Après vous, je vous en prie."],
+   ["tutoyer","يخاطب بـ tu","to use “tu”","On peut se tutoyer ?"],
+   ["vouvoyer","يخاطب بـ vous","to use “vous”","Je vouvoie mon directeur."],
+   ["Ça ne fait rien","لا يهم","It doesn't matter","Ça ne fait rien, ce n'est pas grave."]
+  ]},
+  { id:"a1-cafe", ar:"في المقهى والمطعم", fr:"Au café et au restaurant",
+    note:{ ar:"الماء العادي مجاني في المطاعم الفرنسية: اطلب «une carafe d'eau». والفاتورة لا تأتي من تلقاء نفسها، تطلبها بقولك «L'addition, s'il vous plaît». وتُنادى النادل بـ «Monsieur / Madame, s'il vous plaît».", fr:"L'eau du robinet est gratuite : demandez « une carafe d'eau ». L'addition n'arrive pas toute seule : il faut la demander.", en:"Tap water is free: ask for “une carafe d'eau”. The bill never comes by itself — you ask for it." },
+    w:[
+   ["la carte","قائمة الطعام","the menu (à la carte)","Je peux avoir la carte, s'il vous plaît ?"],
+   ["le menu","وجبة بسعر ثابت","set menu","Je prends le menu du jour."],
+   ["un café","قهوة صغيرة (إسبريسو)","an espresso","Un café, s'il vous plaît."],
+   ["un crème","قهوة بالحليب","a coffee with milk","Je prends un crème."],
+   ["une carafe d'eau","إبريق ماء (مجاني)","a jug of tap water","Une carafe d'eau, s'il vous plaît."],
+   ["Je voudrais…","أودّ…","I would like…","Je voudrais une table pour deux."],
+   ["une table pour deux","طاولة لشخصين","a table for two","Avez-vous une table pour deux ?"],
+   ["l'entrée","المقبلات","the starter","En entrée, je prends une soupe."],
+   ["le plat principal","الطبق الرئيسي","the main course","Comme plat principal, du poulet."],
+   ["le dessert","الحلوى","the dessert","Et comme dessert ?"],
+   ["l'addition","الفاتورة","the bill","L'addition, s'il vous plaît."],
+   ["le pourboire","البقشيش","the tip","Le pourboire est facultatif."],
+   ["à emporter","للأخذ معك","to take away","Un sandwich à emporter, s'il vous plaît."],
+   ["sur place","للأكل هنا","eat in","C'est sur place ou à emporter ?"],
+   ["réserver","يحجز","to book","Je voudrais réserver une table."],
+   ["végétarien","نباتي","vegetarian","Avez-vous un plat végétarien ?"],
+   ["l'allergie","الحساسية","allergy","J'ai une allergie aux noix."],
+   ["bien cuit","مطهو جيداً","well done","Le steak, bien cuit, s'il vous plaît."]
+  ]},
+  { id:"a1-class", ar:"عبارات الصف", fr:"En classe de français",
+    note:{ ar:"هذه العبارات تسمعها كل يوم في الصف. إذا لم تفهم فلا تصمت: قل «Je ne comprends pas» أو «Pouvez-vous répéter ?».", fr:"Ces phrases reviennent à chaque cours. Si vous ne comprenez pas, dites-le !", en:"You will hear these phrases in every lesson. If you don't understand, say so!" },
+    w:[
+   ["Écoutez","استمعوا","Listen","Écoutez bien l'audio."],
+   ["Répétez","كرّروا","Repeat","Répétez après moi."],
+   ["Levez la main","ارفعوا أيديكم","Raise your hand","Levez la main pour répondre."],
+   ["Ouvrez votre livre","افتحوا كتابكم","Open your book","Ouvrez votre livre page dix."],
+   ["Fermez le cahier","أغلقوا الدفتر","Close the notebook","Fermez le cahier, s'il vous plaît."],
+   ["Lisez le texte","اقرؤوا النص","Read the text","Lisez le texte à voix haute."],
+   ["Écrivez","اكتبوا","Write","Écrivez votre nom au tableau."],
+   ["Comment ça s'écrit ?","كيف تُكتب؟","How do you spell it?","Comment ça s'écrit, « bonjour » ?"],
+   ["Comment dit-on… ?","كيف نقول…؟","How do you say…?","Comment dit-on « book » en français ?"],
+   ["Qu'est-ce que ça veut dire ?","ماذا يعني هذا؟","What does that mean?","Qu'est-ce que ça veut dire, « bof » ?"],
+   ["Pouvez-vous répéter ?","هل يمكنك أن تعيد؟","Can you repeat?","Pardon, pouvez-vous répéter ?"],
+   ["Plus lentement, s'il vous plaît","أبطأ من فضلك","More slowly, please","Plus lentement, s'il vous plaît."],
+   ["Je ne sais pas","لا أعرف","I don't know","Je ne sais pas la réponse."],
+   ["C'est correct","هذا صحيح","That's correct","Oui, c'est correct !"],
+   ["C'est faux","هذا خطأ","That's wrong","Non, c'est faux."],
+   ["les devoirs","الواجبات المنزلية","homework","N'oubliez pas les devoirs !"],
+   ["la réponse","الإجابة","the answer","Quelle est la bonne réponse ?"],
+   ["l'exercice","التمرين","the exercise","Faites l'exercice trois."]
+  ]}
+ ],
+ A2: [
+  { id:"a2-phone", ar:"الهاتف والرسائل", fr:"Au téléphone et par message",
+    note:{ ar:"عند الرد على الهاتف يقول الفرنسي «Allô ?»، وفي العمل يعرّف نفسه: «Société X, bonjour». وتنتهي الرسائل غالباً بـ «À plus» (للأصدقاء) أو «Cordialement» (رسمي).", fr:"Au téléphone on dit « Allô ? ». Au travail : « Société X, bonjour ». On termine un message par « À plus » (amis) ou « Cordialement » (formel).", en:"On the phone people say “Allô?”. At work: “Société X, bonjour”. Messages end with “À plus” (friends) or “Cordialement” (formal)." },
+    w:[
+   ["Allô","ألو","Hello (phone)","Allô ? Qui est à l'appareil ?"],
+   ["C'est de la part de qui ?","من المتصل؟ (رسمي)","Who is calling?","Un instant. C'est de la part de qui ?"],
+   ["Ne quittez pas","ابقَ على الخط","Hold the line","Ne quittez pas, je vous le passe."],
+   ["rappeler","يعاود الاتصال","to call back","Je vous rappelle demain."],
+   ["laisser un message","يترك رسالة","to leave a message","Je peux laisser un message ?"],
+   ["la messagerie vocale","البريد الصوتي","voicemail","Il est sur messagerie vocale."],
+   ["un SMS","رسالة نصية","a text message","Je t'envoie un SMS."],
+   ["un mail","بريد إلكتروني","an email","Je t'envoie un mail ce soir."],
+   ["la pièce jointe","المرفق","the attachment","Voir la pièce jointe."],
+   ["la batterie","البطارية","the battery","Je n'ai plus de batterie."],
+   ["le réseau","الشبكة","the network","Je n'ai pas de réseau ici."],
+   ["raccrocher","يُنهي المكالمة","to hang up","Il a raccroché trop vite."],
+   ["décrocher","يردّ على الهاتف","to pick up","Elle n'a pas décroché."],
+   ["la ligne est occupée","الخط مشغول","the line is busy","La ligne est occupée, je réessaie."],
+   ["Cordialement","مع خالص التحية (رسمي)","Kind regards","Bien cordialement, Marc Durand."],
+   ["À tout à l'heure","أراك بعد قليل","See you later","Je rentre à six heures, à tout à l'heure !"],
+   ["À plus","أراك لاحقاً (عامي)","See you","Bon, à plus !"]
+  ]},
+  { id:"a2-transport", ar:"المواصلات", fr:"Les transports",
+    note:{ ar:"في باريس المترو سريع ومكتظ، ويُقال «Je prends le métro». اقرأ اللافتات جيداً: ببعض القطارات الإقليمية قد تحتاج إلى تفعيل تذكرتك (composter) قبل الركوب.", fr:"À Paris, on prend surtout le métro. Lisez bien les panneaux : sur certains trains régionaux, il faut composter son billet avant de monter.", en:"In Paris most people take the métro. Read the signs: on some regional trains you must validate (“composter”) your ticket before boarding." },
+    w:[
+   ["le métro","المترو","the metro","Je prends le métro tous les matins."],
+   ["le bus","الحافلة","the bus","Le bus est en retard."],
+   ["le tramway","الترام","the tram","Le tramway passe toutes les dix minutes."],
+   ["le train","القطار","the train","Le train part à huit heures."],
+   ["la gare","محطة القطار","the train station","On se retrouve à la gare."],
+   ["l'arrêt de bus","موقف الحافلة","the bus stop","L'arrêt de bus est en face."],
+   ["la station","محطة (مترو)","the (metro) station","Quelle est la prochaine station ?"],
+   ["le quai","الرصيف","the platform","Le train est sur le quai trois."],
+   ["le billet","التذكرة","the ticket","Je voudrais un billet pour Lyon."],
+   ["l'abonnement","الاشتراك","the pass","J'ai un abonnement mensuel."],
+   ["un aller simple","ذهاب فقط","a one-way ticket","Un aller simple pour Paris, s'il vous plaît."],
+   ["un aller-retour","ذهاب وإياب","a return ticket","Un aller-retour pour Nice."],
+   ["composter","يُفعّل التذكرة","to validate (a ticket)","N'oubliez pas de composter votre billet."],
+   ["la correspondance","التحويل بين خطين","the connection","J'ai une correspondance à Châtelet."],
+   ["le retard","التأخير","the delay","Le train a vingt minutes de retard."],
+   ["la sortie","المخرج","the exit","La sortie est à gauche."],
+   ["le trajet","الرحلة / المسافة","the journey","Le trajet dure une heure."],
+   ["descendre","ينزل","to get off","Je descends à la prochaine."],
+   ["monter","يصعد / يركب","to get on","Montez dans le bus."],
+   ["le vélo","الدراجة","the bike","Je vais au travail à vélo."]
+  ]},
+  { id:"a2-daily", ar:"عبارات يومية طبيعية", fr:"Expressions du quotidien",
+    note:{ ar:"هذه عبارات لا تجدها غالباً في الكتب لكن الفرنسيين يقولونها في كل جملة تقريباً. استعمالها يجعل كلامك طبيعياً وغير «مدرسي». لاحظ أنهم في الكلام يحذفون ne: يقولون «C'est pas grave».", fr:"Ces petits mots remplissent la conversation. À l'oral on supprime souvent le « ne » : « C'est pas grave ».", en:"These little words fill everyday French. In speech the “ne” is often dropped: “C'est pas grave”." },
+    w:[
+   ["Ça marche","اتفقنا / حسناً","Deal / OK","On se voit à huit heures ? — Ça marche !"],
+   ["Tant pis","ما باليد حيلة","Too bad","Tant pis, on ira demain."],
+   ["Tant mieux","أفضل هكذا","So much the better","Il fait beau ? Tant mieux !"],
+   ["Du coup","لذلك / وعليه","So / as a result","Il pleut, du coup on reste ici."],
+   ["En fait","في الحقيقة","Actually","En fait, je n'ai pas faim."],
+   ["Bof","عادي (دون حماس)","Meh","Le film ? Bof."],
+   ["Ça dépend","يعتمد","It depends","Tu viens ? — Ça dépend."],
+   ["Pas de souci","لا مشكلة","No worries","Pas de souci, je m'en occupe."],
+   ["Ça m'est égal","سيّان عندي","I don't mind","Thé ou café ? Ça m'est égal."],
+   ["Je n'en sais rien","لا علم لي","I have no idea","Où est-il ? Je n'en sais rien."],
+   ["Tu rigoles ?","هل تمزح؟","Are you kidding?","Quarante euros ? Tu rigoles !"],
+   ["Ça te dit ?","هل يناسبك / ترغب؟","Do you fancy it?","Un ciné ce soir, ça te dit ?"],
+   ["Allez !","هيا!","Come on!","Allez, on y va !"],
+   ["Voilà","تفضّل / ها هو","Here you go","Voilà votre café."],
+   ["Bref","باختصار","In short","Bref, je suis en retard."],
+   ["Franchement","بصراحة","Frankly","Franchement, c'est trop cher."],
+   ["Au fait","بالمناسبة","By the way","Au fait, tu viens samedi ?"],
+   ["Peu importe","لا يهم","Never mind","Peu importe, on verra."],
+   ["C'est pas grave","ليست مشكلة","It's no big deal","Tu es en retard ? C'est pas grave."],
+   ["Ça va aller","سيكون كل شيء بخير","It'll be fine","Ne t'inquiète pas, ça va aller."],
+   ["Je t'en prie","تفضّل (غير رسمي)","You're welcome (informal)","Merci ! — Je t'en prie."]
+  ]},
+  { id:"a2-sport", ar:"الرياضة والهوايات", fr:"Sport et loisirs",
+    w:[
+   ["le football","كرة القدم","football","Mon fils joue au football le mercredi."],
+   ["le basket","كرة السلة","basketball","Il joue au basket avec ses amis."],
+   ["la natation","السباحة","swimming","Je fais de la natation deux fois par semaine."],
+   ["la course","الجري","running","La course à pied me détend."],
+   ["courir","يجري","to run","Je cours le matin avant le travail."],
+   ["nager","يسبح","to swim","Elle nage très bien."],
+   ["s'entraîner","يتدرّب","to train","Nous nous entraînons le samedi."],
+   ["la salle de sport","النادي الرياضي","the gym","Je vais à la salle de sport."],
+   ["gagner","يفوز / يربح","to win","Notre équipe a gagné !"],
+   ["perdre","يخسر","to lose","On a perdu deux à un."],
+   ["le but","الهدف","the goal","Quel beau but !"],
+   ["un match nul","تعادل","a draw","Le match s'est terminé par un match nul."],
+   ["l'entraîneur","المدرّب","the coach","L'entraîneur est très exigeant."],
+   ["le joueur","اللاعب","the player","C'est mon joueur préféré."],
+   ["le stade","الملعب","the stadium","On va au stade ce soir."],
+   ["le supporter","المشجّع","the fan","Les supporters chantent."],
+   ["la randonnée","المشي الجبلي","hiking","Dimanche, on fait une randonnée."],
+   ["le jeu vidéo","لعبة الفيديو","video game","Il passe trop de temps sur les jeux vidéo."],
+   ["la peinture","الرسم / التلوين","painting","J'aime la peinture."],
+   ["le jardinage","البستنة","gardening","Mon père adore le jardinage."]
+  ]}
+ ],
+ B1: [
+  { id:"b1-opinion", ar:"إبداء الرأي والمناقشة", fr:"Donner son avis et argumenter",
+    note:{ ar:"الفرنسيون يحبون النقاش المنظّم: فكرة ثم ما يقابلها ثم خلاصة. لا يقولون رأيهم بصيغة قاطعة، بل يخففونها: «À mon avis…», «Il me semble que…».", fr:"Les Français aiment débattre avec méthode : une idée, une nuance, une conclusion. On adoucit son opinion : « Il me semble que… ».", en:"The French love structured debate: an idea, a counter-point, a conclusion. Opinions are softened: “Il me semble que…”." },
+    w:[
+   ["À mon avis","في رأيي","In my opinion","À mon avis, c'est une bonne idée."],
+   ["Selon moi","بحسب رأيي","According to me","Selon moi, il a raison."],
+   ["Il me semble que","يبدو لي أنّ","It seems to me that","Il me semble que tu te trompes."],
+   ["Je suis d'accord","أنا موافق","I agree","Je suis tout à fait d'accord."],
+   ["Je ne suis pas d'accord","لست موافقاً","I disagree","Désolé, je ne suis pas d'accord."],
+   ["Certes… mais","صحيح… لكن","True… but","Certes, c'est cher, mais c'est de qualité."],
+   ["Pourtant","ومع ذلك","Yet","Il est fatigué, pourtant il travaille."],
+   ["En revanche","في المقابل","On the other hand","Il est lent ; en revanche, il est précis."],
+   ["D'ailleurs","علاوة على ذلك / بالمناسبة","Besides","D'ailleurs, il n'a jamais appelé."],
+   ["Tout d'abord","أولاً","First of all","Tout d'abord, merci d'être venus."],
+   ["D'une part… d'autre part","من جهة… ومن جهة أخرى","On the one hand… on the other","D'une part c'est utile, d'autre part c'est cher."],
+   ["Par conséquent","وبالتالي","Consequently","Par conséquent, nous avons décidé d'attendre."],
+   ["À vrai dire","في الحقيقة","To tell the truth","À vrai dire, je préfère rester."],
+   ["Quant à","أما بالنسبة لـ","As for","Quant à moi, je reste."],
+   ["En conclusion","في الخلاصة","In conclusion","En conclusion, le projet est réalisable."],
+   ["c'est-à-dire","أي / يعني","that is to say","Il est bilingue, c'est-à-dire qu'il parle deux langues."],
+   ["Je trouve que","أرى أنّ","I find that","Je trouve que ce film est trop long."]
+  ]},
+  { id:"b1-idiom", ar:"تعابير مجازية", fr:"Expressions imagées",
+    note:{ ar:"هذه التعابير تُفهم كوحدة كاملة ولا تُترجم حرفياً! مثلاً «poser un lapin» ليست «يضع أرنباً» بل «يخلف الموعد». تعلّمها كجملة واحدة، وستفاجئ بها الفرنسيين.", fr:"Ces expressions ne se traduisent pas mot à mot ! « Poser un lapin » = ne pas venir à un rendez-vous.", en:"These expressions can't be translated word for word! “Poser un lapin” = to stand someone up." },
+    w:[
+   ["avoir le cafard","يشعر بالكآبة","to feel down","Aujourd'hui, j'ai le cafard."],
+   ["coûter les yeux de la tête","غالٍ جداً","to cost a fortune","Ce sac coûte les yeux de la tête."],
+   ["poser un lapin","يخلف الموعد","to stand someone up","Il m'a posé un lapin hier soir."],
+   ["être dans la lune","شارد الذهن","to have one's head in the clouds","Réveille-toi, tu es dans la lune !"],
+   ["avoir un chat dans la gorge","بحّة في الصوت","to have a frog in one's throat","Excusez-moi, j'ai un chat dans la gorge."],
+   ["il pleut des cordes","المطر ينهمر بغزارة","it's pouring","Prends un parapluie, il pleut des cordes."],
+   ["mettre son grain de sel","يتدخل فيما لا يعنيه","to butt in","Il met toujours son grain de sel."],
+   ["avoir la pêche","في قمة النشاط","to be full of energy","Ce matin, j'ai la pêche !"],
+   ["casser les pieds à quelqu'un","يزعج شخصاً","to annoy someone","Arrête de me casser les pieds !"],
+   ["le coup de foudre","حب من أول نظرة","love at first sight","Pour eux, ce fut le coup de foudre."],
+   ["avoir le cœur sur la main","كريم القلب","to be generous","Marie a le cœur sur la main."],
+   ["tomber dans les pommes","يُغمى عليه","to faint","Elle est tombée dans les pommes."],
+   ["avoir du pain sur la planche","لديه عمل كثير","to have a lot to do","J'ai du pain sur la planche cette semaine."],
+   ["ce n'est pas la mer à boire","ليس بالأمر الصعب","it's not that hard","Allez, ce n'est pas la mer à boire !"],
+   ["avoir les yeux plus gros que le ventre","عينه أكبر من بطنه","to bite off more than one can chew","Tu as pris trois desserts ? Tu as les yeux plus gros que le ventre !"],
+   ["quand les poules auront des dents","حين يبيض الغراب (مستحيل)","when pigs fly","Il rangera sa chambre quand les poules auront des dents."]
+  ]},
+  { id:"b1-admin", ar:"الإجراءات الإدارية", fr:"Démarches et administration",
+    note:{ ar:"الإدارة الفرنسية تحب الأوراق: لا تذهب بدون «rendez-vous» ونسخ من مستنداتك. كلمة «dossier» تعني الملف الذي تجمع فيه كل الأوراق.", fr:"L'administration française aime les papiers : prenez rendez-vous et apportez des photocopies de votre dossier.", en:"French administration loves paperwork: book an appointment and bring copies of your “dossier”." },
+    w:[
+   ["la pièce d'identité","وثيقة الهوية","ID document","Apportez une pièce d'identité."],
+   ["le passeport","جواز السفر","the passport","Mon passeport expire en mars."],
+   ["le formulaire","الاستمارة","the form","Remplissez ce formulaire."],
+   ["remplir","يملأ","to fill in","Je dois remplir plusieurs papiers."],
+   ["le rendez-vous","الموعد","the appointment","J'ai rendez-vous à la mairie."],
+   ["la mairie","البلدية","the town hall","La mairie ouvre à neuf heures."],
+   ["la préfecture","المحافظة","the prefecture","Je vais à la préfecture lundi."],
+   ["le justificatif de domicile","إثبات السكن","proof of address","Il faut un justificatif de domicile."],
+   ["le dossier","الملف","the file","Mon dossier est complet."],
+   ["la signature","التوقيع","the signature","Votre signature, ici."],
+   ["signer","يوقّع","to sign","Vous devez signer en bas."],
+   ["la demande","الطلب","the request","J'ai fait une demande en ligne."],
+   ["le délai","المهلة","the deadline / time frame","Le délai est de deux semaines."],
+   ["le loyer","الإيجار","the rent","Le loyer est de sept cents euros."],
+   ["le contrat","العقد","the contract","J'ai lu le contrat."],
+   ["déménager","ينتقل إلى سكن آخر","to move house","Nous déménageons en juin."],
+   ["s'inscrire","يسجّل نفسه","to register / enrol","Je veux m'inscrire à l'université."],
+   ["l'assurance","التأمين","insurance","Il faut une assurance habitation."],
+   ["la facture","الفاتورة","the invoice / bill","Gardez bien la facture."]
+  ]},
+  { id:"b1-media", ar:"الإعلام والأخبار", fr:"Médias et actualité",
+    w:[
+   ["les actualités","الأخبار","the news","Je regarde les actualités le soir."],
+   ["le journal","الصحيفة / نشرة الأخبار","the newspaper / the news","J'ai lu ça dans le journal."],
+   ["le reportage","التقرير","the report","Ce reportage est très intéressant."],
+   ["l'article","المقال","the article","Cet article est trop long."],
+   ["le journaliste","الصحفي","the journalist","La journaliste pose des questions."],
+   ["la chaîne","القناة","the channel","Quelle chaîne regardes-tu ?"],
+   ["l'émission","البرنامج","the programme","Mon émission préférée commence à vingt heures."],
+   ["le podcast","البودكاست","the podcast","J'écoute un podcast dans le train."],
+   ["les réseaux sociaux","وسائل التواصل الاجتماعي","social media","Il passe du temps sur les réseaux sociaux."],
+   ["la fausse information","الخبر الكاذب","fake news","Attention aux fausses informations !"],
+   ["la source","المصدر","the source","Vérifiez toujours la source."],
+   ["l'interview","المقابلة","the interview","L'interview dure dix minutes."],
+   ["la une","الصفحة الأولى","the front page","L'accident est à la une."],
+   ["le titre","العنوان","the headline","Le titre est trompeur."],
+   ["partager","يشارك","to share","Je partage ta publication."],
+   ["publier","ينشر","to publish","Il publie une photo chaque jour."],
+   ["le commentaire","التعليق","the comment","J'ai lu les commentaires."],
+   ["informer","يُعلِم","to inform","La presse doit informer."]
+  ]},
+  { id:"b1-fam", ar:"الفرنسية العامية المحكية", fr:"Le français familier",
+    note:{ ar:"الفرنسيون يتحدثون بغير ما يكتبون. افهم هذه الكلمات لتفهمهم، لكن استعملها مع الأصدقاء فقط، وليس في رسالة رسمية أو مع المدير.", fr:"À l'oral on parle autrement qu'à l'écrit. Comprenez ces mots, mais utilisez-les seulement entre amis.", en:"The French speak differently from how they write. Understand these words, but use them only with friends." },
+    w:[
+   ["le boulot","الشغل (عامي)","work (informal)","Je dois aller au boulot."],
+   ["bosser","يشتغل بجد (عامي)","to work (informal)","J'ai bossé toute la journée."],
+   ["le bouquin","الكتاب (عامي)","book (informal)","Ce bouquin est génial."],
+   ["la bagnole","السيارة (عامي)","car (informal)","Sa bagnole est en panne."],
+   ["le fric","المال (عامي)","money (informal)","Je n'ai plus de fric."],
+   ["un mec","شخص / رجل (عامي)","a guy (informal)","C'est un mec sympa."],
+   ["bouffer","يأكل (عامي)","to eat (informal)","On va bouffer ensemble ?"],
+   ["kiffer","يُحب كثيراً (عامي)","to love (informal)","Je kiffe cette chanson."],
+   ["un truc","شيء (عامي)","a thing (informal)","Passe-moi ce truc."],
+   ["nul","سيئ جداً / فاشل","rubbish","Ce film est nul."],
+   ["sympa","لطيف","nice","Ton voisin est très sympa."],
+   ["crevé","منهك (عامي)","exhausted (informal)","Je suis crevé ce soir."],
+   ["la galère","ورطة / متاعب (عامي)","a hassle (informal)","Quelle galère, le train est annulé !"],
+   ["j'en ai marre","لقد مللت / سئمت","I'm fed up","J'en ai marre de ce bruit."],
+   ["ras-le-bol","طفح الكيل","I've had enough","Ras-le-bol de la pluie !"],
+   ["Je sais pas","لا أعرف (محكية)","I dunno","Je sais pas, moi."],
+   ["Y a pas de quoi","لا شكر على واجب (محكية)","Don't mention it","Merci ! — Y a pas de quoi."]
+  ]}
+ ]
+ };
+ // نمنع تكرار الكلمات الموجودة (لأن علامة «عرفتها» تُحفظ حسب الكلمة)
+ const seen = new Set(); Object.keys(VOC).forEach(L => VOC[L].forEach(c => c.w.forEach(w => seen.add(w[0].toLowerCase()))));
+ Object.keys(N).forEach(L => N[L].forEach(c => { c.w = c.w.filter(w => { const k = w[0].toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; }); VOC[L].push(c); }));
+})();
+
+/* ---------- تسجيل صوت الطالب (على جهازه فقط، IndexedDB) ---------- */
+const REC = { keys:new Set(), loaded:false, mr:null, stream:null, chunks:[], timer:null, word:null, audio:null };
+function recDB(){ return new Promise((res, rej) => { const r = indexedDB.open('fo_rec', 1); r.onupgradeneeded = () => r.result.createObjectStore('r'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+async function recOp(mode, fn){ const db = await recDB(); return new Promise((res, rej) => { const tx = db.transaction('r', mode); const rq = fn(tx.objectStore('r')); tx.oncomplete = () => { db.close(); res(rq && rq.result); }; tx.onerror = () => rej(tx.error); }); }
+const recKey = w => (state.uid || 'x') + '|' + w[0];
+const recHas = w => REC.keys.has(recKey(w));
+function recLoad(){
+  if(REC.loaded) return; REC.loaded = true;
+  recOp('readonly', st => st.getAllKeys()).then(k => { REC.keys = new Set(k); if(state.tab === 'vocab') render(); }).catch(() => {});
+}
+function recStop(){ try{ if(REC.mr && REC.mr.state !== 'inactive') REC.mr.stop(); }catch(e){} }
+async function recStart(w){
+  if(REC.mr){ const same = REC.word && REC.word[0] === w[0]; recStop(); if(same) return; return; }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ toast(uiT('جهازك أو متصفحك لا يدعم التسجيل الصوتي'), 'err'); return; }
+  try{ REC.stream = await navigator.mediaDevices.getUserMedia({ audio:true }); }
+  catch(e){ toast(uiT('لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة'), 'err'); return; }
+  try{ if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  REC.chunks = []; REC.word = w;
+  const mr = new MediaRecorder(REC.stream); REC.mr = mr;
+  mr.ondataavailable = e => { if(e.data && e.data.size) REC.chunks.push(e.data); };
+  mr.onstop = async () => {
+    clearTimeout(REC.timer); try{ REC.stream.getTracks().forEach(x => x.stop()); }catch(e){}
+    const blob = new Blob(REC.chunks, { type: mr.mimeType || 'audio/webm' }), ww = REC.word; REC.mr = null;
+    if(blob.size > 0){
+      try{ await recOp('readwrite', st => st.put(blob, recKey(ww))); REC.keys.add(recKey(ww)); toast(uiT('تم حفظ تسجيلك على جهازك'), 'ok'); }
+      catch(e){ toast(uiT('تعذر حفظ التسجيل على هذا الجهاز'), 'err'); }
+    }
+    render();
+  };
+  mr.start(); REC.timer = setTimeout(recStop, 8000); render();
+}
+async function recPlay(w){
+  try{
+    const blob = await recOp('readonly', st => st.get(recKey(w)));
+    if(!blob) return;
+    if(REC.audio){ REC.audio.pause(); }
+    REC.audio = new Audio(URL.createObjectURL(blob)); REC.audio.play();
+  }catch(e){ toast(uiT('تعذر تشغيل التسجيل'), 'err'); }
+}
+async function recDel(w){
+  try{ await recOp('readwrite', st => st.delete(recKey(w))); REC.keys.delete(recKey(w)); render(); }catch(e){}
+}
+function recBtns(w, id, i){
+  const on = REC.mr && REC.word && REC.word[0] === w[0];
+  return `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
+    + (recHas(w) ? `<button class="vplay" data-a="vMine" data-id="${id}" data-i="${i}" aria-label="استمع لتسجيلك">▶</button><button class="vdelr" data-a="vRecDel" data-id="${id}" data-i="${i}" aria-label="احذف تسجيلك">✕</button>` : '');
+}
+
 /* ---------- المفردات ---------- */
 const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, flip:false, total:0, again:0, known:new Set() };
 (function(){
@@ -3520,12 +4133,15 @@ function renderVocab(v){
     <div id="vres">${vSearchHtml()}</div>`;
 }
 function renderVCat(v){
+  recLoad();
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
   const p = vProg(c), means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
   v.innerHTML = `<button class="btn sec" data-a="vBack" style="margin-bottom:12px">← المفردات</button>
     <h2 class="st"><span>${esc(c.ar)} <small dir="ltr">${esc(c.fr)}</small></span><small dir="ltr">${p.k} / ${p.n}</small></h2>
     <div class="vbar2"><div class="vpills">${means}</div><button class="btn" data-a="vCards">${I('play','s')} بطاقات المراجعة</button></div>
-    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}</div><button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div>`).join('')}</div>`;
+    ${c.note ? `<div class="vnote"><span class="ni">💡</span><div dir="auto">${esc(c.note[UL] || c.note.ar)}</div></div>` : ''}
+    <p class="vpriv">🔒 <span>التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.</span></p>
+    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
 }
 function renderVCards(v){
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
@@ -3539,9 +4155,9 @@ function renderVCards(v){
   v.innerHTML = `<button class="btn sec" data-a="vCatBack" style="margin-bottom:12px">← ${esc(c.ar)}</button>
     <div class="vprog"><span dir="ltr">${done} / ${V.total}</span><span class="vbar"><i style="width:${Math.round(done / V.total * 100)}%"></i></span></div>
     <button class="vcard ${V.flip ? 'flip' : ''}" data-a="vFlip" aria-label="اقلب البطاقة">
-      ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
+      ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>${w[3] ? `<span class="vhint" dir="ltr" lang="fr" style="font-style:italic">${esc(w[3])}</span>` : ''}` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
     </button>
-    <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>
+    <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>${recBtns(w, c.id, V.deck.length ? c.w.indexOf(w) : 0)}
       ${V.flip ? `<button class="btn del lg" data-a="vNo">أعيدها</button><button class="btn lg" data-a="vYes">عرفتها ✓</button>` : `<button class="btn lg" data-a="vFlip">أظهر المعنى</button>`}</div>`;
 }
 function vStartCards(){
@@ -3557,6 +4173,10 @@ const VH = {
   vBack:() => { V.view = 'menu'; render(); },
   vCatBack:() => { V.view = 'cat'; render(); },
   vSayW:(id, el) => { const c = vCat(id); if(c) vSay(c.w[+el.dataset.i]); },
+  vSayX:(id, el) => { const c = vCat(id); if(c){ const w = c.w[+el.dataset.i]; if(w && w[3]) speak(w[3], .85); } },
+  vRec:(id, el) => { const c = vCat(id); if(c) recStart(c.w[+el.dataset.i]); },
+  vMine:(id, el) => { const c = vCat(id); if(c) recPlay(c.w[+el.dataset.i]); },
+  vRecDel:(id, el) => { const c = vCat(id); if(c) recDel(c.w[+el.dataset.i]); },
   vKnow:(id, el) => { const c = vCat(V.cat); if(!c) return; const w = c.w[+el.dataset.i]; V.known.has(w[0]) ? V.known.delete(w[0]) : V.known.add(w[0]); vSave(); render(); },
   vCards:() => vStartCards(),
   vFlip:() => { V.flip = !V.flip; render(); },
@@ -4024,6 +4644,426 @@ B1:[
  ["«Hier» devient souvent:|«Hier» often becomes:",["la veille","le lendemain","demain"],0,"hier ← la veille.|Hier ← la veille."]]}
 ]
 };
+/* دروس قواعد جديدة (v9b) */
+(function(){
+ const N = {
+ A1: [
+ {id:"a1-adj",ar:"الصفة: الاتفاق والمكان",en:"Adjectives: agreement and position",fr:"Les adjectifs",
+  intro:"الصفة في الفرنسية تتفق مع الاسم في الجنس والعدد. وأغلب الصفات تأتي بعد الاسم (عكس الإنجليزية)، إلا مجموعة قصيرة وشائعة تأتي قبله.|In French the adjective agrees with the noun in gender and number. Most adjectives come after the noun, except a short, common group that comes before it.",
+  table:{h:["النوع|Type","مذكر|Masculine","مؤنث|Feminine"],r:[["الأصل + e|base + e","petit","petite"],["ينتهي بـ e|ends in e","jeune","jeune"],["-eux → -euse","heureux","heureuse"],["-if → -ive","actif","active"],["-ien → -ienne","italien","italienne"],["-al → -ale","national","nationale"]]},
+  rules:["المؤنث غالباً بإضافة e، والجمع بإضافة s: un petit garçon، une petite fille، des petites filles.|Feminine usually adds e and plural adds s: un petit garçon, une petite fille, des petites filles.",
+   "أغلب الصفات بعد الاسم: une voiture rouge، un film intéressant.|Most adjectives follow the noun: une voiture rouge, un film intéressant.",
+   "مجموعة BAGS تأتي قبل الاسم: Beauté (beau, joli)، Âge (jeune, vieux, nouveau)، Grandeur (petit, grand, gros)، Bonté (bon, mauvais): une belle maison، un petit chat.|The BAGS group goes before the noun: beauty, age, size, goodness: une belle maison, un petit chat.",
+   "⚠ خطأ شائع: لا نقول «une maison grand». الصفة تتبع الاسم في الجنس: une grande maison.|⚠ Common mistake: never «une maison grand». The adjective agrees: une grande maison.",
+   "beau, nouveau, vieux تصبح bel, nouvel, vieil أمام حرف متحرك مع المذكر: un bel homme، un nouvel appartement.|Beau, nouveau, vieux become bel, nouvel, vieil before a vowel (masculine): un bel homme, un nouvel appartement."],
+  ex:[["Une grande maison blanche.","بيت كبير أبيض.|A big white house."],["C'est une jolie fille.","إنها فتاة جميلة.|She is a pretty girl."],["Ils sont contents.","هم سعداء.|They are happy."],["Elle est française.","هي فرنسية.|She is French."]],
+  quiz:[["Une ___ voiture.",["petit","petite","petites"],1,"voiture مؤنث مفرد: une petite voiture.|Voiture is feminine singular: une petite voiture."],
+  ["Elle est ___.",["heureux","heureuse","heureuses"],1,"المؤنث من heureux هو heureuse.|The feminine of heureux is heureuse."],
+  ["Des chaussures ___.",["noir","noires","noirs"],1,"chaussures مؤنث جمع: noires.|Chaussures is feminine plural: noires."],
+  ["Choisissez la phrase correcte:",["Un livre intéressante.","Un livre intéressant.","Un intéressant livre."],1,"livre مذكر، والصفة بعده: intéressant.|Livre is masculine and the adjective follows it."],
+  ["Mon frère est ___.",["italien","italienne","italiens"],0,"مذكر مفرد: italien.|Masculine singular: italien."],
+  ["C'est un ___ appartement.",["nouveau","nouvel","nouvelle"],1,"أمام حرف متحرك: nouvel.|Before a vowel: nouvel."],
+  ["Les enfants sont ___.",["content","contents","contente"],1,"جمع مذكر: contents.|Masculine plural: contents."],
+  ["Une robe ___.",["vert","verte","verts"],1,"robe مؤنث: verte.|Robe is feminine: verte."]]},
+ {id:"a1-ilya",ar:"هناك: Il y a وVoici وVoilà",en:"There is / there are",fr:"Il y a, voici, voilà",
+  intro:"نستعمل il y a للدلالة على وجود شيء، وهي عبارة ثابتة لا تتغير مع المفرد والجمع. أما voici وvoilà فنُشير بهما إلى شيء أمامنا.|Use il y a to say something exists; it never changes for singular or plural. Voici and voilà point at something in front of us.",
+  table:{h:["التعبير|Expression","المعنى|Meaning","مثال|Example"],r:[["Il y a","يوجد|there is / are","Il y a un livre."],["Il n'y a pas de","لا يوجد|there isn't","Il n'y a pas de lait."],["Est-ce qu'il y a… ?","هل يوجد؟|is there…?","Est-ce qu'il y a du pain ?"],["Voici","ها هو (قريب)|here is","Voici mon frère."],["Voilà","ها هو / تفضّل|there is / here you go","Voilà votre café."]]},
+  rules:["il y a ثابتة: Il y a un chat. Il y a trois chats.|Il y a never changes: Il y a un chat. Il y a trois chats.",
+   "في النفي تصبح الأداة de: Il n'y a pas de sucre.|In the negative the article becomes de: Il n'y a pas de sucre.",
+   "الكميات تُتبع بـ de بدون أداة: beaucoup de, peu de, assez de, trop de: beaucoup de gens.|Quantities take de with no article: beaucoup de, peu de, assez de, trop de.",
+   "⚠ خطأ شائع: لا نقول «il a» بمعنى «يوجد». il a تعني «عنده»، ويوجد = il y a.|⚠ Common mistake: «il a» means «he has»; «there is» is il y a."],
+  ex:[["Il y a beaucoup de monde.","يوجد كثير من الناس.|There are lots of people."],["Il n'y a pas de problème.","لا توجد مشكلة.|There is no problem."],["Voilà, c'est fini !","ها قد انتهى!|There, it's done!"]],
+  quiz:[["___ trois élèves dans la classe.",["Il y a","Ils sont","Il est"],0,"للدلالة على الوجود: il y a.|To say something exists: il y a."],
+  ["Il n'y a pas ___ lait.",["du","de","le"],1,"بعد النفي: de.|After the negative: de."],
+  ["Il y a ___ monde au marché.",["beaucoup de","beaucoup du","beaucoup des"],0,"الكمية + de: beaucoup de monde.|Quantity + de: beaucoup de monde."],
+  ["___ votre clé, Monsieur.",["Il y a","Voilà","C'est"],1,"عند تسليم شيء: Voilà.|When handing something over: Voilà."],
+  ["Choisissez la phrase correcte:",["Il y a des chats ici.","Ils y ont des chats ici.","Il a des chats ici."],0,"il y a ثابتة.|Il y a is invariable."],
+  ["J'ai ___ amis ici.",["peu d'","peu de l'","peu des"],0,"peu de + حرف متحرك = peu d'.|Peu de before a vowel = peu d'."],
+  ["Est-ce qu'il y a ___ pharmacie près d'ici ?",["un","une","de"],1,"pharmacie مؤنث: une pharmacie.|Pharmacie is feminine."],
+  ["Il n'y a ___ voiture dans la rue.",["pas de","pas une","pas des"],0,"نفي: pas de.|Negative: pas de."]]},
+ {id:"a1-heure",ar:"الساعة والتاريخ",en:"Time and date",fr:"L'heure et la date",
+  intro:"نسأل: Quelle heure est-il ? ونجيب Il est + الرقم + heure(s). وفي الحياة الرسمية (القطارات والبرامج) يستعمل الفرنسيون نظام ٢٤ ساعة.|We ask Quelle heure est-il? and answer Il est + number + heure(s). Official schedules (trains, TV) use the 24-hour clock.",
+  table:{h:["الساعة|Time","بالفرنسية|French"],r:[["8:00","Il est huit heures."],["8:15","Il est huit heures et quart."],["8:30","Il est huit heures et demie."],["8:45","Il est neuf heures moins le quart."],["12:00","Il est midi."],["00:00","Il est minuit."],["14:20","Il est quatorze heures vingt."]]},
+  rules:["heure مفرد مع une فقط: une heure، لكن trois heures.|Heure is singular only with une: une heure, but trois heures.",
+   "et quart = +١٥ دقيقة، et demie = +٣٠، moins le quart = −١٥. وmidi / minuit بدون كلمة heure.|et quart = +15, et demie = +30, moins le quart = −15. Midi / minuit take no heure.",
+   "التاريخ: Nous sommes le + رقم + الشهر: Nous sommes le 5 mars. وأول الشهر le premier: le 1er mai.|Date: Nous sommes le 5 mars. First of the month: le premier.",
+   "الفرنسيون يعطون المواعيد الرسمية أهمية: «être à l'heure» (الالتزام بالموعد) أمر مهم.|The French take official appointments seriously: being «à l'heure» matters."],
+  ex:[["Il est trois heures et demie.","الساعة الثالثة والنصف.|It's half past three."],["Le train part à quatorze heures.","القطار يغادر الساعة الثانية ظهراً.|The train leaves at 2 pm."],["Nous sommes le 12 novembre.","اليوم ١٢ نوفمبر.|It's 12 November."]],
+  quiz:[["8:30 =",["Il est huit heures et quart.","Il est huit heures et demie.","Il est huit heures moins le quart."],1,"et demie = النصف.|et demie = half."],
+  ["8:45 =",["Il est neuf heures et quart.","Il est huit heures et demie.","Il est neuf heures moins le quart."],2,"تسع إلا ربع: neuf heures moins le quart.|Quarter to nine."],
+  ["12:00 ظهراً =",["Il est midi.","Il est minuit.","Il est douze heure."],0,"الظهر = midi.|Noon = midi."],
+  ["Il est une ___.",["heure","heures","heurs"],0,"مع une نستعمل المفرد.|With une, use the singular."],
+  ["Le cours commence ___ neuf heures.",["à","en","dans"],0,"الساعة المحددة: à.|At a given time: à."],
+  ["1 مايو:",["le un mai","le premier mai","le uni mai"],1,"أول الشهر: le premier.|First of the month: le premier."],
+  ["Quelle heure ___-il ?",["est","a","fait"],0,"Quelle heure est-il ?|Quelle heure est-il?"],
+  ["21:00 بالنظام الرسمي:",["vingt et une heures","vingt-un heures","vingt heure un"],0,"21 = vingt et un، ومع heures: vingt et une heures.|21 = vingt et une heures."]]}
+ ],
+ A2: [
+ {id:"a2-temps",ar:"التعبير عن الزمن: منذ، قبل، خلال، بعد",en:"depuis, il y a, pendant, dans, en",fr:"Depuis, il y a, pendant, dans, en",
+  intro:"هذه خمس كلمات تسبب أخطاء كثيرة لأن العربية تستعمل «منذ» و«قبل» و«خلال» بشكل مختلف. السرّ: انظر هل الزمن ماضٍ أم مستقبل، وهل الفعل ما زال مستمراً.|Five words that cause many mistakes. The secret: is the time past or future, and is the action still going on?",
+  table:{h:["الكلمة|Word","المعنى|Meaning","مثال|Example"],r:[["depuis","منذ (ما زال مستمراً)|since / for","J'habite ici depuis 2020."],["il y a","قبل (في الماضي)|ago","Je suis arrivé il y a deux ans."],["pendant","خلال / لمدة|during / for","J'ai travaillé pendant trois heures."],["dans","بعد (في المستقبل)|in (future)","Je pars dans une semaine."],["en","في غضون (المدة اللازمة)|within (time taken)","Il a fini en dix minutes."]]},
+  rules:["depuis + المضارع: يقول الفرنسي J'habite ici depuis deux ans (أسكن هنا منذ سنتين) بالمضارع وليس بالماضي.|Depuis takes the PRESENT: J'habite ici depuis deux ans.",
+   "il y a + ماضٍ منتهٍ: Il est parti il y a une heure.|Il y a + finished past: Il est parti il y a une heure.",
+   "dans للمستقبل: Je reviens dans cinq minutes (بعد خمس دقائق). ⚠ لا نقول «après cinq minutes» للمستقبل.|Dans for the future: Je reviens dans cinq minutes.",
+   "en = المدة اللازمة لإنجاز شيء، وpendant = المدة التي استمرّ فيها الفعل: Il a lu le livre en deux jours / J'ai lu pendant deux heures.|En = time needed to finish; pendant = how long it lasted."],
+  ex:[["Je travaille ici depuis trois ans.","أعمل هنا منذ ثلاث سنوات.|I have worked here for three years."],["Elle est partie il y a dix minutes.","غادرت قبل عشر دقائق.|She left ten minutes ago."],["Je te rappelle dans une heure.","سأتصل بك بعد ساعة.|I'll call you back in an hour."],["Nous avons dormi pendant huit heures.","نمنا ثماني ساعات.|We slept for eight hours."]],
+  quiz:[["J'apprends le français ___ un an.",["depuis","il y a","dans"],0,"ما زلت أتعلم: depuis.|Still learning: depuis."],
+  ["Il est arrivé ___ deux jours.",["depuis","il y a","dans"],1,"وصل في الماضي: il y a.|Finished past: il y a."],
+  ["Le film commence ___ dix minutes.",["dans","pendant","depuis"],0,"بعد عشر دقائق من الآن: dans.|Ten minutes from now: dans."],
+  ["Elle a étudié ___ trois heures hier soir.",["pendant","dans","il y a"],0,"مدة الدراسة: pendant.|Duration: pendant."],
+  ["Il a construit la maison ___ six mois.",["en","dans","depuis"],0,"المدة اللازمة للإنجاز: en.|Time taken: en."],
+  ["Choisissez la phrase correcte:",["J'habite ici depuis 2020.","J'ai habité ici depuis 2020.","J'habitais ici dans 2020."],0,"depuis + مضارع.|Depuis + present."],
+  ["Nous sommes mariés ___ dix ans.",["depuis","pendant","il y a"],0,"ما زلنا متزوجين: depuis.|Still married: depuis."],
+  ["Je l'ai vu ___ une semaine.",["il y a","dans","depuis"],0,"قبل أسبوع: il y a.|A week ago: il y a."]]},
+ {id:"a2-adv",ar:"الظروف وأماكنها",en:"Adverbs",fr:"Les adverbes",
+  intro:"الظرف يصف الفعل أو الصفة، ولا يتغير مع الجنس والعدد. أسهل طريقة لتكوينه: نأخذ الصفة المؤنثة ونضيف -ment.|An adverb describes a verb or adjective and never changes. To form it: feminine adjective + -ment.",
+  table:{h:["الصفة|Adjective","المؤنث|Feminine","الظرف|Adverb"],r:[["lent","lente","lentement"],["heureux","heureuse","heureusement"],["doux","douce","doucement"],["facile","facile","facilement"],["rapide","rapide","rapidement"]]},
+  rules:["الصفات المنتهية بـ -ent تعطي -emment، و-ant تعطي -amment: évident → évidemment، constant → constamment.|-ent → -emment, -ant → -amment: évidemment, constamment.",
+   "ظروف مهمة لا تنتهي بـ -ment: bien, mal, vite, très, trop, assez, souvent, toujours, déjà, encore, beaucoup, peu.|Key adverbs without -ment: bien, mal, vite, très, trop, assez, souvent, toujours, déjà, encore, beaucoup, peu.",
+   "الظرف يأتي بعد الفعل البسيط: Il parle bien. وفي الماضي المركب بين المساعد واسم المفعول: J'ai bien dormi، Il a déjà fini.|After a simple verb: Il parle bien. In the passé composé, between auxiliary and participle: J'ai bien dormi.",
+   "⚠ bon صفة وbien ظرف: Il est bon (جيد) / Il parle bien (يتكلم جيداً). لا نقول «il parle bon».|⚠ bon is an adjective, bien an adverb: never «il parle bon»."],
+  ex:[["Il parle lentement.","يتكلم ببطء.|He speaks slowly."],["J'ai bien dormi.","نمت جيداً.|I slept well."],["Elle est déjà partie.","لقد غادرت بالفعل.|She has already left."],["Heureusement, il n'a rien.","لحسن الحظ لم يصبه شيء.|Luckily, he's fine."]],
+  quiz:[["Il parle très ___.",["bon","bien","bonne"],1,"يصف الفعل: ظرف bien.|Describes a verb: bien."],
+  ["Il marche ___.",["lent","lente","lentement"],2,"الظرف: lentement.|Adverb: lentement."],
+  ["ظرف heureux:",["heureusement","heureuxment","heureusment"],0,"heureuse + ment.|heureuse + ment."],
+  ["J'ai ___ fini.",["déjà","souvent","trop"],0,"بالفعل: déjà.|Already: déjà."],
+  ["Choisissez la phrase correcte:",["Il a bien dormi.","Il a dormi bon.","Il bien a dormi."],0,"bien بين المساعد واسم المفعول.|Bien between auxiliary and participle."],
+  ["ظرف évident:",["évidemment","évidentment","évidement"],0,"-ent → -emment.|-ent → -emment."],
+  ["Elle conduit ___.",["vite","rapide","vit"],0,"vite ظرف.|Vite is an adverb."],
+  ["Ils mangent ___.",["beaucoup","beaucoups","grand"],0,"كثيراً: beaucoup (ثابت).|A lot: beaucoup (invariable)."]]},
+ {id:"a2-vdr",ar:"الماضي القريب والمضارع المستمر",en:"Venir de and être en train de",fr:"Venir de et être en train de",
+  intro:"الفرنسية لا تملك زمناً خاصاً للمضارع المستمر مثل الإنجليزية، فتقول être en train de. ولها الماضي القريب venir de + مصدر. ومع aller + مصدر تكتمل الثلاثية: ما قبل لحظة الكلام وأثناءها وبعدها.|French has no true continuous tense, so it uses être en train de. Venir de + infinitive is the recent past. With aller + infinitive you get before, during and after the moment of speaking.",
+  table:{h:["التركيب|Structure","المعنى|Meaning","مثال|Example"],r:[["venir de + inf.","للتو فعل|has just done","Je viens de manger."],["être en train de + inf.","يفعل الآن|is doing right now","Je suis en train de manger."],["aller + inf.","سيفعل قريباً|is going to","Je vais manger."]]},
+  rules:["venir de تُصرَّف في المضارع والفعل بعدها مصدر: Elle vient d'arriver.|Venir de is conjugated in the present, followed by an infinitive: Elle vient d'arriver.",
+   "être en train de للتأكيد أن الفعل جارٍ في هذه اللحظة: Ne me dérange pas, je suis en train de travailler.|Être en train de stresses that the action is happening now.",
+   "⚠ لا نقول «Je suis mangeant». المضارع العادي يكفي غالباً: Je mange.|⚠ Never «Je suis mangeant». The plain present is often enough: Je mange.",
+   "تجنّب تكرار en train de في كل جملة؛ الفرنسيون يستعملونه عند التأكيد فقط.|Don't overuse en train de; French speakers keep it for emphasis."],
+  ex:[["Il vient de partir.","غادر للتو.|He has just left."],["Nous sommes en train de dîner.","نحن نتعشى الآن.|We are having dinner right now."],["Je vais téléphoner à ma mère.","سأتصل بأمي.|I'm going to call my mother."]],
+  quiz:[["Je ___ arriver.",["viens d'","vais","suis en train d'"],0,"للتو: venir de.|Just: venir de."],
+  ["Chut ! Le bébé ___ dormir.",["vient de","est en train de","va"],1,"الآن: en train de.|Right now: en train de."],
+  ["Demain, nous ___ visiter Paris.",["venons de","allons","sommes en train de"],1,"مستقبل قريب: aller.|Near future: aller."],
+  ["Elle ___ finir son travail.",["vient de","va","est en train"],0,"للتو: vient de.|Just: vient de."],
+  ["Choisissez la phrase correcte:",["Je suis en train de lire.","Je suis lisant.","Je viens lire."],0,"en train de + مصدر.|En train de + infinitive."],
+  ["Ils ___ manger.",["sont en train de","viennent de","vont"],0,"يأكلون الآن.|They are eating now."],
+  ["Nous venons ___ rentrer.",["de","à","en"],0,"venir de + مصدر.|Venir de + infinitive."],
+  ["Tu ___ téléphoner à Paul ?",["vas","viens de","es en train de"],0,"هل ستتصل قريباً: vas.|Are you going to: vas."]]}
+ ],
+ B1: [
+ {id:"b1-si",ar:"الجملة الشرطية بـ si",en:"Conditional sentences with si",fr:"L'hypothèse avec si",
+  intro:"الفرنسية تربط زمن الشرط بزمن النتيجة، وهناك ثلاثة أنواع حسب احتمال الشرط. القاعدة الذهبية: لا نضع المستقبل ولا الشرطي بعد si مباشرة.|French links the tense of the condition to the tense of the result: three types depending on how likely the condition is. Golden rule: never put the future or the conditional right after si.",
+  table:{h:["النوع|Type","بعد si|After si","النتيجة|Result","مثال|Example"],r:[["ممكن|Real","présent","futur / impératif","Si tu viens, je serai content."],["غير محتمل|Unlikely","imparfait","conditionnel présent","Si j'avais le temps, je voyagerais."],["مستحيل (ماضٍ)|Impossible past","plus-que-parfait","conditionnel passé","Si j'avais su, je serais venu."]]},
+  rules:["⚠ خطأ عربي شائع: لا نقول «Si tu viendras». بعد si نستعمل المضارع: Si tu viens.|⚠ Never «Si tu viendras»: after si use the present: Si tu viens.",
+   "للحقائق العامة نستعمل المضارع مع المضارع: Si on chauffe l'eau à 100 degrés, elle bout.|General truths: present + present.",
+   "si + il / ils تصبح s'il / s'ils: S'il pleut… لكن si + elle تبقى: Si elle vient.|si + il / ils becomes s'il / s'ils; si elle stays.",
+   "يمكن عكس الترتيب بدون فاصلة: Je serais content si tu venais.|The order can be reversed: Je serais content si tu venais."],
+  ex:[["Si tu viens, je t'aiderai.","إن جئت سأساعدك.|If you come, I'll help you."],["Si j'étais riche, je voyagerais.","لو كنت غنياً لسافرت.|If I were rich, I would travel."],["Si j'avais su, je serais venu.","لو علمت لجئت.|If I had known, I would have come."]],
+  quiz:[["Si tu ___, je t'aiderai.",["viens","viendras","viendrais"],0,"بعد si: المضارع.|After si: present."],
+  ["Si j'avais de l'argent, j'___ une voiture.",["achèterai","achèterais","achetais"],1,"imparfait + conditionnel.|Imparfait + conditional."],
+  ["Si nous avions su, nous ___ venus.",["serions","sommes","serons"],0,"conditionnel passé: serions venus.|Past conditional: serions venus."],
+  ["___ il pleut, nous resterons à la maison.",["Si il","S'il","Si-il"],1,"si + il = s'il.|si + il = s'il."],
+  ["Choisissez la phrase correcte:",["Si je serais riche, je voyagerais.","Si j'étais riche, je voyagerais.","Si je suis riche, je voyagerais."],1,"imparfait بعد si.|Imparfait after si."],
+  ["Si elle ___ tôt, elle prendra le train de huit heures.",["se lève","se lèverait","se levait"],0,"المضارع بعد si.|Present after si."],
+  ["Si on chauffe l'eau, elle ___.",["bout","bouillirait","avait bouilli"],0,"حقيقة عامة: مضارع.|General truth: present."],
+  ["Si j'avais su, je ne ___ pas venu.",["serais","suis","serai"],0,"conditionnel passé: ne serais pas venu.|Past conditional."]]},
+ {id:"b1-cause",ar:"السبب والنتيجة والغاية",en:"Cause, consequence and purpose",fr:"Cause, conséquence et but",
+  intro:"عندما نناقش بالفرنسية نحتاج إلى ربط الحجج: لماذا (السبب)؟ فماذا حدث (النتيجة)؟ ولأي غرض (الغاية)؟ ولكل منها أدواتها وأزمنتها.|To argue in French you link ideas: why (cause), what followed (consequence), and what for (purpose). Each has its own connectors and tenses.",
+  table:{h:["الفكرة|Idea","الأدوات|Connectors","بعدها|Followed by"],r:[["السبب|Cause","parce que, puisque, car, comme","فعل مصرّف|conjugated verb"],["السبب + اسم|Cause + noun","à cause de, grâce à","اسم|noun"],["النتيجة|Consequence","donc, alors, c'est pourquoi","فعل مصرّف|conjugated verb"],["الغاية|Purpose","pour que, afin que","subjonctif"],["الغاية (فاعل واحد)|Same subject","pour, afin de","مصدر|infinitive"]]},
+  rules:["parce que تجيب عن «لماذا؟»، وcomme تأتي في بداية الجملة: Comme il pleuvait, nous sommes restés. وcar لا تبدأ الجملة.|Parce que answers «why?»; comme starts the sentence; car never does.",
+   "à cause de للسبب السلبي، وgrâce à للإيجابي: Grâce à toi, j'ai réussi.|À cause de = negative cause, grâce à = positive.",
+   "pour que / afin que + subjonctif: Je parle lentement pour que tu comprennes.|Pour que / afin que + subjunctive.",
+   "إذا كان الفاعل واحداً نستعمل pour + مصدر: J'étudie pour réussir. ⚠ لا نقول «pour que je réussisse» هنا.|Same subject: pour + infinitive: J'étudie pour réussir."],
+  ex:[["Je suis en retard parce que le bus est tombé en panne.","تأخرت لأن الحافلة تعطلت.|I'm late because the bus broke down."],["Grâce à toi, j'ai réussi.","بفضلك نجحت.|Thanks to you, I passed."],["Je t'explique pour que tu comprennes.","أشرح لك كي تفهم.|I explain so that you understand."]],
+  quiz:[["Je suis en retard ___ le bus est tombé en panne.",["parce que","pour que","donc"],0,"السبب: parce que.|Cause: parce que."],
+  ["Il pleuvait, ___ nous sommes restés à la maison.",["donc","parce que","car"],0,"النتيجة: donc.|Consequence: donc."],
+  ["Elle a réussi ___ son travail.",["grâce à","à cause de","pour"],0,"سبب إيجابي: grâce à.|Positive cause: grâce à."],
+  ["Il a raté le train ___ la grève.",["grâce à","à cause de","pour que"],1,"سبب سلبي: à cause de.|Negative cause: à cause de."],
+  ["Je t'explique pour que tu ___.",["comprends","comprennes","comprendras"],1,"pour que + subjonctif.|Pour que + subjunctive."],
+  ["J'étudie ___ réussir.",["pour","pour que","afin que"],0,"فاعل واحد: pour + مصدر.|Same subject: pour + infinitive."],
+  ["___ il est malade, il reste au lit.",["Comme","Pour que","Donc"],0,"comme في بداية الجملة للسبب.|Comme at the start for cause."],
+  ["Il parle fort ___ tout le monde l'entende.",["afin que","afin de","parce que"],0,"فاعل مختلف: afin que + subjonctif.|Different subject: afin que."]]},
+ {id:"b1-relief",ar:"إبراز الكلمة: c'est… qui / que",en:"Emphasis: c'est… qui / que",fr:"La mise en relief",
+  intro:"الفرنسي يُبرز ما يريد التأكيد عليه بوضعه بين c'est و qui / que. وهو أسلوب شائع جداً في كلامهم، ويُستعمل أيضاً في الأسئلة.|The French highlight what they want to stress by putting it between c'est and qui / que. Very common in everyday speech.",
+  table:{h:["التركيب|Structure","يُبرز|Highlights","مثال|Example"],r:[["c'est … qui","الفاعل|the subject","C'est Marie qui a téléphoné."],["c'est … que","المفعول أو الظرف|object / adverb","C'est ce livre que je veux."],["ce qui / ce que … c'est","فكرة كاملة|a whole idea","Ce que j'aime, c'est la musique."],["Moi, je…","ضمير توكيدي|stressed pronoun","Moi, je préfère le thé."]]},
+  rules:["qui يحلّ محل الفاعل ويأتي بعده الفعل مباشرة: C'est lui qui parle.|Qui replaces the subject, verb follows directly: C'est lui qui parle.",
+   "que يحلّ محل المفعول أو الظرف: C'est demain que je pars.|Que replaces the object or an adverb: C'est demain que je pars.",
+   "ce qui للفاعل وce que للمفعول: Ce qui m'intéresse, c'est l'histoire. Ce que je veux, c'est dormir.|Ce qui = subject, ce que = object.",
+   "الفرنسيون يكرّرون الضمير للتوكيد: «Moi, je pense que…». ومع moi / toi الفعل يتبع الضمير: C'est moi qui ai fait ça.|The French repeat the pronoun for emphasis: Moi, je… ; after moi the verb agrees: C'est moi qui ai fait ça."],
+  ex:[["C'est Marie qui a téléphoné.","ماري هي التي اتصلت.|It's Marie who called."],["C'est demain que je pars.","غداً هو موعد سفري.|It's tomorrow that I'm leaving."],["Ce que j'aime, c'est la musique.","ما أحبه هو الموسيقى.|What I like is music."]],
+  quiz:[["C'est Paul ___ a cassé le verre.",["qui","que","dont"],0,"الفاعل: qui.|Subject: qui."],
+  ["C'est ce film ___ je veux voir.",["qui","que","où"],1,"المفعول: que.|Object: que."],
+  ["___ je veux, c'est un café.",["Ce que","Ce qui","C'est que"],0,"مفعول: ce que.|Object: ce que."],
+  ["___ m'intéresse, c'est la cuisine.",["Ce que","Ce qui","Qui"],1,"فاعل: ce qui.|Subject: ce qui."],
+  ["C'est moi ___ ai gagné.",["qui","que","dont"],0,"الفاعل moi: qui.|Subject: qui."],
+  ["C'est demain ___ nous partons.",["que","qui","dont"],0,"ظرف زمان: que.|Time adverb: que."],
+  ["Choisissez la phrase correcte:",["C'est elle qui parle.","C'est elle que parle.","C'est elle qui elle parle."],0,"الفاعل: qui.|Subject: qui."],
+  ["Ce ___ il dit est vrai.",["que","qui","dont"],0,"مفعول: ce qu'il dit.|Object: ce qu'il dit."]]}
+ ]
+ };
+ Object.keys(N).forEach(L => { (GR[L] = GR[L] || []).push(...N[L]); });
+})();
+
+/* أسئلة إضافية للدروس القديمة (v9c): [السؤال، الصحيح، خطأ١، خطأ٢، شرح عربي، شرح إنجليزي] — الترتيب يُخلط عند العرض */
+(function(){
+ const M = {
+ 'a1-art':[
+  ['Il y a ___ livres sur la table.','des','les','un','جمع نكرة: des.','Indefinite plural: des.'],
+  ['___ soleil brille.','Le','La','Les','soleil مذكر.','Soleil is masculine.'],
+  ['J\'aime ___ musique.','la','une','des','الحب العام يأخذ أداة التعريف.','General likes take the definite article.'],
+  ['Elle a ___ sœur.','une','un','le','sœur مؤنث.','Sœur is feminine.'],
+  ['___ eau est froide.','L\'','La','Le','أمام حرف متحرك: l\'.','Before a vowel: l\'.'],
+  ['Je cherche ___ clé. (مفتاحاً ما)','une','un','des','clé مؤنث ونكرة: une.','Clé is feminine, indefinite: une.']],
+ 'a1-etre':[
+  ['Elles ___ contentes.','sont','ont','est','être مع elles: sont.','Être with elles: sont.'],
+  ['J\'___ vingt ans.','ai','suis','ait','العمر مع avoir.','Age uses avoir.'],
+  ['Nous ___ français.','sommes','avons','êtes','الجنسية مع être.','Nationality uses être.'],
+  ['Ils ___ peur.','ont','sont','avez','avoir peur = يخاف.','Avoir peur = to be afraid.'],
+  ['Tu ___ de la chance.','as','es','a','avoir de la chance = محظوظ.','Avoir de la chance = to be lucky.'],
+  ['Vous ___ à la maison ?','êtes','avez','sont','المكان مع être.','Location uses être.']],
+ 'a1-er':[
+  ['Vous ___ le français. (étudier)','étudiez','étudions','étudient','vous → -ez.','Vous → -ez.'],
+  ['Tu ___ la radio. (écouter)','écoutes','écoute','écoutez','tu → -es.','Tu → -es.'],
+  ['Elle ___ un livre. (chercher)','cherche','cherches','cherchent','elle → -e.','Elle → -e.'],
+  ['Je ___ la porte. (fermer)','ferme','fermes','fermons','je → -e.','Je → -e.'],
+  ['Ils ___ le dîner. (préparer)','préparent','prépare','préparons','ils → -ent.','Ils → -ent.'],
+  ['Nous ___ en train. (voyager)','voyageons','voyagons','voyagent','نبقي e لحفظ نطق g: voyageons.','Keep the e to keep the soft g: voyageons.']],
+ 'a1-neg':[
+  ['Il ___ fume pas.','ne','n\'','non','قبل حرف ساكن: ne.','Before a consonant: ne.'],
+  ['Je ne mange pas ___ pain.','de','du','le','بعد النفي: de.','After a negative: de.'],
+  ['Nous n\'___ pas faim.','avons','sommes','avez','n\' قبل حرف متحرك، والفعل avons.','n\' before a vowel; the verb is avons.'],
+  ['Tu ___ comprends pas ?','ne','n\'','non','comprends يبدأ بحرف ساكن: ne.','Comprends starts with a consonant: ne.'],
+  ['Choisissez la phrase correcte:','Je ne sais pas.','Je ne pas sais.','Je sais ne pas.','ne قبل الفعل وpas بعده.','Ne before the verb, pas after it.'],
+  ['Il n\'a pas ___ voiture.','de','une','la','بعد النفي: de.','After a negative: de.']],
+ 'a1-poss':[
+  ['___ sœur est médecin. (أختي)','Ma','Mon','Mes','sœur مؤنث: ma.','Sœur is feminine: ma.'],
+  ['Elle cherche ___ clé. (مفتاحها)','sa','son','ses','clé مؤنث: sa.','Clé is feminine: sa.'],
+  ['Ils aiment ___ ville. (مدينتهم)','leur','leurs','sa','المملوك مفرد: leur.','Single possession: leur.'],
+  ['___ école est grande. (مدرستي)','Mon','Ma','Mes','أمام حرف متحرك نستعمل mon حتى مع المؤنث.','Before a vowel we use mon even with feminine nouns.'],
+  ['Tu as ___ stylo ? (قلمك)','ton','ta','tes','stylo مذكر: ton.','Stylo is masculine: ton.'],
+  ['Nous aimons ___ amis. (أصدقاءنا)','nos','notre','nous','المملوك جمع: nos.','Plural possession: nos.']],
+ 'a1-fp':[
+  ['Un étudiant → une ___.','étudiante','étudiant','étudiants','نضيف e للمؤنث.','Add e for the feminine.'],
+  ['Le pluriel de «un enfant»:','des enfants','des enfantes','des enfant','نضيف s.','Add s.'],
+  ['Le pluriel de «un nez»:','des nez','des nezs','des nezes','ما ينتهي بـ z لا يتغير.','Words ending in z stay the same.'],
+  ['Le féminin de «acteur»:','actrice','acteure','acteuse','-teur → -trice.','-teur → -trice.'],
+  ['Le pluriel de «un travail»:','des travaux','des travails','des travailles','-ail → -aux.','-ail → -aux.'],
+  ['Un chien → une ___.','chienne','chiene','chiens','-ien → -ienne.','-ien → -ienne.']],
+ 'a1-q':[
+  ['___ heure est-il ? (كم الساعة)','Quelle','Quel','Quand','heure مؤنث: quelle.','Heure is feminine: quelle.'],
+  ['___ habites-tu ? (أين)','Où','Qui','Quand','أين = où.','Where = où.'],
+  ['___ est ton frère ? (من)','Qui','Que','Où','من = qui.','Who = qui.'],
+  ['Pour demander «متى؟» on dit:','Quand','Quoi','Qui','متى = quand.','When = quand.'],
+  ['«Qu\'est-ce que tu manges ?» signifie:','ماذا تأكل؟|What are you eating?','أين تأكل؟|Where do you eat?','من يأكل؟|Who is eating?','Qu\'est-ce que = ماذا.','Qu\'est-ce que = what.'],
+  ['Pour demander «كيف حالك؟» entre amis:','Ça va ?','Où va ?','Qui va ?','سؤال شائع بين الأصدقاء.','A common friendly question.']],
+ 'a1-prep':[
+  ['Le stylo est ___ la table. (فوق)','sur','sous','dans','فوق = sur.','On = sur.'],
+  ['Nous allons ___ France.','en','au','à','الدول المؤنثة: en.','Feminine countries: en.'],
+  ['Il habite ___ États-Unis.','aux','en','au','États-Unis جمع: aux.','États-Unis is plural: aux.'],
+  ['La pharmacie est ___ la banque. (مقابل)','en face de','derrière','entre','مقابل = en face de.','Opposite = en face de.'],
+  ['Elle est ___ Paris. (في المدينة)','à','en','au','المدن: à.','Cities: à.'],
+  ['Le chat est ___ la chaise. (خلف)','derrière','devant','sur','خلف = derrière.','Behind = derrière.']],
+ 'a1-ce':[
+  ['___ un étudiant.','C\'est','Ce sont','Il y a','مفرد: c\'est.','Singular: c\'est.'],
+  ['___ mes parents.','Ce sont','C\'est','Il y a','جمع: ce sont.','Plural: ce sont.'],
+  ['Il y a ___ voiture dans la rue.','une','la','cette','نكرة مؤنثة: une.','Indefinite feminine: une.'],
+  ['Dans ma chambre, ___ un lit et deux chaises.','il y a','c\'est','ce sont','للوجود والعدّ: il y a.','To state existence: il y a.'],
+  ['Qui est-ce ? ___ Sara.','C\'est','Il y a','Ils sont','للتعريف بشخص: c\'est.','To identify someone: c\'est.'],
+  ['«Il y a» signifie:','يوجد|there is / there are','هو لديه|he has','هذا|this is','il y a = يوجد.','Il y a = there is / are.']],
+ 'a1-dem':[
+  ['___ livres sont intéressants.','Ces','Ce','Cet','جمع: ces.','Plural: ces.'],
+  ['___ arbre est grand.','Cet','Ce','Cette','مذكر أمام حرف متحرك: cet.','Masculine before a vowel: cet.'],
+  ['___ voiture est rapide.','Cette','Ce','Cet','مؤنث: cette.','Feminine: cette.'],
+  ['Je prends ___ stylo.','ce','cet','cette','مذكر أمام ساكن: ce.','Masculine before a consonant: ce.'],
+  ['Ce sac-___. (هذه الحقيبة هنا)','ci','là','la','ci = هنا.','-ci = here.'],
+  ['___ homme est mon oncle.','Cet','Ce','Ces','homme يبدأ بحرف h صامت: cet.','Homme starts with a silent h: cet.']],
+ 'a1-irr':[
+  ['Elle ___ à l\'école. (aller)','va','vas','vont','elle → va.','Elle → va.'],
+  ['Nous ___ le train. (prendre)','prenons','prenez','prennent','nous → prenons.','Nous → prenons.'],
+  ['Ils ___ du sport. (faire)','font','faisent','faites','ils → font.','Ils → font.'],
+  ['Je ___ du Maroc. (venir)','viens','viend','venons','je → viens.','Je → viens.'],
+  ['Vous ___ à Paris ? (aller)','allez','allons','vont','vous → allez.','Vous → allez.'],
+  ['Elles ___ un taxi. (prendre)','prennent','prend','prenent','elles → prennent.','Elles → prennent.']],
+ 'a1-contr':[
+  ['Je parle ___ directeur.','du','de le','au','de + le = du.','de + le = du.'],
+  ['Il va ___ hôpital.','à l\'','au','aux','أمام حرف متحرك: à l\'.','Before a vowel: à l\'.'],
+  ['Nous parlons ___ voisins.','des','du','de la','de + les = des.','de + les = des.'],
+  ['Elle va ___ pharmacie.','à la','au','aux','مؤنث: à la (لا اندماج).','Feminine: à la (no contraction).'],
+  ['Il revient ___ États-Unis.','des','du','de la','de + les = des.','de + les = des.'],
+  ['On joue ___ cartes.','aux','au','à la','à + les = aux.','à + les = aux.']],
+ 'a2-pc':[
+  ['Elle ___ un film hier. (regarder)','a regardé','est regardé','regardé','avoir + اسم المفعول.','Avoir + participle.'],
+  ['Nous ___ nos amis. (inviter)','avons invité','sommes invité','avons invités','مع avoir لا يتغير الاسم المفعول هنا.','With avoir the participle doesn\'t change here.'],
+  ['Le participe passé de «prendre»:','pris','prendu','pri','شاذ: pris.','Irregular: pris.'],
+  ['Le participe passé de «avoir»:','eu','avu','aivu','شاذ: eu.','Irregular: eu.'],
+  ['J\'___ lu ce livre.','ai','suis','as','j\' + ai.','J\' + ai.'],
+  ['Tu ___ bien dormi ?','as','es','a','tu + as.','Tu + as.']],
+ 'a2-etre':[
+  ['Elle ___ née en 1990.','est','a','as','naître مع être.','Naître uses être.'],
+  ['Nous ___ allés au marché. (رجال)','sommes','avons','êtes','aller مع être.','Aller uses être.'],
+  ['Ils ___ descendus à la gare.','sont','ont','est','descendre مع être.','Descendre uses être.'],
+  ['Elle s\'est ___. (se laver)','lavée','lavé','lavés','الانعكاسي يتفق مع الفاعل المؤنث.','A reflexive verb agrees with a feminine subject.'],
+  ['Quel verbe utilise «être» ?','aller','manger','regarder','aller من أفعال الحركة.','Aller is a movement verb.'],
+  ['Elles ___ venues hier.','sont','ont','est','venir مع être.','Venir uses être.']],
+ 'a2-fp':[
+  ['Je ___ téléphoner à Paul.','vais','vas','va','je → vais.','Je → vais.'],
+  ['Elle ___ acheter une voiture.','va','vas','vont','elle → va.','Elle → va.'],
+  ['Nous allons ___.','dormir','dormons','dormi','بعد aller: مصدر.','After aller: infinitive.'],
+  ['Il ne ___ pas venir.','va','vas','allons','ne … pas حول aller.','Ne … pas goes around aller.'],
+  ['Vous ___ rester ?','allez','allons','vont','vous → allez.','Vous → allez.'],
+  ['Demain, ils ___ jouer.','vont','va','vais','ils → vont.','Ils → vont.']],
+ 'a2-pron':[
+  ['Elle ___ couche à dix heures.','se','te','me','elle → se.','Elle → se.'],
+  ['Je ne ___ lève pas tôt.','me','te','se','je → me.','Je → me.'],
+  ['Nous nous ___ à huit heures. (se réveiller)','réveillons','réveillez','réveillent','nous → -ons.','Nous → -ons.'],
+  ['Tu t\'___ bien ? (s\'amuser)','amuses','amuse','amusez','tu → -es.','Tu → -es.'],
+  ['Ils ___ promènent dans le parc.','se','s\'','me','ils → se.','Ils → se.'],
+  ['Vous ___ dépêchez ?','vous','nous','se','vous → vous.','Vous → vous.']],
+ 'a2-part':[
+  ['Je bois ___ lait.','du','de la','des','lait مذكر: du.','Lait is masculine: du.'],
+  ['Elle mange ___ confiture.','de la','du','de l\'','confiture مؤنث: de la.','Confiture is feminine: de la.'],
+  ['Il prend ___ eau.','de l\'','du','de la','أمام حرف متحرك: de l\'.','Before a vowel: de l\'.'],
+  ['Ils achètent ___ légumes.','des','du','de la','جمع: des.','Plural: des.'],
+  ['Je n\'ai pas ___ argent.','d\'','de l\'','du','بعد النفي: de / d\'.','After a negative: de / d\'.'],
+  ['Nous voulons ___ pain.','du','de la','des','pain مذكر: du.','Pain is masculine: du.']],
+ 'a2-comp':[
+  ['Il est ___ intelligent que moi. (أقل)','moins','plus','aussi','أقل = moins.','Less = moins.'],
+  ['Elle chante ___ bien que lui. (بنفس القدر)','aussi','plus','moins','المساواة: aussi.','Equality: aussi.'],
+  ['Ce vin est ___ que l\'autre. (أفضل)','meilleur','mieux','plus bon','صفة: meilleur.','Adjective: meilleur.'],
+  ['Il travaille ___ que moi. (أفضل)','mieux','meilleur','plus bien','ظرف: mieux.','Adverb: mieux.'],
+  ['Marie est plus grande ___ Paul.','que','de','à','المقارنة بـ que.','Comparison uses que.'],
+  ['Paris est ___ grand que Lyon. (أكبر)','plus','aussi','moins','أكبر = plus grand.','Bigger = plus grand.']],
+ 'a2-neg':[
+  ['Elle ne boit ___ de café. (أبداً)','jamais','rien','plus','أبداً = jamais.','Never = jamais.'],
+  ['Je n\'ai ___ vu. (لا أحد)','personne','rien','jamais','لا أحد = personne.','Nobody = personne.'],
+  ['Il n\'y a ___ ici. (لا أحد)','personne','rien','plus','لا أحد = personne.','Nobody = personne.'],
+  ['Nous n\'avons ___ mangé. (شيئاً)','rien','personne','jamais','لا شيء = rien.','Nothing = rien.'],
+  ['Il ne pleut ___. (لم يعد)','plus','rien','jamais','لم يعد = ne … plus.','No longer = ne … plus.'],
+  ['Je ne veux ___. (لا شيء)','rien','personne','jamais','لا شيء = rien.','Nothing = rien.']],
+ 'a2-coi':[
+  ['Je téléphone à mes amis ← Je ___ téléphone.','leur','lui','les','للجمع: leur.','Plural: leur.'],
+  ['Il écrit à Marie ← Il ___ écrit.','lui','leur','la','مفرد: lui.','Singular: lui.'],
+  ['Elle ___ donne un livre. (لك)','te','lui','leur','لك = te.','To you = te.'],
+  ['Tu ___ as parlé ? (له)','lui','leur','le','له = lui.','To him = lui.'],
+  ['Nous ___ répondons. (لهم)','leur','lui','les','لهم = leur.','To them = leur.'],
+  ['Il ___ a offert des fleurs. (لي)','m\'','me','moi','قبل a: m\'.','Before a: m\'.']],
+ 'a2-yen':[
+  ['Tu vas à Paris ? Oui, j\'___ vais.','y','en','le','y يعوّض عن مكان بعد à.','Y replaces a place after à.'],
+  ['Tu veux des pommes ? Oui, j\'___ veux.','en','y','les','en يعوّض عن الكمية.','En replaces a quantity.'],
+  ['Il pense à son travail ? Oui, il ___ pense.','y','en','lui','penser à + شيء = y.','Penser à + thing = y.'],
+  ['Elle a deux enfants ? Oui, elle ___ a deux.','en','y','les','نحتفظ بالعدد مع en.','Keep the number with en.'],
+  ['Vous revenez du marché ? Oui, nous ___ revenons.','en','y','le','de + مكان = en.','de + place = en.'],
+  ['Allons-___ ! (لنذهب إلى هناك)','y','en','le','في الأمر: Allons-y.','Imperative: Allons-y.']],
+ 'a2-imp':[
+  ['(Écouter, tu) ___ bien !','Écoute','Écoutes','Écouter','أمر tu بدون s.','Tu imperative drops the s.'],
+  ['(Aller, tu) ___ à l\'école !','Va','Vas','Allez','aller → va.','Aller → va.'],
+  ['(Prendre, nous) ___ un taxi !','Prenons','Prendre','Prenez','أمر nous: prenons.','Nous imperative: prenons.'],
+  ['(Avoir, tu) ___ de la patience !','Aie','As','Aies','شاذ: aie.','Irregular: aie.'],
+  ['Ne ___ pas ! (partir, vous)','partez','pars','partons','vous → partez.','Vous → partez.'],
+  ['Pour dire à un ami «افتح الباب»:','Ouvre la porte !','Ouvres la porte !','Ouvrir la porte !','أفعال -er تفقد s في الأمر.','-er verbs lose the s in the imperative.']],
+ 'a2-mod':[
+  ['Elle ___ parler cinq langues. (تستطيع)','peut','peux','peuvent','elle → peut.','Elle → peut.'],
+  ['Nous ___ partir. (نريد)','voulons','veulent','voulez','nous → voulons.','Nous → voulons.'],
+  ['Tu ___ travailler. (يجب عليك)','dois','doit','devez','tu → dois.','Tu → dois.'],
+  ['Je ne ___ pas venir. (لا أستطيع)','peux','peut','pouvons','je → peux.','Je → peux.'],
+  ['Elles ___ étudier. (يجب)','doivent','doit','devons','elles → doivent.','Elles → doivent.'],
+  ['___-vous m\'aider ? (هل تستطيع)','Pouvez','Pouvons','Peuvent','vous → pouvez.','Vous → pouvez.']],
+ 'a2-sup':[
+  ['C\'est la ___ belle ville. (الأجمل)','plus','meilleure','mieux','la plus + صفة.','La plus + adjective.'],
+  ['Il est le ___ gentil. (الأقل)','moins','pas','mal','الأقل = le moins.','The least = le moins.'],
+  ['Ce sont les ___ résultats. (الأفضل)','meilleurs','mieux','plus bons','صفة: les meilleurs.','Adjective: les meilleurs.'],
+  ['Elle chante le ___. (الأفضل)','mieux','meilleur','plus bien','ظرف: le mieux.','Adverb: le mieux.'],
+  ['C\'est le plus ___ restaurant de Paris. (أغلى)','cher','chère','chers','restaurant مذكر مفرد: cher.','Restaurant is masculine singular: cher.'],
+  ['Marie est la plus ___ de la classe. (أصغر)','jeune','jeunes','jeunesse','مؤنث مفرد: jeune.','Feminine singular: jeune.']],
+ 'b1-imp':[
+  ['Nous ___ au parc tous les jours. (aller)','allions','allons','irons','عادة في الماضي: imparfait.','A past habit: imparfait.'],
+  ['Il ___ très gentil. (être)','était','étais','étaient','il → était.','Il → était.'],
+  ['Je ___ en France. (habiter)','habitais','habitait','habiterais','je → -ais.','Je → -ais.'],
+  ['Elle ___ les cheveux longs. (avoir)','avait','avais','avaient','وصف في الماضي.','Description in the past.'],
+  ['Quand j\'étais enfant, nous ___ chez grand-mère. (manger)','mangions','mangeons','mangiez','nous → -ions.','Nous → -ions.'],
+  ['L\'imparfait exprime:|The imparfait expresses:','عادة أو وصفاً في الماضي|a past habit or description','حدثاً لحظياً منتهياً|a single completed event','المستقبل|the future','الناقص للعادة والوصف.','Imparfait = habit or description.']],
+ 'b1-fs':[
+  ['Elle ___ demain. (partir)','partira','partirait','partit','المستقبل: -ra.','Future: -ra.'],
+  ['Nous ___ le médecin. (appeler)','appellerons','appelerons','appelons','appeler: ll في المستقبل.','Appeler doubles the l in the future.'],
+  ['Je ___ riche un jour. (être)','serai','étais','suis','être → serai.','Être → serai.'],
+  ['Vous ___ la réponse. (savoir)','saurez','savez','savrez','savoir → saur-.','Savoir → saur-.'],
+  ['Ils ___ à dix heures. (venir)','viendront','viennent','venront','venir → viendr-.','Venir → viendr-.'],
+  ['On ___ bientôt. (voir)','verra','voira','voit','voir → verr-.','Voir → verr-.']],
+ 'b1-cod':[
+  ['Je regarde les enfants ← Je ___ regarde.','les','leur','lui','جمع: les.','Plural: les.'],
+  ['Tu connais Paul ? Oui, je ___ connais.','le','lui','la','COD مذكر: le.','Masculine COD: le.'],
+  ['Il a pris la clé ← Il l\'a ___.','prise','pris','prises','COD قبل الفعل: يتفق الاسم المفعول.','COD before the verb: the participle agrees.'],
+  ['Elle ___ attend. (تنتظرني)','m\'','me','moi','قبل حرف متحرك: m\'.','Before a vowel: m\'.'],
+  ['Je vais ___ voir demain. (أراها، Marie)','la','lui','leur','COD مؤنث: la.','Feminine COD: la.'],
+  ['Il ne ___ comprend pas. (لا يفهمنا)','nous','lui','leur','نحن: nous.','Us: nous.']],
+ 'b1-cond':[
+  ['Je ___ bien un thé. (أحب)','prendrais','prends','prendrai','طلب مؤدب: conditionnel.','Polite request: conditional.'],
+  ['Il ___ être là bientôt. (قد)','pourrait','pouvait','pourra','احتمال: pourrait.','Possibility: pourrait.'],
+  ['Si j\'avais de l\'argent, nous ___ en Italie.','irions','allions','irons','imparfait + conditionnel.','Imparfait + conditional.'],
+  ['À ta place, je ne ___ pas. (partir)','partirais','partais','partirai','نصيحة: conditionnel.','Advice: conditional.'],
+  ['Ils ___ venir, mais ils sont occupés.','voudraient','voulaient','voudront','رغبة غير محققة: conditionnel.','Unfulfilled wish: conditional.'],
+  ['Tu ___ me passer le sel ? (بأدب)','pourrais','peux','pouvais','أكثر أدباً: pourrais.','More polite: pourrais.']],
+ 'b1-rel':[
+  ['La femme ___ parle est ma tante.','qui','que','quoi','qui فاعل.','Qui = subject.'],
+  ['Le livre ___ tu lis est bon.','que','qui','où','que مفعول.','Que = object.'],
+  ['Les gens ___ j\'ai rencontrés sont gentils.','que','qui','dont','que مفعول.','Que = object.'],
+  ['C\'est un homme ___ aime voyager.','qui','que','dont','qui فاعل.','Qui = subject.'],
+  ['La maison ___ ils ont achetée est grande.','que','qui','où','que مفعول.','Que = object.'],
+  ['Le chat ___ dort est mignon.','qui','que','qu\'','qui فاعل.','Qui = subject.']],
+ 'b1-pqp':[
+  ['J\'___ déjà mangé quand il est arrivé.','avais','ai','aurai','avoir بالماضي الناقص.','Avoir in the imparfait.'],
+  ['Elle ___ partie avant la fin.','était','a','avait','partir مع être.','Partir uses être.'],
+  ['Nous ___ vu ce film. (قبل ذلك)','avions','avons','étions','nous avions + اسم المفعول.','Nous avions + participle.'],
+  ['Ils ___ déjà dîné.','avaient','étaient','ont','ils avaient.','Ils avaient.'],
+  ['Il m\'a dit qu\'il ___ arrivé en retard.','était','avait','a','arriver مع être.','Arriver uses être.'],
+  ['Elles ___ sorties avant moi.','étaient','avaient','sont','sortir مع être.','Sortir uses être.']],
+ 'b1-subj':[
+  ['Il faut que nous ___ tôt. (partir)','partions','partons','partirons','nous → -ions.','Nous → -ions.'],
+  ['Je doute qu\'il ___ vrai. (être)','soit','est','sera','الشك + subjonctif.','Doubt + subjunctive.'],
+  ['Pour que tu ___. (comprendre)','comprennes','comprends','comprendras','pour que + subjonctif.','Pour que + subjunctive.'],
+  ['Il est important que vous ___. (venir)','veniez','venez','viendrez','vous → -iez.','Vous → -iez.'],
+  ['Je voudrais que tu ___ attention. (faire)','fasses','fais','feras','faire → fass-.','Faire → fass-.'],
+  ['Je crois qu\'il ___ raison. (avoir)','a','ait','aie','croire إيجابي + indicatif.','Affirmative croire + indicative.']],
+ 'b1-pass':[
+  ['La lettre ___ par Paul. (écrire)','est écrite','a écrit','écrit','être + اسم المفعول يتفق مع lettre.','Être + participle agreeing with lettre.'],
+  ['Les maisons ___ par le vent. (détruire، ماضٍ)','ont été détruites','sont détruit','ont détruites','a été + اسم المفعول.','Past passive: a été + participle.'],
+  ['Ce film sera ___ demain. (montrer)','montré','montrer','montrant','sera + اسم المفعول.','Sera + participle.'],
+  ['La pomme ___ par Paul. (manger)','est mangée','mange','a mangé','المبني للمجهول: être + اسم المفعول.','Passive: être + participle.'],
+  ['Le complément d\'agent est introduit par:|The agent is introduced by:','par','pour','avec','الفاعل في المجهول بعد par.','The agent follows par.'],
+  ['Elle ___ invitée à la fête. (présent)','est','a','sera','الحاضر: est.','Present: est.']],
+ 'b1-ger':[
+  ['Il lit ___. (manger)','en mangeant','en mangé','mangeant en','en + -ant.','En + -ant.'],
+  ['Elle chante ___. (se doucher)','en se douchant','en douchant','se en douchant','الضمير قبل en + -ant.','Pronoun goes between en and -ant: en se douchant.'],
+  ['Le gérondif de «faire»:','en faisant','en faisent','en fait','faisons → faisant.','Faisons → faisant.'],
+  ['Il a appris l\'anglais ___. (voyager)','en voyageant','en voyager','en voyagé','نبقي e: voyageant.','Keep the e: voyageant.'],
+  ['Le gérondif de «être»:','en étant','en été','en étent','شاذ: étant.','Irregular: étant.'],
+  ['Elle est partie ___. (pleurer)','en pleurant','en pleurer','pleurant en','en + -ant.','En + -ant.']],
+ 'b1-dont':[
+  ['Le film ___ je parle est nouveau.','dont','que','où','parler de → dont.','Parler de → dont.'],
+  ['La ville ___ j\'habite est grande.','où','dont','qui','المكان: où.','Place: où.'],
+  ['C\'est la personne ___ je me souviens.','dont','que','où','se souvenir de → dont.','Se souvenir de → dont.'],
+  ['L\'étudiant ___ la voiture est rouge est là.','dont','que','qui','الملكية: dont.','Possession: dont.'],
+  ['Le jour ___ il est arrivé, il pleuvait.','où','dont','que','الزمان: où.','Time: où.'],
+  ['Voici le livre ___ j\'ai envie.','dont','que','où','avoir envie de → dont.','Avoir envie de → dont.']],
+ 'b1-di':[
+  ['«Je pars.» ← Il a dit qu\'il ___.','partait','part','partira','ننقل الحاضر إلى الناقص.','Present becomes imparfait.'],
+  ['«Où vas-tu ?» ← Il m\'a demandé où je ___.','allais','vais','irai','الحاضر → الناقص.','Present → imparfait.'],
+  ['«Ne viens pas !» ← Il m\'a dit de ne pas ___.','venir','viens','venu','الأمر → de + مصدر.','Order → de + infinitive.'],
+  ['«Aujourd\'hui» devient souvent:','ce jour-là','demain','hier','الزمن يتغير في الكلام المنقول.','Time words change in indirect speech.'],
+  ['«Qu\'est-ce que tu fais ?» ← Il m\'a demandé ___ je faisais.','ce que','ce qui','quoi','سؤال مفعول: ce que.','Object question: ce que.'],
+  ['«J\'ai faim.» ← Elle a dit qu\'elle ___ faim.','avait','a','aura','الحاضر → الناقص.','Present → imparfait.']]
+ };
+ Object.keys(GR).forEach(L => GR[L].forEach(l => { (M[l.id] || []).forEach(r => { if(l.quiz.some(q => q[0] === r[0])) return; l.quiz.push([r[0], [r[1], r[2], r[3]], 0, r[4] + '|' + r[5]]); }); }));
+})();
+
+/* ترتيب الدروس تربوياً: الأسماء والصفات ← الأفعال ← الأسئلة والإشارة والملكية ← الأفعال الشاذة ← الأماكن */
+(function(){
+ const ORD = {
+  A1:['a1-art','a1-fp','a1-adj','a1-etre','a1-er','a1-neg','a1-q','a1-ce','a1-dem','a1-poss','a1-irr','a1-ilya','a1-prep','a1-contr','a1-heure'],
+  A2:['a2-pc','a2-etre','a2-fp','a2-vdr','a2-pron','a2-temps','a2-mod','a2-imp','a2-part','a2-comp','a2-sup','a2-adv','a2-neg','a2-coi','a2-yen'],
+  B1:['b1-imp','b1-pqp','b1-fs','b1-cond','b1-si','b1-cod','b1-rel','b1-dont','b1-relief','b1-subj','b1-cause','b1-pass','b1-ger','b1-di']
+ };
+ Object.keys(ORD).forEach(L => { const f = id => { const i = ORD[L].indexOf(id); return i < 0 ? 999 : i; }; GR[L].sort((a, b) => f(a.id) - f(b.id)); });
+})();
+
 
 /* ---------- القواعد ---------- */
 const GRS = { view:'menu', level:'A1', lang:'both', id:null, ans:[], ord:[], done:{} };
@@ -4038,7 +5078,7 @@ const grLesson = id => grLessons().find(l => l.id === id);
 function grT(s){ const p = String(s).split('|'); return { ar:p[0], en:(p[1] !== undefined ? p[1] : p[0]), two:p.length > 1 }; }
 /* نص عربي: تُعزل الكلمات الفرنسية داخل الجملة حتى لا يختلط الترتيب */
 function grAr(str){
-  const re = /[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9'’\-.,!?…()\/+←→ ]*[A-Za-zÀ-ÿ0-9'’!?…)]|[A-Za-zÀ-ÿ]/g; let out = '', last = 0, m;
+  const re = /[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9'’\-.,!?…()\/+←→ ]*[A-Za-zÀ-ÿ0-9'’!?….)]|[A-Za-zÀ-ÿ]/g; let out = '', last = 0, m;
   while((m = re.exec(str))){ out += esc(str.slice(last, m.index)) + '<bdi dir="ltr" lang="fr" class="grlat">' + esc(m[0]) + '</bdi>'; last = m.index + m[0].length; }
   return out + esc(str.slice(last));
 }
@@ -4080,7 +5120,12 @@ function renderGrammar(v){
   v.innerHTML = `<h2 class="st"><span>${I('gram')} القواعد <small>Grammaire</small></span></h2>
     <div class="vbar2"><div class="vpills">${pills}</div>${grLangBar()}</div>
     <p class="cap" style="margin:8px 2px 14px">أنهيت ${dn} من ${ls.length} درساً في هذا المستوى.</p>
-    <div class="vgrid">${ls.map((l, i) => { const d = grDone(l.id); return `<button class="vcat" data-a="grOpen" data-id="${l.id}"><b>${i + 1}. ${GRS.lang === 'en' ? esc(l.en) : esc(l.ar)}</b><span class="vf" dir="ltr">${esc(l.fr)}${GRS.lang === 'both' ? ' · ' + esc(l.en) : ''}</span><span class="vn" dir="ltr">${d !== undefined ? '✓ ' + d + ' / ' + l.quiz.length : 'لم يُحلّ بعد'}</span></button>`; }).join('')}</div>`;
+    ${(() => { const pc = ls.length ? Math.round(dn / ls.length * 100) : 0; let lastId = ''; try{ const p = (localStorage.getItem('fo_last_gr_' + (state.uid || '')) || '').split('|'); if(p[0] === GRS.level) lastId = p[1]; }catch(e){}
+      const names = { A1:'Beginner · مبتدئ', A2:'Elementary · أساسي', B1:'Intermediate · متوسط' };
+      return `<div class="gmh"><div class="top"><h3>${GRS.level}<small>${names[GRS.level] || ''}</small></h3><span class="cnt" dir="ltr">${dn} / ${ls.length}</span></div>
+        <div class="gmbar" role="progressbar" aria-valuenow="${pc}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pc}%"></i>${pc ? `<b style="right:${pc}%">${pc}%</b>` : ''}</div></div>
+      <div class="gml">${ls.map((l, i) => { const d = grDone(l.id), cls = d !== undefined ? 'done' : (l.id === lastId ? 'cur' : '');
+        return `<button class="gli ${cls}" data-a="grOpen" data-id="${l.id}"><span class="no">${i + 1}${d !== undefined ? '<em>✓</em>' : ''}</span><span class="tx"><b>${GRS.lang === 'en' ? esc(l.en) : esc(l.ar)}</b><span class="fr">${esc(l.fr)}${GRS.lang === 'both' ? ' · ' + esc(l.en) : ''}</span></span><span class="st2">${d !== undefined ? 'أنهيت · ' + d + '/' + l.quiz.length : (cls === 'cur' ? 'قيد التعلّم' : 'لم يبدأ')}</span></button>`; }).join('')}</div>`; })()}`;
 }
 function renderGrLesson(v){
   const l = grLesson(GRS.id); if(!l){ GRS.view = 'menu'; return renderGrammar(v); }
@@ -4096,7 +5141,7 @@ function renderGrLesson(v){
 const GRH = {
   grLevel:(id) => { GRS.level = id; grSave(); render(); },
   grLang:(id) => { GRS.lang = id; grSave(); render(); },
-  grOpen:(id) => { const l = grLesson(id); if(!l) return; GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; grNewOrder(l); render(); window.scrollTo(0, 0); },
+  grOpen:(id) => { const l = grLesson(id); if(!l) return; try{ if(state.uid) localStorage.setItem('fo_last_gr_' + state.uid, GRS.level + '|' + id); }catch(e){} GRS.id = id; GRS.view = 'lesson'; GRS.ans = []; grNewOrder(l); render(); window.scrollTo(0, 0); },
   grBack:() => { GRS.view = 'menu'; render(); },
   grSay:(id) => { const l = grLesson(GRS.id); if(l && l.ex[+id]) speak(l.ex[+id][0], .85); },
   grAns:(id, el) => {
@@ -4463,8 +5508,215 @@ const RESH = {
 document.addEventListener('input', e => { const el = e.target; if(el && el.dataset && el.dataset.res === 'q'){ RES.q = el.value; RES.limit = 30; resUpdate(); } });
 document.addEventListener('change', e => { const el = e.target, k = el && el.dataset && el.dataset.res; if(k && k !== 'q'){ RES[k] = el.value; RES.limit = 30; resUpdate(); } });
 
+/* ---- لوحة الطالب (v8a): بيانات حقيقية فقط ---- */
+const DASH = { rows:null, uid:null, err:false };
+const DASH_DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const DASH_LV = [['A1','مبتدئ','c1'],['A2','أساسي','c2'],['B1','متوسط','c3']];
+const DASH_ART = {
+  c1:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M50 4l4 16h-8zM44 24h12l4 22H40zM38 50h24l8 30H30zM26 84h48v8H26z"/></svg>',
+  c2:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M14 90V30h72v60H64V56a14 14 0 00-28 0v34zM8 22h84v8H8z"/></svg>',
+  c3:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M44 52h12v40H44zM50 50L22 22l6-6 22 22 22-22 6 6zM50 50l28 28-6 6-22-22-22 22-6-6z"/></svg>' };
+function dashLvStats(L){
+  const ls = GR[L] || [];
+  const done = ls.filter(l => GRS.done[l.id] !== undefined).length;
+  let words = 0, known = 0;
+  (VOC[L] || []).forEach(c => c.w.forEach(x => { words++; if(V.known.has(x[0])) known++; }));
+  return { L, lessons:ls.length, done, pct: ls.length ? Math.round(done / ls.length * 100) : 0, words, known };
+}
+function dashLastKey(){ return 'fo_last_gr_' + (state.uid || ''); }
+function dashContinue(){
+  let rec = null;
+  try{ const p = (localStorage.getItem(dashLastKey()) || '').split('|'); if(p[0] && p[1] && (GR[p[0]] || []).some(l => l.id === p[1])) rec = { L:p[0], l:GR[p[0]].find(l => l.id === p[1]), resume:true }; }catch(e){}
+  if(!rec){ for(const [L] of DASH_LV){ const l = (GR[L] || []).find(x => GRS.done[x.id] === undefined); if(l){ rec = { L, l, resume:false }; break; } } }
+  return rec;
+}
+function dashRing(p){ const c = 2 * Math.PI * 24; return `<div class="ring"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="6"/><circle cx="29" cy="29" r="24" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-dasharray="${(c * p / 100).toFixed(1)} ${c.toFixed(1)}"/></svg><b>${p}%</b></div>`; }
+function dashWeekHtml(R){
+  const now = new Date(), days = [], map = {};
+  for(let i = 6; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i); const o = { n:uiDays()[d.getDay()], q:0, g:0 }; days.push(o); map[d.toDateString()] = o; }
+  (R.q || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.q++; });
+  (R.g || []).forEach(x => { const d = map[new Date(x.created_at).toDateString()]; if(d) d.g++; });
+  const tot = days.reduce((s, d) => s + d.q + d.g, 0);
+  if(!tot) return `<div class="dmuted">لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.</div>`;
+  const mx = Math.max(...days.map(d => d.q + d.g));
+  return `<div class="dweek">${days.map(d => { const t = d.q + d.g, h = t ? Math.max(8, Math.round(t / mx * 100)) : 0;
+    return `<div class="col" title="${d.n}: ${d.q} اختبار، ${d.g} لعبة"><div class="dbar" style="height:${h}%;${t ? '' : 'background:transparent'}"><i class="bg" style="flex-grow:${d.g}"></i><i class="bq" style="flex-grow:${d.q}"></i></div><span>${d.n}</span></div>`; }).join('')}</div>
+    <div class="dleg"><span><i style="background:var(--navy)"></i>اختبارات</span><span><i style="background:#6FA5E3"></i>ألعاب</span></div>`;
+}
+function dashRecentHtml(R){
+  const qT = id => { const z = quizzes.find(x => x.id === id); return z ? z.title : 'اختبار'; };
+  const aT = id => { const z = assignments.find(x => x.id === id); return z ? z.title : 'واجب'; };
+  const gN = k => (GAME_DATA[k] && GAME_DATA[k].title) || k;
+  const all = [
+    ...(R.q || []).map(x => ({ at:x.created_at, ic:'quiz', col:'c-green', t:'اختبار: ' + qT(x.quiz_id), r:x.score + '/' + x.total })),
+    ...(R.g || []).map(x => ({ at:x.created_at, ic:'sparkle', col:'c-purple', t:'لعبة: ' + gN(x.game) + ' · ' + x.level, r:x.correct + '/' + x.total })),
+    ...(R.a || []).map(x => ({ at:x.created_at, ic:'assign', col:'c-orange', t:'تسليم واجب: ' + aT(x.assignment_id), r:'' })) ]
+    .filter(x => x.at).sort((a, b) => new Date(b.at) - new Date(a.at)).slice(0, 6);
+  if(!all.length) return `<div class="dmuted">لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.</div>`;
+  return `<div class="drec">${all.map(x => `<div class="dri"><div class="ic ${x.col}">${I(x.ic)}</div><div class="t"><b dir="auto">${esc(x.t)}</b><small>${fmtDT(x.at)}</small></div><span class="r">${esc(x.r)}</span></div>`).join('')}</div>`;
+}
+function dashBody(){
+  const stu = state.me && state.me.student; if(!stu) return '';
+  const R = DASH.uid === state.uid ? DASH.rows : null;
+  const lv = DASH_LV.map(([L]) => dashLvStats(L));
+  const tl = lv.reduce((s, x) => s + x.lessons, 0), td = lv.reduce((s, x) => s + x.done, 0);
+  const cur = (lv.find(x => x.pct < 100) || lv[lv.length - 1]).L;
+  const nm = String(stu.full_name || '').trim(), first = nm.split(' ')[0] || nm;
+  const dot = '<span aria-hidden="true">…</span>';
+  const qn = R ? R.q.length : null, gn = R ? R.g.length : null;
+  const qavg = R && R.q.length ? Math.round(R.q.reduce((s, x) => s + (x.total ? x.score / x.total * 100 : 0), 0) / R.q.length) : null;
+  const stats = [
+    ['gram', td + '/' + tl, 'دروس قواعد أنهيتها'], ['vocab', V.known.size, 'كلمات تعرفها'],
+    ['sparkle', gn === null ? dot : gn, 'ألعاب لعبتها'], ['quiz', qn === null ? dot : qn, qavg === null ? 'اختبارات حللتها' : 'اختبارات · المتوسط ' + qavg + '%'] ];
+  const c = dashContinue();
+  const contH = c ? `<div class="dcont"><div class="ico">${I('gram')}</div>
+      <div class="tt"><small>${c.resume ? 'آخر درس فتحته' : 'الدرس التالي المقترح'} · ${c.L}</small><b dir="auto">${esc(UL === "ar" ? grT(c.l.ar).ar : (UL === "en" ? c.l.en : c.l.fr))}</b><div class="fr">${UL === "fr" ? "" : esc(c.l.fr)}</div>
+      <span class="dpill ${GRS.done[c.l.id] !== undefined ? 'ok' : 'idle'}">${GRS.done[c.l.id] !== undefined ? 'أنهيت اختباره: ' + GRS.done[c.l.id] + '/' + c.l.quiz.length : 'لم تنهِ اختباره بعد'}</span></div>
+      <button class="dbtn" data-a="dashLesson" data-id="${c.L}|${c.l.id}">${I('play', 's')} تابع الدرس</button></div>`
+    : `<div class="dmuted">أنهيت اختبارات جميع دروس القواعد. أحسنت!</div>`;
+  return `<section class="dwel"><div class="av" aria-hidden="true">${esc(first.charAt(0) || '؟')}</div>
+      <div class="tx"><h1 dir="auto">Bonjour, ${esc(first)} !</h1><p>Prêt à continuer ton aventure en français ?</p></div>
+      <div class="chips">${stu.class_name ? `<span class="dchip">${I('class', 's')} ${esc(stu.class_name)}</span>` : ''}<span class="dchip">${I('chart', 's')} مستواك الحالي: ${cur}</span></div></section>
+    <div class="dash">
+      <div class="dmain">
+        <section class="dpanel p-cont"><h2>${I('play')} متابعة التعلّم</h2>${contH}</section>
+        <section class="dpanel p-courses"><h2>${I('book')} مستوياتي <small>تقدّم دروس القواعد والمفردات</small></h2>
+          <div class="dcourses">${lv.map((x, i) => `<div class="dcc ${DASH_LV[i][2]}">${DASH_ART[DASH_LV[i][2]]}
+            <h3>${x.L}<small>${DASH_LV[i][1]}</small></h3>
+            <div class="meta"><bdi dir="ltr">${x.done} / ${x.lessons}</bdi> درس قواعد<br><bdi dir="ltr">${x.known} / ${x.words}</bdi> كلمة</div>
+            <div class="row">${dashRing(x.pct)}<button class="go" data-a="dashLevel" data-id="${x.L}">${x.done ? 'تابع التعلّم' : 'ابدأ'}</button></div></div>`).join('')}</div></section>
+        <section class="dpanel p-rec"><h2>${I('calendar')} آخر أنشطتي</h2><div id="dashrec">${R ? dashRecentHtml(R) : '<div class="dmuted">جارٍ التحميل…</div>'}</div></section>
+      </div>
+      <div class="dside">
+        <section class="dpanel p-stats"><h2>${I('chart')} إحصائياتي</h2>
+          <div class="dstats">${stats.map(([ic, n, l]) => `<div class="dst"><div class="ic">${I(ic)}</div><b>${n}</b><span>${l}</span></div>`).join('')}</div></section>
+        <section class="dpanel p-week"><h2>${I('sparkle')} نشاط الأسبوع</h2><div id="dashweek">${R ? dashWeekHtml(R) : '<div class="dmuted">جارٍ التحميل…</div>'}</div></section>
+      </div>
+    </div>`;
+}
+async function dashLoad(){
+  const uid = state.uid, stu = state.me && state.me.student;
+  if(!uid || !stu || typeof sb === 'undefined' || !sb) return;
+  try{
+    const [r, g, a] = await Promise.all([
+      sb.from('results').select('quiz_id,score,total,created_at').eq('student_id', uid).order('created_at', { ascending:false }).limit(300),
+      sb.from('game_scores').select('game,level,correct,total,created_at').eq('student_id', uid).order('created_at', { ascending:false }).limit(300),
+      sb.from('submissions').select('assignment_id,created_at').order('created_at', { ascending:false }).limit(100) ]);
+    if(state.uid !== uid) return;
+    if(r.error && g.error) throw (r.error || g.error);
+    DASH.rows = { q:r.data || [], g:g.data || [], a:a.data || [] }; DASH.uid = uid; DASH.err = false;
+  }catch(e){ logErr('dashLoad', e); DASH.err = true; DASH.rows = { q:[], g:[], a:[] }; DASH.uid = uid; }
+  if(state.tab === 'home' && state.uid === uid){ const b = document.getElementById('dashbody'); if(b){ b.innerHTML = dashBody(); uiTr(b); } }
+}
+const DASHH = {
+  dashLevel:id => { if(!GR[id]) return; GRS.level = id; GRS.view = 'menu'; grSave(); state.tab = 'grammar'; render(); window.scrollTo(0, 0); },
+  dashLesson:id => { const [L, lid] = String(id).split('|'); if(!GR[L]) return; GRS.level = L; grSave(); state.tab = 'grammar'; GRH.grOpen(lid); }
+};
+
+/* ===== لغة الواجهة: عربي / Français / English (الواجهة فقط، لا تمس البيانات) ===== */
+var UL = 'ar'; try{ const _u = localStorage.getItem('fo_ui'); if(_u === 'fr' || _u === 'en') UL = _u; }catch(e){}
+const UI_LOC = { ar:'ar-u-ca-gregory-nu-latn', fr:'fr-u-ca-gregory-nu-latn', en:'en-GB-u-ca-gregory-nu-latn' };
+const UI_DAYS = { ar:DASH_DAYS, fr:['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] };
+function uiDays(){ return UI_DAYS[UL] || DASH_DAYS; }
+LOC = UI_LOC[UL];
+try{ document.documentElement.setAttribute('dir', UL === 'ar' ? 'rtl' : 'ltr'); document.documentElement.setAttribute('lang', UL); }catch(e){}
+const UI_D = {
+ fr: {'الرئيسية':'Accueil','الدروس':'Cours','الفيديوهات':'Vidéos','الاختبارات':'Quiz','الواجبات':'Devoirs','الروابط':'Liens','الألعاب':'Jeux','المفردات':'Vocabulaire','القواعد':'Grammaire','نتائجي':'Mes résultats','النتائج':'Résultats','المتابعة':'Suivi','الصفوف والطلاب':'Classes et élèves','المزيد':'Plus','خروج':'Déconnexion','تسجيل الدخول':'Connexion',
+  'ألعاب تفاعلية':'Jeux interactifs','العب':'Jouer','لعبتها':'Déjà joué','متابعة التعلّم':'Continuer à apprendre','مستوياتي':'Mes niveaux','تقدّم دروس القواعد والمفردات':'Progression en grammaire et vocabulaire','آخر أنشطتي':'Mes dernières activités','إحصائياتي':'Mes statistiques','نشاط الأسبوع':'Activité de la semaine',
+  'تابع الدرس':'Reprendre la leçon','ابدأ':'Commencer','تابع التعلّم':'Continuer','دروس قواعد أنهيتها':'Leçons de grammaire terminées','كلمات تعرفها':'Mots connus','ألعاب لعبتها':'Jeux joués','اختبارات حللتها':'Quiz réalisés','الدرس التالي المقترح':'Prochaine leçon conseillée','آخر درس فتحته':'Dernière leçon ouverte','لم تنهِ اختباره بعد':'Quiz non terminé','مستواك الحالي':'Ton niveau actuel','مبتدئ':'Débutant','أساسي':'Élémentaire','متوسط':'Intermédiaire','اختبارات':'Quiz','ألعاب':'Jeux','درس قواعد':'leçons de grammaire','كلمة':'mots',
+  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'Aucune activité ces 7 derniers jours. Fais un quiz ou joue à un jeu.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'Pas encore d’activité. Tes résultats apparaîtront ici.','جارٍ التحميل…':'Chargement…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'Tu as terminé tous les quiz de grammaire. Bravo !',
+  'اختر الإجابة الصحيحة':'Choisis la bonne réponse','صح أم خطأ':'Vrai ou faux','رتّب الحروف':'Mots mélangés','طابِق الكلمات':'Associer','أكمل الفراغ':'Complète la phrase','الكلمة الدخيلة':'L’intrus','رتّب الجملة':'Remets la phrase en ordre','لعبة الذاكرة':'Memory','استمع واختر':'Écoute et choisis','المشنقة':'Le pendu',
+  'سؤال وأربع إجابات، اختر الصحيحة.':'Une question, quatre réponses : choisis la bonne.','عبارة واحدة: هل هي صحيحة أم خاطئة؟':'Une phrase : vraie ou fausse ?','رتّب الحروف المبعثرة لتكوّن الكلمة.':'Remets les lettres dans l’ordre pour former le mot.','صِل الكلمة الفرنسية بمعناها العربي.':'Associe le mot français à son sens en arabe.','اكتب الكلمة الناقصة في الجملة.':'Écris le mot manquant dans la phrase.','أي كلمة لا تنتمي إلى المجموعة؟':'Quel mot n’appartient pas au groupe ?','رتّب الكلمات لتكوّن جملة صحيحة.':'Remets les mots dans l’ordre pour former une phrase.','اقلب البطاقات وطابِق الكلمة بمعناها.':'Retourne les cartes et associe chaque mot à son sens.','استمع للكلمة بالفرنسية ثم اختر ما سمعته.':'Écoute le mot en français puis choisis ce que tu as entendu.','خمّن الكلمة الفرنسية حرفاً حرفاً قبل نفاد المحاولات.':'Devine le mot lettre par lettre avant la fin des essais.'},
+ en: {'الرئيسية':'Home','الدروس':'Lessons','الفيديوهات':'Videos','الاختبارات':'Quizzes','الواجبات':'Homework','الروابط':'Links','الألعاب':'Games','المفردات':'Vocabulary','القواعد':'Grammar','نتائجي':'My results','النتائج':'Results','المتابعة':'Tracking','الصفوف والطلاب':'Classes & students','المزيد':'More','خروج':'Log out','تسجيل الدخول':'Log in',
+  'ألعاب تفاعلية':'Interactive games','العب':'Play','لعبتها':'Played','متابعة التعلّم':'Continue learning','مستوياتي':'My levels','تقدّم دروس القواعد والمفردات':'Grammar and vocabulary progress','آخر أنشطتي':'Recent activity','إحصائياتي':'My statistics','نشاط الأسبوع':'This week’s activity',
+  'تابع الدرس':'Resume lesson','ابدأ':'Start','تابع التعلّم':'Continue','دروس قواعد أنهيتها':'Grammar lessons completed','كلمات تعرفها':'Words you know','ألعاب لعبتها':'Games played','اختبارات حللتها':'Quizzes taken','الدرس التالي المقترح':'Suggested next lesson','آخر درس فتحته':'Last lesson opened','لم تنهِ اختباره بعد':'Quiz not finished yet','مستواك الحالي':'Your current level','مبتدئ':'Beginner','أساسي':'Elementary','متوسط':'Intermediate','اختبارات':'Quizzes','ألعاب':'Games','درس قواعد':'grammar lessons','كلمة':'words',
+  'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'No activity in the last 7 days. Take a quiz or play a game.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'No activity yet. Your results will appear here.','جارٍ التحميل…':'Loading…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'You finished all grammar quizzes. Well done!','Prêt à continuer ton aventure en français ?':'Ready to continue your French adventure?'}
+};
+const UI_R = {
+ fr: [[/^Bonjour, (.*) !$/,'Bonjour, $1 !'],[/^اختبارات · المتوسط (\d+)%$/,'Quiz · moyenne $1 %'],[/^أنهيت اختباره: (.+)$/,'Quiz terminé : $1'],[/^(الدرس التالي المقترح|آخر درس فتحته) · (.+)$/,(m,a,b)=>UI_D.fr[a]+' · '+b],[/^جرّبت (\d+) منها على هذا الجهاز$/,'$1 essayés sur cet appareil'],[/^(\d+) ألعاب$/,'$1 jeux'],[/^اختبار: (.*)$/,'Quiz : $1'],[/^لعبة: (.*)$/,'Jeu : $1'],[/^تسليم واجب: (.*)$/,'Devoir rendu : $1'],[/^مستواك الحالي: (.+)$/,'Ton niveau actuel : $1']],
+ en: [[/^Bonjour, (.*) !$/,'Hello, $1!'],[/^اختبارات · المتوسط (\d+)%$/,'Quizzes · average $1%'],[/^أنهيت اختباره: (.+)$/,'Quiz finished: $1'],[/^(الدرس التالي المقترح|آخر درس فتحته) · (.+)$/,(m,a,b)=>UI_D.en[a]+' · '+b],[/^جرّبت (\d+) منها على هذا الجهاز$/,'$1 tried on this device'],[/^(\d+) ألعاب$/,'$1 games'],[/^اختبار: (.*)$/,'Quiz: $1'],[/^لعبة: (.*)$/,'Game: $1'],[/^تسليم واجب: (.*)$/,'Homework submitted: $1'],[/^مستواك الحالي: (.+)$/,'Your current level: $1']]
+};
+function uiT(s){
+  if(UL === 'ar') return s;
+  const lead = s.match(/^\s*/)[0], trail = s.match(/\s*$/)[0], t = s.trim();
+  if(!t) return s;
+  const d = UI_D[UL];
+  if(d[t] !== undefined) return lead + d[t] + trail;
+  for(const [re, r] of UI_R[UL]) if(re.test(t)) return lead + t.replace(re, r) + trail;
+  return s;
+}
+function uiTr(root){
+  if(UL === 'ar' || !root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), ns = [];
+  while(w.nextNode()) ns.push(w.currentNode);
+  ns.forEach(n => { const p = n.parentElement; if(p && p.closest('[data-notr]')) return; const v = uiT(n.nodeValue); if(v !== n.nodeValue) n.nodeValue = v; });
+  root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(el => ['aria-label','title','placeholder'].forEach(a => { const x = el.getAttribute(a); if(x){ const y = uiT(x); if(y !== x) el.setAttribute(a, y); } }));
+}
+function uiSwitch(){
+  return `<span class="ulang" data-notr role="group" aria-label="Language">${[['fr','Français','FR'],['en','English','EN'],['ar','عربي','عربي']].map(([k,l,sh]) => `<button class="${UL === k ? 'on' : ''}" data-a="uiLang" data-id="${k}" ${UL === k ? 'aria-pressed="true"' : 'aria-pressed="false"'}><span class="lf">${l}</span><span class="ls">${sh}</span></button>`).join('')}</span>`;
+}
+function uiShell(){
+  const a = document.getElementById('auth'); if(a) a.insertAdjacentHTML('afterbegin', uiSwitch());
+  document.documentElement.setAttribute('lang', UL); document.documentElement.setAttribute('dir', UL === 'ar' ? 'rtl' : 'ltr');
+  ['nav','bnav','auth'].forEach(id => { const e = document.getElementById(id); if(e){ uiTr(e); } });
+  const nv = document.getElementById('nav'); if(nv) nv.dir = UL === 'ar' ? '' : 'ltr';
+}
+const DASHH_UI = { uiLang:id => {
+  if(!['ar','fr','en'].includes(id) || id === UL) return;
+  UL = id; LOC = UI_LOC[UL]; try{ localStorage.setItem('fo_ui', id); }catch(e){}
+  try{ if(id === 'en'){ G.lang = 'en'; localStorage.setItem('fo_lang', 'en'); } else if(G.lang === 'en'){ G.lang = 'ar'; localStorage.setItem('fo_lang', 'ar'); } }catch(e){}
+  render();
+} };
+/* ---- مفردات إضافية للصفحات العامة ---- */
+Object.assign(UI_D.fr, {'عرض الكل':'Tout voir','كل المستويات':'Tous les niveaux','كل التصنيفات':'Toutes les catégories','الكل':'Tout','انتهى':'Terminé','لم يبدأ':'Pas commencé','قيد التعلّم':'En cours','أنهيت':'Terminé','الاختبار':'Quiz','الدرجة':'Note','النسبة':'Pourcentage','التاريخ':'Date','لا توجد فيديوهات مطابقة':'Aucune vidéo correspondante','نتائج ألعابي':'Résultats de mes jeux','لم تلعب أي لعبة بعد':'Tu n’as encore joué à aucun jeu','ستظهر هنا نتائج ألعابك بعد أن تلعب.':'Tes résultats de jeux apparaîtront ici.','شرح ودرس':'Explication et cours','تمارين':'Exercices','ملخص':'Résumé','أخرى':'Autres','تحميل':'Télécharger','عرض':'Voir','حذف':'Supprimer','إغلاق':'Fermer','إلغاء':'Annuler','حفظ':'Enregistrer','بحث':'Rechercher'});
+Object.assign(UI_D.en, {'عرض الكل':'View all','كل المستويات':'All levels','كل التصنيفات':'All categories','الكل':'All','انتهى':'Ended','لم يبدأ':'Not started','قيد التعلّم':'In progress','أنهيت':'Done','الاختبار':'Quiz','الدرجة':'Score','النسبة':'Percentage','التاريخ':'Date','لا توجد فيديوهات مطابقة':'No matching videos','نتائج ألعابي':'My game results','لم تلعب أي لعبة بعد':'You haven’t played any game yet','ستظهر هنا نتائج ألعابك بعد أن تلعب.':'Your game results will appear here.','شرح ودرس':'Explanation & lesson','تمارين':'Exercises','ملخص':'Summary','أخرى':'Other','تحميل':'Download','عرض':'View','حذف':'Delete','إغلاق':'Close','إلغاء':'Cancel','حفظ':'Save','بحث':'Search'});
+UI_R.fr.push([/^متبقي (\d+) يوم$/,'Il reste $1 j'],[/^متبقي (\d+) ساعة$/,'Il reste $1 h'],[/^متبقي (\d+) دقيقة$/,'Il reste $1 min'],[/^آخر موعد للتسليم: (.*)$/,'À rendre avant : $1'],[/^(\d+) ملف$/,'$1 fichier(s)'],[/^(\d+) فيديو$/,'$1 vidéo(s)'],[/^(\d+) اختبار$/,'$1 quiz'],[/^(\d+) واجب$/,'$1 devoir(s)'],[/^(\d+) رابط$/,'$1 lien(s)'],[/^أنهيت (\d+) من (\d+) درساً في هذا المستوى\.$/,'$1 leçons terminées sur $2 dans ce niveau.'],[/^أنهيت · (.+)$/,'Terminé · $1'],[/^الدرجة: (.+)$/,'Note : $1'],[/^ملاحظة المدرس: (.*)$/,'Remarque du professeur : $1']);
+UI_R.en.push([/^متبقي (\d+) يوم$/,'$1 day(s) left'],[/^متبقي (\d+) ساعة$/,'$1 hour(s) left'],[/^متبقي (\d+) دقيقة$/,'$1 min left'],[/^آخر موعد للتسليم: (.*)$/,'Due: $1'],[/^(\d+) ملف$/,'$1 file(s)'],[/^(\d+) فيديو$/,'$1 video(s)'],[/^(\d+) اختبار$/,'$1 quiz(zes)'],[/^(\d+) واجب$/,'$1 assignment(s)'],[/^(\d+) رابط$/,'$1 link(s)'],[/^أنهيت (\d+) من (\d+) درساً في هذا المستوى\.$/,'$1 of $2 lessons completed in this level.'],[/^أنهيت · (.+)$/,'Done · $1'],[/^الدرجة: (.+)$/,'Score: $1'],[/^ملاحظة المدرس: (.*)$/,'Teacher’s note: $1']);
+/* ---- مفردات المفردات والقواعد (أسماء الأقسام والدروس من البيانات نفسها) ---- */
+const UI_EN_CAT = {'a1-greet':'Greetings & introductions','a1-pron':'Pronouns','a1-q':'Question words','a1-num':'Numbers','a1-qty':'Order & quantity','a1-col':'Colors','a1-fam':'Family','a1-food':'Food & drink','a1-days':'Days & time','a1-months':'Months','a1-school':'At school','a1-animals':'Animals','a1-home':'The home','a1-verbs':'Basic verbs','a2-clothes':'Clothes','a2-city':'City & directions','a2-weather':'Weather & seasons','a2-time':'Time & routine','a2-shop':'Shopping','a2-adj':'Common adjectives','a2-jobs':'Jobs','a2-travel':'Travel','a2-health':'Body & health','a2-verbs':'Common verbs','b1-work':'Work & careers','b1-emo':'Emotions','b1-env':'Environment','b1-tech':'Technology','b1-link':'Connectors & expressions','b1-soc':'Society & citizenship','b1-edu':'Studies & education','b1-culture':'Culture & leisure','b1-verbs':'Advanced verbs'};
+Object.assign(UI_EN_CAT,{'a1-polite':'Politeness & etiquette','a1-cafe':'At the café & restaurant','a1-class':'In the classroom','a2-phone':'Phone & messages','a2-transport':'Transport','a2-daily':'Everyday expressions','a2-sport':'Sport & hobbies','b1-opinion':'Giving opinions & arguing','b1-idiom':'Idioms','b1-admin':'Admin & paperwork','b1-media':'Media & news','b1-fam':'Colloquial French'});
+try{ Object.keys(VOC).forEach(L => VOC[L].forEach(c => { UI_D.fr[c.ar] = c.fr; UI_D.en[c.ar] = UI_EN_CAT[c.id] || c.fr; })); Object.keys(GR).forEach(L => GR[L].forEach(l => { UI_D.fr[l.ar] = l.fr; UI_D.en[l.ar] = l.en; })); }catch(e){}
+Object.assign(UI_D.fr, {'ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية':'Cherche un mot en français, arabe ou anglais','عرفتها؟':'Je le connais ?','✓ عرفتها':'✓ Connu','بطاقات المراجعة':'Cartes de révision','أحسنت! أنهيت المراجعة':'Bravo ! Révision terminée','راجع مرة أخرى':'Réviser encore','رجوع للقائمة':'Retour à la liste','اضغط لإظهار المعنى':'Appuie pour voir le sens','عربي':'Arabe','الاثنان':'Les deux','استمع':'Écouter','اقلب البطاقة':'Retourner la carte','المفردات':'Vocabulaire','القواعد':'Grammaire'});
+Object.assign(UI_D.en, {'ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية':'Search a word in French, Arabic or English','عرفتها؟':'Know it?','✓ عرفتها':'✓ Known','بطاقات المراجعة':'Review cards','أحسنت! أنهيت المراجعة':'Well done! Review finished','راجع مرة أخرى':'Review again','رجوع للقائمة':'Back to list','اضغط لإظهار المعنى':'Tap to show the meaning','عربي':'Arabic','الاثنان':'Both','استمع':'Listen','اقلب البطاقة':'Flip the card'});
+UI_R.fr.push([/^← (.+)$/,(m,a)=>'← '+uiT(a)],[/^(\d+) من (\d+) كلمة وضعت عليها علامة «عرفتها» في هذا المستوى\.$/,'$1 mots sur $2 marqués « connus » dans ce niveau.'],[/^راجعت (\d+) كلمة دون أي إعادة$/,'$1 mots révisés sans répétition.'],[/^راجعت (\d+) كلمة وأعدت (\d+) منها$/,'$1 mots révisés, $2 répétés.']);
+UI_R.en.push([/^← (.+)$/,(m,a)=>'← '+uiT(a)],[/^(\d+) من (\d+) كلمة وضعت عليها علامة «عرفتها» في هذا المستوى\.$/,'$1 of $2 words marked “known” in this level.'],[/^راجعت (\d+) كلمة دون أي إعادة$/,'You reviewed $1 words with no repeats.'],[/^راجعت (\d+) كلمة وأعدت (\d+) منها$/,'You reviewed $1 words and repeated $2.']);
+Object.assign(UI_D.fr, {'أظهر المعنى':'Voir le sens','أعيدها':'À revoir','عرفتها ✓':'Connu ✓'});
+Object.assign(UI_D.en, {'أظهر المعنى':'Show meaning','أعيدها':'Again','عرفتها ✓':'Known ✓'});
+UI_R.fr.push([/^(Beginner|Elementary|Intermediate) · .+$/,(m,a)=>({Beginner:'Débutant',Elementary:'Élémentaire',Intermediate:'Intermédiaire'})[a]]);
+UI_R.en.push([/^(Beginner|Elementary|Intermediate) · .+$/,'$1']);
+Object.assign(UI_D.fr, {'القواعد · Grammar':'Grammaire','← القواعد · Grammar':'← Grammaire'});
+Object.assign(UI_D.en, {'القواعد · Grammar':'Grammar','← القواعد · Grammar':'← Grammar'});
+Object.assign(UI_D.fr, {'الدروس والملفات':'Cours et fichiers','نتائج اختباراتي':'Mes résultats de quiz','واجباتي':'Mes devoirs','ابحث بالعنوان...':'Rechercher par titre…','ابحث بالعنوان…':'Rechercher par titre…','تغيير كلمة المرور':'Changer le mot de passe','الطالب':'Élève'});
+Object.assign(UI_D.en, {'الدروس والملفات':'Lessons & files','نتائج اختباراتي':'My quiz results','واجباتي':'My homework','ابحث بالعنوان...':'Search by title…','ابحث بالعنوان…':'Search by title…','تغيير كلمة المرور':'Change password','الطالب':'Student'});
+/* ترجمة ما يُحمَّل متأخراً (نتائجي وغيرها) */
+(function(){ const vw = document.getElementById('view'); if(!vw || typeof MutationObserver === 'undefined') return; let tm = 0;
+  new MutationObserver(() => { if(UL === 'ar') return; clearTimeout(tm); tm = setTimeout(() => uiTr(vw), 40); }).observe(vw, { childList:true, subtree:true }); })();
+Object.assign(UI_D.fr, {'مواقع تعلم':'Sites d’apprentissage','قواميس وتصريف':'Dictionnaires et conjugaison','استماع وأخبار':'Écoute et actualités','تمارين تفاعلية':'Exercices interactifs','قنوات ومنصات':'Chaînes et plateformes','اختبار PDF':'Quiz PDF'});
+Object.assign(UI_D.en, {'مواقع تعلم':'Learning sites','قواميس وتصريف':'Dictionaries & conjugation','استماع وأخبار':'Listening & news','تمارين تفاعلية':'Interactive exercises','قنوات ومنصات':'Channels & platforms','اختبار PDF':'Quiz PDF'});
+Object.assign(UI_D.fr, {'التعلّم':'Apprendre','التدريب':'S’entraîner','متابعتي':'Mon suivi','الإدارة':'Gestion'});
+Object.assign(UI_D.en, {'التعلّم':'Learn','التدريب':'Practice','متابعتي':'My progress','الإدارة':'Management'});
+try{ Object.keys(GAME_EN).forEach(k => { if(UI_D.en[k] === undefined) UI_D.en[k] = GAME_EN[k]; }); }catch(e){}
+Object.assign(UI_D.fr, {'تعلّم الفرنسية':'Apprends le français','خطوة بخطوة':'pas à pas','منصة تعلّم اللغة الفرنسية':'Plateforme d’apprentissage du français','دروس وفيديوهات واختبارات بوقت محدد وواجبات وروابط مختارة، كل ما تحتاجه في مكان واحد.':'Cours, vidéos, quiz chronométrés, devoirs et liens choisis : tout ce qu’il te faut au même endroit.','ابدأ اختباراً':'Commencer un quiz','تصفّح الدروس':'Parcourir les cours','ملف ودرس':'Fichiers de cours','فيديو':'Vidéos','اختبار':'Quiz','واجب':'Devoirs','رابط مفيد':'Liens utiles','المواعيد القادمة':'Échéances à venir','أحدث الدروس والفيديوهات':'Derniers cours et vidéos','كل الصفوف':'Toutes les classes','عام فقط':'Général seulement','عام':'Général','تحديث':'Actualiser','إعادة المحاولة':'Réessayer','إضافة محتوى تجريبي':'Ajouter du contenu d’essai','وضع المدرس مفعّل — يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Mode professeur activé — tu peux ajouter, supprimer et suivre les résultats et les remises.'});
+Object.assign(UI_D.en, {'تعلّم الفرنسية':'Learn French','خطوة بخطوة':'step by step','منصة تعلّم اللغة الفرنسية':'French learning platform','دروس وفيديوهات واختبارات بوقت محدد وواجبات وروابط مختارة، كل ما تحتاجه في مكان واحد.':'Lessons, videos, timed quizzes, homework and curated links — everything you need in one place.','ابدأ اختباراً':'Start a quiz','تصفّح الدروس':'Browse lessons','ملف ودرس':'Lesson files','فيديو':'Videos','اختبار':'Quizzes','واجب':'Homework','رابط مفيد':'Useful links','المواعيد القادمة':'Upcoming deadlines','أحدث الدروس والفيديوهات':'Latest lessons & videos','كل الصفوف':'All classes','عام فقط':'General only','عام':'General','تحديث':'Refresh','إعادة المحاولة':'Retry','إضافة محتوى تجريبي':'Add sample content','وضع المدرس مفعّل — يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Teacher mode is on — you can add, delete and follow results and submissions.'});
+Object.assign(UI_D.fr, {'إضافة سؤال':'Ajouter une question','رفع ملف JSON':'Importer un fichier JSON'});
+Object.assign(UI_D.en, {'إضافة سؤال':'Add a question','رفع ملف JSON':'Upload JSON file'});
+UI_R.fr.push([/^أسئلتي \((\d+)\)$/,'Mes questions ($1)']);UI_R.en.push([/^أسئلتي \((\d+)\)$/,'My questions ($1)']);
+Object.assign(UI_D.fr, {'وضع المدرس':'Mode professeur','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Ajoute, supprime et suis les résultats et les remises.'});
+Object.assign(UI_D.en, {'وضع المدرس':'Teacher mode','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Add, delete and follow results and submissions.'});
+Object.assign(UI_D.fr, {'الصفوف':'Classes','الطلاب':'Élèves','إضافة صف':'Ajouter une classe','إضافة طالب':'Ajouter un élève','إضافة عدة طلاب':'Ajouter plusieurs élèves','ابحث بالاسم أو اسم الدخول...':'Rechercher par nom ou identifiant…','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Ajoute, supprime et suis les résultats et les remises'});
+Object.assign(UI_D.en, {'الصفوف':'Classes','الطلاب':'Students','إضافة صف':'Add class','إضافة طالب':'Add student','إضافة عدة طلاب':'Add several students','ابحث بالاسم أو اسم الدخول...':'Search by name or username…','يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات':'Add, delete and follow results and submissions'});
+UI_R.fr.push([/^(\d+) صف$/,'$1 classe(s)'],[/^(\d+) طالب$/,'$1 élève(s)'],[/^(\d+) عنصر محتوى$/,'$1 contenu(s)']);
+UI_R.en.push([/^(\d+) صف$/,'$1 class(es)'],[/^(\d+) طالب$/,'$1 student(s)'],[/^(\d+) عنصر محتوى$/,'$1 item(s)']);
+Object.assign(UI_D.fr, {'عدة طلاب':'Plusieurs élèves'});Object.assign(UI_D.en, {'عدة طلاب':'Several students'});
+Object.assign(UI_D.fr, {'متاح':'Disponible','ينتهي قريباً':'Bientôt fermé','تم الحل':'Terminé','تم التصحيح':'Corrigé','مغلق':'Fermé','متاح للتسليم':'À rendre','تم التسليم · بانتظار التصحيح':'Rendu · en attente de correction','انتهى الموعد':'Délai dépassé','متاحة الآن':'Disponibles','تم حلها':'Terminés','مغلقة':'Fermés','بانتظار تسليمك':'À rendre','بانتظار التصحيح':'En attente de correction','تم تصحيحها':'Corrigés','انتهى موعدها':'Délai dépassé','حاول مرة أخرى':'Réessayer','ابدأ الاختبار':'Commencer le quiz','أفضل نتيجة':'Meilleur score','الدرجة':'Note','تسليم الإجابة':'Rendre ma réponse','ملف الواجب':'Fichier du devoir','رابط الواجب':'Lien du devoir','مرفقات':'Pièces jointes','بلا وقت محدد':'Sans limite de temps','بدون موعد نهائي':'Sans date limite','التسليمات':'Remises','النتائج':'Résultats','إنشاء اختبار':'Créer un quiz','إضافة واجب':'Ajouter un devoir','نتائج اختباراتي':'Mes résultats de quiz','واجباتي':'Mes devoirs','نتائج ألعابي':'Mes résultats de jeux','الاختبارات':'Quiz','الواجبات':'Devoirs'});
+Object.assign(UI_D.en, {'متاح':'Available','ينتهي قريباً':'Closing soon','تم الحل':'Completed','تم التصحيح':'Graded','مغلق':'Closed','متاح للتسليم':'Open for submission','تم التسليم · بانتظار التصحيح':'Submitted · awaiting grading','انتهى الموعد':'Past due','متاحة الآن':'Available now','تم حلها':'Completed','مغلقة':'Closed','بانتظار تسليمك':'To submit','بانتظار التصحيح':'Awaiting grading','تم تصحيحها':'Graded','انتهى موعدها':'Past due','حاول مرة أخرى':'Try again','ابدأ الاختبار':'Start quiz','أفضل نتيجة':'Best score','الدرجة':'Grade','تسليم الإجابة':'Submit answer','ملف الواجب':'Assignment file','رابط الواجب':'Assignment link','مرفقات':'Attachments','بلا وقت محدد':'No time limit','بدون موعد نهائي':'No deadline','التسليمات':'Submissions','النتائج':'Results','إنشاء اختبار':'Create quiz','إضافة واجب':'Add assignment','نتائج اختباراتي':'My quiz results','واجباتي':'My assignments','نتائج ألعابي':'My game results','الاختبارات':'Quizzes','الواجبات':'Assignments'});
+UI_R.fr.push([/^سُلّم (.+)$/,'Rendu $1'],[/^(\d+) محاولة$/,'$1 tentative(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 remise(s)'],[/^يغلق (.+)$/,'Ferme $1'],[/^آخر موعد (.+)$/,'À rendre avant $1'],[/^أفضل نتيجة$/,'Meilleur score']);
+UI_R.en.push([/^سُلّم (.+)$/,'Submitted $1'],[/^(\d+) محاولة$/,'$1 attempt(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 submission(s)'],[/^يغلق (.+)$/,'Closes $1'],[/^آخر موعد (.+)$/,'Due $1']);
+
+Object.assign(UI_D.fr, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Ton enregistrement reste sur ton appareil et n’est envoyé à personne. Appuie sur 🔈 pour écouter, puis sur 🎙 pour t’enregistrer.','سجّل صوتك':'Enregistre ta voix','إيقاف التسجيل':'Arrêter l’enregistrement','استمع لتسجيلك':'Écouter ton enregistrement','احذف تسجيلك':'Supprimer ton enregistrement','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Ton appareil ne prend pas en charge l’enregistrement','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone refusé. Autorise-le dans les réglages du navigateur et réessaie.','تم حفظ تسجيلك على جهازك':'Enregistrement sauvegardé sur ton appareil','تعذر حفظ التسجيل على هذا الجهاز':'Impossible de sauvegarder l’enregistrement','تعذر تشغيل التسجيل':'Impossible de lire l’enregistrement'});
+Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});
 const H = {
-  ...GH, ...VH, ...GRH, ...RESH,
+  ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
   moreMenu:()=>{
     const m = TABS.filter(t => !BNAV_MAIN.includes(t[0]));   // الفيديوهات، الواجبات، الروابط، المفردات، القواعد
     if(state.teacher){ m.push(['results','list','النتائج']); m.push(['track','chart','المتابعة']); m.push(['people','users','الصفوف والطلاب']); }
