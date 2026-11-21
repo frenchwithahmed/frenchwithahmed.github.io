@@ -755,6 +755,65 @@ html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
 .vpriv{font-size:12.5px;color:#6b7385;margin:6px 2px 14px;display:flex;gap:6px;align-items:center}
 @media(max-width:560px){.vact{width:100%;justify-content:flex-end}}
 
+/* ===== v9d: تحقق من النطق ===== */
+.vchk{width:40px;height:40px;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;font-size:18px;line-height:1;background:#e8f0fb;color:#0055A4}
+.vchk.on{background:#0055A4;color:#fff;animation:vpulse2 1s infinite}
+@keyframes vpulse2{0%{box-shadow:0 0 0 0 rgba(0,85,164,.5)}100%{box-shadow:0 0 0 12px rgba(0,85,164,0)}}
+.vfb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;padding:8px 12px;border-radius:12px;font-size:13.5px;font-weight:700;width:fit-content;max-width:100%}
+.vfb.ok{background:#e3f7ec;color:#157a45}.vfb.near{background:#fff0dc;color:#a45d00}.vfb.bad{background:#fde8ea;color:#b02a3c}.vfb.wait{background:#e8f0fb;color:#0055A4}
+.vfb small{font-weight:600;opacity:.9;direction:ltr;unicode-bidi:isolate}
+.vfb .vdel{border:0;background:none;color:inherit;opacity:.6;cursor:pointer;font-size:14px}
+
+/* v10 journey */
+.jwrap h2 small{font-weight:600}
+.jtrack{list-style:none;display:flex;align-items:center;margin:4px 0 18px;padding:0 6px;position:relative;direction:ltr}
+.jtrack:before{content:"";position:absolute;left:22px;right:22px;top:14px;height:4px;border-radius:4px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 14px)}
+.jn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;font-size:12px;color:var(--muted)}
+.jn .dot{width:28px;height:28px;border-radius:50%;background:var(--card);border:3px solid var(--line);display:grid;place-items:center;color:#fff;box-shadow:0 3px 6px rgba(11,31,58,.12)}
+.jn .dot .i{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:3}
+.jn.open .dot,.jn.current .dot{border-color:var(--ja)}
+.jn.current .dot{background:var(--ja);box-shadow:0 0 0 5px color-mix(in srgb,var(--ja) 22%,transparent)}
+.jn.done .dot{background:var(--ja);border-color:var(--ja)}
+.jn.locked .dot{color:#9aa3b0;background:#EEEAE0}
+.jn.locked b{opacity:.55}
+.jn b{font-weight:800;color:var(--navy)}
+.jgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.jcard{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 20px rgba(11,31,58,.08);position:relative}
+.jcard.current{border-color:var(--ja);box-shadow:0 0 0 2px var(--ja),0 10px 24px rgba(11,31,58,.12)}
+.jimg{position:relative;aspect-ratio:5/3;background:var(--jbg);overflow:hidden}
+.jart{display:block;width:100%;height:100%}
+.jlv{position:absolute;top:10px;inset-inline-start:10px;background:var(--ja);color:#fff;font-weight:800;font-size:15px;padding:4px 12px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.25);direction:ltr}
+.jbadge{position:absolute;bottom:10px;inset-inline-end:10px;background:#fff;color:#1b7a4b;font-weight:800;font-size:12.5px;padding:5px 11px;border-radius:999px;display:inline-flex;gap:5px;align-items:center;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.jbadge .i,.jlock .i{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:3}
+.jbadge.in{position:static;box-shadow:none;background:#E3F6EA}
+.jlock{position:absolute;bottom:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(11,31,58,.72);color:#fff;display:grid;place-items:center}
+.jcard.locked .jimg{filter:saturate(.45) brightness(.92)}
+.jbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.jbody h3{font-size:19px;font-weight:800;color:var(--jink);direction:ltr;text-align:start;text-transform:uppercase;letter-spacing:.02em}
+[dir=rtl] .jbody h3{text-align:right}
+.jbody p{font-size:14px;line-height:1.7;color:var(--text);margin:0}
+.jmeta{display:flex;flex-wrap:wrap;gap:6px}
+.jchip{background:var(--jbg);color:var(--jink);font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px}
+.jchip b{font-weight:800}
+.jprog{display:flex;flex-direction:column;gap:5px}
+.jrow{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);font-weight:700}
+.jrow b{color:var(--navy)}
+.jbar{height:8px;border-radius:8px;background:#EAE5D8;overflow:hidden;direction:ltr}
+.jbar i{display:block;height:100%;border-radius:8px;background:var(--ja)}
+.jbar.v i{background:var(--jb)}
+.jact{margin-top:auto}
+.jgo{width:100%;min-height:44px;border-radius:14px;background:var(--ja);color:#fff;font-weight:800;font-size:14.5px;box-shadow:0 4px 10px color-mix(in srgb,var(--ja) 35%,transparent)}
+.jsoon{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:14px;background:#EEEAE0;color:var(--muted);font-weight:800;font-size:14px}
+.jsoon .i{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
+.jhero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:0;border-radius:24px;overflow:hidden;background:var(--jbg);border:1px solid var(--line);box-shadow:0 8px 20px rgba(11,31,58,.08);margin:6px 0 16px}
+.jhimg{min-height:170px}.jhimg .jart{height:100%;min-height:170px}
+.jhtx{padding:18px 20px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.jhtx h2{font-size:24px;font-weight:800;color:var(--jink);direction:ltr;text-align:start;text-transform:uppercase}
+[dir=rtl] .jhtx h2{text-align:right}
+.jhtx p{margin:0;font-size:14px;line-height:1.7;color:var(--text)}
+.jlv2{align-self:flex-start;background:var(--ja);color:#fff;font-weight:800;padding:3px 12px;border-radius:10px;direction:ltr}
+@media(max-width:640px){.jhero{grid-template-columns:1fr}.jhimg,.jhimg .jart{min-height:150px;max-height:190px}.jgrid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -4058,7 +4117,7 @@ async function recStart(w){
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ toast(uiT('جهازك أو متصفحك لا يدعم التسجيل الصوتي'), 'err'); return; }
   try{ REC.stream = await navigator.mediaDevices.getUserMedia({ audio:true }); }
   catch(e){ toast(uiT('لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة'), 'err'); return; }
-  try{ if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  try{ chkStop(); if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
   REC.chunks = []; REC.word = w;
   const mr = new MediaRecorder(REC.stream); REC.mr = mr;
   mr.ondataavailable = e => { if(e.data && e.data.size) REC.chunks.push(e.data); };
@@ -4084,16 +4143,66 @@ async function recPlay(w){
 async function recDel(w){
   try{ await recOp('readwrite', st => st.delete(recKey(w))); REC.keys.delete(recKey(w)); render(); }catch(e){}
 }
+
+/* ---------- التحقق من النطق (Web Speech API في Chrome) ---------- */
+const SRC = window.SpeechRecognition || window.webkitSpeechRecognition;
+const CHK = { sr:null, word:null, res:{}, timer:null };
+const chkNum = ['zero','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf','vingt'];
+function chkNorm(s){
+  s = String(s || '').toLowerCase().replace(/\b(\d{1,2})\b/g, (m, d) => chkNum[+d] !== undefined ? chkNum[+d] : m);
+  return s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function chkSim(a, b){
+  if(a === b) return 1; if(!a || !b) return 0;
+  const m = a.length, n = b.length; let prev = Array.from({ length:n + 1 }, (_, j) => j);
+  for(let i = 1; i <= m; i++){ const cur = [i]; for(let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+  return 1 - prev[n] / Math.max(m, n);
+}
+function chkJudge(target, alts){
+  const tg = chkNorm(target); let best = 0;
+  alts.forEach(a => { const n = chkNorm(a); const s = Math.max(chkSim(tg, n), n.split(' ').includes(tg) && tg.split(' ').length === 1 && n.split(' ').length <= 2 ? .9 : 0); if(s > best) best = s; });
+  return { st: best >= .85 ? 'ok' : best >= .6 ? 'near' : 'bad', score: best, heard: alts[0] || '' };
+}
+function chkStop(){ try{ if(CHK.sr) CHK.sr.abort(); }catch(e){} clearTimeout(CHK.timer); CHK.sr = null; CHK.word = null; }
+function chkStart(w){
+  if(!SRC){ toast(uiT('متصفحك لا يدعم التحقق من النطق. استعمل Chrome'), 'err'); return; }
+  if(CHK.sr){ chkStop(); render(); return; }
+  try{ if(REC.mr) recStop(); if(REC.audio){ REC.audio.pause(); } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  const sr = new SRC(); CHK.sr = sr; CHK.word = w; delete CHK.res[w[0]];
+  sr.lang = 'fr-FR'; sr.interimResults = false; sr.maxAlternatives = 5; sr.continuous = false;
+  let got = false;
+  sr.onresult = e => {
+    got = true; const alts = []; const r = e.results[0]; for(let i = 0; i < r.length; i++) alts.push(r[i].transcript);
+    CHK.res[w[0]] = chkJudge(w[0], alts);
+  };
+  sr.onerror = e => {
+    const m = { 'not-allowed':'لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة', 'service-not-allowed':'لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة', 'network':'التحقق من النطق يحتاج اتصالاً بالإنترنت', 'language-not-supported':'اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك' }[e.error];
+    if(m){ toast(uiT(m), 'err'); got = true; }
+    if(e.error === 'no-speech'){ CHK.res[w[0]] = { st:'none' }; got = true; }
+  };
+  sr.onend = () => { clearTimeout(CHK.timer); if(CHK.sr === sr){ CHK.sr = null; CHK.word = null; } if(!got && !CHK.res[w[0]]) CHK.res[w[0]] = { st:'none' }; render(); };
+  try{ sr.start(); }catch(e){ CHK.sr = null; CHK.word = null; return; }
+  CHK.timer = setTimeout(() => { try{ sr.stop(); }catch(e){} }, 9000);
+  render();
+}
+function vfb(w){
+  if(CHK.sr && CHK.word && CHK.word[0] === w[0]) return `<div class="vfb wait">🎧 <span>جارٍ الاستماع… قل الكلمة الآن</span></div>`;
+  const r = CHK.res[w[0]]; if(!r) return '';
+  if(r.st === 'none') return `<div class="vfb bad">🔇 <span>لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة</span></div>`;
+  const msg = r.st === 'ok' ? '✅ نطقك واضح، أحسنت!' : r.st === 'near' ? '🔁 اقتربت! استمع للنطق الصحيح وأعد المحاولة' : '❌ لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة';
+  return `<div class="vfb ${r.st}"><span>${msg}</span><small>${r.heard ? '« ' + esc(r.heard) + ' »' : ''}</small></div>`;
+}
+
 function recBtns(w, id, i){
-  const on = REC.mr && REC.word && REC.word[0] === w[0];
-  return `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
+  const on = REC.mr && REC.word && REC.word[0] === w[0], con = CHK.sr && CHK.word && CHK.word[0] === w[0];
+  return (SRC ? `<button class="vchk ${con ? 'on' : ''}" data-a="vChk" data-id="${id}" data-i="${i}" aria-label="تحقّق من نطقي">${con ? '⏹' : '🗣'}</button>` : '') + `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
     + (recHas(w) ? `<button class="vplay" data-a="vMine" data-id="${id}" data-i="${i}" aria-label="استمع لتسجيلك">▶</button><button class="vdelr" data-a="vRecDel" data-id="${id}" data-i="${i}" aria-label="احذف تسجيلك">✕</button>` : '');
 }
 
 /* ---------- المفردات ---------- */
 const V = { view:'menu', level:'A1', cat:null, mean:'ar', q:'', deck:[], i:0, flip:false, total:0, again:0, known:new Set() };
 (function(){
-  try{ const p = JSON.parse(localStorage.getItem('fo_voc_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) V.level = p.level; if(['ar','en','both'].includes(p.mean)) V.mean = p.mean; }catch(e){}
+  try{ const p = JSON.parse(localStorage.getItem('fo_voc_pref')||'{}'); if(['A1','A2','B1'].includes(p.level)) V.level = p.level; if(['ar','en','fr','both'].includes(p.mean)) V.mean = p.mean; }catch(e){}
   try{ V.known = new Set(JSON.parse(localStorage.getItem('fo_voc_known')||'[]')); }catch(e){}
 })();
 function vSave(){
@@ -4102,9 +4211,10 @@ function vSave(){
 }
 const vCats = () => VOC[V.level] || [];
 const vCat = id => vCats().find(c => c.id === id);
+const VDEF = {"Bonjour":"Salutation pour dire bonjour le matin et dans la journée.","Bonsoir":"Salutation qu'on dit le soir.","Salut":"Façon familière de dire bonjour ou au revoir.","Au revoir":"Ce qu'on dit quand on quitte quelqu'un.","À bientôt":"On le dit quand on va se revoir très vite.","Merci":"Mot pour remercier quelqu'un.","S'il vous plaît":"Formule polie pour demander quelque chose.","De rien":"Réponse polie quand quelqu'un dit merci.","Excusez-moi":"Formule polie pour attirer l'attention ou s'excuser.","Pardon":"Mot pour s'excuser quand on gêne quelqu'un.","Comment allez-vous ?":"Question polie pour demander des nouvelles.","Je m'appelle…":"Phrase pour dire son prénom.","Enchanté(e)":"On le dit quand on rencontre quelqu'un pour la première fois.","Oui":"Réponse positive à une question.","Non":"Réponse négative à une question.","Bonne nuit":"On le dit avant d'aller dormir.","Bonne journée":"Souhait qu'on dit pour finir une rencontre le jour.","Bienvenue":"Mot d'accueil pour une personne qui arrive.","Ça va ?":"Question simple pour demander comment on va.","Très bien":"Réponse pour dire que tout va bien.","Je ne comprends pas":"Phrase pour dire qu'on n'a pas compris.","Répétez, s’il vous plaît":"On demande de dire encore une fois.","Monsieur":"Titre poli pour un homme.","Madame":"Titre poli pour une femme.","je":"Mot qui désigne la personne qui parle.","tu":"Mot pour parler à un ami, un enfant ou un proche.","il":"Mot qui remplace un homme ou un nom masculin.","elle":"Mot qui remplace une femme ou un nom féminin.","on":"Mot qui veut dire « nous » ou « les gens ».","nous":"Mot qui désigne moi et d'autres personnes.","vous":"Mot pour parler à plusieurs personnes ou poliment à une seule.","ils":"Mot pour plusieurs hommes ou un groupe mixte.","elles":"Mot pour plusieurs femmes.","qui":"Mot pour demander quelle personne.","que / quoi":"Mot pour demander quelle chose.","où":"Mot pour demander le lieu.","quand":"Mot pour demander le moment.","pourquoi":"Mot pour demander la raison.","comment":"Mot pour demander la manière.","combien":"Mot pour demander la quantité ou le prix.","quel / quelle":"Mot pour choisir parmi plusieurs choses.","zéro":"Le nombre 0, rien.","un":"Le nombre 1.","deux":"Le nombre 2.","trois":"Le nombre 3.","quatre":"Le nombre 4.","cinq":"Le nombre 5.","six":"Le nombre 6.","sept":"Le nombre 7.","huit":"Le nombre 8.","neuf":"Le nombre 9.","dix":"Le nombre 10.","onze":"Le nombre 11.","douze":"Le nombre 12.","treize":"Le nombre 13.","quatorze":"Le nombre 14.","quinze":"Le nombre 15.","seize":"Le nombre 16.","dix-sept":"Le nombre 17 (10 + 7).","dix-huit":"Le nombre 18 (10 + 8).","dix-neuf":"Le nombre 19 (10 + 9).","vingt":"Le nombre 20.","vingt et un":"Le nombre 21.","trente":"Le nombre 30.","quarante":"Le nombre 40.","cinquante":"Le nombre 50.","soixante":"Le nombre 60.","soixante-dix":"Le nombre 70 (60 + 10).","quatre-vingts":"Le nombre 80 (4 × 20).","quatre-vingt-dix":"Le nombre 90 (80 + 10).","cent":"Le nombre 100.","mille":"Le nombre 1000.","premier":"Qui est au début, numéro 1.","deuxième":"Qui vient après le premier, numéro 2.","troisième":"Qui vient après le deuxième, numéro 3.","dernier":"Qui vient à la fin, après tous les autres.","beaucoup":"Une grande quantité.","peu":"Une petite quantité.","un peu":"Une petite quantité, pas beaucoup.","plus":"Une quantité plus grande.","moins":"Une quantité plus petite.","assez":"Une quantité suffisante, ni trop ni trop peu.","tout":"La totalité, sans rien enlever.","trop":"Plus que nécessaire.","rouge":"La couleur du sang et des tomates.","bleu":"La couleur du ciel et de la mer.","vert":"La couleur de l'herbe et des feuilles.","jaune":"La couleur du soleil et du citron.","noir":"La couleur de la nuit.","blanc":"La couleur de la neige et du lait.","gris":"La couleur entre le blanc et le noir.","orange":"La couleur du fruit du même nom.","rose":"La couleur entre le rouge et le blanc.","marron":"La couleur du chocolat et de la terre.","violet":"La couleur entre le bleu et le rouge.","la couleur":"Ce qu'on voit sur les objets : rouge, bleu, vert…","clair":"Une couleur légère, proche du blanc.","foncé":"Une couleur sombre, proche du noir.","la famille":"Les parents, les enfants et les proches.","la mère":"La femme qui a des enfants.","le père":"L'homme qui a des enfants.","le frère":"Le garçon qui a les mêmes parents que moi.","la sœur":"La fille qui a les mêmes parents que moi.","le fils":"Le garçon par rapport à ses parents.","la fille":"La fille par rapport à ses parents.","le grand-père":"Le père de mon père ou de ma mère.","la grand-mère":"La mère de mon père ou de ma mère.","l'oncle":"Le frère de mon père ou de ma mère.","la tante":"La sœur de mon père ou de ma mère.","le cousin":"Le fils de mon oncle ou de ma tante.","l'ami":"Une personne qu'on aime bien et qu'on voit souvent.","le mari":"L'homme marié à une femme.","la femme":"L'épouse d'un homme, ou une personne adulte de sexe féminin.","l'enfant":"Une personne jeune, pas encore adulte.","le bébé":"Un très jeune enfant.","le garçon":"Un enfant de sexe masculin.","les parents":"Le père et la mère.","le voisin":"La personne qui habite près de chez moi.","le pain":"Aliment fait avec de la farine, qu'on mange à chaque repas.","l'eau":"Liquide transparent qu'on boit.","le lait":"Boisson blanche qui vient de la vache.","le café":"Boisson chaude noire et amère.","le thé":"Boisson chaude faite avec des feuilles.","le jus":"Boisson faite avec des fruits.","le fromage":"Aliment fait avec du lait.","l'œuf":"Aliment que pond la poule.","la viande":"Aliment qui vient des animaux, comme le bœuf ou le poulet.","le poisson":"Animal de l'eau qu'on peut manger.","le poulet":"Viande de la poule jeune.","le riz":"Petites graines blanches qu'on cuit dans l'eau.","la pomme":"Fruit rond, rouge, vert ou jaune.","la banane":"Fruit jaune, long et courbe.","l'orange":"Fruit rond, orange et juteux.","le fruit":"Aliment sucré qui pousse sur un arbre.","le légume":"Plante qu'on mange, comme la carotte.","la salade":"Plat de feuilles vertes et de légumes crus.","le gâteau":"Dessert sucré cuit au four.","le sucre":"Poudre blanche qui rend les aliments sucrés.","le sel":"Poudre blanche qui donne du goût aux plats.","le petit déjeuner":"Le premier repas de la journée, le matin.","le déjeuner":"Le repas du milieu de la journée.","le dîner":"Le repas du soir.","la soupe":"Plat liquide et chaud, fait avec des légumes.","le beurre":"Aliment gras, jaune, fait avec du lait.","la tomate":"Légume rouge et rond.","la pomme de terre":"Légume qu'on cuit : frites, purée…","l'oignon":"Légume rond qui fait pleurer quand on le coupe.","la carotte":"Légume orange et long.","le chocolat":"Aliment sucré, brun, fait avec du cacao.","la glace":"Dessert froid et sucré.","le miel":"Aliment doux et sucré fabriqué par les abeilles.","le raisin":"Petit fruit en grappe, avec lequel on fait le vin.","la fraise":"Petit fruit rouge, sucré.","la datte":"Fruit sucré du palmier.","lundi":"Le premier jour de la semaine.","mardi":"Le jour qui vient après lundi.","mercredi":"Le jour qui vient après mardi.","jeudi":"Le jour qui vient après mercredi.","vendredi":"Le jour qui vient après jeudi.","samedi":"Le jour qui vient après vendredi.","dimanche":"Le dernier jour de la semaine.","aujourd'hui":"Le jour où nous sommes maintenant.","demain":"Le jour qui vient après aujourd'hui.","hier":"Le jour qui est avant aujourd'hui.","la semaine":"Une période de sept jours.","le mois":"Une période de trente jours environ.","l'année":"Une période de douze mois.","le matin":"La première partie du jour.","le soir":"La fin du jour, avant la nuit.","janvier":"Le premier mois de l'année.","février":"Le deuxième mois de l'année.","mars":"Le troisième mois de l'année.","avril":"Le quatrième mois de l'année.","mai":"Le cinquième mois de l'année.","juin":"Le sixième mois de l'année.","juillet":"Le septième mois de l'année.","août":"Le huitième mois de l'année.","septembre":"Le neuvième mois de l'année.","octobre":"Le dixième mois de l'année.","novembre":"Le onzième mois de l'année.","décembre":"Le dernier mois de l'année.","l'école":"Le lieu où les enfants apprennent.","le professeur":"La personne qui enseigne.","l'élève":"L'enfant qui apprend à l'école.","la classe":"Le groupe d'élèves ou la salle où ils travaillent.","le livre":"Objet avec des pages qu'on lit.","le cahier":"Objet avec des pages vides pour écrire.","le stylo":"Objet pour écrire à l'encre.","le crayon":"Objet en bois pour écrire ou dessiner.","le tableau":"Grand panneau où le professeur écrit.","le sac":"Objet pour porter ses affaires.","la table":"Meuble avec un plateau sur lequel on travaille ou mange.","la chaise":"Meuble pour s'asseoir.","la porte":"Ce qu'on ouvre pour entrer ou sortir.","la fenêtre":"Ouverture dans le mur pour voir dehors.","la salle de classe":"La pièce où on fait cours.","la leçon":"Ce que le professeur explique.","la question":"Phrase pour demander quelque chose.","la réponse":"Ce qu'on dit quand on répond à une question.","la règle":"Objet pour tracer des lignes droites.","la gomme":"Objet pour effacer ce qu'on a écrit au crayon.","la trousse":"Petit sac pour ranger stylos et crayons.","le chat":"Petit animal domestique qui miaule.","le chien":"Animal domestique qui aboie.","le cheval":"Grand animal qu'on monte.","la vache":"Animal de la ferme qui donne du lait.","le mouton":"Animal de la ferme dont on utilise la laine.","l'oiseau":"Animal qui a des ailes et qui vole.","le lion":"Grand animal sauvage, le roi des animaux.","l'éléphant":"Très grand animal gris avec une trompe.","le lapin":"Petit animal avec de longues oreilles.","le singe":"Animal qui grimpe aux arbres.","la souris":"Très petit animal gris que le chat chasse.","le canard":"Oiseau qui nage sur l'eau.","la poule":"Oiseau de la ferme qui pond des œufs.","l'âne":"Animal de la ferme, plus petit que le cheval.","le loup":"Animal sauvage qui ressemble à un grand chien.","le tigre":"Grand animal sauvage avec des rayures.","le serpent":"Animal long, sans pattes.","la girafe":"Animal très grand avec un long cou.","l'ours":"Gros animal sauvage et poilu.","le papillon":"Insecte avec de belles ailes colorées.","la maison":"Bâtiment où on habite.","la chambre":"La pièce où on dort.","la cuisine":"La pièce où on prépare à manger.","la salle de bain":"La pièce où on se lave.","le salon":"La pièce où on reçoit et où on se repose.","le jardin":"Espace avec des plantes devant ou derrière la maison.","le lit":"Meuble sur lequel on dort.","la lampe":"Objet qui donne de la lumière.","le canapé":"Grand siège confortable pour plusieurs personnes.","le miroir":"Objet dans lequel on se voit.","la clé":"Objet qui sert à ouvrir ou fermer une porte.","la télévision":"Appareil qui montre des images et des films.","le toit":"Le haut de la maison, qui la protège de la pluie.","l'escalier":"Marches qui permettent de monter ou descendre.","le bureau":"Table pour travailler ou pièce de travail.","l'armoire":"Grand meuble pour ranger les vêtements.","le tapis":"Tissu épais posé sur le sol.","le mur":"Paroi verticale d'une pièce.","la douche":"Endroit où on se lave sous l'eau.","le frigo":"Appareil qui garde les aliments au froid.","le téléphone":"Appareil pour parler à distance.","être":"Verbe pour dire qui on est ou comment on est.","avoir":"Verbe pour dire qu'on possède quelque chose.","aller":"Verbe pour se déplacer vers un lieu.","faire":"Verbe pour réaliser une action ou fabriquer quelque chose.","manger":"Mettre de la nourriture dans la bouche et l'avaler.","boire":"Avaler un liquide.","parler":"Dire des mots avec la voix.","aimer":"Avoir de l'affection pour quelqu'un ou quelque chose.","vouloir":"Avoir envie de quelque chose.","pouvoir":"Être capable de faire quelque chose.","voir":"Regarder avec les yeux.","venir":"Se déplacer vers le lieu où se trouve la personne qui parle.","habiter":"Avoir sa maison dans un lieu.","jouer":"S'amuser avec un jeu ou un sport.","dormir":"Se reposer les yeux fermés, la nuit.","savoir":"Connaître une information.","dire":"Exprimer quelque chose avec des mots.","aider":"Faire quelque chose pour quelqu'un qui en a besoin.","demander":"Poser une question ou chercher à obtenir quelque chose.","répondre":"Dire quelque chose après une question.","apprendre":"Acquérir une connaissance nouvelle.","appeler":"Appeler quelqu'un par son nom ou au téléphone.","Bonjour Madame":"Salutation polie à une femme.","Bonne soirée":"Souhait qu'on dit le soir en partant.","Bon appétit":"Souhait qu'on dit avant de manger.","Santé !":"Mot qu'on dit en levant son verre.","À tes souhaits":"Ce qu'on dit à quelqu'un qui éternue.","Bon courage":"Souhait pour quelqu'un qui doit faire un effort.","Bonne continuation":"Souhait pour la suite d'un projet ou d'un travail.","Félicitations":"Mot pour féliciter quelqu'un d'une réussite.","Bon anniversaire":"Souhait le jour de la naissance de quelqu'un.","Bonne année":"Souhait qu'on dit le 1er janvier.","Avec plaisir":"Réponse polie pour dire qu'on accepte volontiers.","Je vous en prie":"Réponse polie à « merci » ou invitation à passer.","Après vous":"Phrase polie pour laisser passer quelqu'un d'abord.","tutoyer":"Dire « tu » à quelqu'un.","vouvoyer":"Dire « vous » à quelqu'un par politesse.","Ça ne fait rien":"On le dit pour dire que ce n'est pas grave.","le menu":"Repas complet à prix fixe, au restaurant.","un café":"Petite tasse de café noir et fort.","un crème":"Café avec du lait chaud.","une carafe d'eau":"Grand pot d'eau du robinet servi gratuitement.","Je voudrais…":"Phrase polie pour demander quelque chose.","une table pour deux":"Place au restaurant pour deux personnes.","l'entrée":"Premier plat d'un repas.","le plat principal":"Le plat le plus important du repas.","le dessert":"Dernier plat du repas, souvent sucré.","l'addition":"Papier avec le prix à payer au restaurant.","le pourboire":"Petit argent en plus qu'on laisse au serveur.","à emporter":"Pour manger ailleurs, pas sur place.","sur place":"Pour manger dans le restaurant.","végétarien":"Qui ne mange pas de viande.","l'allergie":"Réaction du corps à un aliment ou à une substance.","bien cuit":"Cuit longtemps, sans rouge à l'intérieur.","Écoutez":"Ordre : prêter l'oreille à ce qu'on dit.","Répétez":"Ordre : dire encore une fois.","Levez la main":"Ordre : monter le bras pour demander la parole.","Ouvrez votre livre":"Ordre : ouvrir son livre.","Fermez le cahier":"Ordre : fermer son cahier.","Lisez le texte":"Ordre : lire ce qui est écrit.","Écrivez":"Ordre : noter avec un stylo.","Comment ça s'écrit ?":"Question pour connaître l'orthographe d'un mot.","Comment dit-on… ?":"Question pour trouver le mot dans une langue.","Qu'est-ce que ça veut dire ?":"Question pour comprendre le sens d'un mot.","Pouvez-vous répéter ?":"Question polie pour demander de répéter.","Plus lentement, s'il vous plaît":"On demande de parler moins vite.","Je ne sais pas":"Phrase pour dire qu'on n'a pas l'information.","C'est correct":"La réponse est bonne.","C'est faux":"La réponse n'est pas bonne.","les devoirs":"Travail que les élèves font à la maison.","l'exercice":"Travail pour s'entraîner à une leçon.","la chemise":"Vêtement avec des boutons et un col, pour le haut du corps.","le pantalon":"Vêtement qui couvre les deux jambes.","la robe":"Vêtement d'une seule pièce, porté par les femmes.","la jupe":"Vêtement qui couvre le bas du corps, sans séparer les jambes.","le manteau":"Vêtement chaud qu'on porte dehors en hiver.","la veste":"Vêtement court qu'on met sur la chemise.","le pull":"Vêtement chaud en laine pour le haut du corps.","les chaussures":"Ce qu'on met aux pieds pour marcher.","les chaussettes":"Ce qu'on met aux pieds, à l'intérieur des chaussures.","le chapeau":"Vêtement pour la tête.","l'écharpe":"Longue bande de tissu qu'on met autour du cou.","les lunettes":"Objet devant les yeux pour mieux voir.","la ceinture":"Bande qui tient le pantalon à la taille.","porter":"Avoir un vêtement sur soi, ou tenir quelque chose.","essayer":"Mettre un vêtement pour voir s'il va bien.","la taille":"La grandeur d'un vêtement ou d'une personne.","la poche":"Petit sac cousu dans un vêtement.","le bouton":"Petit rond qui ferme un vêtement.","la cravate":"Bande de tissu qu'on noue autour du cou, avec une chemise.","le sac à main":"Petit sac que les femmes portent à la main.","la ville":"Grand endroit où habitent beaucoup de personnes.","la rue":"Chemin dans la ville entre les maisons.","la place":"Grand espace ouvert au milieu de la ville.","le magasin":"Lieu où on achète des produits.","le marché":"Endroit en plein air où on vend des fruits et des légumes.","la banque":"Lieu où on garde son argent.","l'hôpital":"Lieu où on soigne les malades.","la pharmacie":"Magasin où on achète des médicaments.","la gare":"Lieu où on prend le train.","l'aéroport":"Lieu où les avions décollent et atterrissent.","le pont":"Construction qui permet de traverser une rivière.","le musée":"Lieu où on regarde des œuvres d'art ou des objets anciens.","le restaurant":"Lieu où on mange un repas qu'on paie.","la poste":"Lieu où on envoie des lettres et des colis.","le parc":"Grand jardin public avec des arbres.","l'hôtel":"Lieu où on dort quand on voyage.","à gauche":"Du côté du cœur.","à droite":"Du côté opposé à la gauche.","tout droit":"Sans tourner, en ligne droite.","le bureau de poste":"Lieu où on envoie le courrier.","la bibliothèque":"Lieu où on emprunte des livres.","le cinéma":"Lieu où on regarde des films sur un grand écran.","le carrefour":"Endroit où plusieurs routes se croisent.","le feu rouge":"Signal qui demande aux voitures de s'arrêter.","la boulangerie":"Magasin où on achète du pain.","le supermarché":"Grand magasin où on trouve de tout à manger.","la mairie":"Bâtiment où travaille le maire de la ville.","la piscine":"Grand bassin où on nage.","le stade":"Grand lieu où on joue ou regarde des matchs.","près de":"À une petite distance de.","loin de":"À une grande distance de.","en face de":"De l'autre côté, juste devant.","à côté de":"Tout près, sur le côté.","devant":"À l'avant de quelque chose.","derrière":"À l'arrière de quelque chose.","le soleil":"L'astre qui donne la lumière et la chaleur.","la pluie":"Eau qui tombe des nuages.","la neige":"Petits flocons blancs qui tombent quand il fait très froid.","le vent":"Air qui bouge avec force.","le nuage":"Masse blanche ou grise dans le ciel.","l'orage":"Mauvais temps avec du tonnerre et des éclairs.","chaud":"Qui a une température élevée.","froid":"Qui a une température basse.","il fait beau":"Le ciel est clair et il y a du soleil.","il pleut":"De l'eau tombe du ciel.","la température":"Le degré de chaleur ou de froid.","le printemps":"La saison où les fleurs poussent, après l'hiver.","l'été":"La saison la plus chaude de l'année.","l'automne":"La saison où les feuilles tombent.","l'hiver":"La saison la plus froide de l'année.","le ciel":"L'espace au-dessus de nous, où on voit le soleil.","le brouillard":"Nuage très bas qui empêche de bien voir.","la tempête":"Très mauvais temps avec un vent très fort.","humide":"Qui contient de l'eau dans l'air.","sec":"Qui n'est pas mouillé.","il fait frais":"Il fait un peu froid, mais agréable.","l'heure":"Moment de la journée, ou durée de soixante minutes.","la minute":"Une durée de soixante secondes.","midi":"Douze heures, au milieu du jour.","minuit":"Douze heures de la nuit.","l'après-midi":"La partie du jour entre midi et le soir.","la nuit":"La période où il fait sombre.","tôt":"Avant l'heure habituelle.","tard":"Après l'heure habituelle.","toujours":"Tout le temps, sans exception.","souvent":"Plusieurs fois, très régulièrement.","parfois":"De temps en temps.","jamais":"À aucun moment.","déjà":"Avant maintenant.","encore":"Une fois de plus, ou toujours maintenant.","maintenant":"En ce moment.","bientôt":"Dans peu de temps.","le quart":"La quatrième partie d'une heure : quinze minutes.","la demie":"Trente minutes après l'heure.","le prix":"La somme d'argent qu'il faut payer.","cher":"Qui coûte beaucoup d'argent.","bon marché":"Qui ne coûte pas beaucoup d'argent.","gratuit":"Qui ne coûte rien.","l'argent":"Ce qu'on utilise pour payer.","la caisse":"Endroit du magasin où on paie.","la monnaie":"Les pièces d'argent, ou l'argent rendu après un paiement.","la carte bancaire":"Carte en plastique pour payer sans argent liquide.","payer":"Donner de l'argent pour un achat.","le panier":"Objet pour mettre ses achats.","la réduction":"Baisse du prix.","le client":"Personne qui achète dans un magasin.","la facture":"Papier qui indique ce qu'on doit payer.","ouvert":"Qu'on peut visiter ou utiliser maintenant.","fermé":"Qu'on ne peut pas visiter ou utiliser.","grand":"Qui a une grande taille.","petit":"Qui a une petite taille.","beau":"Qui est agréable à regarder.","laid":"Qui n'est pas agréable à regarder.","nouveau":"Qui vient d'arriver ou d'être fait.","vieux":"Qui existe depuis longtemps.","jeune":"Qui n'a pas beaucoup d'âge.","facile":"Qui ne demande pas d'effort.","difficile":"Qui demande beaucoup d'effort.","important":"Qui a beaucoup de valeur ou de sens.","heureux":"Qui est content de sa vie.","fatigué":"Qui a besoin de repos.","occupé":"Qui a beaucoup de choses à faire.","libre":"Qui n'est pas occupé.","propre":"Qui n'est pas sale.","sale":"Qui n'est pas propre.","rapide":"Qui va vite.","lent":"Qui va doucement.","fort":"Qui a beaucoup de force.","faible":"Qui a peu de force.","gentil":"Qui est aimable avec les autres.","drôle":"Qui fait rire.","intéressant":"Qui attire l'attention et donne envie d'en savoir plus.","le médecin":"Personne qui soigne les malades.","l'infirmier":"Personne qui aide le médecin et soigne les patients.","l'ingénieur":"Personne qui conçoit des machines ou des constructions.","l'avocat":"Personne qui défend quelqu'un devant la justice.","le boulanger":"Personne qui fait le pain.","le cuisinier":"Personne qui prépare les repas.","le chauffeur":"Personne qui conduit un véhicule.","le policier":"Personne qui protège les gens et fait respecter la loi.","le pilote":"Personne qui conduit un avion.","l'agriculteur":"Personne qui cultive la terre.","le vendeur":"Personne qui vend des produits dans un magasin.","le journaliste":"Personne qui écrit ou parle des nouvelles.","l'artiste":"Personne qui crée des œuvres : peinture, musique…","le dentiste":"Médecin qui soigne les dents.","le facteur":"Personne qui distribue le courrier.","le coiffeur":"Personne qui coupe les cheveux.","le directeur":"Chef d'une école ou d'une entreprise.","le comptable":"Personne qui s'occupe des comptes d'une entreprise.","le serveur":"Personne qui apporte les plats au restaurant.","le mécanicien":"Personne qui répare les voitures.","l'électricien":"Personne qui installe ou répare l'électricité.","le pompier":"Personne qui éteint les incendies.","le secrétaire":"Personne qui organise le travail administratif.","le voyage":"Déplacement vers un lieu éloigné.","le billet":"Papier qui permet de prendre un train ou un avion.","la valise":"Grand sac pour mettre ses vêtements en voyage.","le passeport":"Document officiel pour voyager à l'étranger.","le train":"Véhicule qui roule sur des rails.","l'avion":"Véhicule qui vole dans le ciel.","la voiture":"Véhicule à quatre roues.","le bus":"Grand véhicule pour transporter les passagers dans la ville.","le vélo":"Véhicule à deux roues qu'on fait avancer avec les pieds.","le bateau":"Véhicule qui navigue sur l'eau.","le départ":"Moment où on quitte un lieu.","l'arrivée":"Moment où on arrive à un lieu.","la réservation":"Action de garder une place à l'avance.","la carte":"Dessin d'un pays ou d'une ville, ou carte en plastique.","la plage":"Bord de mer couvert de sable.","la mer":"Grande étendue d'eau salée.","la montagne":"Très haute colline avec souvent de la neige.","le touriste":"Personne qui voyage pour le plaisir.","la frontière":"Ligne qui sépare deux pays.","la douane":"Contrôle des marchandises à la frontière.","le retard":"Le fait d'arriver après l'heure prévue.","l'horaire":"Tableau des heures de départ et d'arrivée.","le quai":"Endroit où on attend le train.","voyager":"Aller d'un endroit à un autre, loin de chez soi.","visiter":"Aller voir un lieu ou une personne.","réserver":"Garder une place à l'avance.","partir":"Quitter un endroit.","arriver":"Atteindre un lieu.","la tête":"La partie du corps avec le visage et le cerveau.","le bras":"Partie du corps entre l'épaule et la main.","la main":"Partie du corps au bout du bras, avec cinq doigts.","le pied":"Partie du corps au bout de la jambe.","la jambe":"Partie du corps qui permet de marcher.","l'œil (pl. les yeux)":"Organe qui permet de voir.","la bouche":"Partie du visage pour manger et parler.","le nez":"Partie du visage pour sentir les odeurs.","l'oreille":"Organe qui permet d'entendre.","le dos":"L'arrière du corps, entre le cou et les fesses.","le ventre":"Partie du corps où se trouve l'estomac.","le cœur":"Organe qui fait circuler le sang.","la fièvre":"Température du corps plus élevée que d'habitude.","le rhume":"Petite maladie : le nez coule et on éternue.","la toux":"Bruit que fait la gorge quand elle est irritée.","la douleur":"Sensation désagréable quand on a mal.","le médicament":"Produit qui aide à guérir.","le rendez-vous":"Heure fixée pour voir quelqu'un.","malade":"Qui n'est pas en bonne santé.","en bonne santé":"Qui n'est pas malade.","l'ordonnance":"Papier du médecin avec les médicaments à acheter.","l'ambulance":"Véhicule qui transporte les malades à l'hôpital.","la dent":"Petit os dans la bouche pour mordre.","la gorge":"Partie du corps entre la bouche et l'estomac.","le genou":"Partie qui plie au milieu de la jambe.","l'épaule":"Partie du corps où le bras s'attache.","le doigt":"Chacune des cinq parties au bout de la main.","la peau":"Ce qui recouvre le corps.","tousser":"Faire sortir de l'air de la gorge avec bruit.","guérir":"Redevenir en bonne santé après une maladie.","se lever":"Sortir de son lit ou se mettre debout.","se coucher":"Aller dans son lit pour dormir.","travailler":"Faire une activité pour gagner de l'argent ou réussir.","étudier":"Apprendre en lisant et en travaillant.","acheter":"Payer pour avoir quelque chose.","vendre":"Donner quelque chose contre de l'argent.","prendre":"Saisir quelque chose avec la main.","donner":"Remettre quelque chose à quelqu'un.","regarder":"Porter les yeux sur quelque chose.","écouter":"Faire attention à ce qu'on entend.","écrire":"Faire des lettres et des mots sur du papier.","lire":"Comprendre ce qui est écrit.","comprendre":"Saisir le sens de quelque chose.","choisir":"Prendre une chose parmi plusieurs.","finir":"Arriver à la fin d'une action.","ouvrir":"Rendre accessible : une porte, un livre…","fermer":"Faire l'inverse d'ouvrir.","attendre":"Rester jusqu'à l'arrivée de quelqu'un ou de quelque chose.","chercher":"Essayer de trouver quelque chose.","trouver":"Découvrir ce qu'on cherchait.","sortir":"Aller dehors.","entrer":"Aller à l'intérieur.","rester":"Ne pas partir, demeurer au même endroit.","devoir":"Être obligé de faire quelque chose.","connaître":"Avoir déjà rencontré une personne ou un lieu.","croire":"Penser qu'une chose est vraie.","penser":"Avoir une idée dans la tête.","oublier":"Ne plus se souvenir.","se souvenir":"Garder quelque chose en mémoire.","se réveiller":"Arrêter de dormir.","se laver":"Nettoyer son corps avec de l'eau.","s'habiller":"Mettre ses vêtements.","se promener":"Marcher pour le plaisir.","rencontrer":"Voir une personne pour la première fois.","inviter":"Demander à quelqu'un de venir chez soi.","recevoir":"Prendre ce qu'on vous donne ou vous envoie.","Allô":"Mot qu'on dit en répondant au téléphone.","C'est de la part de qui ?":"Question polie au téléphone pour connaître le nom de l'appelant.","Ne quittez pas":"On demande à la personne d'attendre au téléphone.","rappeler":"Téléphoner de nouveau.","laisser un message":"Enregistrer ou écrire quelque chose pour quelqu'un.","la messagerie vocale":"Service du téléphone qui garde les messages parlés.","un SMS":"Petit message écrit envoyé par téléphone.","un mail":"Message écrit envoyé par internet.","la pièce jointe":"Fichier attaché à un mail.","raccrocher":"Terminer un appel téléphonique.","décrocher":"Répondre à un appel téléphonique.","la ligne est occupée":"La personne est déjà en train de téléphoner.","Cordialement":"Formule polie à la fin d'un mail.","À tout à l'heure":"On se reverra très bientôt, le même jour.","À plus":"Façon familière de dire au revoir.","le métro":"Train qui roule sous la ville.","le tramway":"Train léger qui roule dans la rue.","l'arrêt de bus":"Endroit où le bus s'arrête pour les passagers.","la station":"Lieu où s'arrête le métro.","l'abonnement":"Carte pour utiliser les transports pendant un mois.","un aller simple":"Billet pour aller, sans retour.","un aller-retour":"Billet pour aller et revenir.","composter":"Faire valider son billet dans une machine.","la correspondance":"Changement d'une ligne à une autre.","la sortie":"Endroit par où on sort.","le trajet":"Le chemin qu'on fait d'un endroit à un autre.","descendre":"Sortir d'un véhicule.","monter":"Entrer dans un véhicule.","Ça marche":"Réponse familière pour dire d'accord.","Tant pis":"On le dit quand on accepte une situation négative.","Tant mieux":"On le dit quand on est content d'une nouvelle.","Du coup":"Mot qui introduit une conséquence.","En fait":"Mot pour donner la vraie information.","Bof":"Réponse sans enthousiasme : ni bien ni mal.","Ça dépend":"Réponse quand la réponse n'est pas toujours la même.","Pas de souci":"Réponse pour dire qu'il n'y a pas de problème.","Ça m'est égal":"On le dit quand on n'a pas de préférence.","Je n'en sais rien":"Phrase pour dire qu'on ne connaît pas la réponse.","Tu rigoles ?":"Question pour dire qu'on est très surpris.","Ça te dit ?":"Question pour demander si une idée plaît.","Allez !":"Mot pour encourager ou pour partir.","Voilà":"Mot pour montrer quelque chose ou donner un objet.","Franchement":"Mot pour dire ce qu'on pense sincèrement.","Au fait":"Mot pour changer de sujet.","Peu importe":"Ce n'est pas important.","C'est pas grave":"Ce n'est pas un problème.","Ça va aller":"On rassure quelqu'un : tout ira bien.","Je t'en prie":"Réponse familière à « merci ».","le football":"Sport où deux équipes jouent avec un ballon.","le basket":"Sport où on met un ballon dans un panier.","la natation":"Sport qu'on pratique dans l'eau.","la course":"Sport où on court le plus vite possible.","courir":"Aller très vite à pied.","nager":"Avancer dans l'eau avec les bras et les jambes.","s'entraîner":"Pratiquer pour devenir meilleur.","la salle de sport":"Lieu avec des machines pour faire du sport.","perdre":"Ne pas gagner.","le but":"Endroit où on doit envoyer le ballon.","un match nul":"Match où les deux équipes ont le même score.","l'entraîneur":"Personne qui prépare une équipe de sport.","le joueur":"Personne qui participe à un jeu ou un match.","le supporter":"Personne qui encourage une équipe.","la randonnée":"Longue promenade à pied dans la nature.","le jeu vidéo":"Jeu qu'on joue sur un écran.","la peinture":"Art de dessiner avec des couleurs.","le jardinage":"Activité de planter et d'entretenir un jardin.","le travail":"Activité qu'on fait pour gagner de l'argent.","l'entreprise":"Organisation qui produit ou vend quelque chose.","le patron":"Chef d'une entreprise.","le collègue":"Personne qui travaille avec nous.","le salaire":"Argent qu'on reçoit chaque mois pour son travail.","le contrat":"Document qui fixe les règles d'un travail.","la réunion":"Rencontre de plusieurs personnes pour discuter.","l'emploi":"Travail qu'on a dans une entreprise.","le chômage":"Situation d'une personne qui n'a pas de travail.","la candidature":"Demande qu'on envoie pour obtenir un emploi.","l'entretien":"Rendez-vous pour parler d'un emploi.","le CV":"Document qui résume ses études et son travail.","l'expérience":"Ce qu'on a appris en travaillant.","le congé":"Période où on ne travaille pas.","embaucher":"Donner un emploi à quelqu'un.","démissionner":"Quitter son travail volontairement.","licencier":"Mettre fin au contrat d'un employé.","gagner":"Recevoir de l'argent, ou réussir une compétition.","le stage":"Courte période de travail pour apprendre un métier.","la compétence":"Ce qu'on sait bien faire.","l'objectif":"Le but qu'on veut atteindre.","le projet":"Idée qu'on prépare pour la réaliser.","le budget":"Somme d'argent prévue pour une dépense.","la promotion":"Changement vers un meilleur poste.","la retraite":"Période de la vie après la fin du travail.","le délai":"Temps donné pour faire quelque chose.","postuler":"Demander un emploi.","diriger":"Être le chef d'un groupe ou d'une équipe.","la joie":"Sentiment très agréable quand on est heureux.","la tristesse":"Sentiment quand on est triste.","la colère":"Sentiment fort quand on est très fâché.","la peur":"Sentiment quand on pense qu'il y a un danger.","la surprise":"Sentiment quand quelque chose arrive sans qu'on l'attende.","l'inquiétude":"Sentiment quand on pense qu'un problème peut arriver.","la fierté":"Sentiment de satisfaction pour une réussite.","la honte":"Sentiment désagréable après une faute.","l'espoir":"Sentiment d'attendre quelque chose de bon.","la confiance":"Sentiment de pouvoir compter sur quelqu'un.","la jalousie":"Sentiment désagréable quand on craint de perdre quelqu'un ou qu'un autre a mieux.","la déception":"Tristesse quand ce qu'on espérait n'arrive pas.","content":"Qui est satisfait.","fâché":"Qui est en colère contre quelqu'un.","déçu":"Qui est triste parce que ses attentes ne sont pas réalisées.","inquiet":"Qui a peur qu'un problème arrive.","soulagé":"Qui se sent mieux après une inquiétude.","la tendresse":"Sentiment doux et affectueux pour quelqu'un.","l'amitié":"Lien d'affection entre deux amis.","l'ennui":"Sentiment quand on n'a rien d'intéressant à faire.","la solitude":"Situation d'une personne qui est seule.","le stress":"Tension nerveuse quand on a trop de pression.","la patience":"Capacité d'attendre calmement.","le courage":"Force de faire quelque chose de difficile malgré la peur.","le bonheur":"État d'une personne très heureuse.","triste":"Qui a de la peine.","stressé":"Qui ressent beaucoup de pression.","ravi":"Très content.","énervé":"Un peu en colère, qui n'est pas calme.","gêné":"Qui n'est pas à l'aise devant les autres.","l'environnement":"Le monde naturel qui nous entoure.","la pollution":"Saleté qui abîme l'air, l'eau ou la terre.","le réchauffement climatique":"Augmentation de la température de la Terre.","le recyclage":"Transformer des déchets pour les réutiliser.","les déchets":"Ce qu'on jette parce qu'on n'en a plus besoin.","l'énergie":"Force qui fait fonctionner les machines.","la forêt":"Grand espace couvert d'arbres.","la planète":"Grand astre dans l'espace, comme la Terre.","la nature":"Tout ce qui existe sans l'homme : plantes, animaux…","la sécheresse":"Longue période sans pluie.","l'inondation":"Quand l'eau couvre un endroit qui est normalement sec.","protéger":"Mettre à l'abri d'un danger.","gaspiller":"Utiliser plus que nécessaire, jeter pour rien.","économiser":"Dépenser moins, garder pour plus tard.","polluer":"Rendre sale ou dangereux l'air, l'eau ou la terre.","le climat":"Le temps habituel dans une région.","les ressources naturelles":"Ce que la nature offre : eau, bois, pétrole…","le développement durable":"Façon de se développer sans détruire la planète.","l'énergie solaire":"Énergie qui vient du soleil.","la biodiversité":"La variété des êtres vivants sur Terre.","l'espèce":"Groupe d'animaux ou de plantes de même type.","le tri sélectif":"Séparer les déchets selon leur type.","jeter":"Se débarrasser d'un objet dont on n'a plus besoin.","réduire":"Rendre plus petit ou moins important.","réutiliser":"Utiliser une deuxième fois.","préserver":"Garder en bon état.","l'ordinateur":"Machine pour travailler, écrire et aller sur internet.","le téléphone portable":"Petit téléphone qu'on garde sur soi.","l'application":"Programme installé sur un téléphone.","le site web":"Ensemble de pages accessibles sur internet.","le mot de passe":"Code secret pour entrer dans un compte.","le courriel":"Message écrit envoyé par internet.","le réseau social":"Site pour communiquer avec d'autres personnes.","le fichier":"Document enregistré sur un ordinateur.","l'écran":"Surface où on voit les images d'un appareil.","le clavier":"Ensemble de touches pour écrire sur un ordinateur.","la batterie":"Réserve d'énergie d'un appareil.","l'intelligence artificielle":"Programmes qui peuvent faire des choses comme un humain.","télécharger":"Copier un fichier d'internet vers son appareil.","envoyer":"Faire partir un message ou un objet vers quelqu'un.","se connecter":"Entrer dans un compte ou accéder à internet.","les données":"Informations enregistrées sur un appareil.","la connexion":"Lien avec internet ou un réseau.","le réseau":"Ensemble d'appareils ou de personnes reliés entre eux.","la mise à jour":"Nouvelle version d'un programme.","sauvegarder":"Enregistrer pour ne pas perdre.","supprimer":"Effacer pour qu'il n'existe plus.","cliquer":"Appuyer sur le bouton de la souris.","le moteur de recherche":"Site qui aide à trouver des informations sur internet.","le logiciel":"Programme qu'on utilise sur un ordinateur.","la vie privée":"Ce qui concerne uniquement la personne.","en ligne":"Connecté à internet.","la capture d'écran":"Photo de ce qu'on voit sur son écran.","pourtant":"Mot qui annonce une idée contraire à ce qu'on vient de dire.","cependant":"Mot qui annonce une idée opposée.","donc":"Mot qui introduit une conclusion.","parce que":"Mot qui introduit la raison.","d'abord":"En premier lieu.","ensuite":"Après la première action.","enfin":"En dernier lieu.","en plus":"Mot pour ajouter une information.","par exemple":"Mot qui introduit un exemple.","à mon avis":"Expression pour donner son opinion.","je pense que":"Expression pour exprimer son idée.","être d'accord":"Avoir la même opinion que quelqu'un.","malgré":"Même si quelque chose pourrait empêcher.","grâce à":"À cause de quelque chose de positif.","à cause de":"Pour la raison de quelque chose, souvent négatif.","quand même":"Malgré tout, de toute façon.","peut-être":"Mot qui exprime un doute.","ainsi":"De cette façon.","d'ailleurs":"Mot qui ajoute un argument.","bref":"En peu de mots.","en conclusion":"Pour terminer, en résumé.","au contraire":"Mot pour exprimer l'opposé.","en revanche":"Par contre, d'un autre côté.","de plus":"Mot pour ajouter une idée.","selon":"D'après quelqu'un.","afin de":"Pour obtenir un résultat.","bien que":"Même si.","lorsque":"Au moment où.","puisque":"Parce que, comme on le sait déjà.","la société":"Ensemble des personnes qui vivent ensemble.","le citoyen":"Habitant d'un pays qui a des droits et des devoirs.","le droit":"Ce que la loi permet à chacun.","le devoir":"Ce qu'on doit faire.","la loi":"Règle officielle à respecter.","la liberté":"Le droit de faire ses propres choix.","l'égalité":"Situation où tout le monde a les mêmes droits.","la justice":"Principe qui donne à chacun ce qui est juste.","le gouvernement":"Groupe de personnes qui dirige un pays.","l'élection":"Moment où les citoyens choisissent leurs représentants.","le vote":"Choix qu'on fait pendant une élection.","la paix":"Situation sans guerre.","la guerre":"Combat armé entre pays ou groupes.","la tradition":"Coutume transmise de génération en génération.","le débat":"Discussion entre personnes qui ont des idées différentes.","l'université":"Lieu d'études après le lycée.","le diplôme":"Document qui prouve qu'on a réussi ses études.","la licence":"Premier diplôme de l'université, après trois ans.","la bourse":"Aide d'argent pour étudier.","le cours":"Leçon donnée par un professeur.","la matière":"Sujet qu'on étudie : maths, histoire…","l'examen":"Test pour vérifier ce qu'on a appris.","la note":"Chiffre qui évalue un travail.","réussir":"Obtenir un bon résultat.","échouer":"Ne pas réussir.","réviser":"Relire ses leçons avant un examen.","s'inscrire":"Mettre son nom sur une liste pour participer.","la recherche":"Travail pour découvrir des connaissances nouvelles.","le film":"Histoire racontée en images au cinéma.","la musique":"Art des sons et des mélodies.","le concert":"Spectacle où des musiciens jouent devant un public.","le roman":"Long livre qui raconte une histoire inventée.","le spectacle":"Représentation devant un public.","l'exposition":"Présentation d'œuvres ou d'objets au public.","le sport":"Activité physique pour la santé ou la compétition.","le match":"Compétition entre deux équipes ou deux joueurs.","l'équipe":"Groupe de personnes qui jouent ou travaillent ensemble.","le passe-temps":"Activité qu'on fait pour le plaisir.","la lecture":"Le fait de lire.","la chanson":"Petit morceau de musique avec des paroles.","le festival":"Grande fête avec beaucoup de spectacles.","les loisirs":"Activités qu'on fait pendant son temps libre.","expliquer":"Rendre quelque chose clair pour quelqu'un.","décrire":"Dire comment est quelqu'un ou quelque chose.","raconter":"Dire une histoire à quelqu'un.","proposer":"Donner une idée à quelqu'un.","refuser":"Dire non à une demande.","accepter":"Dire oui à une proposition.","décider":"Faire un choix.","oser":"Avoir le courage de faire quelque chose.","se rendre compte":"Comprendre quelque chose tout à coup.","s'habituer":"Devenir familier avec quelque chose de nouveau.","se plaindre":"Dire qu'on n'est pas content.","réaliser":"Faire exister un projet.","améliorer":"Rendre meilleur.","éviter":"Faire en sorte de ne pas toucher ou rencontrer.","empêcher":"Faire qu'une chose ne puisse pas arriver.","souhaiter":"Désirer que quelque chose arrive.","remarquer":"Voir quelque chose avec attention.","Selon moi":"D'après mon opinion.","Il me semble que":"Expression pour donner son avis avec douceur.","Je suis d'accord":"J'ai la même opinion.","Je ne suis pas d'accord":"Je n'ai pas la même opinion.","Certes… mais":"On reconnaît une idée avant d'en donner une autre.","Tout d'abord":"Pour commencer une liste d'arguments.","D'une part… d'autre part":"Expression pour présenter deux aspects.","Par conséquent":"Mot qui annonce une conséquence.","À vrai dire":"Pour dire ce qu'on pense vraiment.","Quant à":"Mot pour parler d'une autre personne ou chose.","c'est-à-dire":"Mot pour expliquer ce qu'on vient de dire.","Je trouve que":"Expression pour donner son opinion.","avoir le cafard":"Se sentir triste sans raison précise.","coûter les yeux de la tête":"Coûter extrêmement cher.","poser un lapin":"Ne pas venir à un rendez-vous sans prévenir.","être dans la lune":"Être distrait, ne pas faire attention.","avoir un chat dans la gorge":"Avoir la voix enrouée.","il pleut des cordes":"Il pleut très fort.","mettre son grain de sel":"Donner son avis quand on n'a rien demandé.","avoir la pêche":"Être en pleine forme.","casser les pieds à quelqu'un":"Ennuyer quelqu'un.","le coup de foudre":"Amour qui naît dès la première rencontre.","avoir le cœur sur la main":"Être très généreux.","tomber dans les pommes":"Perdre connaissance.","avoir du pain sur la planche":"Avoir beaucoup de travail à faire.","ce n'est pas la mer à boire":"Ce n'est pas très difficile.","avoir les yeux plus gros que le ventre":"Prendre plus de nourriture qu'on ne peut manger.","quand les poules auront des dents":"Jamais, c'est impossible.","la pièce d'identité":"Document officiel avec sa photo et son nom.","le formulaire":"Papier avec des cases à remplir.","remplir":"Écrire les informations demandées.","la préfecture":"Administration d'un département en France.","le justificatif de domicile":"Document qui prouve où on habite.","le dossier":"Ensemble de papiers sur un sujet.","la signature":"Nom écrit à la main au bas d'un document.","signer":"Écrire sa signature.","la demande":"Message où on demande quelque chose.","le loyer":"Somme d'argent qu'on paie pour louer un logement.","déménager":"Changer de logement.","l'assurance":"Contrat qui protège contre les risques.","les actualités":"Les nouvelles du jour.","le journal":"Publication qui donne les nouvelles.","le reportage":"Court film ou texte sur un événement.","l'article":"Texte écrit dans un journal.","la chaîne":"Programme de télévision.","l'émission":"Programme à la télévision ou à la radio.","le podcast":"Émission audio qu'on peut écouter sur internet.","les réseaux sociaux":"Sites où on partage des photos et des messages.","la fausse information":"Nouvelle qui n'est pas vraie.","la source":"Origine d'une information.","l'interview":"Entretien où un journaliste pose des questions.","la une":"Première page d'un journal.","le titre":"Phrase en gros au début d'un article.","partager":"Donner à d'autres ou publier pour que d'autres voient.","publier":"Mettre à disposition du public.","le commentaire":"Remarque écrite ou orale sur quelque chose.","informer":"Donner une information.","le boulot":"Mot familier pour dire travail.","bosser":"Mot familier pour dire travailler.","le bouquin":"Mot familier pour dire livre.","la bagnole":"Mot familier pour dire voiture.","le fric":"Mot familier pour dire argent.","un mec":"Mot familier pour dire un homme.","bouffer":"Mot familier pour dire manger.","kiffer":"Mot familier pour dire aimer beaucoup.","un truc":"Mot familier pour une chose.","nul":"Très mauvais, sans qualité.","sympa":"Agréable et gentil.","crevé":"Mot familier pour dire très fatigué.","la galère":"Situation difficile et pénible.","j'en ai marre":"Expression familière pour dire qu'on est fatigué d'une situation.","ras-le-bol":"Expression pour dire qu'on ne supporte plus quelque chose.","Je sais pas":"Façon parlée de dire « je ne sais pas ».","Y a pas de quoi":"Façon parlée de répondre à « merci »."};
 function vMean(w){
-  const ar = `<span class="vm">${esc(w[1])}</span>`, en = `<span class="vm" dir="ltr">${esc(w[2])}</span>`;
-  return '<span class="vmw">' + (V.mean === 'ar' ? ar : V.mean === 'en' ? en : ar + ' <span class="vsep">·</span> ' + en) + '</span>';
+  const ar = `<span class="vm">${esc(w[1])}</span>`, en = `<span class="vm" dir="ltr">${esc(w[2])}</span>`, fr = `<span class="vm" dir="ltr" lang="fr">${esc(VDEF[w[0]] || w[2])}</span>`;
+  return '<span class="vmw">' + (V.mean === 'ar' ? ar : V.mean === 'en' ? en : V.mean === 'fr' ? fr : ar + ' <span class="vsep">·</span> ' + en) + '</span>';
 }
 const vFr = w => `<span class="vfr" dir="ltr" lang="fr">${esc(w[0])}</span>`;
 const vSay = w => speak(w[0].replace(/[…()]/g, '').replace(/\bpl\.[^)]*/, ''), .85);
@@ -4124,9 +4234,10 @@ function renderVocab(v){
   if(V.view === 'cards') return renderVCards(v);
   if(V.view === 'cat') return renderVCat(v);
   const pills = ['A1','A2','B1'].map(l => `<button class="vpill ${V.level === l ? 'on' : ''}" data-a="vLevel" data-id="${l}">${l}</button>`).join('');
-  const means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
+  const means = [['ar','عربي'],['en','English'],['fr','Français'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
   const all = vCats().reduce((n, c) => n + c.w.length, 0), kn = vCats().reduce((n, c) => n + vProg(c).k, 0);
   v.innerHTML = `<h2 class="st"><span>${I('vocab')} المفردات <small>Vocabulaire</small></span></h2>
+    ${jHero(V.level)}
     <div class="vbar2"><div class="vpills">${pills}</div><div class="vpills">${means}</div></div>
     <input class="in vq" id="vq" type="search" placeholder="ابحث عن كلمة بالفرنسية أو العربية أو الإنجليزية" value="${esc(V.q)}" autocomplete="off">
     <p class="cap" style="margin:8px 2px 14px">${kn} من ${all} كلمة وضعت عليها علامة «عرفتها» في هذا المستوى.</p>
@@ -4135,13 +4246,13 @@ function renderVocab(v){
 function renderVCat(v){
   recLoad();
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
-  const p = vProg(c), means = [['ar','عربي'],['en','English'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
+  const p = vProg(c), means = [['ar','عربي'],['en','English'],['fr','Français'],['both','الاثنان']].map(([k, l]) => `<button class="vpill sm ${V.mean === k ? 'on' : ''}" data-a="vMean" data-id="${k}">${l}</button>`).join('');
   v.innerHTML = `<button class="btn sec" data-a="vBack" style="margin-bottom:12px">← المفردات</button>
     <h2 class="st"><span>${esc(c.ar)} <small dir="ltr">${esc(c.fr)}</small></span><small dir="ltr">${p.k} / ${p.n}</small></h2>
     <div class="vbar2"><div class="vpills">${means}</div><button class="btn" data-a="vCards">${I('play','s')} بطاقات المراجعة</button></div>
     ${c.note ? `<div class="vnote"><span class="ni">💡</span><div dir="auto">${esc(c.note[UL] || c.note.ar)}</div></div>` : ''}
-    <p class="vpriv">🔒 <span>التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.</span></p>
-    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
+    <p class="vpriv">🔒 <span>اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.</span></p>
+    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}${vfb(w)}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
 }
 function renderVCards(v){
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
@@ -4157,6 +4268,7 @@ function renderVCards(v){
     <button class="vcard ${V.flip ? 'flip' : ''}" data-a="vFlip" aria-label="اقلب البطاقة">
       ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>${w[3] ? `<span class="vhint" dir="ltr" lang="fr" style="font-style:italic">${esc(w[3])}</span>` : ''}` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
     </button>
+    <div style="display:flex;justify-content:center">${vfb(w)}</div>
     <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>${recBtns(w, c.id, V.deck.length ? c.w.indexOf(w) : 0)}
       ${V.flip ? `<button class="btn del lg" data-a="vNo">أعيدها</button><button class="btn lg" data-a="vYes">عرفتها ✓</button>` : `<button class="btn lg" data-a="vFlip">أظهر المعنى</button>`}</div>`;
 }
@@ -4174,6 +4286,7 @@ const VH = {
   vCatBack:() => { V.view = 'cat'; render(); },
   vSayW:(id, el) => { const c = vCat(id); if(c) vSay(c.w[+el.dataset.i]); },
   vSayX:(id, el) => { const c = vCat(id); if(c){ const w = c.w[+el.dataset.i]; if(w && w[3]) speak(w[3], .85); } },
+  vChk:(id, el) => { const c = vCat(id); if(c) chkStart(c.w[+el.dataset.i]); },
   vRec:(id, el) => { const c = vCat(id); if(c) recStart(c.w[+el.dataset.i]); },
   vMine:(id, el) => { const c = vCat(id); if(c) recPlay(c.w[+el.dataset.i]); },
   vRecDel:(id, el) => { const c = vCat(id); if(c) recDel(c.w[+el.dataset.i]); },
@@ -4644,6 +4757,426 @@ B1:[
  ["«Hier» devient souvent:|«Hier» often becomes:",["la veille","le lendemain","demain"],0,"hier ← la veille.|Hier ← la veille."]]}
 ]
 };
+/* دروس قواعد جديدة (v9b) */
+(function(){
+ const N = {
+ A1: [
+ {id:"a1-adj",ar:"الصفة: الاتفاق والمكان",en:"Adjectives: agreement and position",fr:"Les adjectifs",
+  intro:"الصفة في الفرنسية تتفق مع الاسم في الجنس والعدد. وأغلب الصفات تأتي بعد الاسم (عكس الإنجليزية)، إلا مجموعة قصيرة وشائعة تأتي قبله.|In French the adjective agrees with the noun in gender and number. Most adjectives come after the noun, except a short, common group that comes before it.",
+  table:{h:["النوع|Type","مذكر|Masculine","مؤنث|Feminine"],r:[["الأصل + e|base + e","petit","petite"],["ينتهي بـ e|ends in e","jeune","jeune"],["-eux → -euse","heureux","heureuse"],["-if → -ive","actif","active"],["-ien → -ienne","italien","italienne"],["-al → -ale","national","nationale"]]},
+  rules:["المؤنث غالباً بإضافة e، والجمع بإضافة s: un petit garçon، une petite fille، des petites filles.|Feminine usually adds e and plural adds s: un petit garçon, une petite fille, des petites filles.",
+   "أغلب الصفات بعد الاسم: une voiture rouge، un film intéressant.|Most adjectives follow the noun: une voiture rouge, un film intéressant.",
+   "مجموعة BAGS تأتي قبل الاسم: Beauté (beau, joli)، Âge (jeune, vieux, nouveau)، Grandeur (petit, grand, gros)، Bonté (bon, mauvais): une belle maison، un petit chat.|The BAGS group goes before the noun: beauty, age, size, goodness: une belle maison, un petit chat.",
+   "⚠ خطأ شائع: لا نقول «une maison grand». الصفة تتبع الاسم في الجنس: une grande maison.|⚠ Common mistake: never «une maison grand». The adjective agrees: une grande maison.",
+   "beau, nouveau, vieux تصبح bel, nouvel, vieil أمام حرف متحرك مع المذكر: un bel homme، un nouvel appartement.|Beau, nouveau, vieux become bel, nouvel, vieil before a vowel (masculine): un bel homme, un nouvel appartement."],
+  ex:[["Une grande maison blanche.","بيت كبير أبيض.|A big white house."],["C'est une jolie fille.","إنها فتاة جميلة.|She is a pretty girl."],["Ils sont contents.","هم سعداء.|They are happy."],["Elle est française.","هي فرنسية.|She is French."]],
+  quiz:[["Une ___ voiture.",["petit","petite","petites"],1,"voiture مؤنث مفرد: une petite voiture.|Voiture is feminine singular: une petite voiture."],
+  ["Elle est ___.",["heureux","heureuse","heureuses"],1,"المؤنث من heureux هو heureuse.|The feminine of heureux is heureuse."],
+  ["Des chaussures ___.",["noir","noires","noirs"],1,"chaussures مؤنث جمع: noires.|Chaussures is feminine plural: noires."],
+  ["Choisissez la phrase correcte:",["Un livre intéressante.","Un livre intéressant.","Un intéressant livre."],1,"livre مذكر، والصفة بعده: intéressant.|Livre is masculine and the adjective follows it."],
+  ["Mon frère est ___.",["italien","italienne","italiens"],0,"مذكر مفرد: italien.|Masculine singular: italien."],
+  ["C'est un ___ appartement.",["nouveau","nouvel","nouvelle"],1,"أمام حرف متحرك: nouvel.|Before a vowel: nouvel."],
+  ["Les enfants sont ___.",["content","contents","contente"],1,"جمع مذكر: contents.|Masculine plural: contents."],
+  ["Une robe ___.",["vert","verte","verts"],1,"robe مؤنث: verte.|Robe is feminine: verte."]]},
+ {id:"a1-ilya",ar:"هناك: Il y a وVoici وVoilà",en:"There is / there are",fr:"Il y a, voici, voilà",
+  intro:"نستعمل il y a للدلالة على وجود شيء، وهي عبارة ثابتة لا تتغير مع المفرد والجمع. أما voici وvoilà فنُشير بهما إلى شيء أمامنا.|Use il y a to say something exists; it never changes for singular or plural. Voici and voilà point at something in front of us.",
+  table:{h:["التعبير|Expression","المعنى|Meaning","مثال|Example"],r:[["Il y a","يوجد|there is / are","Il y a un livre."],["Il n'y a pas de","لا يوجد|there isn't","Il n'y a pas de lait."],["Est-ce qu'il y a… ?","هل يوجد؟|is there…?","Est-ce qu'il y a du pain ?"],["Voici","ها هو (قريب)|here is","Voici mon frère."],["Voilà","ها هو / تفضّل|there is / here you go","Voilà votre café."]]},
+  rules:["il y a ثابتة: Il y a un chat. Il y a trois chats.|Il y a never changes: Il y a un chat. Il y a trois chats.",
+   "في النفي تصبح الأداة de: Il n'y a pas de sucre.|In the negative the article becomes de: Il n'y a pas de sucre.",
+   "الكميات تُتبع بـ de بدون أداة: beaucoup de, peu de, assez de, trop de: beaucoup de gens.|Quantities take de with no article: beaucoup de, peu de, assez de, trop de.",
+   "⚠ خطأ شائع: لا نقول «il a» بمعنى «يوجد». il a تعني «عنده»، ويوجد = il y a.|⚠ Common mistake: «il a» means «he has»; «there is» is il y a."],
+  ex:[["Il y a beaucoup de monde.","يوجد كثير من الناس.|There are lots of people."],["Il n'y a pas de problème.","لا توجد مشكلة.|There is no problem."],["Voilà, c'est fini !","ها قد انتهى!|There, it's done!"]],
+  quiz:[["___ trois élèves dans la classe.",["Il y a","Ils sont","Il est"],0,"للدلالة على الوجود: il y a.|To say something exists: il y a."],
+  ["Il n'y a pas ___ lait.",["du","de","le"],1,"بعد النفي: de.|After the negative: de."],
+  ["Il y a ___ monde au marché.",["beaucoup de","beaucoup du","beaucoup des"],0,"الكمية + de: beaucoup de monde.|Quantity + de: beaucoup de monde."],
+  ["___ votre clé, Monsieur.",["Il y a","Voilà","C'est"],1,"عند تسليم شيء: Voilà.|When handing something over: Voilà."],
+  ["Choisissez la phrase correcte:",["Il y a des chats ici.","Ils y ont des chats ici.","Il a des chats ici."],0,"il y a ثابتة.|Il y a is invariable."],
+  ["J'ai ___ amis ici.",["peu d'","peu de l'","peu des"],0,"peu de + حرف متحرك = peu d'.|Peu de before a vowel = peu d'."],
+  ["Est-ce qu'il y a ___ pharmacie près d'ici ?",["un","une","de"],1,"pharmacie مؤنث: une pharmacie.|Pharmacie is feminine."],
+  ["Il n'y a ___ voiture dans la rue.",["pas de","pas une","pas des"],0,"نفي: pas de.|Negative: pas de."]]},
+ {id:"a1-heure",ar:"الساعة والتاريخ",en:"Time and date",fr:"L'heure et la date",
+  intro:"نسأل: Quelle heure est-il ? ونجيب Il est + الرقم + heure(s). وفي الحياة الرسمية (القطارات والبرامج) يستعمل الفرنسيون نظام ٢٤ ساعة.|We ask Quelle heure est-il? and answer Il est + number + heure(s). Official schedules (trains, TV) use the 24-hour clock.",
+  table:{h:["الساعة|Time","بالفرنسية|French"],r:[["8:00","Il est huit heures."],["8:15","Il est huit heures et quart."],["8:30","Il est huit heures et demie."],["8:45","Il est neuf heures moins le quart."],["12:00","Il est midi."],["00:00","Il est minuit."],["14:20","Il est quatorze heures vingt."]]},
+  rules:["heure مفرد مع une فقط: une heure، لكن trois heures.|Heure is singular only with une: une heure, but trois heures.",
+   "et quart = +١٥ دقيقة، et demie = +٣٠، moins le quart = −١٥. وmidi / minuit بدون كلمة heure.|et quart = +15, et demie = +30, moins le quart = −15. Midi / minuit take no heure.",
+   "التاريخ: Nous sommes le + رقم + الشهر: Nous sommes le 5 mars. وأول الشهر le premier: le 1er mai.|Date: Nous sommes le 5 mars. First of the month: le premier.",
+   "الفرنسيون يعطون المواعيد الرسمية أهمية: «être à l'heure» (الالتزام بالموعد) أمر مهم.|The French take official appointments seriously: being «à l'heure» matters."],
+  ex:[["Il est trois heures et demie.","الساعة الثالثة والنصف.|It's half past three."],["Le train part à quatorze heures.","القطار يغادر الساعة الثانية ظهراً.|The train leaves at 2 pm."],["Nous sommes le 12 novembre.","اليوم ١٢ نوفمبر.|It's 12 November."]],
+  quiz:[["8:30 =",["Il est huit heures et quart.","Il est huit heures et demie.","Il est huit heures moins le quart."],1,"et demie = النصف.|et demie = half."],
+  ["8:45 =",["Il est neuf heures et quart.","Il est huit heures et demie.","Il est neuf heures moins le quart."],2,"تسع إلا ربع: neuf heures moins le quart.|Quarter to nine."],
+  ["12:00 ظهراً =",["Il est midi.","Il est minuit.","Il est douze heure."],0,"الظهر = midi.|Noon = midi."],
+  ["Il est une ___.",["heure","heures","heurs"],0,"مع une نستعمل المفرد.|With une, use the singular."],
+  ["Le cours commence ___ neuf heures.",["à","en","dans"],0,"الساعة المحددة: à.|At a given time: à."],
+  ["1 مايو:",["le un mai","le premier mai","le uni mai"],1,"أول الشهر: le premier.|First of the month: le premier."],
+  ["Quelle heure ___-il ?",["est","a","fait"],0,"Quelle heure est-il ?|Quelle heure est-il?"],
+  ["21:00 بالنظام الرسمي:",["vingt et une heures","vingt-un heures","vingt heure un"],0,"21 = vingt et un، ومع heures: vingt et une heures.|21 = vingt et une heures."]]}
+ ],
+ A2: [
+ {id:"a2-temps",ar:"التعبير عن الزمن: منذ، قبل، خلال، بعد",en:"depuis, il y a, pendant, dans, en",fr:"Depuis, il y a, pendant, dans, en",
+  intro:"هذه خمس كلمات تسبب أخطاء كثيرة لأن العربية تستعمل «منذ» و«قبل» و«خلال» بشكل مختلف. السرّ: انظر هل الزمن ماضٍ أم مستقبل، وهل الفعل ما زال مستمراً.|Five words that cause many mistakes. The secret: is the time past or future, and is the action still going on?",
+  table:{h:["الكلمة|Word","المعنى|Meaning","مثال|Example"],r:[["depuis","منذ (ما زال مستمراً)|since / for","J'habite ici depuis 2020."],["il y a","قبل (في الماضي)|ago","Je suis arrivé il y a deux ans."],["pendant","خلال / لمدة|during / for","J'ai travaillé pendant trois heures."],["dans","بعد (في المستقبل)|in (future)","Je pars dans une semaine."],["en","في غضون (المدة اللازمة)|within (time taken)","Il a fini en dix minutes."]]},
+  rules:["depuis + المضارع: يقول الفرنسي J'habite ici depuis deux ans (أسكن هنا منذ سنتين) بالمضارع وليس بالماضي.|Depuis takes the PRESENT: J'habite ici depuis deux ans.",
+   "il y a + ماضٍ منتهٍ: Il est parti il y a une heure.|Il y a + finished past: Il est parti il y a une heure.",
+   "dans للمستقبل: Je reviens dans cinq minutes (بعد خمس دقائق). ⚠ لا نقول «après cinq minutes» للمستقبل.|Dans for the future: Je reviens dans cinq minutes.",
+   "en = المدة اللازمة لإنجاز شيء، وpendant = المدة التي استمرّ فيها الفعل: Il a lu le livre en deux jours / J'ai lu pendant deux heures.|En = time needed to finish; pendant = how long it lasted."],
+  ex:[["Je travaille ici depuis trois ans.","أعمل هنا منذ ثلاث سنوات.|I have worked here for three years."],["Elle est partie il y a dix minutes.","غادرت قبل عشر دقائق.|She left ten minutes ago."],["Je te rappelle dans une heure.","سأتصل بك بعد ساعة.|I'll call you back in an hour."],["Nous avons dormi pendant huit heures.","نمنا ثماني ساعات.|We slept for eight hours."]],
+  quiz:[["J'apprends le français ___ un an.",["depuis","il y a","dans"],0,"ما زلت أتعلم: depuis.|Still learning: depuis."],
+  ["Il est arrivé ___ deux jours.",["depuis","il y a","dans"],1,"وصل في الماضي: il y a.|Finished past: il y a."],
+  ["Le film commence ___ dix minutes.",["dans","pendant","depuis"],0,"بعد عشر دقائق من الآن: dans.|Ten minutes from now: dans."],
+  ["Elle a étudié ___ trois heures hier soir.",["pendant","dans","il y a"],0,"مدة الدراسة: pendant.|Duration: pendant."],
+  ["Il a construit la maison ___ six mois.",["en","dans","depuis"],0,"المدة اللازمة للإنجاز: en.|Time taken: en."],
+  ["Choisissez la phrase correcte:",["J'habite ici depuis 2020.","J'ai habité ici depuis 2020.","J'habitais ici dans 2020."],0,"depuis + مضارع.|Depuis + present."],
+  ["Nous sommes mariés ___ dix ans.",["depuis","pendant","il y a"],0,"ما زلنا متزوجين: depuis.|Still married: depuis."],
+  ["Je l'ai vu ___ une semaine.",["il y a","dans","depuis"],0,"قبل أسبوع: il y a.|A week ago: il y a."]]},
+ {id:"a2-adv",ar:"الظروف وأماكنها",en:"Adverbs",fr:"Les adverbes",
+  intro:"الظرف يصف الفعل أو الصفة، ولا يتغير مع الجنس والعدد. أسهل طريقة لتكوينه: نأخذ الصفة المؤنثة ونضيف -ment.|An adverb describes a verb or adjective and never changes. To form it: feminine adjective + -ment.",
+  table:{h:["الصفة|Adjective","المؤنث|Feminine","الظرف|Adverb"],r:[["lent","lente","lentement"],["heureux","heureuse","heureusement"],["doux","douce","doucement"],["facile","facile","facilement"],["rapide","rapide","rapidement"]]},
+  rules:["الصفات المنتهية بـ -ent تعطي -emment، و-ant تعطي -amment: évident → évidemment، constant → constamment.|-ent → -emment, -ant → -amment: évidemment, constamment.",
+   "ظروف مهمة لا تنتهي بـ -ment: bien, mal, vite, très, trop, assez, souvent, toujours, déjà, encore, beaucoup, peu.|Key adverbs without -ment: bien, mal, vite, très, trop, assez, souvent, toujours, déjà, encore, beaucoup, peu.",
+   "الظرف يأتي بعد الفعل البسيط: Il parle bien. وفي الماضي المركب بين المساعد واسم المفعول: J'ai bien dormi، Il a déjà fini.|After a simple verb: Il parle bien. In the passé composé, between auxiliary and participle: J'ai bien dormi.",
+   "⚠ bon صفة وbien ظرف: Il est bon (جيد) / Il parle bien (يتكلم جيداً). لا نقول «il parle bon».|⚠ bon is an adjective, bien an adverb: never «il parle bon»."],
+  ex:[["Il parle lentement.","يتكلم ببطء.|He speaks slowly."],["J'ai bien dormi.","نمت جيداً.|I slept well."],["Elle est déjà partie.","لقد غادرت بالفعل.|She has already left."],["Heureusement, il n'a rien.","لحسن الحظ لم يصبه شيء.|Luckily, he's fine."]],
+  quiz:[["Il parle très ___.",["bon","bien","bonne"],1,"يصف الفعل: ظرف bien.|Describes a verb: bien."],
+  ["Il marche ___.",["lent","lente","lentement"],2,"الظرف: lentement.|Adverb: lentement."],
+  ["ظرف heureux:",["heureusement","heureuxment","heureusment"],0,"heureuse + ment.|heureuse + ment."],
+  ["J'ai ___ fini.",["déjà","souvent","trop"],0,"بالفعل: déjà.|Already: déjà."],
+  ["Choisissez la phrase correcte:",["Il a bien dormi.","Il a dormi bon.","Il bien a dormi."],0,"bien بين المساعد واسم المفعول.|Bien between auxiliary and participle."],
+  ["ظرف évident:",["évidemment","évidentment","évidement"],0,"-ent → -emment.|-ent → -emment."],
+  ["Elle conduit ___.",["vite","rapide","vit"],0,"vite ظرف.|Vite is an adverb."],
+  ["Ils mangent ___.",["beaucoup","beaucoups","grand"],0,"كثيراً: beaucoup (ثابت).|A lot: beaucoup (invariable)."]]},
+ {id:"a2-vdr",ar:"الماضي القريب والمضارع المستمر",en:"Venir de and être en train de",fr:"Venir de et être en train de",
+  intro:"الفرنسية لا تملك زمناً خاصاً للمضارع المستمر مثل الإنجليزية، فتقول être en train de. ولها الماضي القريب venir de + مصدر. ومع aller + مصدر تكتمل الثلاثية: ما قبل لحظة الكلام وأثناءها وبعدها.|French has no true continuous tense, so it uses être en train de. Venir de + infinitive is the recent past. With aller + infinitive you get before, during and after the moment of speaking.",
+  table:{h:["التركيب|Structure","المعنى|Meaning","مثال|Example"],r:[["venir de + inf.","للتو فعل|has just done","Je viens de manger."],["être en train de + inf.","يفعل الآن|is doing right now","Je suis en train de manger."],["aller + inf.","سيفعل قريباً|is going to","Je vais manger."]]},
+  rules:["venir de تُصرَّف في المضارع والفعل بعدها مصدر: Elle vient d'arriver.|Venir de is conjugated in the present, followed by an infinitive: Elle vient d'arriver.",
+   "être en train de للتأكيد أن الفعل جارٍ في هذه اللحظة: Ne me dérange pas, je suis en train de travailler.|Être en train de stresses that the action is happening now.",
+   "⚠ لا نقول «Je suis mangeant». المضارع العادي يكفي غالباً: Je mange.|⚠ Never «Je suis mangeant». The plain present is often enough: Je mange.",
+   "تجنّب تكرار en train de في كل جملة؛ الفرنسيون يستعملونه عند التأكيد فقط.|Don't overuse en train de; French speakers keep it for emphasis."],
+  ex:[["Il vient de partir.","غادر للتو.|He has just left."],["Nous sommes en train de dîner.","نحن نتعشى الآن.|We are having dinner right now."],["Je vais téléphoner à ma mère.","سأتصل بأمي.|I'm going to call my mother."]],
+  quiz:[["Je ___ arriver.",["viens d'","vais","suis en train d'"],0,"للتو: venir de.|Just: venir de."],
+  ["Chut ! Le bébé ___ dormir.",["vient de","est en train de","va"],1,"الآن: en train de.|Right now: en train de."],
+  ["Demain, nous ___ visiter Paris.",["venons de","allons","sommes en train de"],1,"مستقبل قريب: aller.|Near future: aller."],
+  ["Elle ___ finir son travail.",["vient de","va","est en train"],0,"للتو: vient de.|Just: vient de."],
+  ["Choisissez la phrase correcte:",["Je suis en train de lire.","Je suis lisant.","Je viens lire."],0,"en train de + مصدر.|En train de + infinitive."],
+  ["Ils ___ manger.",["sont en train de","viennent de","vont"],0,"يأكلون الآن.|They are eating now."],
+  ["Nous venons ___ rentrer.",["de","à","en"],0,"venir de + مصدر.|Venir de + infinitive."],
+  ["Tu ___ téléphoner à Paul ?",["vas","viens de","es en train de"],0,"هل ستتصل قريباً: vas.|Are you going to: vas."]]}
+ ],
+ B1: [
+ {id:"b1-si",ar:"الجملة الشرطية بـ si",en:"Conditional sentences with si",fr:"L'hypothèse avec si",
+  intro:"الفرنسية تربط زمن الشرط بزمن النتيجة، وهناك ثلاثة أنواع حسب احتمال الشرط. القاعدة الذهبية: لا نضع المستقبل ولا الشرطي بعد si مباشرة.|French links the tense of the condition to the tense of the result: three types depending on how likely the condition is. Golden rule: never put the future or the conditional right after si.",
+  table:{h:["النوع|Type","بعد si|After si","النتيجة|Result","مثال|Example"],r:[["ممكن|Real","présent","futur / impératif","Si tu viens, je serai content."],["غير محتمل|Unlikely","imparfait","conditionnel présent","Si j'avais le temps, je voyagerais."],["مستحيل (ماضٍ)|Impossible past","plus-que-parfait","conditionnel passé","Si j'avais su, je serais venu."]]},
+  rules:["⚠ خطأ عربي شائع: لا نقول «Si tu viendras». بعد si نستعمل المضارع: Si tu viens.|⚠ Never «Si tu viendras»: after si use the present: Si tu viens.",
+   "للحقائق العامة نستعمل المضارع مع المضارع: Si on chauffe l'eau à 100 degrés, elle bout.|General truths: present + present.",
+   "si + il / ils تصبح s'il / s'ils: S'il pleut… لكن si + elle تبقى: Si elle vient.|si + il / ils becomes s'il / s'ils; si elle stays.",
+   "يمكن عكس الترتيب بدون فاصلة: Je serais content si tu venais.|The order can be reversed: Je serais content si tu venais."],
+  ex:[["Si tu viens, je t'aiderai.","إن جئت سأساعدك.|If you come, I'll help you."],["Si j'étais riche, je voyagerais.","لو كنت غنياً لسافرت.|If I were rich, I would travel."],["Si j'avais su, je serais venu.","لو علمت لجئت.|If I had known, I would have come."]],
+  quiz:[["Si tu ___, je t'aiderai.",["viens","viendras","viendrais"],0,"بعد si: المضارع.|After si: present."],
+  ["Si j'avais de l'argent, j'___ une voiture.",["achèterai","achèterais","achetais"],1,"imparfait + conditionnel.|Imparfait + conditional."],
+  ["Si nous avions su, nous ___ venus.",["serions","sommes","serons"],0,"conditionnel passé: serions venus.|Past conditional: serions venus."],
+  ["___ il pleut, nous resterons à la maison.",["Si il","S'il","Si-il"],1,"si + il = s'il.|si + il = s'il."],
+  ["Choisissez la phrase correcte:",["Si je serais riche, je voyagerais.","Si j'étais riche, je voyagerais.","Si je suis riche, je voyagerais."],1,"imparfait بعد si.|Imparfait after si."],
+  ["Si elle ___ tôt, elle prendra le train de huit heures.",["se lève","se lèverait","se levait"],0,"المضارع بعد si.|Present after si."],
+  ["Si on chauffe l'eau, elle ___.",["bout","bouillirait","avait bouilli"],0,"حقيقة عامة: مضارع.|General truth: present."],
+  ["Si j'avais su, je ne ___ pas venu.",["serais","suis","serai"],0,"conditionnel passé: ne serais pas venu.|Past conditional."]]},
+ {id:"b1-cause",ar:"السبب والنتيجة والغاية",en:"Cause, consequence and purpose",fr:"Cause, conséquence et but",
+  intro:"عندما نناقش بالفرنسية نحتاج إلى ربط الحجج: لماذا (السبب)؟ فماذا حدث (النتيجة)؟ ولأي غرض (الغاية)؟ ولكل منها أدواتها وأزمنتها.|To argue in French you link ideas: why (cause), what followed (consequence), and what for (purpose). Each has its own connectors and tenses.",
+  table:{h:["الفكرة|Idea","الأدوات|Connectors","بعدها|Followed by"],r:[["السبب|Cause","parce que, puisque, car, comme","فعل مصرّف|conjugated verb"],["السبب + اسم|Cause + noun","à cause de, grâce à","اسم|noun"],["النتيجة|Consequence","donc, alors, c'est pourquoi","فعل مصرّف|conjugated verb"],["الغاية|Purpose","pour que, afin que","subjonctif"],["الغاية (فاعل واحد)|Same subject","pour, afin de","مصدر|infinitive"]]},
+  rules:["parce que تجيب عن «لماذا؟»، وcomme تأتي في بداية الجملة: Comme il pleuvait, nous sommes restés. وcar لا تبدأ الجملة.|Parce que answers «why?»; comme starts the sentence; car never does.",
+   "à cause de للسبب السلبي، وgrâce à للإيجابي: Grâce à toi, j'ai réussi.|À cause de = negative cause, grâce à = positive.",
+   "pour que / afin que + subjonctif: Je parle lentement pour que tu comprennes.|Pour que / afin que + subjunctive.",
+   "إذا كان الفاعل واحداً نستعمل pour + مصدر: J'étudie pour réussir. ⚠ لا نقول «pour que je réussisse» هنا.|Same subject: pour + infinitive: J'étudie pour réussir."],
+  ex:[["Je suis en retard parce que le bus est tombé en panne.","تأخرت لأن الحافلة تعطلت.|I'm late because the bus broke down."],["Grâce à toi, j'ai réussi.","بفضلك نجحت.|Thanks to you, I passed."],["Je t'explique pour que tu comprennes.","أشرح لك كي تفهم.|I explain so that you understand."]],
+  quiz:[["Je suis en retard ___ le bus est tombé en panne.",["parce que","pour que","donc"],0,"السبب: parce que.|Cause: parce que."],
+  ["Il pleuvait, ___ nous sommes restés à la maison.",["donc","parce que","car"],0,"النتيجة: donc.|Consequence: donc."],
+  ["Elle a réussi ___ son travail.",["grâce à","à cause de","pour"],0,"سبب إيجابي: grâce à.|Positive cause: grâce à."],
+  ["Il a raté le train ___ la grève.",["grâce à","à cause de","pour que"],1,"سبب سلبي: à cause de.|Negative cause: à cause de."],
+  ["Je t'explique pour que tu ___.",["comprends","comprennes","comprendras"],1,"pour que + subjonctif.|Pour que + subjunctive."],
+  ["J'étudie ___ réussir.",["pour","pour que","afin que"],0,"فاعل واحد: pour + مصدر.|Same subject: pour + infinitive."],
+  ["___ il est malade, il reste au lit.",["Comme","Pour que","Donc"],0,"comme في بداية الجملة للسبب.|Comme at the start for cause."],
+  ["Il parle fort ___ tout le monde l'entende.",["afin que","afin de","parce que"],0,"فاعل مختلف: afin que + subjonctif.|Different subject: afin que."]]},
+ {id:"b1-relief",ar:"إبراز الكلمة: c'est… qui / que",en:"Emphasis: c'est… qui / que",fr:"La mise en relief",
+  intro:"الفرنسي يُبرز ما يريد التأكيد عليه بوضعه بين c'est و qui / que. وهو أسلوب شائع جداً في كلامهم، ويُستعمل أيضاً في الأسئلة.|The French highlight what they want to stress by putting it between c'est and qui / que. Very common in everyday speech.",
+  table:{h:["التركيب|Structure","يُبرز|Highlights","مثال|Example"],r:[["c'est … qui","الفاعل|the subject","C'est Marie qui a téléphoné."],["c'est … que","المفعول أو الظرف|object / adverb","C'est ce livre que je veux."],["ce qui / ce que … c'est","فكرة كاملة|a whole idea","Ce que j'aime, c'est la musique."],["Moi, je…","ضمير توكيدي|stressed pronoun","Moi, je préfère le thé."]]},
+  rules:["qui يحلّ محل الفاعل ويأتي بعده الفعل مباشرة: C'est lui qui parle.|Qui replaces the subject, verb follows directly: C'est lui qui parle.",
+   "que يحلّ محل المفعول أو الظرف: C'est demain que je pars.|Que replaces the object or an adverb: C'est demain que je pars.",
+   "ce qui للفاعل وce que للمفعول: Ce qui m'intéresse, c'est l'histoire. Ce que je veux, c'est dormir.|Ce qui = subject, ce que = object.",
+   "الفرنسيون يكرّرون الضمير للتوكيد: «Moi, je pense que…». ومع moi / toi الفعل يتبع الضمير: C'est moi qui ai fait ça.|The French repeat the pronoun for emphasis: Moi, je… ; after moi the verb agrees: C'est moi qui ai fait ça."],
+  ex:[["C'est Marie qui a téléphoné.","ماري هي التي اتصلت.|It's Marie who called."],["C'est demain que je pars.","غداً هو موعد سفري.|It's tomorrow that I'm leaving."],["Ce que j'aime, c'est la musique.","ما أحبه هو الموسيقى.|What I like is music."]],
+  quiz:[["C'est Paul ___ a cassé le verre.",["qui","que","dont"],0,"الفاعل: qui.|Subject: qui."],
+  ["C'est ce film ___ je veux voir.",["qui","que","où"],1,"المفعول: que.|Object: que."],
+  ["___ je veux, c'est un café.",["Ce que","Ce qui","C'est que"],0,"مفعول: ce que.|Object: ce que."],
+  ["___ m'intéresse, c'est la cuisine.",["Ce que","Ce qui","Qui"],1,"فاعل: ce qui.|Subject: ce qui."],
+  ["C'est moi ___ ai gagné.",["qui","que","dont"],0,"الفاعل moi: qui.|Subject: qui."],
+  ["C'est demain ___ nous partons.",["que","qui","dont"],0,"ظرف زمان: que.|Time adverb: que."],
+  ["Choisissez la phrase correcte:",["C'est elle qui parle.","C'est elle que parle.","C'est elle qui elle parle."],0,"الفاعل: qui.|Subject: qui."],
+  ["Ce ___ il dit est vrai.",["que","qui","dont"],0,"مفعول: ce qu'il dit.|Object: ce qu'il dit."]]}
+ ]
+ };
+ Object.keys(N).forEach(L => { (GR[L] = GR[L] || []).push(...N[L]); });
+})();
+
+/* أسئلة إضافية للدروس القديمة (v9c): [السؤال، الصحيح، خطأ١، خطأ٢، شرح عربي، شرح إنجليزي] — الترتيب يُخلط عند العرض */
+(function(){
+ const M = {
+ 'a1-art':[
+  ['Il y a ___ livres sur la table.','des','les','un','جمع نكرة: des.','Indefinite plural: des.'],
+  ['___ soleil brille.','Le','La','Les','soleil مذكر.','Soleil is masculine.'],
+  ['J\'aime ___ musique.','la','une','des','الحب العام يأخذ أداة التعريف.','General likes take the definite article.'],
+  ['Elle a ___ sœur.','une','un','le','sœur مؤنث.','Sœur is feminine.'],
+  ['___ eau est froide.','L\'','La','Le','أمام حرف متحرك: l\'.','Before a vowel: l\'.'],
+  ['Je cherche ___ clé. (مفتاحاً ما)','une','un','des','clé مؤنث ونكرة: une.','Clé is feminine, indefinite: une.']],
+ 'a1-etre':[
+  ['Elles ___ contentes.','sont','ont','est','être مع elles: sont.','Être with elles: sont.'],
+  ['J\'___ vingt ans.','ai','suis','ait','العمر مع avoir.','Age uses avoir.'],
+  ['Nous ___ français.','sommes','avons','êtes','الجنسية مع être.','Nationality uses être.'],
+  ['Ils ___ peur.','ont','sont','avez','avoir peur = يخاف.','Avoir peur = to be afraid.'],
+  ['Tu ___ de la chance.','as','es','a','avoir de la chance = محظوظ.','Avoir de la chance = to be lucky.'],
+  ['Vous ___ à la maison ?','êtes','avez','sont','المكان مع être.','Location uses être.']],
+ 'a1-er':[
+  ['Vous ___ le français. (étudier)','étudiez','étudions','étudient','vous → -ez.','Vous → -ez.'],
+  ['Tu ___ la radio. (écouter)','écoutes','écoute','écoutez','tu → -es.','Tu → -es.'],
+  ['Elle ___ un livre. (chercher)','cherche','cherches','cherchent','elle → -e.','Elle → -e.'],
+  ['Je ___ la porte. (fermer)','ferme','fermes','fermons','je → -e.','Je → -e.'],
+  ['Ils ___ le dîner. (préparer)','préparent','prépare','préparons','ils → -ent.','Ils → -ent.'],
+  ['Nous ___ en train. (voyager)','voyageons','voyagons','voyagent','نبقي e لحفظ نطق g: voyageons.','Keep the e to keep the soft g: voyageons.']],
+ 'a1-neg':[
+  ['Il ___ fume pas.','ne','n\'','non','قبل حرف ساكن: ne.','Before a consonant: ne.'],
+  ['Je ne mange pas ___ pain.','de','du','le','بعد النفي: de.','After a negative: de.'],
+  ['Nous n\'___ pas faim.','avons','sommes','avez','n\' قبل حرف متحرك، والفعل avons.','n\' before a vowel; the verb is avons.'],
+  ['Tu ___ comprends pas ?','ne','n\'','non','comprends يبدأ بحرف ساكن: ne.','Comprends starts with a consonant: ne.'],
+  ['Choisissez la phrase correcte:','Je ne sais pas.','Je ne pas sais.','Je sais ne pas.','ne قبل الفعل وpas بعده.','Ne before the verb, pas after it.'],
+  ['Il n\'a pas ___ voiture.','de','une','la','بعد النفي: de.','After a negative: de.']],
+ 'a1-poss':[
+  ['___ sœur est médecin. (أختي)','Ma','Mon','Mes','sœur مؤنث: ma.','Sœur is feminine: ma.'],
+  ['Elle cherche ___ clé. (مفتاحها)','sa','son','ses','clé مؤنث: sa.','Clé is feminine: sa.'],
+  ['Ils aiment ___ ville. (مدينتهم)','leur','leurs','sa','المملوك مفرد: leur.','Single possession: leur.'],
+  ['___ école est grande. (مدرستي)','Mon','Ma','Mes','أمام حرف متحرك نستعمل mon حتى مع المؤنث.','Before a vowel we use mon even with feminine nouns.'],
+  ['Tu as ___ stylo ? (قلمك)','ton','ta','tes','stylo مذكر: ton.','Stylo is masculine: ton.'],
+  ['Nous aimons ___ amis. (أصدقاءنا)','nos','notre','nous','المملوك جمع: nos.','Plural possession: nos.']],
+ 'a1-fp':[
+  ['Un étudiant → une ___.','étudiante','étudiant','étudiants','نضيف e للمؤنث.','Add e for the feminine.'],
+  ['Le pluriel de «un enfant»:','des enfants','des enfantes','des enfant','نضيف s.','Add s.'],
+  ['Le pluriel de «un nez»:','des nez','des nezs','des nezes','ما ينتهي بـ z لا يتغير.','Words ending in z stay the same.'],
+  ['Le féminin de «acteur»:','actrice','acteure','acteuse','-teur → -trice.','-teur → -trice.'],
+  ['Le pluriel de «un travail»:','des travaux','des travails','des travailles','-ail → -aux.','-ail → -aux.'],
+  ['Un chien → une ___.','chienne','chiene','chiens','-ien → -ienne.','-ien → -ienne.']],
+ 'a1-q':[
+  ['___ heure est-il ? (كم الساعة)','Quelle','Quel','Quand','heure مؤنث: quelle.','Heure is feminine: quelle.'],
+  ['___ habites-tu ? (أين)','Où','Qui','Quand','أين = où.','Where = où.'],
+  ['___ est ton frère ? (من)','Qui','Que','Où','من = qui.','Who = qui.'],
+  ['Pour demander «متى؟» on dit:','Quand','Quoi','Qui','متى = quand.','When = quand.'],
+  ['«Qu\'est-ce que tu manges ?» signifie:','ماذا تأكل؟|What are you eating?','أين تأكل؟|Where do you eat?','من يأكل؟|Who is eating?','Qu\'est-ce que = ماذا.','Qu\'est-ce que = what.'],
+  ['Pour demander «كيف حالك؟» entre amis:','Ça va ?','Où va ?','Qui va ?','سؤال شائع بين الأصدقاء.','A common friendly question.']],
+ 'a1-prep':[
+  ['Le stylo est ___ la table. (فوق)','sur','sous','dans','فوق = sur.','On = sur.'],
+  ['Nous allons ___ France.','en','au','à','الدول المؤنثة: en.','Feminine countries: en.'],
+  ['Il habite ___ États-Unis.','aux','en','au','États-Unis جمع: aux.','États-Unis is plural: aux.'],
+  ['La pharmacie est ___ la banque. (مقابل)','en face de','derrière','entre','مقابل = en face de.','Opposite = en face de.'],
+  ['Elle est ___ Paris. (في المدينة)','à','en','au','المدن: à.','Cities: à.'],
+  ['Le chat est ___ la chaise. (خلف)','derrière','devant','sur','خلف = derrière.','Behind = derrière.']],
+ 'a1-ce':[
+  ['___ un étudiant.','C\'est','Ce sont','Il y a','مفرد: c\'est.','Singular: c\'est.'],
+  ['___ mes parents.','Ce sont','C\'est','Il y a','جمع: ce sont.','Plural: ce sont.'],
+  ['Il y a ___ voiture dans la rue.','une','la','cette','نكرة مؤنثة: une.','Indefinite feminine: une.'],
+  ['Dans ma chambre, ___ un lit et deux chaises.','il y a','c\'est','ce sont','للوجود والعدّ: il y a.','To state existence: il y a.'],
+  ['Qui est-ce ? ___ Sara.','C\'est','Il y a','Ils sont','للتعريف بشخص: c\'est.','To identify someone: c\'est.'],
+  ['«Il y a» signifie:','يوجد|there is / there are','هو لديه|he has','هذا|this is','il y a = يوجد.','Il y a = there is / are.']],
+ 'a1-dem':[
+  ['___ livres sont intéressants.','Ces','Ce','Cet','جمع: ces.','Plural: ces.'],
+  ['___ arbre est grand.','Cet','Ce','Cette','مذكر أمام حرف متحرك: cet.','Masculine before a vowel: cet.'],
+  ['___ voiture est rapide.','Cette','Ce','Cet','مؤنث: cette.','Feminine: cette.'],
+  ['Je prends ___ stylo.','ce','cet','cette','مذكر أمام ساكن: ce.','Masculine before a consonant: ce.'],
+  ['Ce sac-___. (هذه الحقيبة هنا)','ci','là','la','ci = هنا.','-ci = here.'],
+  ['___ homme est mon oncle.','Cet','Ce','Ces','homme يبدأ بحرف h صامت: cet.','Homme starts with a silent h: cet.']],
+ 'a1-irr':[
+  ['Elle ___ à l\'école. (aller)','va','vas','vont','elle → va.','Elle → va.'],
+  ['Nous ___ le train. (prendre)','prenons','prenez','prennent','nous → prenons.','Nous → prenons.'],
+  ['Ils ___ du sport. (faire)','font','faisent','faites','ils → font.','Ils → font.'],
+  ['Je ___ du Maroc. (venir)','viens','viend','venons','je → viens.','Je → viens.'],
+  ['Vous ___ à Paris ? (aller)','allez','allons','vont','vous → allez.','Vous → allez.'],
+  ['Elles ___ un taxi. (prendre)','prennent','prend','prenent','elles → prennent.','Elles → prennent.']],
+ 'a1-contr':[
+  ['Je parle ___ directeur.','du','de le','au','de + le = du.','de + le = du.'],
+  ['Il va ___ hôpital.','à l\'','au','aux','أمام حرف متحرك: à l\'.','Before a vowel: à l\'.'],
+  ['Nous parlons ___ voisins.','des','du','de la','de + les = des.','de + les = des.'],
+  ['Elle va ___ pharmacie.','à la','au','aux','مؤنث: à la (لا اندماج).','Feminine: à la (no contraction).'],
+  ['Il revient ___ États-Unis.','des','du','de la','de + les = des.','de + les = des.'],
+  ['On joue ___ cartes.','aux','au','à la','à + les = aux.','à + les = aux.']],
+ 'a2-pc':[
+  ['Elle ___ un film hier. (regarder)','a regardé','est regardé','regardé','avoir + اسم المفعول.','Avoir + participle.'],
+  ['Nous ___ nos amis. (inviter)','avons invité','sommes invité','avons invités','مع avoir لا يتغير الاسم المفعول هنا.','With avoir the participle doesn\'t change here.'],
+  ['Le participe passé de «prendre»:','pris','prendu','pri','شاذ: pris.','Irregular: pris.'],
+  ['Le participe passé de «avoir»:','eu','avu','aivu','شاذ: eu.','Irregular: eu.'],
+  ['J\'___ lu ce livre.','ai','suis','as','j\' + ai.','J\' + ai.'],
+  ['Tu ___ bien dormi ?','as','es','a','tu + as.','Tu + as.']],
+ 'a2-etre':[
+  ['Elle ___ née en 1990.','est','a','as','naître مع être.','Naître uses être.'],
+  ['Nous ___ allés au marché. (رجال)','sommes','avons','êtes','aller مع être.','Aller uses être.'],
+  ['Ils ___ descendus à la gare.','sont','ont','est','descendre مع être.','Descendre uses être.'],
+  ['Elle s\'est ___. (se laver)','lavée','lavé','lavés','الانعكاسي يتفق مع الفاعل المؤنث.','A reflexive verb agrees with a feminine subject.'],
+  ['Quel verbe utilise «être» ?','aller','manger','regarder','aller من أفعال الحركة.','Aller is a movement verb.'],
+  ['Elles ___ venues hier.','sont','ont','est','venir مع être.','Venir uses être.']],
+ 'a2-fp':[
+  ['Je ___ téléphoner à Paul.','vais','vas','va','je → vais.','Je → vais.'],
+  ['Elle ___ acheter une voiture.','va','vas','vont','elle → va.','Elle → va.'],
+  ['Nous allons ___.','dormir','dormons','dormi','بعد aller: مصدر.','After aller: infinitive.'],
+  ['Il ne ___ pas venir.','va','vas','allons','ne … pas حول aller.','Ne … pas goes around aller.'],
+  ['Vous ___ rester ?','allez','allons','vont','vous → allez.','Vous → allez.'],
+  ['Demain, ils ___ jouer.','vont','va','vais','ils → vont.','Ils → vont.']],
+ 'a2-pron':[
+  ['Elle ___ couche à dix heures.','se','te','me','elle → se.','Elle → se.'],
+  ['Je ne ___ lève pas tôt.','me','te','se','je → me.','Je → me.'],
+  ['Nous nous ___ à huit heures. (se réveiller)','réveillons','réveillez','réveillent','nous → -ons.','Nous → -ons.'],
+  ['Tu t\'___ bien ? (s\'amuser)','amuses','amuse','amusez','tu → -es.','Tu → -es.'],
+  ['Ils ___ promènent dans le parc.','se','s\'','me','ils → se.','Ils → se.'],
+  ['Vous ___ dépêchez ?','vous','nous','se','vous → vous.','Vous → vous.']],
+ 'a2-part':[
+  ['Je bois ___ lait.','du','de la','des','lait مذكر: du.','Lait is masculine: du.'],
+  ['Elle mange ___ confiture.','de la','du','de l\'','confiture مؤنث: de la.','Confiture is feminine: de la.'],
+  ['Il prend ___ eau.','de l\'','du','de la','أمام حرف متحرك: de l\'.','Before a vowel: de l\'.'],
+  ['Ils achètent ___ légumes.','des','du','de la','جمع: des.','Plural: des.'],
+  ['Je n\'ai pas ___ argent.','d\'','de l\'','du','بعد النفي: de / d\'.','After a negative: de / d\'.'],
+  ['Nous voulons ___ pain.','du','de la','des','pain مذكر: du.','Pain is masculine: du.']],
+ 'a2-comp':[
+  ['Il est ___ intelligent que moi. (أقل)','moins','plus','aussi','أقل = moins.','Less = moins.'],
+  ['Elle chante ___ bien que lui. (بنفس القدر)','aussi','plus','moins','المساواة: aussi.','Equality: aussi.'],
+  ['Ce vin est ___ que l\'autre. (أفضل)','meilleur','mieux','plus bon','صفة: meilleur.','Adjective: meilleur.'],
+  ['Il travaille ___ que moi. (أفضل)','mieux','meilleur','plus bien','ظرف: mieux.','Adverb: mieux.'],
+  ['Marie est plus grande ___ Paul.','que','de','à','المقارنة بـ que.','Comparison uses que.'],
+  ['Paris est ___ grand que Lyon. (أكبر)','plus','aussi','moins','أكبر = plus grand.','Bigger = plus grand.']],
+ 'a2-neg':[
+  ['Elle ne boit ___ de café. (أبداً)','jamais','rien','plus','أبداً = jamais.','Never = jamais.'],
+  ['Je n\'ai ___ vu. (لا أحد)','personne','rien','jamais','لا أحد = personne.','Nobody = personne.'],
+  ['Il n\'y a ___ ici. (لا أحد)','personne','rien','plus','لا أحد = personne.','Nobody = personne.'],
+  ['Nous n\'avons ___ mangé. (شيئاً)','rien','personne','jamais','لا شيء = rien.','Nothing = rien.'],
+  ['Il ne pleut ___. (لم يعد)','plus','rien','jamais','لم يعد = ne … plus.','No longer = ne … plus.'],
+  ['Je ne veux ___. (لا شيء)','rien','personne','jamais','لا شيء = rien.','Nothing = rien.']],
+ 'a2-coi':[
+  ['Je téléphone à mes amis ← Je ___ téléphone.','leur','lui','les','للجمع: leur.','Plural: leur.'],
+  ['Il écrit à Marie ← Il ___ écrit.','lui','leur','la','مفرد: lui.','Singular: lui.'],
+  ['Elle ___ donne un livre. (لك)','te','lui','leur','لك = te.','To you = te.'],
+  ['Tu ___ as parlé ? (له)','lui','leur','le','له = lui.','To him = lui.'],
+  ['Nous ___ répondons. (لهم)','leur','lui','les','لهم = leur.','To them = leur.'],
+  ['Il ___ a offert des fleurs. (لي)','m\'','me','moi','قبل a: m\'.','Before a: m\'.']],
+ 'a2-yen':[
+  ['Tu vas à Paris ? Oui, j\'___ vais.','y','en','le','y يعوّض عن مكان بعد à.','Y replaces a place after à.'],
+  ['Tu veux des pommes ? Oui, j\'___ veux.','en','y','les','en يعوّض عن الكمية.','En replaces a quantity.'],
+  ['Il pense à son travail ? Oui, il ___ pense.','y','en','lui','penser à + شيء = y.','Penser à + thing = y.'],
+  ['Elle a deux enfants ? Oui, elle ___ a deux.','en','y','les','نحتفظ بالعدد مع en.','Keep the number with en.'],
+  ['Vous revenez du marché ? Oui, nous ___ revenons.','en','y','le','de + مكان = en.','de + place = en.'],
+  ['Allons-___ ! (لنذهب إلى هناك)','y','en','le','في الأمر: Allons-y.','Imperative: Allons-y.']],
+ 'a2-imp':[
+  ['(Écouter, tu) ___ bien !','Écoute','Écoutes','Écouter','أمر tu بدون s.','Tu imperative drops the s.'],
+  ['(Aller, tu) ___ à l\'école !','Va','Vas','Allez','aller → va.','Aller → va.'],
+  ['(Prendre, nous) ___ un taxi !','Prenons','Prendre','Prenez','أمر nous: prenons.','Nous imperative: prenons.'],
+  ['(Avoir, tu) ___ de la patience !','Aie','As','Aies','شاذ: aie.','Irregular: aie.'],
+  ['Ne ___ pas ! (partir, vous)','partez','pars','partons','vous → partez.','Vous → partez.'],
+  ['Pour dire à un ami «افتح الباب»:','Ouvre la porte !','Ouvres la porte !','Ouvrir la porte !','أفعال -er تفقد s في الأمر.','-er verbs lose the s in the imperative.']],
+ 'a2-mod':[
+  ['Elle ___ parler cinq langues. (تستطيع)','peut','peux','peuvent','elle → peut.','Elle → peut.'],
+  ['Nous ___ partir. (نريد)','voulons','veulent','voulez','nous → voulons.','Nous → voulons.'],
+  ['Tu ___ travailler. (يجب عليك)','dois','doit','devez','tu → dois.','Tu → dois.'],
+  ['Je ne ___ pas venir. (لا أستطيع)','peux','peut','pouvons','je → peux.','Je → peux.'],
+  ['Elles ___ étudier. (يجب)','doivent','doit','devons','elles → doivent.','Elles → doivent.'],
+  ['___-vous m\'aider ? (هل تستطيع)','Pouvez','Pouvons','Peuvent','vous → pouvez.','Vous → pouvez.']],
+ 'a2-sup':[
+  ['C\'est la ___ belle ville. (الأجمل)','plus','meilleure','mieux','la plus + صفة.','La plus + adjective.'],
+  ['Il est le ___ gentil. (الأقل)','moins','pas','mal','الأقل = le moins.','The least = le moins.'],
+  ['Ce sont les ___ résultats. (الأفضل)','meilleurs','mieux','plus bons','صفة: les meilleurs.','Adjective: les meilleurs.'],
+  ['Elle chante le ___. (الأفضل)','mieux','meilleur','plus bien','ظرف: le mieux.','Adverb: le mieux.'],
+  ['C\'est le plus ___ restaurant de Paris. (أغلى)','cher','chère','chers','restaurant مذكر مفرد: cher.','Restaurant is masculine singular: cher.'],
+  ['Marie est la plus ___ de la classe. (أصغر)','jeune','jeunes','jeunesse','مؤنث مفرد: jeune.','Feminine singular: jeune.']],
+ 'b1-imp':[
+  ['Nous ___ au parc tous les jours. (aller)','allions','allons','irons','عادة في الماضي: imparfait.','A past habit: imparfait.'],
+  ['Il ___ très gentil. (être)','était','étais','étaient','il → était.','Il → était.'],
+  ['Je ___ en France. (habiter)','habitais','habitait','habiterais','je → -ais.','Je → -ais.'],
+  ['Elle ___ les cheveux longs. (avoir)','avait','avais','avaient','وصف في الماضي.','Description in the past.'],
+  ['Quand j\'étais enfant, nous ___ chez grand-mère. (manger)','mangions','mangeons','mangiez','nous → -ions.','Nous → -ions.'],
+  ['L\'imparfait exprime:|The imparfait expresses:','عادة أو وصفاً في الماضي|a past habit or description','حدثاً لحظياً منتهياً|a single completed event','المستقبل|the future','الناقص للعادة والوصف.','Imparfait = habit or description.']],
+ 'b1-fs':[
+  ['Elle ___ demain. (partir)','partira','partirait','partit','المستقبل: -ra.','Future: -ra.'],
+  ['Nous ___ le médecin. (appeler)','appellerons','appelerons','appelons','appeler: ll في المستقبل.','Appeler doubles the l in the future.'],
+  ['Je ___ riche un jour. (être)','serai','étais','suis','être → serai.','Être → serai.'],
+  ['Vous ___ la réponse. (savoir)','saurez','savez','savrez','savoir → saur-.','Savoir → saur-.'],
+  ['Ils ___ à dix heures. (venir)','viendront','viennent','venront','venir → viendr-.','Venir → viendr-.'],
+  ['On ___ bientôt. (voir)','verra','voira','voit','voir → verr-.','Voir → verr-.']],
+ 'b1-cod':[
+  ['Je regarde les enfants ← Je ___ regarde.','les','leur','lui','جمع: les.','Plural: les.'],
+  ['Tu connais Paul ? Oui, je ___ connais.','le','lui','la','COD مذكر: le.','Masculine COD: le.'],
+  ['Il a pris la clé ← Il l\'a ___.','prise','pris','prises','COD قبل الفعل: يتفق الاسم المفعول.','COD before the verb: the participle agrees.'],
+  ['Elle ___ attend. (تنتظرني)','m\'','me','moi','قبل حرف متحرك: m\'.','Before a vowel: m\'.'],
+  ['Je vais ___ voir demain. (أراها، Marie)','la','lui','leur','COD مؤنث: la.','Feminine COD: la.'],
+  ['Il ne ___ comprend pas. (لا يفهمنا)','nous','lui','leur','نحن: nous.','Us: nous.']],
+ 'b1-cond':[
+  ['Je ___ bien un thé. (أحب)','prendrais','prends','prendrai','طلب مؤدب: conditionnel.','Polite request: conditional.'],
+  ['Il ___ être là bientôt. (قد)','pourrait','pouvait','pourra','احتمال: pourrait.','Possibility: pourrait.'],
+  ['Si j\'avais de l\'argent, nous ___ en Italie.','irions','allions','irons','imparfait + conditionnel.','Imparfait + conditional.'],
+  ['À ta place, je ne ___ pas. (partir)','partirais','partais','partirai','نصيحة: conditionnel.','Advice: conditional.'],
+  ['Ils ___ venir, mais ils sont occupés.','voudraient','voulaient','voudront','رغبة غير محققة: conditionnel.','Unfulfilled wish: conditional.'],
+  ['Tu ___ me passer le sel ? (بأدب)','pourrais','peux','pouvais','أكثر أدباً: pourrais.','More polite: pourrais.']],
+ 'b1-rel':[
+  ['La femme ___ parle est ma tante.','qui','que','quoi','qui فاعل.','Qui = subject.'],
+  ['Le livre ___ tu lis est bon.','que','qui','où','que مفعول.','Que = object.'],
+  ['Les gens ___ j\'ai rencontrés sont gentils.','que','qui','dont','que مفعول.','Que = object.'],
+  ['C\'est un homme ___ aime voyager.','qui','que','dont','qui فاعل.','Qui = subject.'],
+  ['La maison ___ ils ont achetée est grande.','que','qui','où','que مفعول.','Que = object.'],
+  ['Le chat ___ dort est mignon.','qui','que','qu\'','qui فاعل.','Qui = subject.']],
+ 'b1-pqp':[
+  ['J\'___ déjà mangé quand il est arrivé.','avais','ai','aurai','avoir بالماضي الناقص.','Avoir in the imparfait.'],
+  ['Elle ___ partie avant la fin.','était','a','avait','partir مع être.','Partir uses être.'],
+  ['Nous ___ vu ce film. (قبل ذلك)','avions','avons','étions','nous avions + اسم المفعول.','Nous avions + participle.'],
+  ['Ils ___ déjà dîné.','avaient','étaient','ont','ils avaient.','Ils avaient.'],
+  ['Il m\'a dit qu\'il ___ arrivé en retard.','était','avait','a','arriver مع être.','Arriver uses être.'],
+  ['Elles ___ sorties avant moi.','étaient','avaient','sont','sortir مع être.','Sortir uses être.']],
+ 'b1-subj':[
+  ['Il faut que nous ___ tôt. (partir)','partions','partons','partirons','nous → -ions.','Nous → -ions.'],
+  ['Je doute qu\'il ___ vrai. (être)','soit','est','sera','الشك + subjonctif.','Doubt + subjunctive.'],
+  ['Pour que tu ___. (comprendre)','comprennes','comprends','comprendras','pour que + subjonctif.','Pour que + subjunctive.'],
+  ['Il est important que vous ___. (venir)','veniez','venez','viendrez','vous → -iez.','Vous → -iez.'],
+  ['Je voudrais que tu ___ attention. (faire)','fasses','fais','feras','faire → fass-.','Faire → fass-.'],
+  ['Je crois qu\'il ___ raison. (avoir)','a','ait','aie','croire إيجابي + indicatif.','Affirmative croire + indicative.']],
+ 'b1-pass':[
+  ['La lettre ___ par Paul. (écrire)','est écrite','a écrit','écrit','être + اسم المفعول يتفق مع lettre.','Être + participle agreeing with lettre.'],
+  ['Les maisons ___ par le vent. (détruire، ماضٍ)','ont été détruites','sont détruit','ont détruites','a été + اسم المفعول.','Past passive: a été + participle.'],
+  ['Ce film sera ___ demain. (montrer)','montré','montrer','montrant','sera + اسم المفعول.','Sera + participle.'],
+  ['La pomme ___ par Paul. (manger)','est mangée','mange','a mangé','المبني للمجهول: être + اسم المفعول.','Passive: être + participle.'],
+  ['Le complément d\'agent est introduit par:|The agent is introduced by:','par','pour','avec','الفاعل في المجهول بعد par.','The agent follows par.'],
+  ['Elle ___ invitée à la fête. (présent)','est','a','sera','الحاضر: est.','Present: est.']],
+ 'b1-ger':[
+  ['Il lit ___. (manger)','en mangeant','en mangé','mangeant en','en + -ant.','En + -ant.'],
+  ['Elle chante ___. (se doucher)','en se douchant','en douchant','se en douchant','الضمير قبل en + -ant.','Pronoun goes between en and -ant: en se douchant.'],
+  ['Le gérondif de «faire»:','en faisant','en faisent','en fait','faisons → faisant.','Faisons → faisant.'],
+  ['Il a appris l\'anglais ___. (voyager)','en voyageant','en voyager','en voyagé','نبقي e: voyageant.','Keep the e: voyageant.'],
+  ['Le gérondif de «être»:','en étant','en été','en étent','شاذ: étant.','Irregular: étant.'],
+  ['Elle est partie ___. (pleurer)','en pleurant','en pleurer','pleurant en','en + -ant.','En + -ant.']],
+ 'b1-dont':[
+  ['Le film ___ je parle est nouveau.','dont','que','où','parler de → dont.','Parler de → dont.'],
+  ['La ville ___ j\'habite est grande.','où','dont','qui','المكان: où.','Place: où.'],
+  ['C\'est la personne ___ je me souviens.','dont','que','où','se souvenir de → dont.','Se souvenir de → dont.'],
+  ['L\'étudiant ___ la voiture est rouge est là.','dont','que','qui','الملكية: dont.','Possession: dont.'],
+  ['Le jour ___ il est arrivé, il pleuvait.','où','dont','que','الزمان: où.','Time: où.'],
+  ['Voici le livre ___ j\'ai envie.','dont','que','où','avoir envie de → dont.','Avoir envie de → dont.']],
+ 'b1-di':[
+  ['«Je pars.» ← Il a dit qu\'il ___.','partait','part','partira','ننقل الحاضر إلى الناقص.','Present becomes imparfait.'],
+  ['«Où vas-tu ?» ← Il m\'a demandé où je ___.','allais','vais','irai','الحاضر → الناقص.','Present → imparfait.'],
+  ['«Ne viens pas !» ← Il m\'a dit de ne pas ___.','venir','viens','venu','الأمر → de + مصدر.','Order → de + infinitive.'],
+  ['«Aujourd\'hui» devient souvent:','ce jour-là','demain','hier','الزمن يتغير في الكلام المنقول.','Time words change in indirect speech.'],
+  ['«Qu\'est-ce que tu fais ?» ← Il m\'a demandé ___ je faisais.','ce que','ce qui','quoi','سؤال مفعول: ce que.','Object question: ce que.'],
+  ['«J\'ai faim.» ← Elle a dit qu\'elle ___ faim.','avait','a','aura','الحاضر → الناقص.','Present → imparfait.']]
+ };
+ Object.keys(GR).forEach(L => GR[L].forEach(l => { (M[l.id] || []).forEach(r => { if(l.quiz.some(q => q[0] === r[0])) return; l.quiz.push([r[0], [r[1], r[2], r[3]], 0, r[4] + '|' + r[5]]); }); }));
+})();
+
+/* ترتيب الدروس تربوياً: الأسماء والصفات ← الأفعال ← الأسئلة والإشارة والملكية ← الأفعال الشاذة ← الأماكن */
+(function(){
+ const ORD = {
+  A1:['a1-art','a1-fp','a1-adj','a1-etre','a1-er','a1-neg','a1-q','a1-ce','a1-dem','a1-poss','a1-irr','a1-ilya','a1-prep','a1-contr','a1-heure'],
+  A2:['a2-pc','a2-etre','a2-fp','a2-vdr','a2-pron','a2-temps','a2-mod','a2-imp','a2-part','a2-comp','a2-sup','a2-adv','a2-neg','a2-coi','a2-yen'],
+  B1:['b1-imp','b1-pqp','b1-fs','b1-cond','b1-si','b1-cod','b1-rel','b1-dont','b1-relief','b1-subj','b1-cause','b1-pass','b1-ger','b1-di']
+ };
+ Object.keys(ORD).forEach(L => { const f = id => { const i = ORD[L].indexOf(id); return i < 0 ? 999 : i; }; GR[L].sort((a, b) => f(a.id) - f(b.id)); });
+})();
+
 
 /* ---------- القواعد ---------- */
 const GRS = { view:'menu', level:'A1', lang:'both', id:null, ans:[], ord:[], done:{} };
@@ -4658,7 +5191,7 @@ const grLesson = id => grLessons().find(l => l.id === id);
 function grT(s){ const p = String(s).split('|'); return { ar:p[0], en:(p[1] !== undefined ? p[1] : p[0]), two:p.length > 1 }; }
 /* نص عربي: تُعزل الكلمات الفرنسية داخل الجملة حتى لا يختلط الترتيب */
 function grAr(str){
-  const re = /[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9'’\-.,!?…()\/+←→ ]*[A-Za-zÀ-ÿ0-9'’!?…)]|[A-Za-zÀ-ÿ]/g; let out = '', last = 0, m;
+  const re = /[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9'’\-.,!?…()\/+←→ ]*[A-Za-zÀ-ÿ0-9'’!?….)]|[A-Za-zÀ-ÿ]/g; let out = '', last = 0, m;
   while((m = re.exec(str))){ out += esc(str.slice(last, m.index)) + '<bdi dir="ltr" lang="fr" class="grlat">' + esc(m[0]) + '</bdi>'; last = m.index + m[0].length; }
   return out + esc(str.slice(last));
 }
@@ -4698,6 +5231,7 @@ function renderGrammar(v){
   const pills = ['A1','A2','B1'].map(l => `<button class="vpill ${GRS.level === l ? 'on' : ''}" data-a="grLevel" data-id="${l}">${l}</button>`).join('');
   const ls = grLessons(), dn = ls.filter(l => grDone(l.id) !== undefined).length;
   v.innerHTML = `<h2 class="st"><span>${I('gram')} القواعد <small>Grammaire</small></span></h2>
+    ${jHero(GRS.level)}
     <div class="vbar2"><div class="vpills">${pills}</div>${grLangBar()}</div>
     <p class="cap" style="margin:8px 2px 14px">أنهيت ${dn} من ${ls.length} درساً في هذا المستوى.</p>
     ${(() => { const pc = ls.length ? Math.round(dn / ls.length * 100) : 0; let lastId = ''; try{ const p = (localStorage.getItem('fo_last_gr_' + (state.uid || '')) || '').split('|'); if(p[0] === GRS.level) lastId = p[1]; }catch(e){}
@@ -5096,6 +5630,171 @@ const DASH_ART = {
   c1:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M50 4l4 16h-8zM44 24h12l4 22H40zM38 50h24l8 30H30zM26 84h48v8H26z"/></svg>',
   c2:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M14 90V30h72v60H64V56a14 14 0 00-28 0v34zM8 22h84v8H8z"/></svg>',
   c3:'<svg class="art" viewBox="0 0 100 100" fill="#fff"><path d="M44 52h12v40H44zM50 50L22 22l6-6 22 22 22-22 6 6zM50 50l28 28-6 6-22-22-22 22-6-6z"/></svg>' };
+/* ===== v10: THE FRENCH LEARNING JOURNEY — هوية بصرية للمستويات (رسوم SVG مجسّمة داخل الملف، بدون صور خارجية) ===== */
+let JID = 0;
+const jT3 = (ar, fr, en) => (typeof UL !== 'undefined' && UL === 'fr') ? fr : (typeof UL !== 'undefined' && UL === 'en') ? en : ar;
+const JLV = [
+ { L:'A1', t:'Le premier pas', a:'#2E7FC4', b:'#8EC9F5', ink:'#17406b', bg:'#EAF6FF',
+   d:['خطوتك الأولى في الفرنسية: التحيات والأرقام والأسرة والجمل البسيطة.','Tes premiers mots : salutations, nombres, famille et phrases simples.','Your first words: greetings, numbers, family and simple sentences.'] },
+ { L:'A2', t:'La découverte', a:'#1F5FBF', b:'#7ED6B5', ink:'#124a3c', bg:'#E9FAF3',
+   d:['اكتشف فرنسية الحياة اليومية: المقهى والتسوق والمواصلات والهاتف.','Découvre le français du quotidien : café, achats, transports et téléphone.','Discover everyday French: café, shopping, transport and the phone.'] },
+ { L:'B1', t:"L'exploration", a:'#2B4FD8', b:'#FF7A66', ink:'#1c2f86', bg:'#FFF1EA',
+   d:['استعمل الفرنسية باستقلالية: السفر والعمل وإبداء الرأي والإجراءات.','Utilise le français en autonomie : voyage, travail, opinions et démarches.','Use French independently: travel, work, opinions and paperwork.'] },
+ { L:'B2', t:"L'indépendance", a:'#128A84', b:'#E5B84A', ink:'#0c4b66', bg:'#E7F8F6',
+   d:['تواصل بثقة واستقلالية في المناقشات والنصوص المعقدة.','Communique avec assurance dans les débats et les textes complexes.','Communicate with confidence in debates and complex texts.'] },
+ { L:'C1', t:"L'expertise", a:'#6B49C8', b:'#C5CAD8', ink:'#2a2260', bg:'#EFEBFB',
+   d:['مستوى أكاديمي وثقافي: أسلوب راقٍ وفهم الأدب والنصوص المتخصصة.','Niveau académique et culturel : style soutenu, littérature, textes spécialisés.','Academic and cultural level: refined style, literature, specialised texts.'] },
+ { L:'C2', t:'La maîtrise', a:'#C9962B', b:'#F2C14E', ink:'#0b1233', bg:'#FFF6DC',
+   d:['الإتقان: تعبير دقيق وطبيعي في كل موضوع، وهي المحطة الأخيرة في الرحلة.','Maîtrise : une expression précise et naturelle sur tous les sujets.','Mastery: precise, natural expression on any subject.'] }
+];
+function jArt(L, done){
+  const p = 'j' + (++JID) + '_';
+  const sh = `<filter id="${p}s" x="-20%" y="-20%" width="150%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#0b1f3a" flood-opacity=".28"/></filter>`;
+  const lg = (id, c1, c2, v) => `<linearGradient id="${p}${id}" x1="0" y1="0" x2="${v ? 0 : 1}" y2="${v ? 1 : 1}"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient>`;
+  // كتلة مجسّمة (واجهة + جانب + سقف) بأسلوب الصلصال
+  const blk = (x, y, w, h, d, fc, sc, tc, r) => `<g filter="url(#${p}s)"><polygon points="${x + w},${y} ${x + w + d},${y - d * .6} ${x + w + d},${y + h - d * .6} ${x + w},${y + h}" fill="${sc}"/><polygon points="${x},${y} ${x + w},${y} ${x + w + d},${y - d * .6} ${x + d},${y - d * .6}" fill="${tc}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r || 4}" fill="${fc}"/><rect x="${x + 2}" y="${y + 2}" width="${w - 4}" height="${h * .4}" rx="${r || 4}" fill="#fff" opacity=".16"/></g>`;
+  const win = (x, y, w, h, c, f) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${f || '#fff'}"/><rect x="${x + 2}" y="${y + 2}" width="${w - 4}" height="${h - 4}" rx="2" fill="${c}"/><rect x="${x + 2}" y="${y + 2}" width="${w - 4}" height="${(h - 4) * .4}" rx="2" fill="#fff" opacity=".28"/>`;
+  const plinth = (top, front, side) => `<g filter="url(#${p}s)"><polygon points="330,172 372,152 372,194 330,214" fill="${side}"/><polygon points="26,172 330,172 372,152 68,152" fill="${top}"/><rect x="26" y="172" width="304" height="42" rx="6" fill="${front}"/><rect x="30" y="175" width="296" height="12" rx="5" fill="#fff" opacity=".18"/></g>`;
+  const ell = (cx, cy, rx, ry, c, o) => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${c}" opacity="${o || .2}"/>`;
+  const cloud = (x, y, s, o) => `<g opacity="${o || .8}" transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="26" ry="10" fill="#fff"/><ellipse cx="-12" cy="-8" rx="14" ry="11" fill="#fff"/><ellipse cx="10" cy="-10" rx="16" ry="13" fill="#fff"/></g>`;
+  let defs = sh, body = '';
+  if(L === 'A1'){
+    defs += lg('bg', '#9AD2F7', '#EAF6FF', 1) + `<radialGradient id="${p}sun"><stop offset="0" stop-color="#FFF3C4"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>`;
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/><circle cx="330" cy="46" r="70" fill="url(#${p}sun)"/><circle cx="330" cy="46" r="22" fill="#FFE9A8"/>
+      <polygon points="330,46 120,170 220,170" fill="#fff" opacity=".13"/>${cloud(80, 40, 1)}${cloud(210, 28, .7, .7)}
+      ${plinth('#FFF7E6', '#EAD8B3', '#D9C396')}
+      ${blk(52, 88, 74, 82, 16, '#FFF4DC', '#E7D3A9', '#F6E6C3')}
+      <polygon points="46,88 132,88 148,80 62,80" fill="#2B4A7A"/><polygon points="52,88 126,88 118,64 60,64" fill="#35598F"/><polygon points="126,88 142,80 134,58 118,64" fill="#243f69"/>
+      ${win(62, 98, 16, 24, '#8EC9F5')}${win(86, 98, 16, 24, '#8EC9F5')}${win(62, 130, 16, 24, '#8EC9F5')}<rect x="88" y="132" width="20" height="38" rx="4" fill="#2B4A7A"/><circle cx="104" cy="152" r="1.6" fill="#FFE9A8"/>
+      <rect x="58" y="124" width="48" height="3" rx="1.5" fill="#2B4A7A" opacity=".7"/>
+      ${blk(148, 100, 62, 70, 14, '#FFFFFF', '#DCE6F3', '#EEF4FB')}
+      <polygon points="143,100 214,100 226,93 155,93" fill="#2B4A7A"/><polygon points="148,100 210,100 203,80 155,80" fill="#35598F"/>
+      ${win(158, 110, 14, 20, '#8EC9F5')}${win(184, 110, 14, 20, '#8EC9F5')}<rect x="162" y="138" width="30" height="32" rx="4" fill="#8EC9F5"/><rect x="162" y="138" width="30" height="12" rx="4" fill="#fff" opacity=".3"/>
+      <line x1="179" y1="80" x2="179" y2="44" stroke="#9aa7b8" stroke-width="2"/><rect x="179" y="44" width="8" height="10" fill="#2E5FC4"/><rect x="187" y="44" width="8" height="10" fill="#fff"/><rect x="195" y="44" width="8" height="10" fill="#E04A4A"/>
+      <line x1="236" y1="168" x2="236" y2="112" stroke="#2B4A7A" stroke-width="3" stroke-linecap="round"/><circle cx="236" cy="108" r="8" fill="#FFE9A8" stroke="#2B4A7A" stroke-width="2"/><circle cx="236" cy="108" r="14" fill="#FFE9A8" opacity=".3"/>
+      ${ell(300, 168, 56, 8, '#0b1f3a', .12)}
+      <g filter="url(#${p}s)"><polygon points="252,162 298,162 330,142 284,142" fill="#fff"/><polygon points="298,162 346,156 378,136 330,142" fill="#F3F6FB"/><polygon points="252,162 298,162 298,166 252,166" fill="#DCE6F3"/><line x1="298" y1="162" x2="330" y2="142" stroke="#8EC9F5" stroke-width="1.5"/>
+      <g stroke="#8EC9F5" stroke-width="1.4" stroke-linecap="round"><line x1="262" y1="158" x2="292" y2="158"/><line x1="272" y1="152" x2="298" y2="152"/><line x1="284" y1="146" x2="312" y2="146"/><line x1="310" y1="158" x2="338" y2="145"/><line x1="318" y1="152" x2="346" y2="140"/></g></g>
+      <g transform="rotate(-22 340 156)"><rect x="318" y="152" width="46" height="7" rx="3" fill="#FFC94A"/><polygon points="364,152 374,155.5 364,159" fill="#F3D7B0"/><polygon points="371,154.3 374,155.5 371,156.7" fill="#2B4A7A"/><rect x="318" y="152" width="8" height="7" rx="3" fill="#E04A4A"/></g>`;
+  } else if(L === 'A2'){
+    defs += lg('bg', '#C9F2E2', '#F4FFF9', 1);
+    const aw = Array.from({ length:7 }, (_, i) => `<path d="M${46 + i * 20} 92 h20 v10 a10 10 0 0 1 -20 0z" fill="${i % 2 ? '#fff' : '#1F5FBF'}"/>`).join('');
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/>${cloud(300, 36, 1, .85)}${cloud(80, 30, .6, .7)}
+      ${plinth('#FFF7E6', '#EAD8B3', '#D9C396')}
+      ${blk(40, 66, 140, 104, 18, '#FFF3DD', '#E8D3A6', '#F7E7C4')}
+      <rect x="58" y="44" width="100" height="22" rx="6" fill="#1F5FBF" filter="url(#${p}s)"/><text x="108" y="60" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" font-family="Inter,Arial,sans-serif">CAFÉ</text>
+      <g filter="url(#${p}s)">${aw}</g><rect x="46" y="86" width="140" height="6" fill="#143f85"/>
+      <rect x="58" y="118" width="64" height="52" rx="6" fill="#fff"/><rect x="61" y="121" width="58" height="46" rx="4" fill="#BDEFDD"/><rect x="61" y="121" width="58" height="16" rx="4" fill="#fff" opacity=".35"/>
+      <rect x="132" y="116" width="34" height="54" rx="6" fill="#143f85"/><rect x="136" y="122" width="26" height="22" rx="3" fill="#BDEFDD"/><circle cx="160" cy="152" r="1.8" fill="#FFE9A8"/>
+      ${ell(236, 170, 30, 6, '#0b1f3a', .14)}
+      <g filter="url(#${p}s)"><rect x="231" y="140" width="10" height="28" rx="3" fill="#E8890C"/><ellipse cx="236" cy="168" rx="18" ry="5" fill="#E8890C"/><ellipse cx="236" cy="138" rx="28" ry="9" fill="#F59B42"/><ellipse cx="236" cy="136" rx="28" ry="8" fill="#FFB562"/></g>
+      <ellipse cx="236" cy="134" rx="14" ry="4" fill="#fff" opacity=".9"/><path d="M226 120 h20 v10 a10 6 0 0 1 -20 0z" fill="#fff" stroke="#dfe7f0" stroke-width="1"/><path d="M246 123 q8 0 8 6 t-8 5" fill="none" stroke="#fff" stroke-width="3"/><ellipse cx="236" cy="121" rx="10" ry="2.6" fill="#7a4a2b"/>
+      <path d="M231 112 q-5 -6 0 -12 t0 -10 M241 112 q-5 -6 0 -12 t0 -10" fill="none" stroke="#9fb4c6" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <g filter="url(#${p}s)"><path d="M280 170 l-4 -26 h44 l-4 26z" fill="#F59B42"/><path d="M278 156 h42" stroke="#E8890C" stroke-width="2"/><path d="M286 170 l-2 -26 M300 170 v-26 M314 170 l2 -26" stroke="#E8890C" stroke-width="1.6"/></g>
+      <g transform="rotate(-18 296 140)"><rect x="276" y="104" width="14" height="52" rx="7" fill="#E6B26B"/><rect x="276" y="104" width="14" height="52" rx="7" fill="#fff" opacity=".18"/><path d="M279 114 l8 4 M279 126 l8 4 M279 138 l8 4" stroke="#C98B3E" stroke-width="2" stroke-linecap="round"/></g>
+      <g transform="rotate(14 326 136)"><rect x="306" y="104" width="14" height="50" rx="7" fill="#E6B26B"/><path d="M309 114 l8 4 M309 126 l8 4 M309 138 l8 4" stroke="#C98B3E" stroke-width="2" stroke-linecap="round"/></g>
+      <g filter="url(#${p}s)"><g transform="rotate(-14 340 120)"><rect x="318" y="88" width="34" height="46" rx="6" fill="#fff"/><rect x="323" y="96" width="24" height="3" rx="1.5" fill="#1F5FBF"/><rect x="323" y="104" width="18" height="3" rx="1.5" fill="#cfd8e6"/></g><g transform="rotate(4 352 120)"><rect x="338" y="86" width="34" height="46" rx="6" fill="#BDEFDD"/><rect x="343" y="94" width="24" height="3" rx="1.5" fill="#128a6a"/><rect x="343" y="102" width="18" height="3" rx="1.5" fill="#fff"/></g><g transform="rotate(20 366 120)"><rect x="352" y="88" width="34" height="46" rx="6" fill="#FFD9A8"/><rect x="357" y="96" width="24" height="3" rx="1.5" fill="#E8890C"/><rect x="357" y="104" width="18" height="3" rx="1.5" fill="#fff"/></g></g>`;
+  } else if(L === 'B1'){
+    defs += lg('bg', '#FFE6D6', '#FFF8F0', 1);
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/>${cloud(330, 34, .8, .8)}
+      ${plinth('#FFFFFF', '#E9DCCB', '#D6C5AE')}
+      <g filter="url(#${p}s)"><rect x="44" y="40" width="176" height="112" rx="12" fill="#fff"/><rect x="44" y="40" width="176" height="112" rx="12" fill="none" stroke="#2B4FD8" stroke-width="3"/>
+      <polyline points="62,126 98,98 132,98 168,64 204,64" fill="none" stroke="#2B4FD8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="62,70 100,70 132,98 160,126 204,126" fill="none" stroke="#FF7A66" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      ${[[98, 98], [132, 98], [168, 64], [100, 70], [160, 126]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6.5" fill="#fff" stroke="#17306e" stroke-width="3"/>`).join('')}
+      <circle cx="66" cy="56" r="12" fill="#2B4FD8"/><text x="66" y="61" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" font-family="Inter,Arial,sans-serif">M</text></g>
+      <rect x="128" y="152" width="8" height="16" fill="#cdbfa9"/><rect x="118" y="166" width="28" height="6" rx="3" fill="#cdbfa9"/>
+      ${ell(268, 170, 40, 7, '#0b1f3a', .14)}
+      <g filter="url(#${p}s)"><path d="M250 100 q18 -22 36 0" fill="none" stroke="#a6452f" stroke-width="5" stroke-linecap="round"/><rect x="236" y="104" width="64" height="58" rx="14" fill="#FF7A66"/><rect x="236" y="104" width="64" height="22" rx="14" fill="#fff" opacity=".2"/><rect x="236" y="128" width="64" height="8" fill="#e75f4b"/><rect x="262" y="124" width="12" height="16" rx="3" fill="#F5C26B"/><circle cx="250" cy="166" r="6" fill="#444c5e"/><circle cx="286" cy="166" r="6" fill="#444c5e"/></g>
+      <g filter="url(#${p}s)"><polygon points="330,166 342,70 346,70 358,166" fill="#2B4FD8"/><polygon points="338,166 344,110 348,110 354,166" fill="#EAF0FF" opacity=".25"/><rect x="334" y="104" width="20" height="5" fill="#17306e"/><rect x="338" y="74" width="12" height="4" fill="#17306e"/><path d="M336 166 q9 -24 18 0z" fill="#FFF8F0"/><line x1="344" y1="70" x2="344" y2="56" stroke="#17306e" stroke-width="2"/><circle cx="344" cy="54" r="3" fill="#FF7A66"/></g>
+      <g filter="url(#${p}s)"><rect x="296" y="36" width="82" height="34" rx="14" fill="#fff"/><path d="M312 70 l-8 12 l22 -12z" fill="#fff"/><text x="337" y="58" text-anchor="middle" font-size="14" font-weight="800" fill="#2B4FD8" font-family="Inter,Arial,sans-serif">Bonjour !</text></g>`;
+  } else if(L === 'B2'){
+    defs += lg('bg', '#A7E3DD', '#F2FFFD', 1);
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/>${cloud(70, 36, .9, .85)}${cloud(300, 28, .7, .7)}
+      ${plinth('#F4F0E4', '#D4CBB5', '#BFB59B')}
+      ${blk(34, 92, 64, 78, 14, '#FFF8E8', '#E3D6B6', '#F3E8CC')}<polygon points="30,92 102,92 114,85 42,85" fill="#12356B"/><polygon points="36,92 96,92 90,70 42,70" fill="#1c4a8f"/>${win(44, 102, 12, 20, '#12356B', '#E5B84A')}${win(66, 102, 12, 20, '#12356B', '#E5B84A')}${win(44, 134, 12, 20, '#12356B', '#E5B84A')}${win(66, 134, 12, 20, '#12356B', '#E5B84A')}
+      ${blk(112, 70, 70, 100, 14, '#FFFFFF', '#DDE3E6', '#F1F4F5')}<polygon points="108,70 186,70 198,63 120,63" fill="#12356B"/><polygon points="114,70 180,70 172,46 122,46" fill="#1c4a8f"/><path d="M122 170 v-34 a22 22 0 0 1 44 0 v34z" fill="#128A84"/><path d="M122 170 v-34 a22 22 0 0 1 44 0" fill="none" stroke="#E5B84A" stroke-width="3"/>${win(122, 82, 14, 22, '#12356B', '#E5B84A')}${win(150, 82, 14, 22, '#12356B', '#E5B84A')}
+      ${blk(206, 104, 56, 66, 12, '#FFF8E8', '#E3D6B6', '#F3E8CC')}<polygon points="202,104 266,104 276,98 212,98" fill="#12356B"/>${win(214, 114, 12, 18, '#12356B', '#E5B84A')}${win(238, 114, 12, 18, '#12356B', '#E5B84A')}<rect x="226" y="142" width="16" height="28" rx="3" fill="#128A84"/>
+      ${ell(318, 170, 46, 7, '#0b1f3a', .14)}
+      <g filter="url(#${p}s)"><path d="M284 164 q22 -8 40 0 v8 q-18 -8 -40 0z" fill="#fff"/><path d="M324 164 q22 -8 40 0 v8 q-18 -8 -40 0z" fill="#fff"/><path d="M280 170 q24 -6 44 2 q20 -8 44 -2 l-2 6 q-20 -6 -42 2 q-22 -8 -42 -2z" fill="#128A84"/><line x1="324" y1="164" x2="324" y2="174" stroke="#cfd8d8"/></g>
+      <g filter="url(#${p}s)"><circle cx="324" cy="104" r="14" fill="#F0C7A2"/><path d="M310 102 q14 -18 28 0 q-6 -4 -14 -4 q-8 0 -14 4z" fill="#5a3b25"/><path d="M308 156 q2 -34 16 -34 q14 0 16 34z" fill="#128A84"/><path d="M312 128 l-14 -22" stroke="#128A84" stroke-width="9" stroke-linecap="round"/><path d="M336 128 l14 -22" stroke="#128A84" stroke-width="9" stroke-linecap="round"/><circle cx="297" cy="102" r="5.5" fill="#F0C7A2"/><circle cx="351" cy="102" r="5.5" fill="#F0C7A2"/></g>
+      <g fill="#E5B84A"><polygon points="296,70 298,76 304,76 299,80 301,86 296,82 291,86 293,80 288,76 294,76"/><polygon points="358,62 359.5,66 364,66 360.5,69 362,73 358,70 354,73 355.5,69 352,66 356.5,66"/></g>`;
+  } else if(L === 'C1'){
+    defs += lg('bg', '#1B1F4B', '#41338A', 1) + `<radialGradient id="${p}lamp"><stop offset="0" stop-color="#FFE7A6" stop-opacity=".85"/><stop offset="1" stop-color="#FFE7A6" stop-opacity="0"/></radialGradient>`;
+    const shelf = (x, w, cs) => `<g filter="url(#${p}s)"><rect x="${x}" y="52" width="${w}" height="116" rx="8" fill="#2a2260"/><rect x="${x + 4}" y="56" width="${w - 8}" height="108" rx="5" fill="#1b1744"/>${[0, 1, 2].map(r => { let o = '', cx = x + 8; for(let i = 0; cx < x + w - 14; i++){ const bw = 5 + (i * 3 + r) % 5, bh = 22 + (i * 7 + r * 3) % 12; o += `<rect x="${cx}" y="${56 + r * 36 + 34 - bh}" width="${bw}" height="${bh}" rx="1.5" fill="${cs[(i + r) % cs.length]}"/>`; cx += bw + 1.6; } return o + `<rect x="${x + 4}" y="${56 + r * 36 + 34}" width="${w - 8}" height="3" fill="#6B49C8"/>`; }).join('')}</g>`;
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/>
+      ${[0, 1, 2].map(i => `<g filter="url(#${p}s)"><path d="M${130 + i * 46} 150 v-58 a18 18 0 0 1 36 0 v58z" fill="#C5CAD8"/><path d="M${134 + i * 46} 150 v-58 a14 14 0 0 1 28 0 v58z" fill="#7E6BE0"/><path d="M${134 + i * 46} 112 a14 14 0 0 1 28 -2 v-18 a14 14 0 0 0 -28 0z" fill="#fff" opacity=".18"/></g>`).join('')}
+      ${shelf(30, 84, ['#6B49C8', '#C5CAD8', '#9a84e8', '#E5B84A', '#8a93a8'])}${shelf(290, 84, ['#C5CAD8', '#6B49C8', '#E5B84A', '#9a84e8', '#8a93a8'])}
+      ${plinth('#C9CDE0', '#9AA0BC', '#7F86A6')}
+      <circle cx="205" cy="128" r="52" fill="url(#${p}lamp)"/>
+      ${ell(208, 168, 56, 7, '#000', .25)}
+      <g filter="url(#${p}s)"><rect x="150" y="146" width="116" height="10" rx="4" fill="#6B49C8"/><rect x="156" y="154" width="8" height="16" fill="#4a3490"/><rect x="252" y="154" width="8" height="16" fill="#4a3490"/>
+      <path d="M160 146 l46 -10 l46 10 l-46 6z" fill="#fff"/><path d="M206 136 v16" stroke="#C5CAD8" stroke-width="2"/><path d="M168 144 l30 -6 M168 148 l30 -6 M214 138 l30 6 M214 142 l30 6" stroke="#8a93a8" stroke-width="1.4" opacity=".7"/></g>
+      <g filter="url(#${p}s)"><rect x="228" y="106" width="4" height="40" rx="2" fill="#C5CAD8"/><path d="M216 108 l24 0 l-6 -16 h-12z" fill="#E5B84A"/><circle cx="228" cy="110" r="5" fill="#FFE7A6"/></g>
+      <g filter="url(#${p}s)"><rect x="172" y="108" width="34" height="8" rx="2" fill="#E5B84A" transform="rotate(-6 172 112)"/><rect x="174" y="100" width="30" height="8" rx="2" fill="#C5CAD8" transform="rotate(4 172 104)"/><polygon points="170,98 191,90 212,98 191,106" fill="#1B1F4B"/><rect x="183" y="98" width="16" height="9" fill="#2a2260"/><line x1="208" y1="98" x2="208" y2="112" stroke="#E5B84A" stroke-width="2"/><circle cx="208" cy="113" r="2.4" fill="#E5B84A"/></g>
+      <g fill="#C5CAD8" opacity=".85"><circle cx="64" cy="26" r="1.6"/><circle cx="330" cy="30" r="1.6"/><circle cx="360" cy="18" r="1.2"/><circle cx="110" cy="16" r="1.2"/></g>`;
+  } else { // C2
+    defs += lg('bg', '#0B1233', '#25306f', 1) + `<radialGradient id="${p}glow"><stop offset="0" stop-color="#F2C14E" stop-opacity=".7"/><stop offset="1" stop-color="#F2C14E" stop-opacity="0"/></radialGradient>` + lg('gold', '#FFE08A', '#C9962B', 1) + lg('ivory', '#FFFFFF', '#EBDFC4', 1);
+    const stars = [[40, 30, 1.6], [90, 18, 1.2], [150, 40, 1.4], [260, 22, 1.6], [320, 40, 1.2], [370, 20, 1.6], [70, 70, 1], [350, 80, 1], [230, 50, 1]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFF3C4"/>`).join('');
+    const city = [[26, 118, 24, 52], [48, 100, 28, 70], [76, 126, 22, 44], [260, 110, 26, 60], [284, 92, 30, 78], [314, 120, 24, 50], [338, 104, 28, 66]].map(([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#18224f"/>${[0, 1, 2, 3].map(r => `<rect x="${x + 5}" y="${y + 8 + r * 12}" width="4" height="5" rx="1" fill="#F2C14E" opacity="${r % 2 ? .9 : .55}"/><rect x="${x + w - 10}" y="${y + 8 + r * 12}" width="4" height="5" rx="1" fill="#F2C14E" opacity="${r % 2 ? .55 : .9}"/>`).join('')}`).join('');
+    body = `<rect width="400" height="240" fill="url(#${p}bg)"/>${stars}<polygon points="200,6 204,18 217,18 207,26 211,38 200,31 189,38 193,26 183,18 196,18" fill="url(#${p}gold)" opacity=".95"/>
+      <circle cx="200" cy="112" r="76" fill="url(#${p}glow)"/>${city}
+      ${plinth('#EDE3CB', '#B89A55', '#9C8043')}
+      <g filter="url(#${p}s)"><polygon points="186,168 198,66 202,66 214,168" fill="url(#${p}gold)"/><polygon points="194,168 199,108 201,108 206,168" fill="#7a5a14" opacity=".35"/><rect x="190" y="116" width="20" height="5" fill="#A8791B"/><rect x="194" y="84" width="12" height="4" fill="#A8791B"/><path d="M190 168 q10 -30 20 0z" fill="#25306f"/><line x1="200" y1="66" x2="200" y2="48" stroke="#E5B84A" stroke-width="2"/><circle cx="200" cy="46" r="3.5" fill="#FFF3C4"/></g>
+      <g filter="url(#${p}s)"><rect x="82" y="150" width="46" height="12" rx="4" fill="#B89A55"/><rect x="92" y="160" width="26" height="10" rx="3" fill="#9C8043"/><circle cx="105" cy="128" r="26" fill="url(#${p}ivory)"/><path d="M79 128 a26 26 0 0 0 52 0 M105 102 a12 26 0 0 0 0 52 M105 102 a12 26 0 0 1 0 52 M82 118 h46 M82 138 h46" fill="none" stroke="#C9962B" stroke-width="1.6"/><path d="M92 116 q8 -8 14 2 q-4 8 -10 6z M110 132 q8 -4 14 4 q-6 8 -12 4z" fill="#128A84" opacity=".7"/><path d="M84 106 a30 30 0 0 1 42 0" fill="none" stroke="#fff" stroke-width="2" opacity=".5"/></g>
+      <g filter="url(#${p}s)"><rect x="256" y="148" width="64" height="12" rx="3" fill="url(#${p}ivory)"/><rect x="256" y="148" width="64" height="3" fill="#C9962B"/><rect x="262" y="136" width="54" height="12" rx="3" fill="#F2C14E"/><rect x="268" y="124" width="46" height="12" rx="3" fill="url(#${p}ivory)"/><rect x="268" y="124" width="46" height="3" fill="#C9962B"/></g>
+      <g filter="url(#${p}s)"><path d="M150 188 h100 l-8 14 l8 14 h-100 l8 -14z" fill="url(#${p}ivory)"/><text x="200" y="208" text-anchor="middle" font-size="15" font-weight="800" fill="#0B1233" font-family="Inter,Arial,sans-serif">C2</text></g>`;
+  }
+  const spark = done ? `<g fill="#FFD66B" opacity=".95"><polygon points="52,34 55,43 64,43 57,49 60,58 52,52 44,58 47,49 40,43 49,43"/><polygon points="350,60 352,66 358,66 353,70 355,76 350,72 345,76 347,70 342,66 348,66"/><polygon points="334,24 335.5,28 340,28 336.5,31 338,35 334,32 330,35 331.5,31 328,28 332.5,28"/></g>` : '';
+  return `<svg class="jart" viewBox="0 0 400 240" role="img" aria-label="${L}" preserveAspectRatio="xMidYMid slice"><defs>${defs}</defs>${body}${spark}</svg>`;
+}
+function jStats(L){
+  const st = (typeof dashLvStats === 'function') ? dashLvStats(L) : { lessons:0, done:0, pct:0, words:0, known:0 };
+  const mods = (VOC[L] || []).length;
+  const have = !!(GR[L] && GR[L].length);
+  const complete = have && st.lessons > 0 && st.done >= st.lessons && st.words > 0 && st.known >= st.words;
+  const started = st.done > 0 || st.known > 0;
+  return Object.assign({ mods, have, complete, started }, st);
+}
+function jState(i){
+  // مفتوح فقط إذا وُجد محتوى حقيقي. الحالي = أول مستوى غير مكتمل
+  const all = JLV.map(x => jStats(x.L));
+  const cur = all.findIndex(x => x.have && !x.complete);
+  const s = all[i];
+  if(!s.have) return 'locked';
+  if(s.complete) return 'done';
+  return i === cur ? 'current' : 'open';
+}
+function jChip(n, lab){ return `<span class="jchip"><b dir="ltr">${n}</b> ${lab}</span>`; }
+function jCard(i){
+  const lv = JLV[i], s = jStats(lv.L), st = jState(i), locked = st === 'locked';
+  const pctG = s.lessons ? Math.round(s.done / s.lessons * 100) : 0, pctV = s.words ? Math.round(s.known / s.words * 100) : 0;
+  const act = locked ? `<span class="jsoon">${I('clock', 's')} ${jT3('قريباً', 'Bientôt', 'Coming soon')}</span>`
+    : `<button class="jgo" data-a="dashLevel" data-id="${lv.L}">${st === 'done' ? jT3('راجع المستوى', 'Réviser', 'Review') : s.started ? jT3('تابع التعلّم', 'Continuer', 'Continue') : jT3('ابدأ التعلّم', 'Commencer', 'Start learning')}</button>`;
+  return `<article class="jcard jl-${lv.L} ${st}" style="--ja:${lv.a};--jb:${lv.b};--jbg:${lv.bg};--jink:${lv.ink}">
+    <div class="jimg">${jArt(lv.L, st === 'done')}<span class="jlv" dir="ltr">${lv.L}</span>${st === 'done' ? `<span class="jbadge">${I('check', 's')} ${jT3('مكتمل', 'Terminé', 'Completed')}</span>` : ''}${locked ? `<span class="jlock">${I('lock', 's')}</span>` : ''}</div>
+    <div class="jbody"><h3 lang="fr">${esc(lv.t)}</h3><p>${jT3.apply(null, lv.d)}</p>
+      ${locked ? `<div class="jmeta"><span class="jchip">${jT3('المحتوى قيد الإعداد', 'Contenu en préparation', 'Content in preparation')}</span></div>`
+      : `<div class="jmeta">${jChip(s.mods, jT3('وحدة مفردات','modules de vocabulaire','vocabulary modules'))}${jChip(s.lessons, jT3('درس قواعد','leçons de grammaire','grammar lessons'))}</div>
+      <div class="jprog"><div class="jrow"><span>${jT3('القواعد', 'Grammaire', 'Grammar')}</span><b dir="ltr">${s.done}/${s.lessons}</b></div><div class="jbar"><i style="width:${pctG}%"></i></div>
+      <div class="jrow"><span>${jT3('المفردات', 'Vocabulaire', 'Vocabulary')}</span><b dir="ltr">${s.known}/${s.words}</b></div><div class="jbar v"><i style="width:${pctV}%"></i></div></div>`}
+      <div class="jact">${act}</div></div></article>`;
+}
+function jTrack(){
+  return `<ol class="jtrack" aria-label="${jT3('رحلة التعلّم', 'Parcours', 'Learning journey')}">${JLV.map((lv, i) => { const st = jState(i); return `<li class="jn ${st}" style="--ja:${lv.a}"><span class="dot">${st === 'done' ? I('check', 's') : st === 'locked' ? I('lock', 's') : ''}</span><b dir="ltr">${lv.L}</b></li>`; }).join('')}</ol>`;
+}
+function jJourney(){
+  return `<section class="dpanel p-courses jwrap"><h2>${I('book')} ${jT3('رحلتك في الفرنسية', 'Ton voyage en français', 'Your French journey')} <small>${jT3('من الخطوة الأولى إلى الإتقان', 'Du premier pas à la maîtrise', 'From the first step to mastery')}</small></h2>
+    ${jTrack()}<div class="jgrid">${JLV.map((_, i) => jCard(i)).join('')}</div></section>`;
+}
+function jHero(L){
+  const i = JLV.findIndex(x => x.L === L); if(i < 0) return '';
+  const lv = JLV[i], s = jStats(L), st = jState(i);
+  return `<section class="jhero ${st}" style="--ja:${lv.a};--jb:${lv.b};--jbg:${lv.bg};--jink:${lv.ink}"><div class="jhimg">${jArt(L, st === 'done')}</div>
+    <div class="jhtx"><span class="jlv2" dir="ltr">${L}</span><h2 lang="fr">${esc(lv.t)}</h2><p>${jT3.apply(null, lv.d)}</p>
+      <div class="jmeta">${jChip(s.mods, jT3('وحدة مفردات','modules de vocabulaire','vocabulary modules'))}${jChip(s.lessons, jT3('درس قواعد','leçons de grammaire','grammar lessons'))}${st === 'done' ? `<span class="jbadge in">${I('check', 's')} ${jT3('مستوى مكتمل', 'Niveau terminé', 'Level completed')}</span>` : ''}</div></div></section>`;
+}
+
 function dashLvStats(L){
   const ls = GR[L] || [];
   const done = ls.filter(l => GRS.done[l.id] !== undefined).length;
@@ -5160,11 +5859,7 @@ function dashBody(){
     <div class="dash">
       <div class="dmain">
         <section class="dpanel p-cont"><h2>${I('play')} متابعة التعلّم</h2>${contH}</section>
-        <section class="dpanel p-courses"><h2>${I('book')} مستوياتي <small>تقدّم دروس القواعد والمفردات</small></h2>
-          <div class="dcourses">${lv.map((x, i) => `<div class="dcc ${DASH_LV[i][2]}">${DASH_ART[DASH_LV[i][2]]}
-            <h3>${x.L}<small>${DASH_LV[i][1]}</small></h3>
-            <div class="meta"><bdi dir="ltr">${x.done} / ${x.lessons}</bdi> درس قواعد<br><bdi dir="ltr">${x.known} / ${x.words}</bdi> كلمة</div>
-            <div class="row">${dashRing(x.pct)}<button class="go" data-a="dashLevel" data-id="${x.L}">${x.done ? 'تابع التعلّم' : 'ابدأ'}</button></div></div>`).join('')}</div></section>
+        ${jJourney()}
         <section class="dpanel p-rec"><h2>${I('calendar')} آخر أنشطتي</h2><div id="dashrec">${R ? dashRecentHtml(R) : '<div class="dmuted">جارٍ التحميل…</div>'}</div></section>
       </div>
       <div class="dside">
@@ -5294,7 +5989,9 @@ UI_R.fr.push([/^سُلّم (.+)$/,'Rendu $1'],[/^(\d+) محاولة$/,'$1 tentat
 UI_R.en.push([/^سُلّم (.+)$/,'Submitted $1'],[/^(\d+) محاولة$/,'$1 attempt(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 submission(s)'],[/^يغلق (.+)$/,'Closes $1'],[/^آخر موعد (.+)$/,'Due $1']);
 
 Object.assign(UI_D.fr, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Ton enregistrement reste sur ton appareil et n’est envoyé à personne. Appuie sur 🔈 pour écouter, puis sur 🎙 pour t’enregistrer.','سجّل صوتك':'Enregistre ta voix','إيقاف التسجيل':'Arrêter l’enregistrement','استمع لتسجيلك':'Écouter ton enregistrement','احذف تسجيلك':'Supprimer ton enregistrement','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Ton appareil ne prend pas en charge l’enregistrement','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone refusé. Autorise-le dans les réglages du navigateur et réessaie.','تم حفظ تسجيلك على جهازك':'Enregistrement sauvegardé sur ton appareil','تعذر حفظ التسجيل على هذا الجهاز':'Impossible de sauvegarder l’enregistrement','تعذر تشغيل التسجيل':'Impossible de lire l’enregistrement'});
-Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});
+Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});Object.assign(UI_D.fr, {'اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.':'Écoute la bonne prononciation avec ▶ puis essaie : 🗣 vérifie ta prononciation (ta voix est envoyée temporairement à Google pour être convertie en texte ; connexion Internet requise). 🎙 enregistre ta voix pour la réécouter ; elle reste sur ton appareil.','تحقّق من نطقي':'Vérifier ma prononciation','متصفحك لا يدعم التحقق من النطق. استعمل Chrome':'Ton navigateur ne prend pas en charge la vérification. Utilise Chrome.','التحقق من النطق يحتاج اتصالاً بالإنترنت':'La vérification nécessite une connexion Internet','اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك':'Le français n’est pas pris en charge par la reconnaissance vocale de ton appareil','🎧 جارٍ الاستماع… قل الكلمة الآن':'🎧 J’écoute… dis le mot maintenant','✅ نطقك واضح، أحسنت!':'✅ Ta prononciation est claire, bravo !','🔁 اقتربت! استمع للنطق الصحيح وأعد المحاولة':'🔁 Presque ! Écoute le modèle et réessaie','❌ لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'❌ Je n’ai pas compris. Écoute le modèle et réessaie','🔇 لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'🔇 Je n’ai rien entendu. Rapproche-toi du micro et réessaie','جارٍ الاستماع… قل الكلمة الآن':'J’écoute… dis le mot maintenant','نطقك واضح، أحسنت!':'Ta prononciation est claire, bravo !','اقتربت! استمع للنطق الصحيح وأعد المحاولة':'Presque ! Écoute le modèle et réessaie','لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'Je n’ai pas compris. Écoute le modèle et réessaie','لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'Je n’ai rien entendu. Rapproche-toi du micro et réessaie'});
+Object.assign(UI_D.en, {'اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.':'Hear the model with ▶ then try: 🗣 checks your pronunciation (your voice is sent temporarily to Google to be turned into text; Internet needed). 🎙 records your voice to play back; it stays on your device only.','تحقّق من نطقي':'Check my pronunciation','متصفحك لا يدعم التحقق من النطق. استعمل Chrome':'Your browser does not support pronunciation check. Use Chrome.','التحقق من النطق يحتاج اتصالاً بالإنترنت':'Pronunciation check needs an Internet connection','اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك':'French is not supported by speech recognition on your device','جارٍ الاستماع… قل الكلمة الآن':'Listening… say the word now','نطقك واضح، أحسنت!':'Your pronunciation is clear, well done!','اقتربت! استمع للنطق الصحيح وأعد المحاولة':'Close! Listen to the model and try again','لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'I didn’t get the word. Listen to the model and try again','لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'I heard nothing. Move closer to the microphone and try again'});
+
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
   moreMenu:()=>{
