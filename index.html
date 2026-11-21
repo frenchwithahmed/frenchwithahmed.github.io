@@ -755,6 +755,15 @@ html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
 .vpriv{font-size:12.5px;color:#6b7385;margin:6px 2px 14px;display:flex;gap:6px;align-items:center}
 @media(max-width:560px){.vact{width:100%;justify-content:flex-end}}
 
+/* ===== v9d: تحقق من النطق ===== */
+.vchk{width:40px;height:40px;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;font-size:18px;line-height:1;background:#e8f0fb;color:#0055A4}
+.vchk.on{background:#0055A4;color:#fff;animation:vpulse2 1s infinite}
+@keyframes vpulse2{0%{box-shadow:0 0 0 0 rgba(0,85,164,.5)}100%{box-shadow:0 0 0 12px rgba(0,85,164,0)}}
+.vfb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;padding:8px 12px;border-radius:12px;font-size:13.5px;font-weight:700;width:fit-content;max-width:100%}
+.vfb.ok{background:#e3f7ec;color:#157a45}.vfb.near{background:#fff0dc;color:#a45d00}.vfb.bad{background:#fde8ea;color:#b02a3c}.vfb.wait{background:#e8f0fb;color:#0055A4}
+.vfb small{font-weight:600;opacity:.9;direction:ltr;unicode-bidi:isolate}
+.vfb .vdel{border:0;background:none;color:inherit;opacity:.6;cursor:pointer;font-size:14px}
+
 </style>
 </head>
 <body>
@@ -4058,7 +4067,7 @@ async function recStart(w){
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ toast(uiT('جهازك أو متصفحك لا يدعم التسجيل الصوتي'), 'err'); return; }
   try{ REC.stream = await navigator.mediaDevices.getUserMedia({ audio:true }); }
   catch(e){ toast(uiT('لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة'), 'err'); return; }
-  try{ if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  try{ chkStop(); if(REC.audio){ REC.audio.pause(); REC.audio = null; } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
   REC.chunks = []; REC.word = w;
   const mr = new MediaRecorder(REC.stream); REC.mr = mr;
   mr.ondataavailable = e => { if(e.data && e.data.size) REC.chunks.push(e.data); };
@@ -4084,9 +4093,59 @@ async function recPlay(w){
 async function recDel(w){
   try{ await recOp('readwrite', st => st.delete(recKey(w))); REC.keys.delete(recKey(w)); render(); }catch(e){}
 }
+
+/* ---------- التحقق من النطق (Web Speech API في Chrome) ---------- */
+const SRC = window.SpeechRecognition || window.webkitSpeechRecognition;
+const CHK = { sr:null, word:null, res:{}, timer:null };
+const chkNum = ['zero','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf','vingt'];
+function chkNorm(s){
+  s = String(s || '').toLowerCase().replace(/\b(\d{1,2})\b/g, (m, d) => chkNum[+d] !== undefined ? chkNum[+d] : m);
+  return s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function chkSim(a, b){
+  if(a === b) return 1; if(!a || !b) return 0;
+  const m = a.length, n = b.length; let prev = Array.from({ length:n + 1 }, (_, j) => j);
+  for(let i = 1; i <= m; i++){ const cur = [i]; for(let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+  return 1 - prev[n] / Math.max(m, n);
+}
+function chkJudge(target, alts){
+  const tg = chkNorm(target); let best = 0;
+  alts.forEach(a => { const n = chkNorm(a); const s = Math.max(chkSim(tg, n), n.split(' ').includes(tg) && tg.split(' ').length === 1 && n.split(' ').length <= 2 ? .9 : 0); if(s > best) best = s; });
+  return { st: best >= .85 ? 'ok' : best >= .6 ? 'near' : 'bad', score: best, heard: alts[0] || '' };
+}
+function chkStop(){ try{ if(CHK.sr) CHK.sr.abort(); }catch(e){} clearTimeout(CHK.timer); CHK.sr = null; CHK.word = null; }
+function chkStart(w){
+  if(!SRC){ toast(uiT('متصفحك لا يدعم التحقق من النطق. استعمل Chrome'), 'err'); return; }
+  if(CHK.sr){ chkStop(); render(); return; }
+  try{ if(REC.mr) recStop(); if(REC.audio){ REC.audio.pause(); } window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+  const sr = new SRC(); CHK.sr = sr; CHK.word = w; delete CHK.res[w[0]];
+  sr.lang = 'fr-FR'; sr.interimResults = false; sr.maxAlternatives = 5; sr.continuous = false;
+  let got = false;
+  sr.onresult = e => {
+    got = true; const alts = []; const r = e.results[0]; for(let i = 0; i < r.length; i++) alts.push(r[i].transcript);
+    CHK.res[w[0]] = chkJudge(w[0], alts);
+  };
+  sr.onerror = e => {
+    const m = { 'not-allowed':'لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة', 'service-not-allowed':'لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة', 'network':'التحقق من النطق يحتاج اتصالاً بالإنترنت', 'language-not-supported':'اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك' }[e.error];
+    if(m){ toast(uiT(m), 'err'); got = true; }
+    if(e.error === 'no-speech'){ CHK.res[w[0]] = { st:'none' }; got = true; }
+  };
+  sr.onend = () => { clearTimeout(CHK.timer); if(CHK.sr === sr){ CHK.sr = null; CHK.word = null; } if(!got && !CHK.res[w[0]]) CHK.res[w[0]] = { st:'none' }; render(); };
+  try{ sr.start(); }catch(e){ CHK.sr = null; CHK.word = null; return; }
+  CHK.timer = setTimeout(() => { try{ sr.stop(); }catch(e){} }, 9000);
+  render();
+}
+function vfb(w){
+  if(CHK.sr && CHK.word && CHK.word[0] === w[0]) return `<div class="vfb wait">🎧 <span>جارٍ الاستماع… قل الكلمة الآن</span></div>`;
+  const r = CHK.res[w[0]]; if(!r) return '';
+  if(r.st === 'none') return `<div class="vfb bad">🔇 <span>لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة</span></div>`;
+  const msg = r.st === 'ok' ? '✅ نطقك واضح، أحسنت!' : r.st === 'near' ? '🔁 اقتربت! استمع للنطق الصحيح وأعد المحاولة' : '❌ لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة';
+  return `<div class="vfb ${r.st}"><span>${msg}</span><small>${r.heard ? '« ' + esc(r.heard) + ' »' : ''}</small></div>`;
+}
+
 function recBtns(w, id, i){
-  const on = REC.mr && REC.word && REC.word[0] === w[0];
-  return `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
+  const on = REC.mr && REC.word && REC.word[0] === w[0], con = CHK.sr && CHK.word && CHK.word[0] === w[0];
+  return (SRC ? `<button class="vchk ${con ? 'on' : ''}" data-a="vChk" data-id="${id}" data-i="${i}" aria-label="تحقّق من نطقي">${con ? '⏹' : '🗣'}</button>` : '') + `<button class="vmic ${on ? 'on' : ''}" data-a="vRec" data-id="${id}" data-i="${i}" aria-label="${on ? 'إيقاف التسجيل' : 'سجّل صوتك'}">${on ? '⏹' : '🎙'}</button>`
     + (recHas(w) ? `<button class="vplay" data-a="vMine" data-id="${id}" data-i="${i}" aria-label="استمع لتسجيلك">▶</button><button class="vdelr" data-a="vRecDel" data-id="${id}" data-i="${i}" aria-label="احذف تسجيلك">✕</button>` : '');
 }
 
@@ -4140,8 +4199,8 @@ function renderVCat(v){
     <h2 class="st"><span>${esc(c.ar)} <small dir="ltr">${esc(c.fr)}</small></span><small dir="ltr">${p.k} / ${p.n}</small></h2>
     <div class="vbar2"><div class="vpills">${means}</div><button class="btn" data-a="vCards">${I('play','s')} بطاقات المراجعة</button></div>
     ${c.note ? `<div class="vnote"><span class="ni">💡</span><div dir="auto">${esc(c.note[UL] || c.note.ar)}</div></div>` : ''}
-    <p class="vpriv">🔒 <span>التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.</span></p>
-    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
+    <p class="vpriv">🔒 <span>اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.</span></p>
+    <div class="card vlist">${c.w.map((w, i) => `<div class="vrow ${V.known.has(w[0]) ? 'ok' : ''}"><button class="vsp" data-a="vSayW" data-id="${c.id}" data-i="${i}" aria-label="استمع">${I('play','s')}</button><div class="vtx">${vFr(w)}${vMean(w)}${w[3] ? `<button class="vex" data-a="vSayX" data-id="${c.id}" data-i="${i}" lang="fr">🔈 ${esc(w[3])}</button>` : ''}${vfb(w)}</div><div class="vact">${recBtns(w, c.id, i)}<button class="vk ${V.known.has(w[0]) ? 'on' : ''}" data-a="vKnow" data-i="${i}" aria-pressed="${V.known.has(w[0])}">${V.known.has(w[0]) ? '✓ عرفتها' : 'عرفتها؟'}</button></div></div>`).join('')}</div>`;
 }
 function renderVCards(v){
   const c = vCat(V.cat); if(!c){ V.view = 'menu'; return renderVocab(v); }
@@ -4157,6 +4216,7 @@ function renderVCards(v){
     <button class="vcard ${V.flip ? 'flip' : ''}" data-a="vFlip" aria-label="اقلب البطاقة">
       ${V.flip ? `<span class="vmean">${vMean(w)}</span><span class="vhint">${vFr(w)}</span>${w[3] ? `<span class="vhint" dir="ltr" lang="fr" style="font-style:italic">${esc(w[3])}</span>` : ''}` : `${vFr(w)}<span class="vhint">اضغط لإظهار المعنى</span>`}
     </button>
+    <div style="display:flex;justify-content:center">${vfb(w)}</div>
     <div class="actions" style="justify-content:center"><button class="btn sec lg" data-a="vSayC">${I('play','s')} استمع</button>${recBtns(w, c.id, V.deck.length ? c.w.indexOf(w) : 0)}
       ${V.flip ? `<button class="btn del lg" data-a="vNo">أعيدها</button><button class="btn lg" data-a="vYes">عرفتها ✓</button>` : `<button class="btn lg" data-a="vFlip">أظهر المعنى</button>`}</div>`;
 }
@@ -4174,6 +4234,7 @@ const VH = {
   vCatBack:() => { V.view = 'cat'; render(); },
   vSayW:(id, el) => { const c = vCat(id); if(c) vSay(c.w[+el.dataset.i]); },
   vSayX:(id, el) => { const c = vCat(id); if(c){ const w = c.w[+el.dataset.i]; if(w && w[3]) speak(w[3], .85); } },
+  vChk:(id, el) => { const c = vCat(id); if(c) chkStart(c.w[+el.dataset.i]); },
   vRec:(id, el) => { const c = vCat(id); if(c) recStart(c.w[+el.dataset.i]); },
   vMine:(id, el) => { const c = vCat(id); if(c) recPlay(c.w[+el.dataset.i]); },
   vRecDel:(id, el) => { const c = vCat(id); if(c) recDel(c.w[+el.dataset.i]); },
@@ -5714,7 +5775,9 @@ UI_R.fr.push([/^سُلّم (.+)$/,'Rendu $1'],[/^(\d+) محاولة$/,'$1 tentat
 UI_R.en.push([/^سُلّم (.+)$/,'Submitted $1'],[/^(\d+) محاولة$/,'$1 attempt(s)'],[/^(\d+) سؤال$/,'$1 question(s)'],[/^(\d+) دقيقة$/,'$1 min'],[/^(\d+) تسليم$/,'$1 submission(s)'],[/^يغلق (.+)$/,'Closes $1'],[/^آخر موعد (.+)$/,'Due $1']);
 
 Object.assign(UI_D.fr, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Ton enregistrement reste sur ton appareil et n’est envoyé à personne. Appuie sur 🔈 pour écouter, puis sur 🎙 pour t’enregistrer.','سجّل صوتك':'Enregistre ta voix','إيقاف التسجيل':'Arrêter l’enregistrement','استمع لتسجيلك':'Écouter ton enregistrement','احذف تسجيلك':'Supprimer ton enregistrement','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Ton appareil ne prend pas en charge l’enregistrement','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone refusé. Autorise-le dans les réglages du navigateur et réessaie.','تم حفظ تسجيلك على جهازك':'Enregistrement sauvegardé sur ton appareil','تعذر حفظ التسجيل على هذا الجهاز':'Impossible de sauvegarder l’enregistrement','تعذر تشغيل التسجيل':'Impossible de lire l’enregistrement'});
-Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});
+Object.assign(UI_D.en, {'التسجيل يُحفظ على جهازك فقط ولا يُرسل لأحد. اضغط 🔈 لتسمع النطق الصحيح ثم 🎙 لتسجّل صوتك.':'Your recording stays on your device and is sent to no one. Press 🔈 to hear the model, then 🎙 to record yourself.','سجّل صوتك':'Record your voice','إيقاف التسجيل':'Stop recording','استمع لتسجيلك':'Play your recording','احذف تسجيلك':'Delete your recording','جهازك أو متصفحك لا يدعم التسجيل الصوتي':'Your device does not support recording','لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة':'Microphone blocked. Allow it in the browser settings and try again.','تم حفظ تسجيلك على جهازك':'Recording saved on your device','تعذر حفظ التسجيل على هذا الجهاز':'Could not save the recording','تعذر تشغيل التسجيل':'Could not play the recording'});Object.assign(UI_D.fr, {'اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.':'Écoute la bonne prononciation avec ▶ puis essaie : 🗣 vérifie ta prononciation (ta voix est envoyée temporairement à Google pour être convertie en texte ; connexion Internet requise). 🎙 enregistre ta voix pour la réécouter ; elle reste sur ton appareil.','تحقّق من نطقي':'Vérifier ma prononciation','متصفحك لا يدعم التحقق من النطق. استعمل Chrome':'Ton navigateur ne prend pas en charge la vérification. Utilise Chrome.','التحقق من النطق يحتاج اتصالاً بالإنترنت':'La vérification nécessite une connexion Internet','اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك':'Le français n’est pas pris en charge par la reconnaissance vocale de ton appareil','🎧 جارٍ الاستماع… قل الكلمة الآن':'🎧 J’écoute… dis le mot maintenant','✅ نطقك واضح، أحسنت!':'✅ Ta prononciation est claire, bravo !','🔁 اقتربت! استمع للنطق الصحيح وأعد المحاولة':'🔁 Presque ! Écoute le modèle et réessaie','❌ لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'❌ Je n’ai pas compris. Écoute le modèle et réessaie','🔇 لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'🔇 Je n’ai rien entendu. Rapproche-toi du micro et réessaie','جارٍ الاستماع… قل الكلمة الآن':'J’écoute… dis le mot maintenant','نطقك واضح، أحسنت!':'Ta prononciation est claire, bravo !','اقتربت! استمع للنطق الصحيح وأعد المحاولة':'Presque ! Écoute le modèle et réessaie','لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'Je n’ai pas compris. Écoute le modèle et réessaie','لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'Je n’ai rien entendu. Rapproche-toi du micro et réessaie'});
+Object.assign(UI_D.en, {'اسمع النطق الصحيح بزر ▶ ثم جرّب: 🗣 يتحقق من نطقك (يُرسل صوتك مؤقتاً إلى Google لتحويله إلى نص، ويحتاج إنترنت). 🎙 يسجّل صوتك ليسمعه الطالب ويُحفظ على جهازك فقط.':'Hear the model with ▶ then try: 🗣 checks your pronunciation (your voice is sent temporarily to Google to be turned into text; Internet needed). 🎙 records your voice to play back; it stays on your device only.','تحقّق من نطقي':'Check my pronunciation','متصفحك لا يدعم التحقق من النطق. استعمل Chrome':'Your browser does not support pronunciation check. Use Chrome.','التحقق من النطق يحتاج اتصالاً بالإنترنت':'Pronunciation check needs an Internet connection','اللغة الفرنسية غير مدعومة في التعرّف على الكلام في جهازك':'French is not supported by speech recognition on your device','جارٍ الاستماع… قل الكلمة الآن':'Listening… say the word now','نطقك واضح، أحسنت!':'Your pronunciation is clear, well done!','اقتربت! استمع للنطق الصحيح وأعد المحاولة':'Close! Listen to the model and try again','لم أفهم الكلمة. استمع للنطق الصحيح وأعد المحاولة':'I didn’t get the word. Listen to the model and try again','لم أسمع شيئاً. اقترب من الميكروفون وأعد المحاولة':'I heard nothing. Move closer to the microphone and try again'});
+
 const H = {
   ...GH, ...VH, ...GRH, ...RESH, ...DASHH, ...DASHH_UI,
   moreMenu:()=>{
