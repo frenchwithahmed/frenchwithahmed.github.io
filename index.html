@@ -575,7 +575,7 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
 .dweek .col span{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;direction:rtl}
 .dleg{display:flex;gap:16px;margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:600}
 .dleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px}
-.drec{display:grid;gap:10px}
+.drec{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
 .dri{display:flex;align-items:center;gap:12px;background:#F7F4EC;border-radius:14px;padding:10px 12px}
 .dri .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
 .dri .t{flex:1;min-width:0}
@@ -584,7 +584,8 @@ button,a,.chip,.tile{touch-action:manipulation;-webkit-tap-highlight-color:trans
 .dri .r{font-weight:800;font-size:13px;direction:ltr;color:var(--navy)}
 .dmuted{color:var(--muted);font-size:14px;padding:10px 4px}
 @media(max-width:1180px){
-  .dash{grid-template-columns:1fr}
+  .dash{grid-template-columns:minmax(0,1fr)}
+  .dash>*,.dpanel{min-width:0}
   .dmain,.dside{display:contents}
   .dash .p-stats{order:1}.dash .p-cont{order:2}.dash .p-courses{order:3}.dash .p-week{order:4}.dash .p-rec{order:5}
 }
@@ -1925,10 +1926,11 @@ function preview(id){
   }
   const raw = pubUrl(it.file_path), u = esc(raw); const n = (it.file_name||'').toLowerCase();
   let body, dl = '';
-  if(n.endsWith('.pdf')) body = `<iframe class="pv" src="${u}"></iframe>`;
-  else if(/\.(png|jpe?g|gif|webp)$/.test(n)) body = `<img class="pv" src="${u}">`;
+  const dlBtns = `<div class="actions"><a class="btn" href="${u}" target="_blank" rel="noopener noreferrer" download="${esc(it.file_name || '')}">${I('download','s')} تنزيل</a><a class="btn sec" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} فتح في نافذة جديدة</a></div>`;
+  if(n.endsWith('.pdf')){ body = `<iframe class="pv" src="${u}"></iframe>`; dl = dlBtns; }
+  else if(/\.(png|jpe?g|gif|webp)$/.test(n)){ body = `<img class="pv" src="${u}">`; dl = dlBtns; }
   else if(OFFICE_RE.test(n)){ body = officeView(raw); dl = `<div class="actions"><a class="btn sec" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
-  else if(/\.(mp3|wav|m4a|ogg)$/.test(n)) body = `<audio controls src="${u}" style="width:100%"></audio>`;
+  else if(/\.(mp3|wav|m4a|ogg)$/.test(n)){ body = `<audio controls src="${u}" style="width:100%"></audio>`; dl = dlBtns; }
   else { body = `<p class="cap">لا توجد معاينة لهذا النوع من الملفات.</p>`; dl = `<div class="actions"><a class="btn" href="${u}" target="_blank" rel="noopener noreferrer">${I('ext','s')} تنزيل / فتح</a></div>`; }
   openModal(`<h3 dir="auto">${esc(it.title)}</h3>${body}${dl}`, true);
 }
