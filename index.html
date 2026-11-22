@@ -1146,7 +1146,7 @@ function renderShell0(){
       ? `<span class="who">${I('user','s')} ${esc(state.me.student.full_name)}</span><button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
       : (state.uid && state.authErr)   // جلسة موجودة لكن تعذر التحقق: نتيح الخروج بدل زر الدخول
         ? `<button class="tbtn out" data-a="logout">${I('logout','s')} خروج</button>`
-        : `<button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
+        : `<button class="tbtn" data-a="signup">${I('userplus','s')} إنشاء حساب</button><button class="tbtn" data-a="login">${I('lock','s')} تسجيل الدخول</button>`;
   $('#tbar').innerHTML = state.teacher
     ? `<div class="tbar"><span class="tbadge">${I('check','s')} وضع المدرس</span><span class="ttx">يمكنك الإضافة والحذف ومتابعة النتائج والتسليمات</span><button data-a="seed">${I('sparkle','s')} إضافة محتوى تجريبي</button></div>` : '';
 }
@@ -1331,7 +1331,7 @@ function render0(){
     const heroP = stu && nxt ? `أقرب موعد: <b dir="auto">${esc(nxt.title)}</b> — ${timeLeft(nxt.at)}` : 'دروس وفيديوهات واختبارات بوقت محدد وواجبات وروابط مختارة، كل ما تحتاجه في مكان واحد.';
     const heroCta = stu
       ? `<button class="cbtn" data-a="tab" data-id="${nxt?nxt.tab:'files'}">${I('play','s')} تابع التعلم</button><button class="cbtn ghost" data-a="tab" data-id="games">${I('sparkle','s')} العب وتدرّب</button>`
-      : `<button class="cbtn" data-a="tab" data-id="quizzes">${I('play','s')} ابدأ اختباراً</button><button class="cbtn ghost" data-a="tab" data-id="files">${I('book','s')} تصفّح الدروس</button>`;
+      : `<button class="cbtn" data-a="signup">${I('userplus','s')} أنشئ حسابك وابدأ التعلم</button><button class="cbtn ghost" data-a="tab" data-id="files">${I('book','s')} تصفّح الدروس</button>`;
     v.innerHTML = err + `
     <section class="hero">
       <div>
@@ -1645,7 +1645,7 @@ function blockSubmit(){
   openModal(`<div class="empty" style="border:0;margin-top:10px"><div class="eic c-blue">${I('lock')}</div>
     <h4>${guest ? 'سجّل الدخول أولاً' : 'حسابك غير مسجّل كطالب'}</h4>
     <div>${guest ? 'حلّ الاختبارات وتسليم الواجبات متاح للطلاب المسجّلين فقط. ادخل بحسابك الذي سلّمه لك المدرس.' : 'هذا الحساب غير مرتبط بصف عند المدرس. تواصل مع المدرس ليُنشئ لك حساب طالب.'}</div>
-    ${guest ? `<div class="actions" style="justify-content:center"><button class="btn lg" data-a="login">${I('lock','s')} تسجيل الدخول</button></div>` : ''}</div>`);
+    ${guest ? `<div class="actions" style="justify-content:center"><button class="btn lg" data-a="login">${I('lock','s')} تسجيل الدخول</button><button class="btn sec lg" data-a="signup">${I('userplus','s')} إنشاء حساب</button></div>` : ''}</div>`);
   return true;
 }
 const submitErr = m => /time over/i.test(m) ? 'انتهى وقت الاختبار ولم يُقبل التسليم' : /not started/i.test(m) ? 'ابدأ الاختبار أولاً ثم سلّم' : /attempt limit/i.test(m) ? 'وصلت للحد الأقصى من المحاولات (3). تواصل مع المدرس إن احتجت محاولة إضافية' : /too fast/i.test(m) ? 'انتظر 10 ثوانٍ قبل إعادة الإرسال' : /login required/i.test(m) ? 'سجّل الدخول أولاً' : /not a student/i.test(m) ? 'حسابك غير مسجّل كطالب عند المدرس' : /not allowed/i.test(m) ? 'هذا المحتوى ليس لصفك' : null;
@@ -1943,7 +1943,7 @@ function login(){
     <input class="in" id="em" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false">
     <label class="f">كلمة المرور</label>
     <input class="in" id="pw" type="password" dir="ltr" autocomplete="current-password">
-    <div class="actions"><button class="btn lg" id="lgbtn" data-a="doLogin">دخول</button></div>`);
+    <div class="actions"><button class="btn lg" id="lgbtn" data-a="doLogin">دخول</button><button class="btn sec lg" data-a="signup">طالب جديد؟ أنشئ حساباً</button></div>`);
   $('#pw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
   $('#em').focus();
 }
@@ -1957,6 +1957,50 @@ async function doLogin(){
   closeModal(); await afterAuth();
   if(state.authErr){ toast(state.authErr,'err'); return; }
   if(!state.teacher && !(state.me && state.me.student)){ toast('هذا الحساب غير مفعّل كطالب. تواصل مع المدرس.','err'); await sb.auth.signOut(); }
+}
+function signup(){
+  openModal(`<div class="lghead"><img src="${($('.brand img')||{}).src||''}" alt="French Online"><span>by Monsieur Ahmed<br><small>Learn French. Speak with Confidence.</small></span></div><h3>إنشاء حساب جديد</h3>
+    <p class="note" style="margin:-6px 0 4px">للطلاب الجدد: أنشئ حسابك بالبريد الإلكتروني لتتعلم المستويات وتتابع تقدّمك.</p>
+    <label class="f">اسمك الكامل *</label>
+    <input class="in" id="su_name" type="text" maxlength="80" autocomplete="name">
+    <label class="f">البريد الإلكتروني *</label>
+    <input class="in" id="su_em" type="email" dir="ltr" autocomplete="email" autocapitalize="none" spellcheck="false">
+    <label class="f">كلمة المرور * (8 أحرف على الأقل)</label>
+    <input class="in" id="su_pw" type="password" dir="ltr" autocomplete="new-password">
+    <label class="f">أعد كتابة كلمة المرور *</label>
+    <input class="in" id="su_pw2" type="password" dir="ltr" autocomplete="new-password">
+    <input id="su_hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <div class="actions"><button class="btn lg" id="subtn" data-a="doSignup">إنشاء الحساب</button><button class="btn sec lg" data-a="login">لديّ حساب</button></div>`);
+  $('#su_pw2').addEventListener('keydown', e=>{ if(e.key==='Enter') doSignup(); });
+  $('#su_name').focus();
+}
+async function doSignup(){
+  if(($('#su_hp')||{}).value) return;   // فخ للروبوتات
+  const name = $('#su_name').value.trim().replace(/\s+/g, ' '), email = $('#su_em').value.trim().toLowerCase(), pw = $('#su_pw').value, pw2 = $('#su_pw2').value;
+  if(name.length < 2){ toast('اكتب اسمك الكامل','err'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.endsWith('@' + STUDENT_DOMAIN)){ toast('اكتب بريداً إلكترونياً صحيحاً','err'); return; }
+  if(pw.length < 8){ toast('كلمة المرور 8 أحرف على الأقل','err'); return; }
+  if(pw !== pw2){ toast('كلمتا المرور غير متطابقتين','err'); return; }
+  const btn = $('#subtn'); btn.disabled = true;
+  let r;
+  try{ r = await sb.auth.signUp({ email, password:pw, options:{ data:{ full_name:name, self_signup:true } } }); }catch(e){ r = { error:e }; logErr('signUp', e); }
+  const u = r && r.data && r.data.user;
+  if(r.error || !u){
+    const m = errMsg(r.error || {});
+    toast(navigator.onLine === false ? 'لا يوجد اتصال بالإنترنت'
+      : /already registered|already been registered|already exists/i.test(m) ? 'هذا البريد مسجّل من قبل. اضغط «لديّ حساب» وسجّل الدخول.'
+      : /rate limit|too many|429/i.test(m) ? 'محاولات كثيرة. انتظر دقائق ثم أعد المحاولة.'
+      : /password/i.test(m) ? 'كلمة المرور غير مقبولة، اختر كلمة أقوى.'
+      : 'تعذر إنشاء الحساب: ' + m, 'err');
+    btn.disabled = false; return;
+  }
+  if(Array.isArray(u.identities) && u.identities.length === 0){ toast('هذا البريد مسجّل من قبل. اضغط «لديّ حساب» وسجّل الدخول.','err'); btn.disabled = false; return; }
+  if(!r.data.session){   // المشروع يطلب تأكيد البريد: يكتمل الحساب عند أول دخول بعد التأكيد
+    closeModal(); openModal(`<h3>تحقق من بريدك</h3><div class="infobox">أرسلنا رسالة تأكيد إلى <b dir="ltr">${esc(email)}</b>. افتحها واضغط على الرابط، ثم عد وسجّل الدخول.</div><div class="actions"><button class="btn lg" data-a="login">تسجيل الدخول</button></div>`); return;
+  }
+  closeModal(); await afterAuth();
+  if(state.me && state.me.student){ toast('أهلاً بك ' + name.split(' ')[0] + '! تم إنشاء حسابك','ok'); state.tab = 'home'; render(); }
+  else { toast('تم إنشاء الحساب لكن التسجيل الذاتي غير مفعّل بعد في الموقع. تواصل مع المدرس.','err'); try{ await sb.auth.signOut(); }catch(e){} await afterAuth(); }
 }
 async function logout(){
   try{ await sb.auth.signOut(); }catch(e){ logErr('signOut', e); }
@@ -2366,13 +2410,24 @@ async function loadMe(){
   state.uid = session.user.id;
   let r;
   try{ r = await sb.rpc('whoami'); }catch(e){ r = { error:e }; }
-  const d = r && r.data;
+  let d = r && r.data;
   if(r.error || !d || typeof d !== 'object' || typeof d.teacher !== 'boolean'){
     logErr('whoami', r.error || new Error('bad whoami response'));
     state.authErr = navigator.onLine === false
       ? 'لا يوجد اتصال بالإنترنت، لذلك تعذر التحقق من صلاحيات حسابك.'
       : 'تعذر التحقق من صلاحيات حسابك. تم إيقاف أدوات الإدارة مؤقتاً.';
     return;   // بلا صلاحيات
+  }
+  if(d.teacher === false && !d.student){   // حساب سجّل بنفسه ولم يُنشأ له ملف طالب بعد
+    try{
+      const um = (session.user && session.user.user_metadata) || {};
+      const em = String((session.user && session.user.email) || '').toLowerCase();
+      if(um.self_signup === true && um.full_name && em){
+        const ins = await sb.from('profiles').insert({ id:session.user.id, full_name:String(um.full_name).trim().slice(0, 80), login_id:em, class_id:null });
+        if(ins.error) throw ins.error;
+        const r2 = await sb.rpc('whoami'); if(r2 && r2.data && typeof r2.data.teacher === 'boolean') d = r2.data;
+      }
+    }catch(e){ logErr('selfProfile', e); }
   }
   state.me = d; state.teacher = d.teacher === true;
 }
@@ -7327,6 +7382,7 @@ Object.assign(UI_D.en, {'الدروس والملفات':'Lessons & files','نت�
 /* ترجمة ما يُحمَّل متأخراً (نتائجي وغيرها) */
 (function(){ const vw = document.getElementById('view'); if(!vw || typeof MutationObserver === 'undefined') return; let tm = 0;
   new MutationObserver(() => { if(UL === 'ar') return; clearTimeout(tm); tm = setTimeout(() => uiTr(vw), 40); }).observe(vw, { childList:true, subtree:true }); })();
+Object.assign(UI_D.fr, {'إنشاء حساب':'Créer un compte','إنشاء حساب جديد':'Créer un compte','إنشاء الحساب':'Créer le compte','لديّ حساب':'J’ai déjà un compte','طالب جديد؟ أنشئ حساباً':'Nouvel élève ? Crée un compte','اسمك الكامل *':'Ton nom complet *','البريد الإلكتروني *':'Adresse e-mail *','كلمة المرور * (8 أحرف على الأقل)':'Mot de passe * (8 caractères minimum)','أعد كتابة كلمة المرور *':'Retape le mot de passe *','أنشئ حسابك وابدأ التعلم':'Crée ton compte et commence'}); Object.assign(UI_D.en, {'إنشاء حساب':'Sign up','إنشاء حساب جديد':'Create an account','إنشاء الحساب':'Create account','لديّ حساب':'I already have an account','طالب جديد؟ أنشئ حساباً':'New student? Create an account','اسمك الكامل *':'Your full name *','البريد الإلكتروني *':'Email *','كلمة المرور * (8 أحرف على الأقل)':'Password * (at least 8 characters)','أعد كتابة كلمة المرور *':'Retype the password *','أنشئ حسابك وابدأ التعلم':'Create your account and start learning'});
 Object.assign(UI_D.fr, {'مواقع تعلم':'Sites d’apprentissage','قواميس وتصريف':'Dictionnaires et conjugaison','استماع وأخبار':'Écoute et actualités','تمارين تفاعلية':'Exercices interactifs','قنوات ومنصات':'Chaînes et plateformes','اختبار PDF':'Quiz PDF'});
 Object.assign(UI_D.en, {'مواقع تعلم':'Learning sites','قواميس وتصريف':'Dictionaries & conjugation','استماع وأخبار':'Listening & news','تمارين تفاعلية':'Interactive exercises','قنوات ومنصات':'Channels & platforms','اختبار PDF':'Quiz PDF'});
 Object.assign(UI_D.fr, {'التعلّم':'Apprendre','التدريب':'S’entraîner','متابعتي':'Mon suivi','الإدارة':'Gestion'});
@@ -7366,7 +7422,7 @@ const H = {
   clsf:id=>{ state.cls=id; render(); },
   level:id=>{ state.level=id; render(); },
   cat:id=>{ state.cat=id; render(); },
-  login, doLogin, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); }, retryLoad: () => { state.err=''; return loadAll(); },
+  login, doLogin, signup, doSignup, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); }, retryLoad: () => { state.err=''; return loadAll(); },
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
   bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
