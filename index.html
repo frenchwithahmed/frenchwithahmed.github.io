@@ -831,6 +831,9 @@ html[dir=ltr] .qa .qh .st{margin-inline-start:auto}
 .lvmn{width:34px;height:34px;border-radius:12px;background:var(--ja,#2F6DB5);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
 .lvls{display:flex;flex-direction:column;gap:6px}.lvl{display:flex;align-items:center;gap:10px;text-align:start;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid var(--line);min-height:50px;width:100%}.lvl:hover{border-color:var(--ja)}.lvl.done{background:#F1FAF4;border-color:#BFE3CC}.lvl.prog{background:#FFF9EE;border-color:#F2D9A8}
 .lvst{width:22px;height:22px;border-radius:50%;border:2px solid #CFC9BB;flex:none;display:grid;place-items:center;color:#fff}.lvst.ok{background:#1b9a5b;border-color:#1b9a5b}.lvst.mid{border-color:#E8890C;background:linear-gradient(90deg,#E8890C 50%,transparent 50%)}.lvst .i{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:3}
+.lvl.lock{opacity:.62;background:#F4F1EA;cursor:not-allowed}.lvl.lock:hover{border-color:var(--line)}.lvst.lk{background:#9AA3AF;border-color:#9AA3AF}.lvst.lk .i{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5}
+.ctcard{padding:20px}.cthead{display:flex;gap:14px;align-items:center;margin-bottom:12px}.cthead h3{margin:0;font-size:20px;color:var(--navy)}.cthead p{margin:2px 0 0;color:var(--muted);font-size:14px}.ctav{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#0B1F3A,#128A84);color:#E5B84A;display:grid;place-items:center;font-weight:800;font-size:24px;flex:none}
+.ctgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:10px}.ctb{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--navy);text-decoration:none;min-height:56px}.ctb:hover{border-color:#128A84}.ctb .i{width:22px;height:22px;stroke:currentColor;fill:none;flex:none}.ctb span{display:flex;flex-direction:column;min-width:0}.ctb small{color:var(--muted);overflow-wrap:anywhere}.ctb.wa{background:#EAF8EF;border-color:#BFE3CC}.ctb.em{background:#EEF4FB}.ctb.ph{background:#FFF9EE}.ctb.pf{background:#E7F8F6}
 .lvn{font-weight:800;color:var(--muted);width:22px;text-align:center}.lvt{display:flex;flex-direction:column;min-width:0}.lvt b{font-size:14.5px;color:var(--navy);direction:ltr;text-align:start}.lvt small{font-size:12.5px;color:var(--muted)}
 .lvas{display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap;margin-top:14px}.lvas.lock{opacity:.85;background:#F4F1E8}.lvas h4{margin:0 0 4px;color:var(--navy)}.lvas p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.7}.lvlock{width:38px;height:38px;border-radius:50%;background:#E3DED0;display:grid;place-items:center}.lvlock .i{width:18px;height:18px;stroke:#6b6455;fill:none;stroke-width:2.2}.lvbest{color:var(--text)!important}.okt{color:#1b7a4b;font-weight:800}
 .lvjr{margin-top:6px}
@@ -1122,7 +1125,29 @@ async function loadAll0(){
 setInterval(async () => { if(qs && qs.active) return; await resolveSigned(); if(!document.querySelector('#modal .ov')) render(); }, 90*60*1000);
 
 /* ============ الواجهة العامة ============ */
-const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
+/* ===== بيانات التواصل — يعدّلها المدرّس هنا فقط ===== */
+const CONTACT = {
+  name: 'Monsieur Ahmed',
+  email: 'ahmed.sallam201663@gmail.com',
+  whatsapp: [{ n:'201277338582', l:'WhatsApp — مصر|WhatsApp — Égypte|WhatsApp — Egypt' }, { n:'966574938151', l:'WhatsApp — السعودية|WhatsApp — Arabie saoudite|WhatsApp — Saudi Arabia' }],   // أرقام دولية بلا + ولا مسافات
+  phones: [],                // مثال: [{n:'+20 100 123 4567', l:'جوال'}]
+  platforms: [{ n:'Instagram', u:'https://www.instagram.com/frenchonline.ahmed' }, { n:'TikTok', u:'https://www.tiktok.com/@french.online.wit' }, { n:'YouTube', u:'https://youtube.com/@frenchonline6445' }]
+};
+const contactAny = () => !!(CONTACT.email || (CONTACT.whatsapp || []).length || CONTACT.phones.length || CONTACT.platforms.length);
+function renderContact(){
+  const c = CONTACT, safeUrl = u => /^https?:\/\//i.test(u) ? u : '#';
+  const rows = [];
+  (c.whatsapp || []).forEach(w => { const d = String(w.n).replace(/\D/g, ''); rows.push(`<a class="ctb wa" href="https://wa.me/${esc(d)}" target="_blank" rel="noopener">${I('send', 's')}<span><b>${esc(lt3(w.l || 'WhatsApp'))}</b><small dir="ltr">+${esc(d)}</small></span></a>`); });
+  if(c.email) rows.push(`<a class="ctb em" href="mailto:${esc(c.email)}">${I('send', 's')}<span><b>${esc(lT('البريد الإلكتروني', 'E-mail', 'Email'))}</b><small dir="ltr">${esc(c.email)}</small></span></a>`);
+  (c.phones || []).forEach(p => rows.push(`<a class="ctb ph" href="tel:${esc(String(p.n).replace(/[^\d+]/g, ''))}">${I('send', 's')}<span><b>${esc(p.l || lT('اتصال', 'Téléphone', 'Phone'))}</b><small dir="ltr">${esc(p.n)}</small></span></a>`));
+  const pl = (c.platforms || []).map(p => `<a class="ctb pf" href="${esc(safeUrl(p.u))}" target="_blank" rel="noopener">${I('link', 's')}<span><b>${esc(p.n)}</b><small dir="ltr">${esc(String(p.u).replace(/^https?:\/\//i, '').slice(0, 40))}</small></span></a>`);
+  return `<h2 class="st"><span>${I('send')} ${esc(lT('تواصل معي', 'Contact', 'Contact me'))}</span></h2>
+   <section class="card ctcard"><div class="cthead"><span class="ctav">A</span><div><h3>${esc(c.name)}</h3><p>${esc(lT('مدرّس اللغة الفرنسية — يسعدني التواصل معك لأي سؤال أو استفسار.', 'Professeur de français — je suis à ta disposition pour toute question.', 'French teacher — happy to hear from you with any question.'))}</p></div></div>
+    ${rows.length ? `<h4 class="lsh4">${esc(lT('تواصل مباشر', 'Contact direct', 'Direct contact'))}</h4><div class="ctgrid">${rows.join('')}</div>` : ''}
+    ${pl.length ? `<h4 class="lsh4">${esc(lT('منصات التعلّم الخاصة بي', 'Mes plateformes d\'apprentissage', 'My learning platforms'))}</h4><div class="ctgrid">${pl.join('')}</div>` : ''}
+    ${contactAny() ? '' : `<p class="note">${esc(lT('ستُضاف بيانات التواصل قريباً.', 'Les coordonnées seront ajoutées bientôt.', 'Contact details will be added soon.'))}</p>`}</section>`;
+}
+const TABS = [['home','home','الرئيسية'],['files','book','الدروس'],['videos','video','الفيديوهات'],['quizzes','quiz','الاختبارات'],['assignments','assign','الواجبات'],['links','link','الروابط'],['contact','send','تواصل معي'],['games','sparkle','الألعاب'],['vocab','vocab','المفردات'],['grammar','gram','القواعد']];
 
 const BNAV_MAIN = ['home','files','games','quizzes'];   // تبويبات الشريط السفلي في الهاتف، والباقي في «المزيد»
 function renderShell(){ renderShell0(); uiShell(); }
@@ -1131,7 +1156,7 @@ function renderShell0(){
   if(state.teacher){ tabs.push(['results','list','النتائج']); tabs.push(['track','chart','المتابعة']); tabs.push(['people','users','الصفوف والطلاب']); }
   else if(state.me && state.me.student) tabs.push(['mine','list','نتائجي']);
   const _nv = $('#nav'); const _ps = _nv.scrollLeft;
-  const _ord = ['home','files','videos','vocab','grammar','links','games','quizzes','assignments','mine','results','track','people']; const _grp = { files:'التعلّم', games:'التدريب', mine:'متابعتي', results:'الإدارة' };
+  const _ord = ['home','files','videos','vocab','grammar','links','contact','games','quizzes','assignments','mine','results','track','people']; const _grp = { files:'التعلّم', games:'التدريب', mine:'متابعتي', results:'الإدارة' };
   tabs.sort((a, b) => _ord.indexOf(a[0]) - _ord.indexOf(b[0]));
   $('#nav').innerHTML = tabs.map(([k,ic,l]) => (_grp[k] ? `<span class="ngrp">${_grp[k]}</span>` : '') + `<button class="${state.tab===k?'on':''}" data-a="tab" data-id="${k}">${I(ic,'s')}${l}</button>`).join('');
   fitNav();
@@ -1383,6 +1408,7 @@ function render0(){
       ${state.teacher ? '' : qaSummary('a')}${filterBar(`<button class="add" data-a="addAssign">${I('plus','s')} إضافة واجب</button>`)}
       ${list.length?`<div class="grid">${list.map(assignCard).join('')}</div>`:emptyBox('assign','c-orange','لا توجد واجبات مطابقة','', addHint('إضافة واجب','addAssign'))}`;
   }
+  if(state.tab==='contact'){ v.innerHTML = renderContact(); return; }
   if(state.tab==='links'){
     const list = links.filter(match).filter(l => state.cat==='all' || l.cat===state.cat);
     v.innerHTML = err + `<h2 class="st"><span>${I('link')} روابط مفيدة</span><small>${list.length} رابط</small></h2>
@@ -7348,6 +7374,11 @@ function lvLevel(L){
   const assessed = !!a.p, all = ls.length > 0 && dn === ls.length;
   return { total:ls.length, done:dn, pct:ls.length ? Math.round(dn / ls.length * 100) : 0, all, as:a, complete:all && assessed, ps };
 }
+function lvLocked(les){ // لا يُفتح الدرس إلا بعد إكمال الذي قبله (المدرّس معفى)
+  if(state.teacher) return false;
+  const ls = lvLs(les.L), i = ls.findIndex(x => x.id === les.id);
+  return i > 0 && !lvProg(ls[i - 1]).done;
+}
 function lvNext(L){ // أول درس غير مكتمل بعد آخر درس مفتوح
   const ls = lvLs(L), last = ljGet().last[L]; const i = last ? ls.findIndex(x => x.id === last.id) : -1;
   const order = i >= 0 ? ls.slice(i).concat(ls.slice(0, i)) : ls;
@@ -7367,7 +7398,9 @@ const lvSteps = les => {
 /* ---- فتح الصفحات ---- */
 function lvOpenLevel(L){ if(!LVC[L]) return; LJ.view = 'level'; LJ.L = L; state.tab = 'lvl'; render(); window.scrollTo(0, 0); }
 function lvOpenLesson(id, step){
-  const les = lvFind(id); if(!les) return; LJ.view = 'lesson'; LJ.L = les.L; LJ.id = id; LJ.step = step || 'intro'; LJ.ex = null; LJ.dq = {}; LJ.rq = {}; LJ.dq2 = {}; LJ.rq2 = {}; LJ.lis = null; LJ.rdTr = false; LJ.tk = false;
+  const les = lvFind(id); if(!les) return;
+  if(lvLocked(les)){ const pv = lvLs(les.L)[les.no - 2]; toast(lT('أكمل الدرس السابق أولاً: ', 'Termine d\'abord la leçon précédente : ', 'Complete the previous lesson first: ') + (pv ? lvTitle(pv) : ''), 'err'); return; }
+  LJ.view = 'lesson'; LJ.L = les.L; LJ.id = id; LJ.step = step || 'intro'; LJ.ex = null; LJ.dq = {}; LJ.rq = {}; LJ.dq2 = {}; LJ.rq2 = {}; LJ.lis = null; LJ.rdTr = false; LJ.tk = false;
   state.tab = 'lvl'; V.level = les.L; const g = lvGr(les); if(g){ GRS.level = les.L; GRS.id = g.id; GRS.ans = []; try{ grNewOrder(g); }catch(e){} }
   ljUpd(o => { o.op[id] = Date.now(); o.last[les.L] = { id, t:Date.now() }; });
   render(); window.scrollTo(0, 0);
@@ -7394,7 +7427,7 @@ function renderLvl(v){
    <h3 class="lvh">${lT('الوحدات والدروس', 'Modules et leçons', 'Modules and lessons')}</h3>
    <div class="lvmods">${mods.map((m, mi) => { const ps = m.ls.map(a => lvProg(a)), dn = ps.filter(p => p.done).length;
      return `<article class="card lvmod" style="--ja:${lvlMeta.a}"><header><span class="lvmn" dir="ltr">${mi + 1}</span><div><h4 lang="fr">${esc(m.t)}</h4><small>${esc(lT(m.n.split('|')[0], m.t, m.n.split('|')[1]))}</small></div>${m.ls.length ? `<em dir="ltr">${dn}/${m.ls.length}</em>` : `<span class="jchip">${lT('قيد التطوير', 'En préparation', 'In development')}</span>`}</header>
-      ${m.ls.length ? `<div class="lvls">${m.ls.map((a, i) => `<button class="lvl ${ps[i].st}" data-a="lvLesson" data-id="${a.id}">${lvSt(ps[i].st)}<span class="lvn" dir="ltr">${a.no}</span><span class="lvt"><b lang="fr">${esc(a.k.fr)}</b><small>${esc(lT(a.k.n.split('|')[0], '', a.k.n.split('|')[1]))}</small></span></button>`).join('')}</div>` : ''}</article>`; }).join('')}</div>
+      ${m.ls.length ? `<div class="lvls">${m.ls.map((a, i) => `<button class="lvl ${ps[i].st}${lvLocked(a) ? ' lock' : ''}" data-a="lvLesson" data-id="${a.id}" ${lvLocked(a) ? 'aria-disabled="true" title="' + esc(lT('يُفتح بعد إكمال الدرس السابق', 'S\'ouvre après la leçon précédente', 'Opens after the previous lesson')) + '"' : ''}>${lvLocked(a) ? `<span class="lvst lk">${I('lock', 's')}</span>` : lvSt(ps[i].st)}<span class="lvn" dir="ltr">${a.no}</span><span class="lvt"><b lang="fr">${esc(a.k.fr)}</b><small>${esc(lT(a.k.n.split('|')[0], '', a.k.n.split('|')[1]))}</small></span></button>`).join('')}</div>` : ''}</article>`; }).join('')}</div>
    ${has ? `<section class="card lvas ${pr.all ? '' : 'lock'}"><div><h4>${I('quiz', 's')} ${lT('اختبار المستوى', 'Évaluation du niveau', 'Level assessment')}</h4><p>${pr.all ? lT('20 سؤالاً من دروس المستوى. النجاح بنسبة 70٪ فأكثر.', '20 questions tirées des leçons du niveau. Réussite à partir de 70 %.', '20 questions drawn from the level lessons. Pass mark 70% or more.') : lT('يُفتح بعد إكمال جميع الدروس. المتبقي: ' + (pr.total - pr.done) + ' درساً.', 'Disponible après toutes les leçons. Il en reste ' + (pr.total - pr.done) + '.', 'Unlocked after all lessons are complete. ' + (pr.total - pr.done) + ' left.')}</p>
      ${pr.as.b !== undefined ? `<p class="lvbest">${lT('أفضل نتيجة', 'Meilleur score', 'Best score')}: <b dir="ltr">${pr.as.b}%</b> · ${lT('المحاولات', 'Essais', 'Attempts')}: <b dir="ltr">${pr.as.a || 0}</b> ${pr.as.p ? '· <span class="okt">✓ ' + lT('نجحت', 'Réussi', 'Passed') + '</span>' : ''}</p>` : ''}</div>
      ${pr.all ? `<button class="btn" data-a="lvAssess">${pr.as.b !== undefined ? lT('أعد الاختبار', 'Refaire', 'Retake') : lT('ابدأ الاختبار', 'Commencer', 'Start')}</button>` : `<span class="lvlock">${I('lock', 's')}</span>`}</section>` : ''}
@@ -7413,7 +7446,7 @@ function renderLesson(v){
    <nav class="lvsteps" aria-label="sections">${nav}</nav>
    <section class="lvbody" id="lvbody" style="--ja:${lm.a};--jb:${lm.b};--jbg:${lm.bg}">${body}</section>
    <div class="lvfoot"><div>${prev ? `<button class="btn sec" data-a="lvStep" data-id="${prev[0]}">← ${esc(prev[2])}</button>` : (li > 0 ? `<button class="btn sec" data-a="lvLesson" data-id="${ls[li - 1].id}">← ${lT('الدرس السابق', 'Leçon précédente', 'Previous lesson')}</button>` : '')}</div>
-    <div>${nxt ? `<button class="btn" data-a="lvStep" data-id="${nxt[0]}">${esc(nxt[2])} →</button>` : (li < ls.length - 1 ? `<button class="btn" data-a="lvLesson" data-id="${ls[li + 1].id}">${lT('الدرس التالي', 'Leçon suivante', 'Next lesson')} →</button>` : `<button class="btn" data-a="lvLevel">${lT('إلى صفحة المستوى', 'Page du niveau', 'Level page')}</button>`)}</div></div>`;
+    <div>${nxt ? `<button class="btn" data-a="lvStep" data-id="${nxt[0]}">${esc(nxt[2])} →</button>` : (li < ls.length - 1 ? (lvLocked(ls[li + 1]) ? `<button class="btn" data-a="lvLesson" data-id="${ls[li + 1].id}" aria-disabled="true">${I('lock', 's')} ${lT('الدرس التالي (مقفل)', 'Leçon suivante (verrouillée)', 'Next lesson (locked)')}</button>` : `<button class="btn" data-a="lvLesson" data-id="${ls[li + 1].id}">${lT('الدرس التالي', 'Leçon suivante', 'Next lesson')} →</button>`) : `<button class="btn" data-a="lvLevel">${lT('إلى صفحة المستوى', 'Page du niveau', 'Level page')}</button>`)}</div></div>`;
 }
 const lsH = (ic, t) => `<h3 class="lsh">${I(ic, 's')} ${t}</h3>`;
 function lsIntro(les){
@@ -7490,7 +7523,7 @@ function lsSum(les){ const x = lvX(les), g = lvGr(les), vs = lvVoc(les), pg = lv
    ${kw.length ? `<h4 class="lsh4">${lT('مفردات أساسية', 'Vocabulaire clé', 'Key vocabulary')}</h4><div class="lvskills">${kw.map(w => `<span class="jchip"><b lang="fr">${esc(w[0])}</b> · ${esc(UL === 'ar' ? w[1] : w[2])}</span>`).join('')}</div>` : ''}
    ${g ? `<h4 class="lsh4">${lT('قواعد مهمة', 'Règles importantes', 'Key grammar rules')}</h4><ul class="lvul">${g.rules.slice(0, 3).map(r => `<li>${grAr(lt2(r))}</li>`).join('')}</ul>` : ''}
    ${x ? `<h4 class="lsh4">${lT('تعابير مفيدة', 'Expressions utiles', 'Useful expressions')}</h4><ul class="lvul">${x.x.slice(0, 4).map(e => `<li><span lang="fr">${esc(e[0])}</span> — ${esc(lt2(e[1]))}</li>`).join('')}</ul>` : ''}
-   <div class="lvact">${nx ? `<button class="lvcta" data-a="lvLesson" data-id="${nx.id}">${lT('الدرس التالي', 'Leçon suivante', 'Next lesson')} <small lang="fr">${esc(lvTitle(nx))}</small></button>` : `<button class="lvcta" data-a="lvLevel">${lT('انتهت دروس المستوى — إلى صفحة المستوى', 'Fin des leçons — page du niveau', 'End of lessons — level page')}</button>`}</div>`; }
+   <div class="lvact">${nx ? (lvLocked(nx) ? `<p class="lvtip">${I('lock', 's')} ${lT('الدرس التالي يُفتح عندما تكمل هذا الدرس: اجتز اختبار القواعد (70٪) وتعرّف على 60٪ من الكلمات.', 'La leçon suivante s\'ouvre quand celle-ci est terminée : test de grammaire (70 %) et 60 % des mots connus.', 'The next lesson unlocks when you finish this one: pass the grammar test (70%) and know 60% of the words.')}</p>` : `<button class="lvcta" data-a="lvLesson" data-id="${nx.id}">${lT('الدرس التالي', 'Leçon suivante', 'Next lesson')} <small lang="fr">${esc(lvTitle(nx))}</small></button>`) : `<button class="lvcta" data-a="lvLevel">${lT('انتهت دروس المستوى — إلى صفحة المستوى', 'Fin des leçons — page du niveau', 'End of lessons — level page')}</button>`}</div>`; }
 /* ---- التمارين التفاعلية (تُولَّد من مفردات الدرس وجمل قواعده الحقيقية) ---- */
 const LX_TYPES = { mcq:['اختيار من متعدد','Choix multiple','Multiple choice'], fill:['أكمل أو صحّح الجملة','Complète ou corrige la phrase','Complete or correct the sentence'], match:['صِل الكلمة بمعناها','Associe les mots','Match words and meanings'], order:['رتّب الكلمات','Remets en ordre','Put the words in order'], tf:['صح أم خطأ','Vrai ou faux','True or false'], art:['اختر الأداة الصحيحة','Choisis l\'article','Choose the article'], trans:['الترجمة','Traduction','Translation'], odd:['الكلمة الدخيلة','L\'intrus','Odd one out'] };
 const lxMean = w => UL === 'ar' ? w[1] : w[2];
@@ -7690,13 +7723,13 @@ function uiDays(){ return UI_DAYS[UL] || DASH_DAYS; }
 LOC = UI_LOC[UL];
 try{ document.documentElement.setAttribute('dir', UL === 'ar' ? 'rtl' : 'ltr'); document.documentElement.setAttribute('lang', UL); }catch(e){}
 const UI_D = {
- fr: {'الرئيسية':'Accueil','الدروس':'Cours','الفيديوهات':'Vidéos','الاختبارات':'Quiz','الواجبات':'Devoirs','الروابط':'Liens','الألعاب':'Jeux','المفردات':'Vocabulaire','القواعد':'Grammaire','نتائجي':'Mes résultats','النتائج':'Résultats','المتابعة':'Suivi','الصفوف والطلاب':'Classes et élèves','المزيد':'Plus','خروج':'Déconnexion','تسجيل الدخول':'Connexion',
+ fr: {'الرئيسية':'Accueil','الدروس':'Cours','الفيديوهات':'Vidéos','الاختبارات':'Quiz','الواجبات':'Devoirs','الروابط':'Liens','تواصل معي':'Contact','الألعاب':'Jeux','المفردات':'Vocabulaire','القواعد':'Grammaire','نتائجي':'Mes résultats','النتائج':'Résultats','المتابعة':'Suivi','الصفوف والطلاب':'Classes et élèves','المزيد':'Plus','خروج':'Déconnexion','تسجيل الدخول':'Connexion',
   'ألعاب تفاعلية':'Jeux interactifs','العب':'Jouer','لعبتها':'Déjà joué','متابعة التعلّم':'Continuer à apprendre','مستوياتي':'Mes niveaux','تقدّم دروس القواعد والمفردات':'Progression en grammaire et vocabulaire','آخر أنشطتي':'Mes dernières activités','إحصائياتي':'Mes statistiques','نشاط الأسبوع':'Activité de la semaine',
   'تابع الدرس':'Reprendre la leçon','ابدأ':'Commencer','تابع التعلّم':'Continuer','دروس قواعد أنهيتها':'Leçons de grammaire terminées','كلمات تعرفها':'Mots connus','ألعاب لعبتها':'Jeux joués','اختبارات حللتها':'Quiz réalisés','الدرس التالي المقترح':'Prochaine leçon conseillée','آخر درس فتحته':'Dernière leçon ouverte','لم تنهِ اختباره بعد':'Quiz non terminé','مستواك الحالي':'Ton niveau actuel','مبتدئ':'Débutant','أساسي':'Élémentaire','متوسط':'Intermédiaire','اختبارات':'Quiz','ألعاب':'Jeux','درس قواعد':'leçons de grammaire','كلمة':'mots',
   'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'Aucune activité ces 7 derniers jours. Fais un quiz ou joue à un jeu.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'Pas encore d’activité. Tes résultats apparaîtront ici.','جارٍ التحميل…':'Chargement…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'Tu as terminé tous les quiz de grammaire. Bravo !',
   'اختر الإجابة الصحيحة':'Choisis la bonne réponse','صح أم خطأ':'Vrai ou faux','رتّب الحروف':'Mots mélangés','طابِق الكلمات':'Associer','أكمل الفراغ':'Complète la phrase','الكلمة الدخيلة':'L’intrus','رتّب الجملة':'Remets la phrase en ordre','لعبة الذاكرة':'Memory','استمع واختر':'Écoute et choisis','المشنقة':'Le pendu',
   'سؤال وأربع إجابات، اختر الصحيحة.':'Une question, quatre réponses : choisis la bonne.','عبارة واحدة: هل هي صحيحة أم خاطئة؟':'Une phrase : vraie ou fausse ?','رتّب الحروف المبعثرة لتكوّن الكلمة.':'Remets les lettres dans l’ordre pour former le mot.','صِل الكلمة الفرنسية بمعناها العربي.':'Associe le mot français à son sens en arabe.','اكتب الكلمة الناقصة في الجملة.':'Écris le mot manquant dans la phrase.','أي كلمة لا تنتمي إلى المجموعة؟':'Quel mot n’appartient pas au groupe ?','رتّب الكلمات لتكوّن جملة صحيحة.':'Remets les mots dans l’ordre pour former une phrase.','اقلب البطاقات وطابِق الكلمة بمعناها.':'Retourne les cartes et associe chaque mot à son sens.','استمع للكلمة بالفرنسية ثم اختر ما سمعته.':'Écoute le mot en français puis choisis ce que tu as entendu.','خمّن الكلمة الفرنسية حرفاً حرفاً قبل نفاد المحاولات.':'Devine le mot lettre par lettre avant la fin des essais.'},
- en: {'الرئيسية':'Home','الدروس':'Lessons','الفيديوهات':'Videos','الاختبارات':'Quizzes','الواجبات':'Homework','الروابط':'Links','الألعاب':'Games','المفردات':'Vocabulary','القواعد':'Grammar','نتائجي':'My results','النتائج':'Results','المتابعة':'Tracking','الصفوف والطلاب':'Classes & students','المزيد':'More','خروج':'Log out','تسجيل الدخول':'Log in',
+ en: {'الرئيسية':'Home','الدروس':'Lessons','الفيديوهات':'Videos','الاختبارات':'Quizzes','الواجبات':'Homework','الروابط':'Links','تواصل معي':'Contact me','الألعاب':'Games','المفردات':'Vocabulary','القواعد':'Grammar','نتائجي':'My results','النتائج':'Results','المتابعة':'Tracking','الصفوف والطلاب':'Classes & students','المزيد':'More','خروج':'Log out','تسجيل الدخول':'Log in',
   'ألعاب تفاعلية':'Interactive games','العب':'Play','لعبتها':'Played','متابعة التعلّم':'Continue learning','مستوياتي':'My levels','تقدّم دروس القواعد والمفردات':'Grammar and vocabulary progress','آخر أنشطتي':'Recent activity','إحصائياتي':'My statistics','نشاط الأسبوع':'This week’s activity',
   'تابع الدرس':'Resume lesson','ابدأ':'Start','تابع التعلّم':'Continue','دروس قواعد أنهيتها':'Grammar lessons completed','كلمات تعرفها':'Words you know','ألعاب لعبتها':'Games played','اختبارات حللتها':'Quizzes taken','الدرس التالي المقترح':'Suggested next lesson','آخر درس فتحته':'Last lesson opened','لم تنهِ اختباره بعد':'Quiz not finished yet','مستواك الحالي':'Your current level','مبتدئ':'Beginner','أساسي':'Elementary','متوسط':'Intermediate','اختبارات':'Quizzes','ألعاب':'Games','درس قواعد':'grammar lessons','كلمة':'words',
   'لا يوجد نشاط في آخر 7 أيام. حلّ اختباراً أو العب لعبة وسيظهر هنا.':'No activity in the last 7 days. Take a quiz or play a game.','لا توجد أنشطة بعد. ستظهر هنا نتائج اختباراتك وألعابك وواجباتك.':'No activity yet. Your results will appear here.','جارٍ التحميل…':'Loading…','أنهيت اختبارات جميع دروس القواعد. أحسنت!':'You finished all grammar quizzes. Well done!','Prêt à continuer ton aventure en français ?':'Ready to continue your French adventure?'}
