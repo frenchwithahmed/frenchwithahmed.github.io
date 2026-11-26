@@ -1268,6 +1268,7 @@ function videoCard(it){
 function quizCard(z){
   const closed = isPast(z.closes_at);
   const sv = state.teacher ? (closed ? 'closed' : 'open') : qaStateQ(z), L = QA_LBL[sv], my = !state.teacher && MYQ[z.id];
+  const maxA = z.max_attempts || 1, more = !!my && my.n < maxA && !closed;
   const pc = my && my.best.total ? Math.round(my.best.score / my.best.total * 100) : 0;
   return `<div class="card qa s-${sv}">
     <div class="qh"><div class="ico c-green">${I('quiz')}</div><span class="lv">${esc(z.level)}</span><span class="st ${L[0]}">${I(L[2],'s')} ${L[1]}</span></div>
@@ -1280,12 +1281,12 @@ function quizCard(z){
       ${(z.attach_path||z.ext_url)?`<span class="tag">${I('link','s')} مرفقات</span>`:''}
       ${z.time_limit_min ? `<span class="tag warn">${I('clock','s')} ${z.time_limit_min} دقيقة</span>` : `<span class="tag">${I('clock','s')} بلا وقت محدد</span>`}
       ${z.closes_at ? (closed ? `<span class="tag bad">مغلق</span>` : `<span class="tag">${I('calendar','s')} يغلق ${fmtDT(z.closes_at)}</span>`) : ''}
-      ${my ? `<span class="tag">${I('users','s')} ${my.n} محاولة</span>` : ''}
+      ${my ? `<span class="tag">${I('users','s')} ${my.n}/${maxA} محاولة</span>` : (!state.teacher && maxA > 1 ? `<span class="tag">${maxA} محاولات</span>` : '')}
       ${state.teacher ? `<span class="tag">${I('users','s')} ${counts.q[z.id]||0} محاولة</span>` : ''}
     </div>
     <div class="acts">
-      ${my ? `<button class="btn ok" data-a="reviewQuiz" data-id="${z.id}">${I('list','s')} مراجعة إجاباتي</button>${quizRev(z.id) ? `<button class="btn sec" data-a="quizPdf" data-id="${z.id}">${I('file','s')} تحميل PDF</button>` : ''}` : `<button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':'ابدأ الاختبار'}</button>`}
-      ${state.teacher?`<button class="btn sec" data-a="results" data-id="${z.id}">${I('list','s')} النتائج</button><button class="btn del" data-a="delQuiz" data-id="${z.id}">${I('trash','s')}</button>`:''}
+      ${more ? `<button class="btn ok" data-a="takeQuiz" data-id="${z.id}">${I('play','s')} محاولة أخرى (${my.n}/${maxA})</button>` : ''}${my ? `<button class="btn ${more?'sec':'ok'}" data-a="reviewQuiz" data-id="${z.id}">${I('list','s')} مراجعة إجاباتي</button>${quizRev(z.id) ? `<button class="btn sec" data-a="quizPdf" data-id="${z.id}">${I('file','s')} تحميل PDF</button>` : ''}` : `<button class="btn ok" data-a="takeQuiz" data-id="${z.id}" ${closed&&!state.teacher?'disabled':''}>${I('play','s')} ${closed&&!state.teacher?'مغلق':'ابدأ الاختبار'}</button>`}
+      ${state.teacher?`<button class="btn sec" data-a="editQuiz" data-id="${z.id}">${I('file','s')} تعديل</button><button class="btn sec" data-a="results" data-id="${z.id}">${I('list','s')} النتائج</button><button class="btn del" data-a="delQuiz" data-id="${z.id}">${I('trash','s')}</button>`:''}
     </div></div>`;
 }
 function assignCard(a){
@@ -1577,9 +1578,11 @@ function addQBlock(d){
   }
 }
 function numberQs(){ document.querySelectorAll('#qlist .qb').forEach((b,i)=>b.querySelector('.qn').textContent=i+1); }
-function quizForm(fresh){
+function quizForm(fresh, E){
+  E = (E && E.z) ? E : null;
   openModal(`
-    <h3>إنشاء اختبار جديد</h3>
+    <h3>${E ? 'تعديل الاختبار' : 'إنشاء اختبار جديد'}</h3>
+    ${E ? `<div class="infobox">${I('sparkle','s')} تعديل الأسئلة لا يغيّر نتائج ولا مراجعات من حلّوا الاختبار سابقاً؛ تبقى كما سُلّمت.</div>` : ''}
     <label class="f">عنوان الاختبار *</label>
     <input class="in" id="z_title" dir="auto" placeholder="مثال: Quiz — Les articles définis">
     <div class="row2">
@@ -1602,6 +1605,11 @@ function quizForm(fresh){
       <p class="note">يظهر للطالب داخل الاختبار (مثلاً: فيديو للاستماع ثم الإجابة).</p>
     </div>
     <div class="infobox">
+      <b>عدد المحاولات المسموحة لكل طالب</b>
+      <div class="row2"><div><label class="f">عدد المحاولات</label><select class="in" id="z_maxatt">${[1,2,3,4,5,10].map(n=>`<option value="${n}">${n}${n===1?' (مرة واحدة فقط)':''}</option>`).join('')}</select></div></div>
+      <p class="note">بعد استنفاد المحاولات يرى الطالب إجاباته فقط ولا يستطيع الحل مجدداً. يمكنك تغيير الرقم لاحقاً (زيادته تعطي الطلاب محاولات إضافية).</p>
+    </div>
+    <div class="infobox">
       <b>إعدادات الوقت (اختيارية)</b>
       <div class="row2">
         <div><label class="f">مدة الاختبار بالدقائق</label><input class="in" id="z_time" type="number" min="1" max="300" placeholder="مثال: 15 (اتركه فارغاً بلا وقت)"></div>
@@ -1612,12 +1620,32 @@ function quizForm(fresh){
     <div id="qlist"></div>
     <div class="actions">
       <button class="btn sec" type="button" data-a="addq">${I('plus','s')} إضافة سؤال</button>
-      <button class="btn lg" id="savebtn" type="button" data-a="saveQuiz">حفظ الاختبار</button>
+      <button class="btn lg" id="savebtn" type="button" data-a="saveQuiz" ${E ? `data-id="${E.z.id}"` : ''}>${E ? 'حفظ التعديلات' : 'حفظ الاختبار'}</button>
     </div>`, true, true);
-  addQBlock(); addQBlock();
-  drStart('quiz', quizForm, fresh);
+  if(E){
+    const z = E.z, k = E.keys || {};
+    $('#z_title').value = z.title || ''; $('#z_level').value = z.level || ''; $('#z_desc').value = z.description || '';
+    if($('#z_cls')) $('#z_cls').value = z.class_id || '';
+    $('#z_ext').value = z.ext_url || ''; $('#z_time').value = z.time_limit_min || '';
+    if(z.closes_at){ const d = new Date(z.closes_at); const p = n => String(n).padStart(2,'0'); $('#z_close').value = d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()); }
+    $('#z_maxatt').value = z.max_attempts || 1;
+    (z.questions || []).forEach((q, i) => {
+      addQBlock({ q:q.q, options:q.options, correct:(k.answers || [])[i] ?? 0, explain:(k.explanations || [])[i] || '', image:'' });
+      const b = document.querySelector('#qlist .qb:last-child');
+      if(q.img){ b.dataset.keepimg = q.img; const u = b.querySelector('.qimgurl'); u.placeholder = 'الصورة الحالية محفوظة — اكتب رابطاً جديداً لاستبدالها'; }
+    });
+  } else {
+    addQBlock(); addQBlock();
+    drStart('quiz', quizForm, fresh);
+  }
 }
-async function saveQuiz(){
+async function editQuiz(id){
+  const z = quizzes.find(x=>x.id===id); if(!z) return;
+  const r = await sb.from('quiz_keys').select('*').eq('quiz_id', id).maybeSingle();
+  if(r.error || !r.data){ toast('تعذر تحميل إجابات الاختبار للتعديل' + (r.error ? ': ' + errMsg(r.error) : ''), 'err'); return; }
+  quizForm(true, { z, keys:r.data });
+}
+async function saveQuiz(editId){
   const title = $('#z_title').value.trim();
   if(!title){ toast('اكتب عنوان الاختبار','err'); return; }
   const qsx = [];
@@ -1628,14 +1656,15 @@ async function saveQuiz(){
     const correctRaw = radios.findIndex(r=>r.checked);
     const imgFile = b.querySelector('.qimg').files[0] || null;
     const imgRaw = b.querySelector('.qimgurl').value.trim();
+    const keepImg = b.dataset.keepimg || '';
     const explain = b.querySelector('.qexp').value.trim();
-    if(!q && texts.every(t=>!t) && !imgFile && !imgRaw) continue;
+    if(!q && texts.every(t=>!t) && !imgFile && !imgRaw && !keepImg) continue;
     if(!q){ toast('يوجد سؤال بدون نص','err'); return; }
     if(!texts[correctRaw]){ toast('الإجابة الصحيحة فارغة في السؤال: '+q,'err'); return; }
     const options = [], map = {};
     texts.forEach((t,i)=>{ if(t){ map[i]=options.length; options.push(t); } });
     if(options.length<2){ toast('كل سؤال يحتاج خيارين على الأقل: '+q,'err'); return; }
-    let imgUrl = '';
+    let imgUrl = keepImg;
     if(imgRaw){
       imgUrl = imgRaw.startsWith('data:image/') ? imgRaw : normUrl(imgRaw);
       if(!imgUrl){ toast('رابط الصورة غير صحيح في السؤال: '+q,'err'); return; }
@@ -1647,6 +1676,8 @@ async function saveQuiz(){
   const extRaw = $('#z_ext').value.trim(); const ext = extRaw ? normUrl(extRaw) : null;
   if(extRaw && !ext){ toast('رابط المرفق غير صحيح','err'); return; }
   const t = parseInt($('#z_time').value,10), cl = $('#z_close').value;
+  const maxAtt = Math.min(20, Math.max(1, parseInt($('#z_maxatt').value,10) || 1));
+  const oldZ = editId ? quizzes.find(x=>x.id===editId) : null;
   const btn = $('#savebtn'); btn.disabled = true; btn.textContent = 'جارٍ الحفظ...';
   const uploaded = [];
   try{
@@ -1662,21 +1693,30 @@ async function saveQuiz(){
       const o = { q:x.q, options:x.options }; if(img) o.img = img;
       questions.push(o);
     }
-    let attach_path = null, attach_name = null;
+    let attach_path = oldZ ? (oldZ.attach_path || null) : null, attach_name = oldZ ? (oldZ.attach_name || null) : null;
     if(attFile){ attach_path = await up(attFile, 'quiz'); attach_name = attFile.name; }
-    const ins = await sb.from('quizzes').insert({
+    const rowQ = {
       title, level:$('#z_level').value, description:$('#z_desc').value.trim() || null,
       class_id: $('#z_cls').value || null, time_limit_min: t>0 ? t : null, closes_at: cl ? new Date(cl).toISOString() : null,
-      attach_path, attach_name, ext_url: ext, questions
-    }).select().single();
+      attach_path, attach_name, ext_url: ext, questions, max_attempts: maxAtt
+    };
+    if(editId){
+      const up1 = await sb.from('quizzes').update(rowQ).eq('id', editId).select().single();
+      if(up1.error) throw up1.error;
+      const up2 = await sb.from('quiz_keys').update({ answers: qsx.map(x=>x.correct), explanations: qsx.map(x=>x.explain || '') }).eq('quiz_id', editId);
+      if(up2.error) throw new Error('حُفظ الاختبار لكن تعذر تحديث الإجابات الصحيحة، اضغط حفظ مرة أخرى: ' + errMsg(up2.error));
+      const ix = quizzes.findIndex(x=>x.id===editId); if(ix >= 0) quizzes[ix] = up1.data;
+      closeModal(); render(); toast('تم حفظ التعديلات','ok'); return;
+    }
+    const ins = await sb.from('quizzes').insert(rowQ).select().single();
     if(ins.error) throw ins.error;
     const key = await sb.from('quiz_keys').insert({ quiz_id: ins.data.id, answers: qsx.map(x=>x.correct), explanations: qsx.map(x=>x.explain || '') });
     if(key.error){ await sb.from('quizzes').delete().eq('id', ins.data.id); throw key.error; }
     quizzes.unshift(ins.data); closeModal(); render(); toast('تم حفظ الاختبار','ok');
   }catch(err){
     if(uploaded.length) await rmMedia(uploaded);
-    toast('تعذر حفظ الاختبار: ' + errMsg(err) + (/explanations|attach_path|ext_url/i.test(errMsg(err)) ? ' — شغّل سكربت التحديث v4 في Supabase' : ''),'err');
-    btn.disabled = false; btn.textContent = 'حفظ الاختبار';
+    toast('تعذر حفظ الاختبار: ' + errMsg(err) + (/explanations|attach_path|ext_url/i.test(errMsg(err)) ? ' — شغّل سكربت التحديث v4 في Supabase' : (/max_attempts/i.test(errMsg(err)) ? ' — شغّل سكربت v13a في Supabase أولاً' : '')),'err');
+    btn.disabled = false; btn.textContent = editId ? 'حفظ التعديلات' : 'حفظ الاختبار';
   }
 }
 
@@ -1690,11 +1730,11 @@ function blockSubmit(){
     ${guest ? `<div class="actions" style="justify-content:center"><button class="btn lg" data-a="login">${I('lock','s')} تسجيل الدخول</button><button class="btn sec lg" data-a="signup">${I('userplus','s')} إنشاء حساب</button></div>` : ''}</div>`);
   return true;
 }
-const submitErr = m => /time over/i.test(m) ? 'انتهى وقت الاختبار ولم يُقبل التسليم' : /not started/i.test(m) ? 'ابدأ الاختبار أولاً ثم سلّم' : /attempt limit/i.test(m) ? 'وصلت للحد الأقصى من المحاولات (3). تواصل مع المدرس إن احتجت محاولة إضافية' : /too fast/i.test(m) ? 'انتظر 10 ثوانٍ قبل إعادة الإرسال' : /login required/i.test(m) ? 'سجّل الدخول أولاً' : /not a student/i.test(m) ? 'حسابك غير مسجّل كطالب عند المدرس' : /not allowed/i.test(m) ? 'هذا المحتوى ليس لصفك' : null;
+const submitErr = m => /time over/i.test(m) ? 'انتهى وقت الاختبار ولم يُقبل التسليم' : /not started/i.test(m) ? 'ابدأ الاختبار أولاً ثم سلّم' : /attempt limit/i.test(m) ? 'استنفدت المحاولات المسموحة لهذا الاختبار. تواصل مع المدرس إن احتجت محاولة إضافية' : /too fast/i.test(m) ? 'انتظر 10 ثوانٍ قبل إعادة الإرسال' : /login required/i.test(m) ? 'سجّل الدخول أولاً' : /not a student/i.test(m) ? 'حسابك غير مسجّل كطالب عند المدرس' : /not allowed/i.test(m) ? 'هذا المحتوى ليس لصفك' : null;
 function takeQuiz(id){
   const z = quizzes.find(x=>x.id===id); if(!z) return;
   if(blockSubmit()) return;
-  if(!state.teacher && MYQ[id]){ reviewQuiz(id); return; }
+  if(!state.teacher && MYQ[id] && MYQ[id].n >= (z.max_attempts || 1)){ reviewQuiz(id); return; }
   if(isPast(z.closes_at) && !state.teacher){ toast('هذا الاختبار مغلق','err'); return; }
   qs = { id, name:'', active:false, iv:null, end:null, sub:false, auto:false };
   openModal(`
@@ -1794,7 +1834,8 @@ function quizRev(id){
   const z = quizzes.find(x=>x.id===id), my = MYQ[id];
   const r = my && my.rev && my.rev.review;
   if(!z || !r || !Array.isArray(r.correct) || !Array.isArray(r.answers)) return null;
-  return { z, answers: r.answers, correct: r.correct, ex: Array.isArray(r.explanations) ? r.explanations : [], score: my.rev.score, total: my.rev.total, at: my.rev.created_at };
+  const zz = (Array.isArray(r.questions) && r.questions.length === r.correct.length) ? Object.assign({}, z, { questions:r.questions }) : z;
+  return { z:zz, answers: r.answers, correct: r.correct, ex: Array.isArray(r.explanations) ? r.explanations : [], score: my.rev.score, total: my.rev.total, at: my.rev.created_at };
 }
 function reviewQuiz(id){
   const z = quizzes.find(x=>x.id===id); if(!z) return;
@@ -10204,7 +10245,7 @@ const H = {
   bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
-  takeQuiz, startQuiz, submitQuiz, reviewQuiz, quizPdf, results:showResults,
+  takeQuiz, editQuiz, startQuiz, submitQuiz, reviewQuiz, quizPdf, results:showResults,
   openSubmit, subs:showSubs, saveGrade,
   preview, close:requestClose,
   addClass:addClassForm, delClass, addStudent:id=>addStudentForm(id), bulkStudents:id=>bulkForm(id),
