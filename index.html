@@ -694,6 +694,8 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
 .psec{font-weight:800;letter-spacing:.04em;color:#0B1F3A;margin:18px 0 6px;text-transform:uppercase;border-bottom:2px solid #E1B14A;padding-bottom:4px}
 .pgrp{margin-bottom:8px}
 @media(min-width:1000px){.pgrp>.pass{position:sticky;top:84px;z-index:1;max-height:36vh;overflow:auto;box-shadow:0 4px 14px rgba(0,0,0,.08)}}
+.qb.under{margin-inline-start:16px;border-inline-start:4px solid #0B1F3A}
+.pb .rm{background:#fde8ea;color:var(--bad);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700}
 .pb{border:1px solid #c9d8f2;border-radius:14px;padding:14px;margin-top:12px;background:#f3f7ff}
 .qb[data-type=mcq] .qptsw{display:none}.qb[data-type=essay] .opt,.qb[data-type=essay] p.note{display:none}.ans-essay{white-space:pre-wrap;border:1px solid #cfd6e0;border-radius:10px;padding:10px;margin:6px 0;background:#fff}textarea.essay{width:100%;min-height:140px;resize:vertical}
 .dwel p{direction:ltr;text-align:right}
@@ -1473,7 +1475,7 @@ function drSave(){
   const M = $('#modal');
   try{
     if(!modalHasText()){ localStorage.removeItem(drKey(dr.key)); return; }
-    const s = { f:[...M.querySelectorAll(DR_ALL)].map(e=>e.value), c:[...M.querySelectorAll('input[type=radio],input[type=checkbox]')].map(e=>e.checked), qb:M.querySelectorAll('.qb').length, pb:M.querySelectorAll('.pb').length };
+    const s = { f:[...M.querySelectorAll(DR_ALL)].map(e=>e.value), c:[...M.querySelectorAll('input[type=radio],input[type=checkbox]')].map(e=>e.checked), qb:M.querySelectorAll('.qb').length, sq:[...M.querySelectorAll('#qlist > .pb, #qlist > .qb')].map(e => e.classList.contains('pb') ? 'p' : 'q').join('') };
     const j = JSON.stringify(s);
     if(j.length < 700000) localStorage.setItem(drKey(dr.key), j);
   }catch(e){}
@@ -1485,15 +1487,15 @@ function drStart(key, reopen, fresh){
   let s = null; try{ s = JSON.parse(localStorage.getItem(drKey(key)) || 'null'); }catch(e){}
   if(!s || !Array.isArray(s.f)) return;
   const M = $('#modal');
-  if(s.pb > 0 && $('#plist')){
-    while(M.querySelectorAll('.pb').length > s.pb) { const l = M.querySelectorAll('.pb'); l[l.length-1].remove(); }
-    while(M.querySelectorAll('.pb').length < s.pb) addPBlock();
-    numberPs();
-  }
-  if(s.qb > 0 && $('#qlist')){
-    while(M.querySelectorAll('.qb').length > s.qb) { const l = M.querySelectorAll('.qb'); l[l.length-1].remove(); }
-    while(M.querySelectorAll('.qb').length < s.qb) addQBlock();
-    numberQs();
+  if($('#qlist')){
+    if(typeof s.sq === 'string'){
+      M.querySelectorAll('#qlist > .pb, #qlist > .qb').forEach(e => e.remove());
+      [...s.sq].forEach(c => { if(c === 'p') addPBlock(); else addQBlock(); });
+    }else if(s.qb > 0){
+      while(M.querySelectorAll('.qb').length > s.qb) { const l = M.querySelectorAll('.qb'); l[l.length-1].remove(); }
+      while(M.querySelectorAll('.qb').length < s.qb) addQBlock();
+    }
+    relayout();
   }
   for(let i = 0; i < s.f.length; i++){
     const el = M.querySelectorAll(DR_ALL)[i]; if(!el) break;
@@ -1587,7 +1589,7 @@ function addQBlock(d){
   div.dataset.type = 'mcq';
   div.innerHTML = `<div class="qb-h"><b>سؤال <span class="qn"></span></b><button type="button" class="rm" data-a="rmq">حذف</button></div>
     <div class="row2"><div><label class="f" style="margin-top:4px">نوع السؤال</label><select class="in qtype"><option value="mcq">اختيار من متعدد</option><option value="essay">مقالي (يجيب الطالب كتابةً ويصحّحه المدرس)</option></select></div><div class="qptsw"><label class="f" style="margin-top:4px">درجة السؤال</label><input class="in qpts" type="number" min="1" max="100" value="5"></div></div>
-    <label class="f" style="margin-top:4px">نص القراءة المرتبط بالسؤال</label><select class="in qpass"><option value="">— بدون نص قراءة —</option></select>
+    <label class="f" style="margin-top:4px">نص القراءة</label><select class="in qpass"><option value="">يتبع نص القراءة الذي فوقه (إن وُجد)</option><option value="none">بدون نص قراءة (ينهي النص السابق)</option></select>
     <input class="in qtxt" dir="auto" placeholder="نص السؤال (Question)">
     <div class="row2" style="margin-top:8px">
       <div><label class="f" style="margin-top:4px">صورة للسؤال (اختياري)</label><input type="file" class="qimg" accept="image/*"></div>
@@ -1607,8 +1609,8 @@ function addQBlock(d){
     div.querySelector('.qimgurl').value = d.image || '';
   }
   syncQType(div);
-  refreshPassSelects();
-  if(d && d.pk) div.querySelector('.qpass').value = String(d.pk);
+  if(d && d.nop) div.querySelector('.qpass').value = 'none';
+  relayout();
 }
 function syncQType(div){
   if(!div) return;
@@ -1634,33 +1636,32 @@ function qGroupsHTML(z, one){
   if(open) out += '</div>';
   return out;
 }
-function numberPs(){ document.querySelectorAll('#plist .pb').forEach((b,i)=>b.querySelector('.pn').textContent = i+1); }
-function refreshPassSelects(){
-  const ps = [...document.querySelectorAll('#plist .pb')];
-  document.querySelectorAll('#qlist .qpass').forEach(sel => {
-    const cur = sel.value;
-    sel.innerHTML = '<option value="">— بدون نص قراءة —</option>' + ps.map((b,i) => { const ti = b.querySelector('.ftitle').value.trim(); return `<option value="${i+1}">نص ${i+1}${ti ? ' — ' + esc(ti.slice(0,30)) : ''}</option>`; }).join('');
-    if(cur && ps[+cur-1]) sel.value = cur;
+function numberPs(){ document.querySelectorAll('#qlist > .pb').forEach((b,i)=>b.querySelector('.pn').textContent = i+1); }
+function markGroups(){
+  let under = false;
+  [...document.querySelectorAll('#qlist > .pb, #qlist > .qb')].forEach(el => {
+    if(el.classList.contains('pb')){ under = true; return; }
+    const sel = el.querySelector('.qpass'); if(sel && sel.value === 'none') under = false;
+    el.classList.toggle('under', under);
   });
 }
+function relayout(){ numberQs(); numberPs(); markGroups(); }
 function addPBlock(d){
   const div = document.createElement('div'); div.className = 'pb';
-  div.innerHTML = `<div class="qb-h"><b>نص قراءة <span class="pn"></span></b><button type="button" class="rm" data-a="rmp">حذف</button></div>
-    <input class="in fsec" dir="auto" placeholder="عنوان القسم (اختياري) مثل: PARTIE A – COMPRÉHENSION ÉCRITE">
+  div.innerHTML = `<div class="qb-h"><b>نص قراءة <span class="pn"></span> — أسئلته تأتي تحته مباشرة</b><button type="button" class="rm" data-a="rmp">حذف النص</button></div>
+    <input class="in fsec" dir="auto" placeholder="عنوان القسم (اختياري) مثل: I- A) Lis bien ce document puis réponds aux questions :">
     <input class="in ftitle" dir="auto" placeholder="عنوان النص مثل: Document 1">
     <textarea class="in ftext" rows="8" dir="auto" placeholder="الصق نص القراءة الفرنسي كاملاً هنا. افصل الفقرات بسطر فارغ."></textarea>`;
-  $('#plist').appendChild(div);
+  $('#qlist').appendChild(div);
   if(d){ div.querySelector('.fsec').value = d.section || ''; div.querySelector('.ftitle').value = d.title || ''; div.querySelector('.ftext').value = d.text || ''; }
-  numberPs(); refreshPassSelects();
+  relayout();
 }
 function rmPBlock(el){
-  const b = el.closest('.pb'), k = [...document.querySelectorAll('#plist .pb')].indexOf(b) + 1;
-  b.remove();
-  document.querySelectorAll('#qlist .qpass').forEach(sel => { const v = +sel.value || 0; if(v === k) sel.value = ''; else if(v > k) sel.dataset.fix = String(v - 1); });
-  document.querySelectorAll('#qlist .qpass').forEach(sel => { const f = sel.dataset.fix; delete sel.dataset.fix; if(f) sel.innerHTML = '<option value="' + f + '"></option>', sel.value = f; });
-  numberPs(); refreshPassSelects();
+  const b = el.closest('.pb'); let n = b.nextElementSibling;
+  while(n && !n.classList.contains('pb')){ const s = n.querySelector('.qpass'); if(s) s.value = 'none'; n = n.nextElementSibling; }
+  b.remove(); relayout();
 }
-document.addEventListener('input', e => { if(e.target && e.target.classList && e.target.classList.contains('ftitle')) refreshPassSelects(); });
+document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('qpass')) markGroups(); });
 function numberQs(){ document.querySelectorAll('#qlist .qb').forEach((b,i)=>b.querySelector('.qn').textContent=i+1); }
 function quizForm(fresh, E){
   E = (E && E.z) ? E : null;
@@ -1701,11 +1702,10 @@ function quizForm(fresh, E){
       </div>
       <p class="note">المدة: عدّاد تنازلي يبدأ عند ضغط الطالب "ابدأ"، ويُسلَّم الاختبار تلقائياً عند انتهائه. الإغلاق: بعد هذا الموعد لا يقبل الخادم أي تسليم.</p>
     </div>
-    <div class="infobox"><b>نصوص القراءة (اختياري)</b><p class="note">أضف نصاً (Document) ثم اربط به الأسئلة من خانة «نص القراءة المرتبط» داخل كل سؤال. يظهر النص للطالب مرة واحدة فوق أسئلته. الأسئلة بلا نص تبقى كما هي.</p></div>
-    <div id="plist"></div>
-    <div class="actions"><button class="btn sec" type="button" data-a="addp">${I('plus','s')} إضافة نص قراءة</button></div>
+    <div class="infobox"><b>نصوص القراءة (اختياري)</b><p class="note">اضغط «إضافة نص قراءة» أسفل الصفحة فيظهر صندوق النص، وكل سؤال تضيفه بعده يصبح تابعاً له ويظهر للطالب تحته مباشرة. لبدء نص ثانٍ اضغط «إضافة نص قراءة» مرة أخرى. الأسئلة التي قبل أول نص تبقى بلا نص.</p></div>
     <div id="qlist"></div>
     <div class="actions">
+      <button class="btn sec" type="button" data-a="addp">${I('plus','s')} إضافة نص قراءة</button>
       <button class="btn sec" type="button" data-a="addq">${I('plus','s')} إضافة سؤال</button>
       <button class="btn lg" id="savebtn" type="button" data-a="saveQuiz" ${E ? `data-id="${E.z.id}"` : ''}>${E ? 'حفظ التعديلات' : 'حفظ الاختبار'}</button>
     </div>`, true, true);
@@ -1716,10 +1716,11 @@ function quizForm(fresh, E){
     $('#z_ext').value = z.ext_url || ''; $('#z_time').value = z.time_limit_min || '';
     if(z.closes_at){ const d = new Date(z.closes_at); const p = n => String(n).padStart(2,'0'); $('#z_close').value = d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()); }
     $('#z_maxatt').value = z.max_attempts || 1;
-    const pmap = {};
-    (z.questions || []).forEach(q => { if(q.passage && q.passage.id && !pmap[q.passage.id]){ addPBlock(q.passage); pmap[q.passage.id] = document.querySelectorAll('#plist .pb').length; } });
+    let prevPid = null, seenP = false;
     (z.questions || []).forEach((q, i) => {
-      addQBlock({ pk: q.pid ? (pmap[q.pid] || 0) : 0, q:q.q, options:q.options || [], correct:(k.answers || [])[i] ?? 0, explain:(k.explanations || [])[i] || '', image:'', type:q.type || '', pts:q.pts });
+      if(q.pid && q.pid !== prevPid){ addPBlock(passDef(z, q.pid) || q.passage || {}); seenP = true; }
+      addQBlock({ nop: !q.pid && seenP, q:q.q, options:q.options || [], correct:(k.answers || [])[i] ?? 0, explain:(k.explanations || [])[i] || '', image:'', type:q.type || '', pts:q.pts });
+      prevPid = q.pid || null;
       const b = document.querySelector('#qlist .qb:last-child');
       if(q.img){ b.dataset.keepimg = q.img; const u = b.querySelector('.qimgurl'); u.placeholder = 'الصورة الحالية محفوظة — اكتب رابطاً جديداً لاستبدالها'; }
     });
@@ -1738,14 +1739,19 @@ async function saveQuiz(editId){
   const title = $('#z_title').value.trim();
   if(!title){ toast('اكتب عنوان الاختبار','err'); return; }
   const qsx = [];
-  const pdefs = [...document.querySelectorAll('#plist .pb')].map(b => ({ section:b.querySelector('.fsec').value.trim(), title:b.querySelector('.ftitle').value.trim(), text:b.querySelector('.ftext').value.replace(/\r\n/g, '\n').trim() }));
+  const pdefs = [], pkOf = new Map(); { let cur = 0;
+    document.querySelectorAll('#qlist > .pb, #qlist > .qb').forEach(el => {
+      if(el.classList.contains('pb')){ pdefs.push({ section:el.querySelector('.fsec').value.trim(), title:el.querySelector('.ftitle').value.trim(), text:el.querySelector('.ftext').value.replace(/\r\n/g, '\n').trim() }); cur = pdefs.length; return; }
+      if(el.querySelector('.qpass').value === 'none') cur = 0;
+      pkOf.set(el, cur);
+    }); }
   for(const b of document.querySelectorAll('#qlist .qb')){
     const q = b.querySelector('.qtxt').value.trim();
     const radios = [...b.querySelectorAll('input[type=radio]')];
     const texts = [...b.querySelectorAll('.otxt')].map(i=>i.value.trim());
     const correctRaw = radios.findIndex(r=>r.checked);
     const isEs = b.querySelector('.qtype').value === 'essay';
-    const pk = parseInt(b.querySelector('.qpass').value, 10) || 0;
+    const pk = pkOf.get(b) || 0;
     const imgFile = b.querySelector('.qimg').files[0] || null;
     const imgRaw = b.querySelector('.qimgurl').value.trim();
     const keepImg = b.dataset.keepimg || '';
@@ -2680,10 +2686,16 @@ async function importQuizJson(inp){
       const has = b.querySelector('.qtxt').value.trim() || [...b.querySelectorAll('.otxt')].some(o => o.value.trim()) || b.querySelector('.qimgurl').value.trim() || b.querySelector('.qimg').files[0];
       if(has) kept++; else b.remove();
     });
-    const poff = document.querySelectorAll('#plist .pb').length;
-    (d.passages || []).forEach(p => addPBlock(p));
-    d.questions.forEach(q => addQBlock(q.pk ? Object.assign({}, q, { pk: q.pk + poff }) : q));
-    numberQs();
+    { const emitted = new Set(), ordered = [];
+      d.questions.forEach(q => { if(!q.pk){ ordered.push(q); return; } if(emitted.has(q.pk)) return; emitted.add(q.pk); d.questions.filter(y => y.pk === q.pk).forEach(y => ordered.push(y)); });
+      let cur = 0, any = !!document.querySelector('#qlist .pb');
+      ordered.forEach(q => {
+        if(q.pk){ if(q.pk !== cur){ addPBlock(d.passages[q.pk - 1]); any = true; } cur = q.pk; addQBlock(q); }
+        else{ addQBlock(any ? Object.assign({}, q, { nop:true }) : q); cur = 0; }
+      });
+      (d.passages || []).forEach((p, i) => { if(!emitted.has(i + 1)) addPBlock(p); });
+    }
+    relayout();
     if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
     const lv = (/\b(A1|A2|B1|B2|C1)\b/i.exec(d.level) || [])[1]; if(lv && LEVELS.includes(lv.toUpperCase())) $('#z_level').value = lv.toUpperCase();
     if(d.description && !$('#z_desc').value.trim()) $('#z_desc').value = d.description;
@@ -10456,7 +10468,7 @@ const H = {
   cat:id=>{ state.cat=id; render(); },
   login, doLogin, signup, doSignup, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); }, retryLoad: () => { state.err=''; return loadAll(); },
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
-  bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), addp:()=>addPBlock(), rmp:(id,el)=>rmPBlock(el), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
+  bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), addp:()=>addPBlock(), rmp:(id,el)=>rmPBlock(el), rmq:(id,el)=>{ el.closest('.qb').remove(); relayout(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
   takeQuiz, editQuiz, gradeEssay, saveEssayGrade, startQuiz, submitQuiz, reviewQuiz, quizPdf, results:showResults,
