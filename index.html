@@ -687,6 +687,14 @@ header .ulang button:not(.on){background:transparent;color:#d6deea;border:0}head
   header #auth{gap:6px;padding-top:8px}header #auth .tbtn{padding:7px 12px}header #auth .ulang button{min-height:28px;padding:4px 8px}
 }
 @media print{body{padding-inline-start:0!important}}
+.pass{background:#f3f7ff;border:1px solid #c9d8f2;border-inline-start:5px solid #0B1F3A;border-radius:12px;padding:14px 16px;margin:8px 0 12px}
+.pass h5{margin:0 0 8px;font-size:.92rem;color:#0B1F3A;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pass .pt{font-family:Georgia,'Times New Roman',serif;font-size:1.08rem;line-height:1.85;color:#162033}
+.pass .pt p{margin:0 0 .7em}.pass .pt p:last-child{margin-bottom:0}
+.psec{font-weight:800;letter-spacing:.04em;color:#0B1F3A;margin:18px 0 6px;text-transform:uppercase;border-bottom:2px solid #E1B14A;padding-bottom:4px}
+.pgrp{margin-bottom:8px}
+@media(min-width:1000px){.pgrp>.pass{position:sticky;top:84px;z-index:1;max-height:36vh;overflow:auto;box-shadow:0 4px 14px rgba(0,0,0,.08)}}
+.pb{border:1px solid #c9d8f2;border-radius:14px;padding:14px;margin-top:12px;background:#f3f7ff}
 .qb[data-type=mcq] .qptsw{display:none}.qb[data-type=essay] .opt,.qb[data-type=essay] p.note{display:none}.ans-essay{white-space:pre-wrap;border:1px solid #cfd6e0;border-radius:10px;padding:10px;margin:6px 0;background:#fff}textarea.essay{width:100%;min-height:140px;resize:vertical}
 .dwel p{direction:ltr;text-align:right}
 #view[dir=ltr] .dwel p{text-align:left}
@@ -1465,7 +1473,7 @@ function drSave(){
   const M = $('#modal');
   try{
     if(!modalHasText()){ localStorage.removeItem(drKey(dr.key)); return; }
-    const s = { f:[...M.querySelectorAll(DR_ALL)].map(e=>e.value), c:[...M.querySelectorAll('input[type=radio],input[type=checkbox]')].map(e=>e.checked), qb:M.querySelectorAll('.qb').length };
+    const s = { f:[...M.querySelectorAll(DR_ALL)].map(e=>e.value), c:[...M.querySelectorAll('input[type=radio],input[type=checkbox]')].map(e=>e.checked), qb:M.querySelectorAll('.qb').length, pb:M.querySelectorAll('.pb').length };
     const j = JSON.stringify(s);
     if(j.length < 700000) localStorage.setItem(drKey(dr.key), j);
   }catch(e){}
@@ -1477,6 +1485,11 @@ function drStart(key, reopen, fresh){
   let s = null; try{ s = JSON.parse(localStorage.getItem(drKey(key)) || 'null'); }catch(e){}
   if(!s || !Array.isArray(s.f)) return;
   const M = $('#modal');
+  if(s.pb > 0 && $('#plist')){
+    while(M.querySelectorAll('.pb').length > s.pb) { const l = M.querySelectorAll('.pb'); l[l.length-1].remove(); }
+    while(M.querySelectorAll('.pb').length < s.pb) addPBlock();
+    numberPs();
+  }
   if(s.qb > 0 && $('#qlist')){
     while(M.querySelectorAll('.qb').length > s.qb) { const l = M.querySelectorAll('.qb'); l[l.length-1].remove(); }
     while(M.querySelectorAll('.qb').length < s.qb) addQBlock();
@@ -1574,6 +1587,7 @@ function addQBlock(d){
   div.dataset.type = 'mcq';
   div.innerHTML = `<div class="qb-h"><b>سؤال <span class="qn"></span></b><button type="button" class="rm" data-a="rmq">حذف</button></div>
     <div class="row2"><div><label class="f" style="margin-top:4px">نوع السؤال</label><select class="in qtype"><option value="mcq">اختيار من متعدد</option><option value="essay">مقالي (يجيب الطالب كتابةً ويصحّحه المدرس)</option></select></div><div class="qptsw"><label class="f" style="margin-top:4px">درجة السؤال</label><input class="in qpts" type="number" min="1" max="100" value="5"></div></div>
+    <label class="f" style="margin-top:4px">نص القراءة المرتبط بالسؤال</label><select class="in qpass"><option value="">— بدون نص قراءة —</option></select>
     <input class="in qtxt" dir="auto" placeholder="نص السؤال (Question)">
     <div class="row2" style="margin-top:8px">
       <div><label class="f" style="margin-top:4px">صورة للسؤال (اختياري)</label><input type="file" class="qimg" accept="image/*"></div>
@@ -1593,6 +1607,8 @@ function addQBlock(d){
     div.querySelector('.qimgurl').value = d.image || '';
   }
   syncQType(div);
+  refreshPassSelects();
+  if(d && d.pk) div.querySelector('.qpass').value = String(d.pk);
 }
 function syncQType(div){
   if(!div) return;
@@ -1600,6 +1616,51 @@ function syncQType(div){
   const ex = div.querySelector('.qexp'); if(ex) ex.placeholder = ty === 'essay' ? 'الإجابة النموذجية أو معايير التصحيح (تظهر للطالب بعد التصحيح) — اختياري' : 'شرح الإجابة (يظهر للطالب بعد التسليم) — اختياري';
 }
 document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('qtype')) syncQType(e.target.closest('.qb')); });
+function passDef(z, pid){ for(const q of z.questions){ if(q.passage && q.passage.id === pid) return q.passage; } return null; }
+function passBox(p){
+  if(!p) return '';
+  const paras = String(p.text || '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const body = (paras.length ? paras : [String(p.text || '')]).map(s => `<p>${esc(s).replace(/\n/g, '<br>')}</p>`).join('');
+  return `${p.section ? `<div class="psec" dir="auto">${esc(p.section)}</div>` : ''}<div class="pass"><h5 dir="ltr">${I('file','s')} <span>Lisez bien ce document</span>${p.title ? ` — <b dir="auto">${esc(p.title)}</b>` : ''}</h5><div class="pt" dir="auto" lang="fr">${body}</div></div>`;
+}
+function qGroupsHTML(z, one){
+  let out = '', open = false;
+  z.questions.forEach((q, i) => {
+    const prev = i ? z.questions[i-1].pid : undefined;
+    if(open && q.pid !== prev){ out += '</div>'; open = false; }
+    if(q.pid && q.pid !== prev){ out += '<div class="pgrp">' + passBox(passDef(z, q.pid)); open = true; }
+    out += one(q, i);
+  });
+  if(open) out += '</div>';
+  return out;
+}
+function numberPs(){ document.querySelectorAll('#plist .pb').forEach((b,i)=>b.querySelector('.pn').textContent = i+1); }
+function refreshPassSelects(){
+  const ps = [...document.querySelectorAll('#plist .pb')];
+  document.querySelectorAll('#qlist .qpass').forEach(sel => {
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">— بدون نص قراءة —</option>' + ps.map((b,i) => { const ti = b.querySelector('.ftitle').value.trim(); return `<option value="${i+1}">نص ${i+1}${ti ? ' — ' + esc(ti.slice(0,30)) : ''}</option>`; }).join('');
+    if(cur && ps[+cur-1]) sel.value = cur;
+  });
+}
+function addPBlock(d){
+  const div = document.createElement('div'); div.className = 'pb';
+  div.innerHTML = `<div class="qb-h"><b>نص قراءة <span class="pn"></span></b><button type="button" class="rm" data-a="rmp">حذف</button></div>
+    <input class="in fsec" dir="auto" placeholder="عنوان القسم (اختياري) مثل: PARTIE A – COMPRÉHENSION ÉCRITE">
+    <input class="in ftitle" dir="auto" placeholder="عنوان النص مثل: Document 1">
+    <textarea class="in ftext" rows="8" dir="auto" placeholder="الصق نص القراءة الفرنسي كاملاً هنا. افصل الفقرات بسطر فارغ."></textarea>`;
+  $('#plist').appendChild(div);
+  if(d){ div.querySelector('.fsec').value = d.section || ''; div.querySelector('.ftitle').value = d.title || ''; div.querySelector('.ftext').value = d.text || ''; }
+  numberPs(); refreshPassSelects();
+}
+function rmPBlock(el){
+  const b = el.closest('.pb'), k = [...document.querySelectorAll('#plist .pb')].indexOf(b) + 1;
+  b.remove();
+  document.querySelectorAll('#qlist .qpass').forEach(sel => { const v = +sel.value || 0; if(v === k) sel.value = ''; else if(v > k) sel.dataset.fix = String(v - 1); });
+  document.querySelectorAll('#qlist .qpass').forEach(sel => { const f = sel.dataset.fix; delete sel.dataset.fix; if(f) sel.innerHTML = '<option value="' + f + '"></option>', sel.value = f; });
+  numberPs(); refreshPassSelects();
+}
+document.addEventListener('input', e => { if(e.target && e.target.classList && e.target.classList.contains('ftitle')) refreshPassSelects(); });
 function numberQs(){ document.querySelectorAll('#qlist .qb').forEach((b,i)=>b.querySelector('.qn').textContent=i+1); }
 function quizForm(fresh, E){
   E = (E && E.z) ? E : null;
@@ -1640,6 +1701,9 @@ function quizForm(fresh, E){
       </div>
       <p class="note">المدة: عدّاد تنازلي يبدأ عند ضغط الطالب "ابدأ"، ويُسلَّم الاختبار تلقائياً عند انتهائه. الإغلاق: بعد هذا الموعد لا يقبل الخادم أي تسليم.</p>
     </div>
+    <div class="infobox"><b>نصوص القراءة (اختياري)</b><p class="note">أضف نصاً (Document) ثم اربط به الأسئلة من خانة «نص القراءة المرتبط» داخل كل سؤال. يظهر النص للطالب مرة واحدة فوق أسئلته. الأسئلة بلا نص تبقى كما هي.</p></div>
+    <div id="plist"></div>
+    <div class="actions"><button class="btn sec" type="button" data-a="addp">${I('plus','s')} إضافة نص قراءة</button></div>
     <div id="qlist"></div>
     <div class="actions">
       <button class="btn sec" type="button" data-a="addq">${I('plus','s')} إضافة سؤال</button>
@@ -1652,8 +1716,10 @@ function quizForm(fresh, E){
     $('#z_ext').value = z.ext_url || ''; $('#z_time').value = z.time_limit_min || '';
     if(z.closes_at){ const d = new Date(z.closes_at); const p = n => String(n).padStart(2,'0'); $('#z_close').value = d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()); }
     $('#z_maxatt').value = z.max_attempts || 1;
+    const pmap = {};
+    (z.questions || []).forEach(q => { if(q.passage && q.passage.id && !pmap[q.passage.id]){ addPBlock(q.passage); pmap[q.passage.id] = document.querySelectorAll('#plist .pb').length; } });
     (z.questions || []).forEach((q, i) => {
-      addQBlock({ q:q.q, options:q.options || [], correct:(k.answers || [])[i] ?? 0, explain:(k.explanations || [])[i] || '', image:'', type:q.type || '', pts:q.pts });
+      addQBlock({ pk: q.pid ? (pmap[q.pid] || 0) : 0, q:q.q, options:q.options || [], correct:(k.answers || [])[i] ?? 0, explain:(k.explanations || [])[i] || '', image:'', type:q.type || '', pts:q.pts });
       const b = document.querySelector('#qlist .qb:last-child');
       if(q.img){ b.dataset.keepimg = q.img; const u = b.querySelector('.qimgurl'); u.placeholder = 'الصورة الحالية محفوظة — اكتب رابطاً جديداً لاستبدالها'; }
     });
@@ -1672,12 +1738,14 @@ async function saveQuiz(editId){
   const title = $('#z_title').value.trim();
   if(!title){ toast('اكتب عنوان الاختبار','err'); return; }
   const qsx = [];
+  const pdefs = [...document.querySelectorAll('#plist .pb')].map(b => ({ section:b.querySelector('.fsec').value.trim(), title:b.querySelector('.ftitle').value.trim(), text:b.querySelector('.ftext').value.replace(/\r\n/g, '\n').trim() }));
   for(const b of document.querySelectorAll('#qlist .qb')){
     const q = b.querySelector('.qtxt').value.trim();
     const radios = [...b.querySelectorAll('input[type=radio]')];
     const texts = [...b.querySelectorAll('.otxt')].map(i=>i.value.trim());
     const correctRaw = radios.findIndex(r=>r.checked);
     const isEs = b.querySelector('.qtype').value === 'essay';
+    const pk = parseInt(b.querySelector('.qpass').value, 10) || 0;
     const imgFile = b.querySelector('.qimg').files[0] || null;
     const imgRaw = b.querySelector('.qimgurl').value.trim();
     const keepImg = b.dataset.keepimg || '';
@@ -1688,14 +1756,20 @@ async function saveQuiz(editId){
     const options = [], map = {};
     if(!isEs) texts.forEach((t,i)=>{ if(t){ map[i]=options.length; options.push(t); } });
     if(!isEs && options.length<2){ toast('كل سؤال يحتاج خيارين على الأقل: '+q,'err'); return; }
+    if(pk && (!pdefs[pk-1] || !pdefs[pk-1].text)){ toast('نص القراءة المرتبط بهذا السؤال فارغ: ' + q + ' — اكتب النص أو ألغِ الربط', 'err'); return; }
     let imgUrl = keepImg;
     if(imgRaw){
       imgUrl = imgRaw.startsWith('data:image/') ? imgRaw : normUrl(imgRaw);
       if(!imgUrl){ toast('رابط الصورة غير صحيح في السؤال: '+q,'err'); return; }
     }
-    qsx.push({ q, options, correct: isEs ? -1 : map[correctRaw], explain, imgFile, imgUrl, type: isEs ? 'essay' : '', pts: isEs ? Math.min(100, Math.max(1, parseInt(b.querySelector('.qpts').value,10) || 5)) : 0 });
+    qsx.push({ q, options, correct: isEs ? -1 : map[correctRaw], explain, imgFile, imgUrl, type: isEs ? 'essay' : '', pts: isEs ? Math.min(100, Math.max(1, parseInt(b.querySelector('.qpts').value,10) || 5)) : 0, pk });
   }
   if(!qsx.length){ toast('أضف سؤالاً واحداً على الأقل','err'); return; }
+  /* تجميع أسئلة كل نص قراءة متتالية ليظهر النص مرة واحدة قبلها */
+  { const emitted = new Set(), ordered = [];
+    qsx.forEach(x => { if(!x.pk){ ordered.push(x); return; } if(emitted.has(x.pk)) return; emitted.add(x.pk); qsx.filter(y => y.pk === x.pk).forEach(y => ordered.push(y)); });
+    qsx.length = 0; ordered.forEach(x => qsx.push(x)); }
+  const pidMap = {}, pdone = {}; { let n = 0; qsx.forEach(x => { if(x.pk && !pidMap[x.pk]) pidMap[x.pk] = 'p' + (++n); }); }
   const attFile = $('#z_att').files[0] || null;
   const extRaw = $('#z_ext').value.trim(); const ext = extRaw ? normUrl(extRaw) : null;
   if(extRaw && !ext){ toast('رابط المرفق غير صحيح','err'); return; }
@@ -1716,6 +1790,7 @@ async function saveQuiz(editId){
       if(x.imgFile) img = await up(x.imgFile, 'qimg');
       const o = { q:x.q, options:x.options }; if(img) o.img = img;
       if(x.type === 'essay'){ o.type = 'essay'; o.pts = x.pts; }
+      if(x.pk){ o.pid = pidMap[x.pk]; if(!pdone[x.pk]){ const d = pdefs[x.pk-1]; o.passage = { id:o.pid, text:d.text }; if(d.title) o.passage.title = d.title; if(d.section) o.passage.section = d.section; pdone[x.pk] = 1; } }
       questions.push(o);
     }
     let attach_path = oldZ ? (oldZ.attach_path || null) : null, attach_name = oldZ ? (oldZ.attach_name || null) : null;
@@ -1794,8 +1869,8 @@ async function startQuiz(id){
   openModal(`
     <div class="qhead"><h3 dir="auto">${esc(z.title)}</h3>${z.time_limit_min?`<div class="timer" id="timerbox">${I('clock','s')}<span id="tm">--:--</span></div>`:''}</div>
     ${resBlock(z)}
-    ${z.questions.map((q,i)=>`<div class="q"><div class="qt" dir="auto">${i+1}. ${esc(q.q)}</div>${q.img?`<img class="qpic" src="${esc(imgSrc(q.img))}" alt="">`:''}
-      ${q.type==='essay' ? `<div class="mini">${I('file','s')} سؤال مقالي — ${q.pts||5} درجة · اكتب إجابتك ويصحّحها المدرس</div><textarea class="in essay" name="e${i}" rows="6" maxlength="5000" dir="auto" placeholder="اكتب إجابتك هنا..."></textarea>` : q.options.map((o,j)=>`<label class="ch"><input type="radio" name="q${i}" value="${j}"><span dir="auto">${esc(o)}</span></label>`).join('')}</div>`).join('')}
+    ${qGroupsHTML(z,(q,i)=>`<div class="q"><div class="qt" dir="auto">${i+1}. ${esc(q.q)}</div>${q.img?`<img class="qpic" src="${esc(imgSrc(q.img))}" alt="">`:''}
+      ${q.type==='essay' ? `<div class="mini">${I('file','s')} سؤال مقالي — ${q.pts||5} درجة · اكتب إجابتك ويصحّحها المدرس</div><textarea class="in essay" name="e${i}" rows="6" maxlength="5000" dir="auto" placeholder="اكتب إجابتك هنا..."></textarea>` : q.options.map((o,j)=>`<label class="ch"><input type="radio" name="q${i}" value="${j}"><span dir="auto">${esc(o)}</span></label>`).join('')}</div>`)}
     <div class="actions"><button class="btn ok lg" id="subbtn" data-a="submitQuiz" data-id="${id}">${I('send','s')} تسليم الإجابات</button></div>`, true, true);
   if(z.time_limit_min){
     qs.end = Date.now() + (rem != null ? rem*1000 : z.time_limit_min*60000);
@@ -1847,7 +1922,7 @@ function quizResultHTML(z, answers, correct, ex, score, total, auto, review, es,
   const bad = wrongN + skipN;
   const pct = total ? Math.round(score/total*100) : 0;
   const verdict = pct>=90 ? 'ممتاز! Excellent' : pct>=75 ? 'جيد جداً! Très bien' : pct>=50 ? 'ناجح — واصل التدريب' : 'تحتاج إلى مراجعة';
-  const rows = z.questions.map((q,i) => {
+  const rows = qGroupsHTML(z, (q,i) => {
     if(isE(i)){
       const e = es[i] || {}, pts = e.p || q.pts || 5;
       return `<div class="q"><div class="qt" dir="auto">${i+1}. ${esc(q.q)} <span class="tag">${pts} درجة</span></div>
@@ -1861,7 +1936,7 @@ function quizResultHTML(z, answers, correct, ex, score, total, auto, review, es,
       ${q.options.map((o,j)=>`<div class="ch ${j===correct[i]?'right':(j===my?'wrong':'')}"><span dir="auto">${j===correct[i]?'✔ ':(j===my?'✘ ':'')}${esc(o)}</span></div>`).join('')}
       ${ok ? '' : `<div class="mini">${my===-1 ? 'لم تُجب على هذا السؤال' : `إجابتك: <b dir="auto">${esc(q.options[my])}</b>`} — الصحيحة: <b dir="auto">${esc(q.options[correct[i]])}</b></div>`}
       ${ex[i] ? `<div class="infobox" dir="auto">${I('sparkle','s')} ${esc(ex[i])}</div>` : ''}</div>`;
-  }).join('');
+  });
   return `
     <h3>${review ? 'مراجعة إجاباتي' : 'نتيجتك'} — <span dir="auto">${esc(z.title)}</span></h3>
     ${auto?`<div class="infobox">${I('clock','s')} انتهى الوقت وتم تسليم إجاباتك تلقائياً.</div>`:''}
@@ -1898,7 +1973,7 @@ function quizPdf(id){
   const { z, answers, correct, ex, score, total, at, es, pending } = v;
   const pct = total ? Math.round(score/total*100) : 0;
   const nm = myName() || (state.me && state.me.email) || '';
-  const body = z.questions.map((q,i)=>{
+  const body = qGroupsHTML(z, (q,i)=>{
     if(q.type === 'essay'){
       const e = (es && es[i]) || {}, pts = e.p || q.pts || 5;
       return `<div class="q"><div class="qt">${i+1}. ${esc(q.q)} (${pts})</div><div class="o" style="white-space:pre-wrap">${e.t ? esc(e.t) : '— لم تكتب إجابة —'}</div><div class="m">${e.g == null ? 'بانتظار تصحيح المدرس' : 'الدرجة: ' + e.g + ' / ' + pts}${e.n ? ' — ملاحظة المدرس: ' + esc(e.n) : ''}</div>${(e.g != null && ex[i]) ? `<div class="e">الإجابة النموذجية: ${esc(ex[i])}</div>` : ''}</div>`;
@@ -1908,7 +1983,7 @@ function quizPdf(id){
       ${q.options.map((o,j)=>`<div class="o ${j===correct[i]?'r':(j===my?'w':'')}">${j===correct[i]?'✔ ':(j===my?'✘ ':'')}${esc(o)}</div>`).join('')}
       ${ok ? '' : `<div class="m">${my===-1 ? 'لم تُجب على هذا السؤال' : 'إجابتك: ' + esc(q.options[my])} — الصحيحة: ${esc(q.options[correct[i]])}</div>`}
       ${ex[i] ? `<div class="e">${esc(ex[i])}</div>` : ''}</div>`;
-  }).join('');
+  });
   const doc = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(z.title)} — ${esc(nm)}</title><style>
     body{font-family:Tahoma,Arial,sans-serif;margin:24px;color:#111;line-height:1.6}
     h1{font-size:20px;margin:0 0 4px}.sub{color:#555;font-size:13px;margin-bottom:12px}
@@ -1917,6 +1992,7 @@ function quizPdf(id){
     .q.ok{border-color:#2e9e5b}.q.bad{border-color:#d33}.qt{font-weight:bold;margin-bottom:4px}
     .o{padding:3px 8px;margin:2px 0;border-radius:6px;border:1px solid #e3e3e3}.o.r{background:#e1f6e9;border-color:#2e9e5b}.o.w{background:#fde4e4;border-color:#d33}
     .m{font-size:13px;color:#333;margin-top:4px}.e{font-size:13px;color:#555;margin-top:4px;border-top:1px dashed #ccc;padding-top:4px}
+    .pass{border:1px solid #9bb0d3;border-right:5px solid #0B1F3A;background:#f3f7ff;padding:8px 12px;margin:8px 0;border-radius:8px}.pass h5{margin:0 0 6px;font-size:13px}.pt p{margin:0 0 6px}.psec{font-weight:bold;margin:14px 0 4px;border-bottom:2px solid #999}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   </style></head><body>
     <h1>FRENCH ONLINE by Monsieur Ahmed</h1>
@@ -2416,6 +2492,11 @@ const QJ = {
   time:['time_limit_min','time_limit','timeLimit','time','duration','duration_min','minutes','durée','duree'],
   type:['type','question_type','questionType','kind','format','النوع','نوع_السؤال'],
   pts:['pts','points','point','marks','mark','score','weight','grade','درجة','الدرجة','نقاط','النقاط'],
+  passages:['passages','documents','texts','readings','reading_passages','textes','النصوص','نصوص'],
+  pid:['id','passage_id','passageId','key','ref','code','معرف'],
+  ptext:['text','texte','content','body','passage','contenu','النص'],
+  psec:['section','part','partie','header','القسم'],
+  pref:['passage_id','passageId','passage','pid','document','doc','document_id','documentId','text_id','textId','texte_id','ref_passage','النص'],
   model:['model_answer','modelAnswer','model','sample_answer','sampleAnswer','expected','expected_answer','expectedAnswer','rubric','criteria','reponse_modele','réponse_modèle','الإجابة_النموذجية','الاجابة_النموذجية','نموذج_الإجابة','معايير_التصحيح']
 };
 const qjIsQ = o => o && typeof o === 'object' && !Array.isArray(o) && !!qjPick(o, QJ.text);
@@ -2505,10 +2586,38 @@ function parseQuizJson(txt){
   found.arr.forEach(x => { const p = qjPick(x, QJ.ans); if(p && !/index|idx/i.test(p.k) && (typeof p.v === 'number' || (typeof p.v === 'string' && /^\s*\d+\s*$/.test(p.v)))){ const num = Number(p.v); const len = qjOptions(x).length; if(num === 0) hasZero = true; if(len && num === len) hasEdge = true; } });
   const numMode = (hasZero && !hasEdge) ? 'zero' : 'one';
   const questions = [], warns = [], skipped = []; let usedNum = false, essN = 0;
+  /* نصوص القراءة (اختيارية) */
+  const pdefsIn = [], pIdx = {}, perr = [];
+  { const pObj = found.parent || (Array.isArray(j) ? null : j);
+    const pl = pObj ? qjPick(pObj, QJ.passages, v => Array.isArray(v)) : null;
+    if(pl) pl.v.forEach((p, k) => {
+      if(!p || typeof p !== 'object' || Array.isArray(p)){ perr.push('النص رقم ' + (k+1) + ' ليس بنية صحيحة'); return; }
+      const idp = qjPick(p, QJ.pid, v => typeof v !== 'object'), tx = qjPick(p, QJ.ptext, v => typeof v === 'string'), ti = qjPick(p, QJ.title, v => typeof v !== 'object'), se = qjPick(p, QJ.psec, v => typeof v !== 'object');
+      const id = idp ? String(idp.v).trim() : '';
+      if(!id){ perr.push('النص رقم ' + (k+1) + ' بلا id'); return; }
+      if(pIdx[id] !== undefined){ perr.push('المعرّف «' + id + '» مكرر في passages'); return; }
+      if(!tx || !String(tx.v).trim()){ perr.push('النص «' + id + '» فارغ'); return; }
+      pIdx[id] = pdefsIn.length; pdefsIn.push({ id, text:String(tx.v).replace(/\r\n/g, '\n').trim(), title: ti ? String(ti.v).trim() : '', section: se ? String(se.v).trim() : '', used:false });
+    });
+  }
   found.arr.forEach((x, ix) => {
     const i = ix + 1;
     const tq = qjPick(x, QJ.text, v => typeof v !== 'object'); const q = tq ? String(tq.v).trim() : '';
     if(!q){ skipped.push('السؤال ' + i + ': نص السؤال فارغ'); return; }
+    let pk = 0;
+    { const rf = qjPick(x, QJ.pref, v => typeof v !== 'object' || (v && !Array.isArray(v) && qjPick(v, QJ.ptext, z => typeof z === 'string')));
+      if(rf){
+        if(typeof rf.v === 'object'){
+          const tt = String(qjPick(rf.v, QJ.ptext, z => typeof z === 'string').v).replace(/\r\n/g, '\n').trim();
+          let f = pdefsIn.findIndex(p => p.text === tt);
+          if(f < 0){ const ti2 = qjPick(rf.v, QJ.title, z => typeof z !== 'object'), se2 = qjPick(rf.v, QJ.psec, z => typeof z !== 'object'); pdefsIn.push({ id:'inline_' + (pdefsIn.length+1), text:tt, title: ti2 ? String(ti2.v).trim() : '', section: se2 ? String(se2.v).trim() : '', used:false }); f = pdefsIn.length - 1; }
+          pk = f + 1; pdefsIn[f].used = true;
+        }else{
+          const id = String(rf.v).trim();
+          if(pIdx[id] === undefined) perr.push('السؤال ' + i + ' يشير إلى النص «' + id + '» وهو غير موجود في قائمة passages');
+          else{ pk = pIdx[id] + 1; pdefsIn[pIdx[id]].used = true; }
+        }
+      } }
     let opts = qjOptions(x), res;
     {
       const tp = qjPick(x, QJ.type, v => typeof v !== 'object'), pp = qjPick(x, QJ.pts, v => typeof v !== 'object');
@@ -2517,7 +2626,7 @@ function parseQuizJson(txt){
         const mp = qjPick(x, QJ.model, v => typeof v !== 'object') || qjPick(x, QJ.exp, v => typeof v !== 'object') || qjPick(x, QJ.ans, v => typeof v === 'string');
         const ip2 = qjPick(x, QJ.img);
         const pts = Math.min(100, Math.max(1, parseInt(pp ? pp.v : 5, 10) || 5));
-        questions.push({ q, options:[], correct:-1, explain: mp ? String(mp.v).trim() : '', image: ip2 ? qjImage(ip2.v, warns, i) : '', type:'essay', pts });
+        questions.push({ q, options:[], correct:-1, explain: mp ? String(mp.v).trim() : '', image: ip2 ? qjImage(ip2.v, warns, i) : '', type:'essay', pts, pk });
         essN++;
         return;
       }
@@ -2540,14 +2649,16 @@ function parseQuizJson(txt){
     let options = keep.map(k => opts[k].text); if(idx >= 0) idx = keep.indexOf(idx);
     if(options.length > 6){ warns.push('السؤال ' + i + ': أكثر من 6 خيارات، استُورد أول 6 فقط.'); if(idx >= 6) idx = -1; options = options.slice(0, 6); }
     const ep = qjPick(x, QJ.exp, v => typeof v !== 'object'), ip = qjPick(x, QJ.img);
-    const item = { q, options, correct:idx, explain: ep ? String(ep.v).trim() : '', image: ip ? qjImage(ip.v, warns, i) : '' };
+    const item = { q, options, correct:idx, explain: ep ? String(ep.v).trim() : '', image: ip ? qjImage(ip.v, warns, i) : '', pk };
     if(idx < 0){ item.warn = res.why || 'لم تُحدَّد الإجابة الصحيحة'; warns.push('السؤال ' + i + ': ' + item.warn + ' — حدّدها يدوياً قبل الحفظ.'); }
     questions.push(item);
   });
   if(essN) warns.push('تم استيراد ' + essN + ' سؤال مقالي (الدرجة الافتراضية 5 إن لم تُذكر في الملف). الإجابة النموذجية إن وُجدت تظهر للطالب بعد التصحيح.');
+  if(perr.length) throw new Error('خطأ في نصوص القراءة: ' + perr.slice(0, 4).join('؛ ') + (perr.length > 4 ? ' ...' : ''));
+  pdefsIn.forEach(p => { if(!p.used) warns.push('نص القراءة «' + p.id + '» لا يرتبط به أي سؤال.'); });
   if(!questions.length) throw new Error('لا توجد أسئلة صالحة. ' + (skipped.slice(0, 3).join('، ') || ''));
   const tv = parseInt(meta('time'), 10);
-  return { title:String(meta('title') || '').trim(), level:String(meta('level') || '').trim(), description:String(meta('desc') || '').trim(), time:isNaN(tv) ? 0 : tv, questions, warns, skipped, numNote: usedNum ? (numMode === 'zero' ? 'أرقام الإجابات في الملف اعتُبرت تبدأ من 0 (الخيار الأول = 0).' : 'أرقام الإجابات في الملف اعتُبرت تبدأ من 1 (الخيار الأول = 1).') : '' };
+  return { passages: pdefsIn.map(p => ({ section:p.section, title:p.title, text:p.text })), title:String(meta('title') || '').trim(), level:String(meta('level') || '').trim(), description:String(meta('desc') || '').trim(), time:isNaN(tv) ? 0 : tv, questions, warns, skipped, numNote: usedNum ? (numMode === 'zero' ? 'أرقام الإجابات في الملف اعتُبرت تبدأ من 0 (الخيار الأول = 0).' : 'أرقام الإجابات في الملف اعتُبرت تبدأ من 1 (الخيار الأول = 1).') : '' };
 }
 function qjMsg(type, html){
   const box = $('#z_jsonmsg'); if(!box) return;
@@ -2569,7 +2680,9 @@ async function importQuizJson(inp){
       const has = b.querySelector('.qtxt').value.trim() || [...b.querySelectorAll('.otxt')].some(o => o.value.trim()) || b.querySelector('.qimgurl').value.trim() || b.querySelector('.qimg').files[0];
       if(has) kept++; else b.remove();
     });
-    d.questions.forEach(q => addQBlock(q));
+    const poff = document.querySelectorAll('#plist .pb').length;
+    (d.passages || []).forEach(p => addPBlock(p));
+    d.questions.forEach(q => addQBlock(q.pk ? Object.assign({}, q, { pk: q.pk + poff }) : q));
     numberQs();
     if(d.title && !$('#z_title').value.trim()) $('#z_title').value = d.title;
     const lv = (/\b(A1|A2|B1|B2|C1)\b/i.exec(d.level) || [])[1]; if(lv && LEVELS.includes(lv.toUpperCase())) $('#z_level').value = lv.toUpperCase();
@@ -2593,7 +2706,10 @@ async function importQuizJson(inp){
 function downloadSample(){
   const sample = {
     title:'Quiz — Les articles', level:'A1', description:'وصف اختياري', time_limit_min:10,
+    passages:[ { id:'passage_1', section:'PARTIE A – COMPRÉHENSION ÉCRITE', title:'Document 1', text:'Salut Théo,\n\nJe t\'invite en Égypte en avril. Il fait chaud et beau. Nous allons passer deux semaines ensemble.\n\nRami' } ],
     questions:[
+      { type:'essay', passage_id:'passage_1', q:'Qui invite Théo à visiter l\'Égypte ?', points:2, model_answer:'Rami invite Théo.' },
+      { passage_id:'passage_1', q:'Quel temps fait-il en avril ?', options:['Froid','Chaud et beau','Pluvieux'], correct:'Chaud et beau' },
       { q:'Quel est le féminin de « un étudiant » ?', options:['une étudiante','un étudiante','une étudiant'], correct:1, explain:'المؤنث: une étudiante' },
       { q:'Comment dit-on « شكراً » ?', options:['Bonjour','Merci','Pardon','Salut'], correct:'Merci', explain:'Merci = شكراً', image:'' },
       { type:'essay', q:'Présentez-vous en trois phrases (nom, âge, ville).', points:5, model_answer:'Je m\'appelle Ali. J\'ai vingt ans. J\'habite à Alger.' }
@@ -10340,7 +10456,7 @@ const H = {
   cat:id=>{ state.cat=id; render(); },
   login, doLogin, signup, doSignup, logout, seed, retryAuth: () => { state.err=''; return afterAuth(); }, retryLoad: () => { state.err=''; return loadAll(); },
   addFile:()=>uploadForm('file'), addVideo:()=>uploadForm('video'),
-  bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
+  bellOpen, bellRead, bellDis, bellDel, trkOpen, trkRefresh:()=>render(), draftClear:()=>{ if(dr){ const r = dr.reopen; drDrop(); if(r) r(true); } }, addQuiz:quizForm, addq:()=>addQBlock(), addp:()=>addPBlock(), rmp:(id,el)=>rmPBlock(el), rmq:(id,el)=>{ el.closest('.qb').remove(); numberQs(); }, saveQuiz,
   addAssign:assignForm, addLink:linkForm,
   delItem, delQuiz, delAssign, delLink, delSub,
   takeQuiz, editQuiz, gradeEssay, saveEssayGrade, startQuiz, submitQuiz, reviewQuiz, quizPdf, results:showResults,
